@@ -1,0 +1,4 @@
+/packages/client/vite.config.ts
+**/*.d.ts
+**/*.test.tsx
+/node_modules
