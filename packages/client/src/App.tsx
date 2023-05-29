@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import Index from './pages/index';
 
 function App() {
-    return <div className="App">Вот тут будет жить ваше приложение :)</div>;
+    return <Index />;
 }
 
 export default App;
