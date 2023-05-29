@@ -3,7 +3,7 @@ import './App.scss';
 import Index from './pages/index';
 
 function App() {
-    return <Index />;
+    return <Index>Index</Index>;
 }
 
 export default App;

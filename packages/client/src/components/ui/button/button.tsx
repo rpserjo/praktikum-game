@@ -3,8 +3,8 @@ import style from './button.module.scss';
 
 type ButtonProps = {
     children: ReactNode;
-    buttonSize: 'small' | 'medium' | 'large';
-    buttonStyle: 'normal' | 'outlined';
+    buttonSize?: 'small' | 'medium' | 'large';
+    buttonStyle?: 'normal' | 'outlined';
 };
 const Button: FC<ButtonProps> = ({
     children,

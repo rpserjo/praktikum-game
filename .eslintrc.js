@@ -25,5 +25,8 @@ module.exports = {
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
         'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
+        'react/function-component-definition': 'off',
+        'react/button-has-type': 'off',
+        'react/require-default-props': 'off'
     },
 }
