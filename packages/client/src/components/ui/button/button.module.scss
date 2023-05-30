@@ -1,10 +1,10 @@
 @import '@/assets/variables.scss';
 
-button{
+.normal, .outlined{
   cursor: pointer;
 }
 
-button.normal {
+.normal {
   border: none;
   background-color: $colorYellow;
   border-radius: 5px;
@@ -17,8 +17,9 @@ button.normal {
   }
 }
 
-button.outlined {
+.outlined {
   background-color: transparent;
+  border-radius: 5px;
   border: 1px solid $colorMain;
   color: $colorMain;
   transition: color .3s ease;
@@ -30,16 +31,18 @@ button.outlined {
 }
 
 .small{
-  font-size: 14px;
+  font-size: 14px !important;
   padding: 4px 12px;
 }
 
 .medium{
-  font-size: 20px;
+  font-size: 20px !important;
   padding: 8px 38px;
+  font-weight: 500;
 }
 
 .large{
-  font-size: 30px;
+  font-size: 30px !important;
   padding: 12px 86px;
+  font-weight: 600;
 }
