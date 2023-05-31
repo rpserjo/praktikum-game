@@ -1,3 +1,4 @@
+import React, { FC, useRef, useEffect } from 'react';
 import React, { FC, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
@@ -29,6 +30,14 @@ type TGame = {
 };
 
 const Game: FC<TGame> = props => {
+    const ref = useRef<HTMLCanvasElement | null>(null);
+    useEffect(() => {
+        if (ref.current) {
+            const ctx = ref.current.getContext('2d');
+            ctx!.fillRect(0, 0, 100, 100);
+        }
+    }, []);
+
     const {
         mode = Mode.battle,
         move = Move.user,
