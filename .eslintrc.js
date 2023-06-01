@@ -32,6 +32,7 @@ module.exports = {
         'react/button-has-type': 'off',
         'react/require-default-props': 'off',
         'object-curly-newline': 'off',
-        'linebreak-style': 'off'
+        'linebreak-style': 'off',
+        'arrow-parens': ["error", "as-needed"]
     },
 };
