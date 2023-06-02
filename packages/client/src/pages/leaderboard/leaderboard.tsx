@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import style from './leaderboard.module.scss';
-import { MockServer } from '../../mocks/mock-server';
+import MockServer from '../../mocks/mock-server';
 
 const Leaderboard: FC = () => {
     const { page } = useParams();
