@@ -1,51 +1,16 @@
 import React, { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import style from './leaderboard.module.scss';
+import { MockServer } from '../../mocks/mock-server';
 
 const Leaderboard: FC = () => {
     const { page } = useParams();
-    const items = [
-        {
-            name: 'Петр',
-            email: 'petr_taranov@mail.ru',
-            login: 'Taran',
-            winsCount: 5,
-            lostCount: 7,
-            score: 95,
-        },
-        {
-            name: 'Борис',
-            email: 'barbados@caribes.ru',
-            login: 'Barbados',
-            winsCount: 10,
-            lostCount: 7,
-            score: 87,
-        },
-        {
-            name: 'Валентина',
-            email: 'widow@black.hell',
-            login: 'Black Widow',
-            winsCount: 101,
-            lostCount: 1,
-            score: 99,
-        },
-        {
-            name: 'Лёха',
-            email: 'pro@gamer.ru',
-            login: 'Lammer',
-            winsCount: 1,
-            lostCount: 3,
-            score: 43,
-        },
-        {
-            name: 'Иван',
-            email: 'sparrow@black_pearl.ru',
-            login: 'Captain Jack',
-            winsCount: 100,
-            lostCount: 3,
-            score: 98,
-        },
-    ];
+
+    const server = new MockServer();
+    const items = server.getLeaderBoardData();
+
+    const isShowPrev = page && +page > 1 ? true : undefined;
+
     return (
         <main className={style.main}>
             <div>
@@ -70,9 +35,17 @@ const Leaderboard: FC = () => {
                         </tr>
                     ))}
                 </table>
-                <Link className={style.link} to={`/leaderboard/${Number(page) + 1}`}>
-                    Next
-                </Link>
+                <div className={style['wrapper-links']}>
+                    {isShowPrev && (
+                        <Link className={style.link} to={`/leaderboard/${Number(page) - 1}`}>
+                            Prev
+                        </Link>
+                    )}
+                    <span>{`< ${page} >`}</span>
+                    <Link className={style.link} to={`/leaderboard/${Number(page) + 1}`}>
+                        Next
+                    </Link>
+                </div>
             </div>
         </main>
     );

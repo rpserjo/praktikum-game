@@ -12,11 +12,12 @@
         font-weight: 500;
         font-size: 64px;
     }
-
-    .link {
-        display: block;
-        color: mixin.$colorMain;
+    .wrapper-links{
         text-align: right;
+        color: mixin.$colorMain;
+    .link {
+        color: mixin.$colorMain;
+        margin: 0 5px;;    }
     }
 
     .table-board{
