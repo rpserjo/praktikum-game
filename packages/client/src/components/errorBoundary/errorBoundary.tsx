@@ -1,17 +1,21 @@
 import React, { ErrorInfo, ReactNode } from 'react';
+import styles from './errorBoundary.module.scss';
 
-interface ErrorBoundaryInterface {
+type TErrorBoundaryProps = {
     reserveUI?: string | ReactNode;
     children?: string | ReactNode;
-}
+};
 
-export default class ErrorBoundary extends React.Component<ErrorBoundaryInterface> {
-    constructor(props: ErrorBoundaryInterface) {
+type TErrorBoundaryState = {
+    hasError: boolean;
+};
+
+export default class ErrorBoundary extends React.Component<TErrorBoundaryProps, TErrorBoundaryState> {
+    constructor(props: TErrorBoundaryProps) {
         super(props);
 
         this.state = {
             hasError: false,
-            errors: [],
         };
     }
 
@@ -20,14 +24,17 @@ export default class ErrorBoundary extends React.Component<ErrorBoundaryInterfac
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        const { errors } = this.state;
-        this.setState({ errors: [...errors, { error, errorInfo }] });
+        // todo: заменить это временное решение на использование глобального состояния
+        const errors = JSON.parse(window.localStorage.getItem('errors') || '[]');
+        const { message, stack } = error;
+        const newErrors = JSON.stringify([...errors, { error: { message, stack }, errorInfo }]);
+        window.localStorage.setItem('errors', newErrors);
     }
 
     render() {
         const { state, props } = this;
         const { reserveUI = 'Что-то пошло не так', children } = props;
         const { hasError } = state;
-        return hasError ? <div>{reserveUI}</div> : children;
+        return hasError ? <div className={styles.ErrorBoundaryReserveContent}>{reserveUI}</div> : children;
     }
 }
