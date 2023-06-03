@@ -1,5 +1,14 @@
+export type TLeaderBoardData = {
+    name: string;
+    email: string;
+    login: string;
+    winsCount: number;
+    lostCount: number;
+    score: number;
+};
+
 export default class MockServer {
-    protected leaderBoardData: Record<string, unknown>[];
+    protected leaderBoardData: TLeaderBoardData[];
 
     constructor() {
         this.leaderBoardData = [

@@ -7,7 +7,7 @@ const Leaderboard: FC = () => {
     const { page } = useParams();
 
     const server = new MockServer();
-    const items = server.getLeaderBoardData() as Record<string, React.ReactNode>[];
+    const items = server.getLeaderBoardData();
 
     const isShowPrev = page && +page > 1 ? true : undefined;
 
