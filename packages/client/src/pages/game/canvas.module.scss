@@ -1,0 +1,19 @@
+@import '@/assets/variables.scss';
+
+.canvasWindow{
+  position: relative;
+  width: 900px;
+  height: 420px;
+  margin: 0 auto;
+  top: 60px;
+  background-color: antiquewhite;
+}
+
+.title{
+  position: relative;
+  top: 30px;
+  font-weight: 600;
+  font-size: 64px;
+  color: white;
+  text-align: center; 
+}
