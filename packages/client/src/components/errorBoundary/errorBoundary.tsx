@@ -32,9 +32,11 @@ export default class ErrorBoundary extends React.Component<TErrorBoundaryProps, 
     }
 
     render() {
+        const reserve = <div className={styles.ErrorBoundaryReserveContentPlug}>Что-то пошло не так</div>;
         const { state, props } = this;
-        const { reserveUI = 'Что-то пошло не так', children } = props;
+        const { reserveUI = reserve, children } = props;
         const { hasError } = state;
+
         return hasError ? <div className={styles.ErrorBoundaryReserveContent}>{reserveUI}</div> : children;
     }
 }
