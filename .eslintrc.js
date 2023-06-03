@@ -16,6 +16,7 @@ module.exports = {
     },
     plugins: ['@typescript-eslint'],
     rules: {
+        'max-len': ['error', { code: 200 }],
         '@typescript-eslint/ban-ts-comment': 'off',
         indent: ['error', 4],
         'react/jsx-indent': ['error', 4],
@@ -33,6 +34,6 @@ module.exports = {
         'react/require-default-props': 'off',
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
-        'arrow-parens': ["error", "as-needed"]
+        'arrow-parens': ["error", "as-needed"]б
     },
 };
