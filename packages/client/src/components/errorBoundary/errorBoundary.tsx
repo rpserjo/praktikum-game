@@ -1,5 +1,5 @@
 import React, { ErrorInfo, ReactNode } from 'react';
-import styles from './errorBoundary.module.scss';
+import style from './errorBoundary.module.scss';
 
 type TErrorBoundaryProps = {
     reserveUI?: string | ReactNode;
@@ -32,11 +32,11 @@ export default class ErrorBoundary extends React.Component<TErrorBoundaryProps, 
     }
 
     render() {
-        const reserve = <div className={styles.ErrorBoundaryReserveContentPlug}>Что-то пошло не так</div>;
+        const reserve = <div className={style.errorBoundaryReserveContentPlug}>Что-то пошло не так</div>;
         const { state, props } = this;
         const { reserveUI = reserve, children } = props;
         const { hasError } = state;
 
-        return hasError ? <div className={styles.ErrorBoundaryReserveContent}>{reserveUI}</div> : children;
+        return hasError ? <div className={style.errorBoundaryReserveContent}>{reserveUI}</div> : children;
     }
 }
