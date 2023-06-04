@@ -1,45 +1,34 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../layout/layout';
-import ErrorPage from '../pages/error/error';
-import Index from '../pages/index';
-import SignUp from '../pages/signup/signup';
-import SignIn from '../pages/signin/signin';
-import Game from '../pages/game/game';
-import Profile from '../pages/profile/profile';
-import Leaderboard from '../pages/leaderboard/leaderboard';
+import React, { lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Layout from '@/layouts/default/layout';
+import { Loader } from '@/components/ui';
 
-// eslint-disable-next-line
-export const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Layout />,
-        errorElement: <ErrorPage />,
-        children: [
-            {
-                path: '',
-                element: <Index />,
-            },
-            {
-                path: 'signup',
-                element: <SignUp />,
-            },
-            {
-                path: 'signin',
-                element: <SignIn />,
-            },
-            {
-                path: 'game',
-                element: <Game />,
-            },
-            {
-                path: 'profile',
-                element: <Profile />,
-            },
-            {
-                path: 'leaderboard/:page',
-                element: <Leaderboard />,
-            },
-        ],
-    },
-]);
+const HomePage = lazy(() => import('@pages/index/index'));
+const LandingPage = lazy(() => import('@pages/landing/landing'));
+const GamePage = lazy(() => import('@pages/game/game'));
+const LeaderboardPage = lazy(() => import('@pages/leaderboard/leaderboard'));
+const ProfilePage = lazy(() => import('@pages/profile/profile'));
+const SignInPage = lazy(() => import('@pages/signin/signin'));
+const SignUpPage = lazy(() => import('@pages/signup/signup'));
+const ErrorPage = lazy(() => import('@pages/error/error'));
+
+const Router = () => (
+    <Routes>
+        <Route element={<Layout />}>
+            <Route element={<HomePage />} path="/home" />
+            <Route element={<GamePage />} path="/game" />
+            <Route element={<ProfilePage />} path="/profile" />
+            <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
+        </Route>
+        <Route element={<Layout showHeader={false} />}>
+            <Route element={<LandingPage />} path="/" />
+            <Route element={<Loader />} path="/loader" />
+            <Route element={<SignInPage />} path="/signin" />
+            <Route element={<SignUpPage />} path="/signup" />
+            <Route element={<ErrorPage code={500} />} path="/500" />
+            <Route element={<ErrorPage />} path="*" />
+        </Route>
+    </Routes>
+);
+
+export default Router;
