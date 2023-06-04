@@ -1,54 +1,59 @@
 @font-face {
   font-family: Tektur;
   font-weight: 400;
-  src: url('regular/ef4132cf2c6fe3288308aa930b7ac542.eot'); /* IE9*/
-  src: url('regular/ef4132cf2c6fe3288308aa930b7ac542.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('regular/ef4132cf2c6fe3288308aa930b7ac542.woff2') format('woff2'), /* chrome、firefox */
-  url('regular/ef4132cf2c6fe3288308aa930b7ac542.woff') format('woff'), /* chrome、firefox */
-  url('regular/ef4132cf2c6fe3288308aa930b7ac542.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('regular/ef4132cf2c6fe3288308aa930b7ac542.svg#Tektur Regular') format('svg'); /* iOS 4.1- */
+  src: url('./regular/ef4132cf2c6fe3288308aa930b7ac542.eot'); /* IE9*/
+  src: url('./regular/ef4132cf2c6fe3288308aa930b7ac542.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./regular/ef4132cf2c6fe3288308aa930b7ac542.woff2') format('woff2'),
+    /* chrome、firefox */ url('./regular/ef4132cf2c6fe3288308aa930b7ac542.woff') format('woff'),
+    /* chrome、firefox */ url('./regular/ef4132cf2c6fe3288308aa930b7ac542.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('./regular/ef4132cf2c6fe3288308aa930b7ac542.svg#Tektur Regular') format('svg'); /* iOS 4.1- */
 }
 
 @font-face {
   font-family: Tektur;
   font-weight: 500;
-  src: url('medium/df2b764b1701e4d9a984c142511b23cb.eot'); /* IE9*/
-  src: url('medium/df2b764b1701e4d9a984c142511b23cb.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('medium/df2b764b1701e4d9a984c142511b23cb.woff2') format('woff2'), /* chrome、firefox */
-  url('medium/df2b764b1701e4d9a984c142511b23cb.woff') format('woff'), /* chrome、firefox */
-  url('medium/df2b764b1701e4d9a984c142511b23cb.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('medium/df2b764b1701e4d9a984c142511b23cb.svg#Tektur Medium') format('svg'); /* iOS 4.1- */
+  src: url('./medium/df2b764b1701e4d9a984c142511b23cb.eot'); /* IE9*/
+  src: url('./medium/df2b764b1701e4d9a984c142511b23cb.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./medium/df2b764b1701e4d9a984c142511b23cb.woff2') format('woff2'),
+    /* chrome、firefox */ url('./medium/df2b764b1701e4d9a984c142511b23cb.woff') format('woff'),
+    /* chrome、firefox */ url('./medium/df2b764b1701e4d9a984c142511b23cb.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('./medium/df2b764b1701e4d9a984c142511b23cb.svg#Tektur Medium') format('svg'); /* iOS 4.1- */
 }
 
 @font-face {
   font-family: Tektur;
   font-weight: 600;
-  src: url('semibold/55b326174fdaabf4b9035eb29f661852.eot'); /* IE9*/
-  src: url('semibold/55b326174fdaabf4b9035eb29f661852.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('semibold/55b326174fdaabf4b9035eb29f661852.woff2') format('woff2'), /* chrome、firefox */
-  url('semibold/55b326174fdaabf4b9035eb29f661852.woff') format('woff'), /* chrome、firefox */
-  url('semibold/55b326174fdaabf4b9035eb29f661852.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('semibold/55b326174fdaabf4b9035eb29f661852.svg#Tektur SemiBold') format('svg'); /* iOS 4.1- */
+  src: url('./semibold/55b326174fdaabf4b9035eb29f661852.eot'); /* IE9*/
+  src: url('./semibold/55b326174fdaabf4b9035eb29f661852.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./semibold/55b326174fdaabf4b9035eb29f661852.woff2') format('woff2'),
+    /* chrome、firefox */ url('./semibold/55b326174fdaabf4b9035eb29f661852.woff') format('woff'),
+    /* chrome、firefox */ url('./semibold/55b326174fdaabf4b9035eb29f661852.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('./semibold/55b326174fdaabf4b9035eb29f661852.svg#Tektur SemiBold') format('svg'); /* iOS 4.1- */
 }
 
 @font-face {
   font-family: Tektur;
   font-weight: 700;
-  src: url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.eot'); /* IE9*/
-  src: url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.woff2') format('woff2'), /* chrome、firefox */
-  url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.woff') format('woff'), /* chrome、firefox */
-  url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('bold/cec6c74a20e28a5457215f1f0bc9e8cd.svg#Tektur Bold') format('svg'); /* iOS 4.1- */
+  src: url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.eot'); /* IE9*/
+  src: url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.woff2') format('woff2'),
+    /* chrome、firefox */ url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.woff') format('woff'),
+    /* chrome、firefox */ url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('./bold/cec6c74a20e28a5457215f1f0bc9e8cd.svg#Tektur Bold') format('svg'); /* iOS 4.1- */
 }
 
 @font-face {
   font-family: Tektur;
   font-weight: 800;
-  src: url('black/35fa79737fe12b6bee457823e8de1b8c.eot'); /* IE9*/
-  src: url('black/35fa79737fe12b6bee457823e8de1b8c.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('black/35fa79737fe12b6bee457823e8de1b8c.woff2') format('woff2'), /* chrome、firefox */
-  url('black/35fa79737fe12b6bee457823e8de1b8c.woff') format('woff'), /* chrome、firefox */
-  url('black/35fa79737fe12b6bee457823e8de1b8c.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('black/35fa79737fe12b6bee457823e8de1b8c.svg#Tektur Black') format('svg'); /* iOS 4.1- */
+  src: url('./black/35fa79737fe12b6bee457823e8de1b8c.eot'); /* IE9*/
+  src: url('./black/35fa79737fe12b6bee457823e8de1b8c.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('./black/35fa79737fe12b6bee457823e8de1b8c.woff2') format('woff2'),
+    /* chrome、firefox */ url('./black/35fa79737fe12b6bee457823e8de1b8c.woff') format('woff'),
+    /* chrome、firefox */ url('./black/35fa79737fe12b6bee457823e8de1b8c.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+      url('./black/35fa79737fe12b6bee457823e8de1b8c.svg#Tektur Black') format('svg'); /* iOS 4.1- */
 }

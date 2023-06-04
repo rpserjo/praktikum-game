@@ -11,6 +11,7 @@ module.exports = {
     },
     plugins: ['@typescript-eslint'],
     rules: {
+        'operator-linebreak': ['error', 'after'],
         'max-len': ['error', { code: 100 }],
         'react/jsx-boolean-value': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',

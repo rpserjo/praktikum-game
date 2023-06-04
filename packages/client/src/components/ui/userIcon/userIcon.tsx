@@ -22,7 +22,12 @@ const getFirstLetter = (string: string): string => {
 
 const UserIcon: FC<TUserIcon> = props => {
     const { type = 'header', userData = {} } = props;
-    const { image, firstName = 'Петр', secondName = 'Таранов', email = 'petr_taranov@mail.ru' } = userData;
+    const {
+        image,
+        firstName = 'Петр',
+        secondName = 'Таранов',
+        email = 'petr_taranov@mail.ru',
+    } = userData;
 
     const userIconClasses = cn(style.userIcon, {
         [style.typeHeader]: type === 'header',

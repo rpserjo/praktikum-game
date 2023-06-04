@@ -59,12 +59,20 @@ const Ships: FC<TShips> = props => {
 
     return (
         <div className={shipsClasses}>
-            <div className={style.title}>{mode === 'battle' ? 'Кораблей в строю:' : 'Доступно кораблей:'}</div>
+            <div className={style.title}>
+                {mode === 'battle' ? 'Кораблей в строю:' : 'Доступно кораблей:'}
+            </div>
 
             <div className={style.shipsContainer}>
                 {Object.keys(fleet).map(shipItemKey => (
                     <div className={shipItemRowClasses} key={shipItemKey}>
-                        <button aria-label={shipItemKey} disabled={!isUserShips || mode === 'battle'} className={`${style.ship} ${style[shipItemKey]}`} data-rank={shipItemKey} onClick={onClickShip} />
+                        <button
+                            aria-label={shipItemKey}
+                            disabled={!isUserShips || mode === 'battle'}
+                            className={`${style.ship} ${style[shipItemKey]}`}
+                            data-rank={shipItemKey}
+                            onClick={onClickShip}
+                        />
                         <div className={style.count}>{fleet[shipItemKey].count}</div>
                     </div>
                 ))}
