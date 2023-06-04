@@ -3,8 +3,6 @@ import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
 import path from 'path';
 
-//const path = require('path');
-
 dotenv.config();
 
 // https://vitejs.dev/config/
@@ -16,7 +14,9 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src'),
             '@components': path.resolve(__dirname, './src/components'),
-            '@ui': path.resolve(__dirname, './src/components/ui'),
+            '@layouts': path.resolve(__dirname, './src/layout'),
+            '@pages': path.resolve(__dirname, './src/pages'),
+            '@ui': path.resolve(__dirname, './src/components/ui/'),
         },
     },
     define: {

@@ -6,14 +6,7 @@ type ButtonProps = {
     buttonSize?: 'small' | 'medium' | 'large';
     buttonStyle?: 'normal' | 'outlined';
 };
-const Button: FC<ButtonProps> = ({
-    children,
-    buttonSize = 'small',
-    buttonStyle = 'normal',
-}) => (
-    <button className={`${style[buttonStyle]} ${style[buttonSize]}`}>
-        {children}
-    </button>
-);
+
+const Button: FC<ButtonProps> = ({ children, buttonSize = 'small', buttonStyle = 'normal' }) => <button className={`${style[buttonStyle]} ${style[buttonSize]}`}>{children}</button>;
 
 export default Button;
