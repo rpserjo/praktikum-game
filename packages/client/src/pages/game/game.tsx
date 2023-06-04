@@ -4,9 +4,15 @@ import Button from '../../components/ui/button/button';
 import UserIcon from '../../components/ui/userIcon/userIcon';
 import Ships from '../../components/ui/ships/ships';
 
-const Game: FC = () => {
-    // const { mode = 'battle' } = props;
-    const mode = 'battle';
+// todo: использование пропсов - временное решение. Необходимо заменить на использование глобального состояния, когда начнем его использовать.
+type TGame = {
+    mode?: string;
+    move?: string;
+    shipsCount?: number;
+};
+
+const Game: FC<TGame> = props => {
+    const { mode = 'battle', move = 'user', shipsCount = 10 } = props;
 
     return (
         <div className={style.gamePage}>
@@ -29,6 +35,13 @@ const Game: FC = () => {
                 <div className={style.middle}>
                     <div className={style.canvasWindow}>
                         <canvas width={900} height={420} />
+                    </div>
+
+                    <div className={style.userInfoBlock}>
+                        {mode === 'battle' && move === 'user' ? <span className={style.gameMessage}>Ваш ход!</span> : null}
+                        {mode === 'battle' && move === 'enemy' ? <span className={style.gameMessage}>Ход противника</span> : null}
+                        {mode === 'placement' && shipsCount ? <span className={style.gameMessage}>Расставьте корабли</span> : null}
+                        {mode === 'placement' && !shipsCount ? <Button buttonSize="medium">Готов к бою!</Button> : null}
                     </div>
                 </div>
 
