@@ -34,6 +34,6 @@ module.exports = {
         'react/require-default-props': 'off',
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
-        'arrow-parens': ["error", "as-needed"]б
+        'arrow-parens': ['error', 'as-needed'],
     },
 };
