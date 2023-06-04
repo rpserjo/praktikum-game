@@ -17,9 +17,14 @@
       margin: 0 0 25px;
       justify-content: flex-end;
 
-      &.userShip {
+      &.interActive {
         .ship {
           cursor: pointer;
+          @include transition;
+
+          &:active {
+            transform: scale(0.9);
+          }
         }
       }
 
@@ -28,11 +33,6 @@
         height: 30px;
         margin: 0 25px 0 0;
         border: none;
-        @include transition;
-
-        &:active {
-          transform: scale(0.9);
-        }
 
         &.rank1 {
           width: 115px;

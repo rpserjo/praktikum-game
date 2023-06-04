@@ -38,6 +38,10 @@ const Ships: FC<TShips> = props => {
         [style.right]: position === 'right',
     });
 
+    const shipItemRowClasses = cn(style.shipItemRow, {
+        [style.interActive]: isUserShips && mode === 'placement',
+    });
+
     const onClickShip: MouseEventHandler<HTMLButtonElement> = event => {
         const element = event.target as HTMLButtonElement;
         const key: string = element.getAttribute('data-rank') || '';
@@ -59,8 +63,8 @@ const Ships: FC<TShips> = props => {
 
             <div className={style.shipsContainer}>
                 {Object.keys(fleet).map(shipItemKey => (
-                    <div className={`${style.shipItemRow} ${isUserShips && style.userShip}`} key={shipItemKey}>
-                        <button aria-label={shipItemKey} disabled={!isUserShips} className={`${style.ship} ${style[shipItemKey]}`} data-rank={shipItemKey} onClick={onClickShip} />
+                    <div className={shipItemRowClasses} key={shipItemKey}>
+                        <button aria-label={shipItemKey} disabled={!isUserShips || mode === 'battle'} className={`${style.ship} ${style[shipItemKey]}`} data-rank={shipItemKey} onClick={onClickShip} />
                         <div className={style.count}>{fleet[shipItemKey].count}</div>
                     </div>
                 ))}
