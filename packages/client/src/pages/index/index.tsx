@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '../../components/ui';
+import { Button } from '@ui';
 
 const IndexPage: FC = () => (
     <div>
@@ -10,6 +10,7 @@ const IndexPage: FC = () => (
         <Button buttonSize="medium" buttonStyle="outlined">
             Medium outlined button
         </Button>
+        TExt
     </div>
 );
 

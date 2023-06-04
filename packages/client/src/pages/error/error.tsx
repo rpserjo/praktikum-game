@@ -1,17 +1,12 @@
 import React, { FC } from 'react';
-import { useRouteError } from 'react-router-dom';
 
-const ErrorPage: FC = () => {
-    const error: unknown = useRouteError();
-    const errorMessage: string = error instanceof Error ? `${(error as Error).message}` : 'Unknown error';
-    return (
-        <>
-            <h1>Error</h1>
-            <p>
-                <i>{errorMessage}</i>
-            </p>
-        </>
-    );
-};
+const ErrorPage: FC<{ code?: number }> = ({ code = 404 }) => (
+    <>
+        <h1>Error</h1>
+        <p>
+            <i>{code}</i>
+        </p>
+    </>
+);
 
 export default ErrorPage;
