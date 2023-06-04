@@ -60,9 +60,8 @@ const Ships: FC<TShips> = props => {
             <div className={style.shipsContainer}>
                 {Object.keys(fleet).map(shipItemKey => (
                     <div className={`${style.shipItemRow} ${isUserShips && style.userShip}`} key={shipItemKey}>
-                        <button aria-label={shipItemKey} className={`${style.ship} ${style[shipItemKey]}`} data-rank={shipItemKey} onClick={onClickShip} />
-
-                        <div className={style.count}>{shipsMapping[shipItemKey].count}</div>
+                        <button aria-label={shipItemKey} disabled={!isUserShips} className={`${style.ship} ${style[shipItemKey]}`} data-rank={shipItemKey} onClick={onClickShip} />
+                        <div className={style.count}>{fleet[shipItemKey].count}</div>
                     </div>
                 ))}
             </div>
