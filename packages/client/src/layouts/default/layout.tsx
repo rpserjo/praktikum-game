@@ -20,6 +20,8 @@ const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
             <Link to="/signin">Sign in</Link>
             <Link to="/home">Home</Link>
             <Link to="/game">Game</Link>
+            <Link to="/game/start">Game start</Link>
+            <Link to="/game/finish">Game finish</Link>
             <Link to="/profile">Profile</Link>
             <Link to="/leaderboard">Leaderboard</Link>
             <Link to="/forum">Forum [404]</Link>

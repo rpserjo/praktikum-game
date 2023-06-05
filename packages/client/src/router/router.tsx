@@ -17,6 +17,8 @@ const Router = () => (
         <Route element={<Layout />}>
             <Route element={<HomePage />} path="/home" />
             <Route element={<GamePage />} path="/game" />
+            <Route element={<GamePage />} path="/game/start" />
+            <Route element={<GamePage />} path="/game/finish" />
             <Route element={<ProfilePage />} path="/profile" />
             <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
         </Route>
@@ -25,7 +27,7 @@ const Router = () => (
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path="/signin" />
             <Route element={<SignUpPage />} path="/signup" />
-            <Route element={<ErrorPage code={500} />} path="/500" />
+            <Route element={<ErrorPage code={500} message="Что-то поломалось. Но мы уже чиним" />} path="/500" />
             <Route element={<ErrorPage />} path="*" />
         </Route>
     </Routes>
