@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '../../components/ui';
+import { Button } from '@/components/ui';
 
 const IndexPage: FC = () => (
     <div>
