@@ -12,6 +12,8 @@ const Header: FC<HeaderProps> = (): ReactElement => (
             <Link to="/signup">Sign up</Link>
             <Link to="/signin">Sign in</Link>
             <Link to="/game">Game</Link>
+            <Link to="/game/start">Game start</Link>
+            <Link to="/game/finish">Game finish</Link>
             <Link to="/leaderboard/1">Leaderboard</Link>
             <Link to="/forum">Forum</Link>
         </div>
