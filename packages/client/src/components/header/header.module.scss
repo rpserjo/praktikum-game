@@ -11,6 +11,10 @@
   .logo{
     display: flex;
     color: $colorMain;
+
+    img{
+      height: 73px;
+    }
   }
 
   .navigation{
@@ -18,5 +22,31 @@
     flex-grow: 1;
     justify-content: end;
     align-items: center;
+
+
+    .links{
+      display: flex;
+      gap: 25px;
+
+      a, a:visited{
+        display: flex;
+        color: $colorMain;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      a.active, a:hover, a:active{
+        color: $colorYellow;
+        text-decoration: underline;
+      }
+    }
+
+    //temporary
+    .user{
+      border: 1px solid #E4EBF0;
+      margin: 0px 50px 0 36px;
+      width: 200px;
+      height: 73px;
+    }
   }
 }
