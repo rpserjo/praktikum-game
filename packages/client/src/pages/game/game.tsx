@@ -1,10 +1,10 @@
 import React, { FC, MouseEventHandler } from 'react';
-import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import cn from 'classnames';
+import Button from '@components/ui/button/button';
+import User from '@components/ui/user/user';
+import Ships from '@components/ui/ships/ships';
 import style from './game.module.scss';
-import Button from '../../components/ui/button/button';
-import UserIcon from '../../components/ui/userIcon/userIcon';
-import Ships from '../../components/ui/ships/ships';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -45,7 +45,7 @@ const Game: FC<TGame> = props => {
                 <div className={style.leftSide}>
                     {mode === 'battle' ? (
                         <>
-                            <UserIcon
+                            <User
                                 type="game"
                                 userData={{ firstName: 'Иск.', secondName: 'Интеллект' }}
                             />
@@ -79,7 +79,7 @@ const Game: FC<TGame> = props => {
                 </div>
 
                 <div className={style.rightSide}>
-                    <UserIcon type="game" />
+                    <User type="game" />
                     <Ships mode={mode} isUserShips={true} />
                 </div>
             </div>

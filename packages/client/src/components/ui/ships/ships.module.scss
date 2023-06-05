@@ -36,22 +36,22 @@
 
         &.rank1 {
           width: 115px;
-          background-image: url('../../../../../client/src/assets/images/icons/ship_4.png');
+          background-image: url('@/assets/images/icons/ship_4.png');
         }
 
         &.rank2 {
           width: 84px;
-          background-image: url('../../../../../client/src/assets/images/icons/ship_3.png');
+          background-image: url('@/assets/images/icons/ship_3.png');
         }
 
         &.rank3 {
           width: 62px;
-          background-image: url('../../../../../client/src/assets/images/icons/ship_2.png');
+          background-image: url('@/assets/images/icons/ship_2.png');
         }
 
         &.rank4 {
           width: 37px;
-          background-image: url('../../../../../client/src/assets/images/icons/ship_1.png');
+          background-image: url('@/assets/images/icons/ship_1.png');
         }
 
         &:last-child {

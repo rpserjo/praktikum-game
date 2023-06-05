@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import style from './userIcon.module.scss';
+import style from './user.module.scss';
 
 type TUserIcon = {
     type?: string;
@@ -20,7 +20,7 @@ const getFirstLetter = (string: string): string => {
     return string[0].toUpperCase();
 };
 
-const UserIcon: FC<TUserIcon> = props => {
+const User: FC<TUserIcon> = props => {
     const { type = 'header', userData = {} } = props;
     const {
         image,
@@ -61,4 +61,4 @@ const UserIcon: FC<TUserIcon> = props => {
     );
 };
 
-export default UserIcon;
+export default User;
