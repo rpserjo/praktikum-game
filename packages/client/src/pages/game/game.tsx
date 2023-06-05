@@ -37,10 +37,7 @@ const Game: FC<TGame> = props => {
         if (ref.current) {
             const ctx = ref.current.getContext('2d');
 
-            // ctx!.strokeStyle = "white";
-            // ctx!.lineWidth = 2;
-            // ctx!.strokeRect(0, 0, 30, 30);
-
+            // render main field
             // eslint-disable-next-line
             const roundRect = function <T extends number>(x: T, y: T, width: T, height: T, radius: T): void {
                 ctx!.beginPath();
@@ -54,6 +51,20 @@ const Game: FC<TGame> = props => {
                 ctx!.fill();
             };
             roundRect(200, 0, 800, 400, 10);
+
+            // render battlefield
+            // eslint-disable-next-line
+            const renderBattlefield = function <T extends number>(x: T, y: T): void {
+                ctx!.strokeStyle = 'white';
+                ctx!.lineWidth = 1;
+
+                for (let index = 0; index < 10; index += 1) {
+                    ctx!.strokeRect(x + 30 * index, y, 30, 300);
+                    ctx!.strokeRect(x, y + 30 * index, 300, 30);
+                }
+            };
+            renderBattlefield(650, 70);
+            renderBattlefield(250, 70);
         }
     }, []);
 
