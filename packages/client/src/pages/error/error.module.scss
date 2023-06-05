@@ -1,0 +1,25 @@
+@use "@/assets/variables.scss" as variables;
+
+.error {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 15px;
+  padding: 15px;
+
+  .code {
+    color: variables.$colorMain;
+    font-size: 128px;
+    font-weight: 800;
+    line-height: 100%;
+  }
+
+  .message {
+    color: variables.$colorDark;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: center;
+  }
+}
