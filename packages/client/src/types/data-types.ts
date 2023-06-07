@@ -6,4 +6,13 @@ export type TLeaderBoardData = {
     score: number;
 };
 
+export type TForumData = {
+    msgId: number;
+    topicId: number;
+    topic: string;
+    message: string;
+    author: string;
+    createDate: string;
+};
+
 export default TLeaderBoardData;
