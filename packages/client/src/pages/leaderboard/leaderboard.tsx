@@ -4,7 +4,7 @@ import style from './leaderboard.module.scss';
 import MockServer from '@/mocks/mock-server';
 
 const Leaderboard: FC = () => {
-    const { page } = useParams();
+    const { page = 1 } = useParams();
 
     const server = new MockServer();
     const data = server.getLeaderBoardData();
@@ -20,22 +20,26 @@ const Leaderboard: FC = () => {
             <div>
                 <h1 className={style.h1}>Таблица достижений</h1>
                 <table className={style['table-board']}>
-                    <tr className={style.tr}>
-                        <th className={style.td}>Имя</th>
-                        <th className={style.td}>Логин</th>
-                        <th className={style.td}>Побед</th>
-                        <th className={style.td}>Поражений</th>
-                        <th className={style.td}>Эффективность стрельбы</th>
-                    </tr>
-                    {items.map(item => (
+                    <thead>
                         <tr className={style.tr}>
-                            <td className={style.td}>{item.name}</td>
-                            <td className={style.td}>{item.login}</td>
-                            <td className={style.td}>{item.winsCount}</td>
-                            <td className={style.td}>{item.lostCount}</td>
-                            <td className={style.td}>{`${item.score} %`}</td>
+                            <th className={style.td}>Имя</th>
+                            <th className={style.td}>Логин</th>
+                            <th className={style.td}>Побед</th>
+                            <th className={style.td}>Поражений</th>
+                            <th className={style.td}>Эффективность стрельбы</th>
                         </tr>
-                    ))}
+                    </thead>
+                    <tbody>
+                        {items.map(item => (
+                            <tr key={item.login} className={style.tr}>
+                                <td className={style.td}>{item.name}</td>
+                                <td className={style.td}>{item.login}</td>
+                                <td className={style.td}>{item.winsCount}</td>
+                                <td className={style.td}>{item.lostCount}</td>
+                                <td className={style.td}>{`${item.score} %`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
                 <div className={style['wrapper-links']}>
                     {isShowPrev && (
