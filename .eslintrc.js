@@ -11,6 +11,9 @@ module.exports = {
     },
     plugins: ['@typescript-eslint'],
     rules: {
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        '@typescript-eslint/no-unused-vars': 2,
         'operator-linebreak': ['error', 'after'],
         'max-len': ['error', { code: 100 }],
         'react/jsx-boolean-value': 'off',
