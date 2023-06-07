@@ -36,6 +36,15 @@ const Game: FC = () => {
             };
             renderBattlefield(650, 70);
             renderBattlefield(250, 70);
+
+            // eslint-disable-next-line
+            [...Array(4).keys()].forEach(i => {
+                const image = new Image();
+                image.src = `../../../../images/ship_${i}.svg`;
+                image.addEventListener('load', () => {
+                    ctx!.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
+                });
+            });
         }
     }, []);
 
