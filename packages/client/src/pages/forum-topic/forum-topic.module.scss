@@ -1,0 +1,136 @@
+@use '@/assets/variables' as mixin;
+
+.main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 60px 15px 15px;
+    position: relative;
+
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        max-width: 1300px;
+        width: 100%;
+
+
+        .h1 {
+            text-align: left;
+            color: mixin.$colorMain;
+            font-weight: 500;
+            padding: 0 0 10px;
+        }
+
+        .btn-them-wrap {
+            width: 180px;
+            padding: 8px 10px;
+            align-self: flex-end;
+        }
+
+        .msg-list {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 10px;
+
+            .topic-row-wrapper {
+                display: flex;
+                padding: 10px 7px;
+                border-top: 1px solid mixin.$colorMain;
+
+                &:last-child {
+                    border-bottom: 1px solid mixin.$colorMain;
+                }
+
+
+                .message-container {
+                    display: flex;
+                    flex-grow: 3;
+                    flex-direction: column;
+                    width: 100px;
+                    
+                    .topic-author {
+                        color: mixin.$colorMain;
+                        font-size: 14px;
+                        display: block;
+                        padding-bottom: 15px;
+                        opacity: 80%;
+                    }
+                    .message {
+                        text-align: start;
+                        font-weight: 300;
+                        color: mixin.$colorMain;
+                        padding-bottom: 7px;
+                        overflow-wrap: anywhere;
+                    }
+
+
+                }
+
+                .sceleton{
+                    padding: 5px 25px 5px 5px;
+                    max-height: 120px;
+                }
+               
+            }
+        }
+
+        .wrapper-links {
+            text-align: right;
+            color: mixin.$colorMain;
+
+            .link {
+                color: mixin.$colorMain;
+                margin: 0 5px;
+            }
+        }
+    }
+
+    .newMsgModal {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 26, 26, 0.6);
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+    
+        &.active {
+          opacity: 1;
+          visibility: visible;
+        }
+    
+        .modalContent {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 600px;
+          background: mixin.$backgroundColorSecondary;
+          border-radius: 5px;
+          padding: 30px 25px 60px;
+    
+          .modalTitle {
+            font-size: 24px;
+            color: mixin.$colorDark;
+            margin: 0 0 40px;
+          }
+
+          .topicName-wrapper{
+            padding-bottom: 15px;
+          }
+
+          .button-wrap{
+            display: flex;
+            justify-content: space-around;
+            padding-top: 30px;
+          }
+        }
+    }
+}
