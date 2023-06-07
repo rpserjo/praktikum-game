@@ -18,9 +18,14 @@ const Header: FC<HeaderProps> = (): ReactElement => (
                 <NavLink to="/forum" className={({ isActive }) => (isActive ? style.active : '')}>
                     Форум
                 </NavLink>
-                <NavLink to="/leaderboard/1" className={({ isActive }) => (isActive ? style.active : '')}>
+
+                <NavLink
+                    to="/leaderboard/1"
+                    className={({ isActive }) => (isActive ? style.active : '')}
+                >
                     Лидерборд
                 </NavLink>
+
                 <NavLink to="/profile" className={({ isActive }) => (isActive ? style.active : '')}>
                     Профиль
                 </NavLink>

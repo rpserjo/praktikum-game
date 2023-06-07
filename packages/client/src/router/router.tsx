@@ -26,7 +26,10 @@ const Router = () => (
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path="/signin" />
             <Route element={<SignUpPage />} path="/signup" />
-            <Route element={<ErrorPage code={500} message="Что-то поломалось. Но мы уже чиним" />} path="/500" />
+            <Route
+                element={<ErrorPage code={500} message="Что-то поломалось. Но мы уже чиним" />}
+                path="/500"
+            />
             <Route element={<ErrorPage />} path="*" />
         </Route>
     </Routes>
