@@ -16,11 +16,12 @@ const Router = () => (
         <Route element={<Layout />}>
             <Route element={<HomePage />} path="/home" />
             <Route element={<GamePage />} path="/game" />
-            <Route element={<GamePage />} path="/game/start" />
-            <Route element={<GamePage />} path="/game/finish" />
+            <Route element={<GamePage mode="placement" shipsCount={10} />} path="/game/start" />
+            <Route element={<GamePage gameOver="win" />} path="/game/finish" />
             <Route element={<ProfilePage />} path="/profile" />
             <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
         </Route>
+
         <Route element={<Layout showHeader={false} />}>
             <Route element={<HomePage />} path="/" />
             <Route element={<Loader />} path="/loader" />

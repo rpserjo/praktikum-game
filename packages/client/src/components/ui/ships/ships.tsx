@@ -2,9 +2,19 @@ import React, { FC, MouseEventHandler, useState } from 'react';
 import cn from 'classnames';
 import style from './ships.module.scss';
 
+export enum Position {
+    left = 'left',
+    right = 'right',
+}
+
+export enum Mode {
+    placement = 'placement',
+    battle = 'battle',
+}
+
 type TShips = {
-    position?: string;
-    mode?: string;
+    position?: Position;
+    mode?: Mode;
     isUserShips?: boolean;
 };
 
@@ -31,15 +41,15 @@ const shipsMapping: TShipsMapping = {
 
 const Ships: FC<TShips> = props => {
     const [fleet, setFleet] = useState<TShipsMapping>({ ...shipsMapping });
-    const { position = 'right', mode = 'placement', isUserShips = false } = props;
+    const { position = Position.right, mode = Mode.placement, isUserShips = false } = props;
 
     const shipsClasses = cn(style.ships, {
-        [style.left]: position === 'left',
-        [style.right]: position === 'right',
+        [style.left]: position === Position.left,
+        [style.right]: position === Position.right,
     });
 
     const shipItemRowClasses = cn(style.shipItemRow, {
-        [style.interActive]: isUserShips && mode === 'placement',
+        [style.interActive]: isUserShips && mode === Mode.placement,
     });
 
     const onClickShip: MouseEventHandler<HTMLButtonElement> = event => {
@@ -60,7 +70,7 @@ const Ships: FC<TShips> = props => {
     return (
         <div className={shipsClasses}>
             <div className={style.title}>
-                {mode === 'battle' ? 'Кораблей в строю:' : 'Доступно кораблей:'}
+                {mode === Mode.battle ? 'Кораблей в строю:' : 'Доступно кораблей:'}
             </div>
 
             <div className={style.shipsContainer}>
@@ -68,7 +78,7 @@ const Ships: FC<TShips> = props => {
                     <div className={shipItemRowClasses} key={shipItemKey}>
                         <button
                             aria-label={shipItemKey}
-                            disabled={!isUserShips || mode === 'battle'}
+                            disabled={!isUserShips || mode === Mode.battle}
                             className={`${style.ship} ${style[shipItemKey]}`}
                             data-rank={shipItemKey}
                             onClick={onClickShip}

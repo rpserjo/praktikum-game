@@ -2,23 +2,41 @@ import React, { FC, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import Button from '@components/ui/button/button';
-import User from '@components/ui/user/user';
+import User, { Type } from '@components/ui/user/user';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
-import Ships from '@components/ui/ships/ships';
+import Ships, { Mode, Position } from '@components/ui/ships/ships';
 import style from './game.module.scss';
 import GameReserve from '@/pages/game/gameReserve';
+import userData from '@/mocks/data/user-data.json';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
+enum Move {
+    user = 'user',
+    enemy = 'enemy',
+}
+
+enum GameOver {
+    win = 'win',
+    defeat = 'defeat',
+}
+
 type TGame = {
-    mode?: string;
-    move?: string;
+    mode?: Mode;
+    move?: Move;
     shipsCount?: number;
-    gameOver?: string;
+    gameOver?: GameOver;
 };
 
+const defaultShipsCount = 10;
+
 const Game: FC<TGame> = props => {
-    const { mode = 'battle', move = 'user', shipsCount = 10, gameOver } = props;
+    const {
+        mode = Mode.battle,
+        move = Move.user,
+        shipsCount = defaultShipsCount,
+        gameOver,
+    } = props;
     const navigate = useNavigate();
 
     const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
@@ -46,13 +64,10 @@ const Game: FC<TGame> = props => {
 
                 <div className={style.content}>
                     <div className={style.leftSide}>
-                        {mode === 'battle' ? (
+                        {mode === Mode.battle ? (
                             <>
-                                <User
-                                    type="game"
-                                    userData={{ firstName: 'Иск.', secondName: 'Интеллект' }}
-                                />
-                                <Ships mode={mode} position="left" />
+                                <User type={Type.game} userData={userData.ai} />
+                                <Ships mode={mode} position={Position.left} />
                             </>
                         ) : null}
                     </div>
@@ -63,26 +78,26 @@ const Game: FC<TGame> = props => {
                         </div>
 
                         <div className={style.userInfoBlock}>
-                            {mode === 'battle' && move === 'user' ? (
+                            {mode === Mode.battle && move === Move.user ? (
                                 <span className={style.gameMessage}>Ваш ход!</span>
                             ) : null}
 
-                            {mode === 'battle' && move === 'enemy' ? (
+                            {mode === Mode.battle && move === Move.enemy ? (
                                 <span className={style.gameMessage}>Ход противника</span>
                             ) : null}
 
-                            {mode === 'placement' && shipsCount ? (
+                            {mode === Mode.placement && shipsCount ? (
                                 <span className={style.gameMessage}>Расставьте корабли</span>
                             ) : null}
 
-                            {mode === 'placement' && !shipsCount ? (
+                            {mode === Mode.placement && !shipsCount ? (
                                 <Button buttonSize="medium">Готов к бою!</Button>
                             ) : null}
                         </div>
                     </div>
 
                     <div className={style.rightSide}>
-                        <User type="game" />
+                        <User type={Type.game} userData={userData.user} />
                         <Ships mode={mode} isUserShips={true} />
                     </div>
                 </div>
@@ -90,17 +105,17 @@ const Game: FC<TGame> = props => {
                 <div className={endGameModalClasses}>
                     <div className={style.modalContent}>
                         <div className={style.modalTitle}>
-                            {gameOver === 'win' && 'Вы победили!'}
-                            {gameOver === 'defeat' && 'Вы проиграли :('}
+                            {gameOver === GameOver.win && 'Вы победили!'}
+                            {gameOver === GameOver.defeat && 'Вы проиграли :('}
                         </div>
 
-                        {gameOver === 'win' ? (
+                        {gameOver === GameOver.win ? (
                             <Button buttonSize="large" onClick={handleWinButtonClick}>
                                 Ура!
                             </Button>
                         ) : null}
 
-                        {gameOver === 'defeat' ? (
+                        {gameOver === GameOver.defeat ? (
                             <Button onClick={handleDefeatButtonClick} buttonSize="large">
                                 Угу
                             </Button>

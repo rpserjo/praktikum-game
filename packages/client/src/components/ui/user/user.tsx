@@ -2,10 +2,15 @@ import React, { FC } from 'react';
 import cn from 'classnames';
 import style from './user.module.scss';
 
-type TUserIcon = {
-    type?: string;
+export enum Type {
+    header = 'header',
+    game = 'game',
+}
+
+type TUser = {
+    type?: Type;
     userData?: {
-        image?: string;
+        imageUrl?: string;
         firstName?: string;
         secondName?: string;
         email?: string;
@@ -13,33 +18,28 @@ type TUserIcon = {
 };
 
 const getFirstLetter = (string: string): string => {
-    if (!string.length) {
-        return string;
+    if (string.length === 0) {
+        return '';
     }
 
     return string[0].toUpperCase();
 };
 
-const User: FC<TUserIcon> = props => {
-    const { type = 'header', userData = {} } = props;
-    const {
-        image,
-        firstName = 'Петр',
-        secondName = 'Таранов',
-        email = 'petr_taranov@mail.ru',
-    } = userData;
+const User: FC<TUser> = props => {
+    const { type = Type.header, userData = {} } = props;
+    const { imageUrl, firstName = '', secondName = '', email = '' } = userData;
 
     const userIconClasses = cn(style.userIcon, {
-        [style.typeHeader]: type === 'header',
-        [style.typeGame]: type === 'game',
+        [style.typeHeader]: type === Type.header,
+        [style.typeGame]: type === Type.game,
     });
 
     return (
         <div className={userIconClasses}>
             <figure className={style.content}>
                 <div className={style.imgContainer}>
-                    {image ? (
-                        <img src="" alt="" className={style.img} />
+                    {imageUrl ? (
+                        <img src={imageUrl} alt="" className={style.img} />
                     ) : (
                         <div>
                             <span className={style.initial}>{getFirstLetter(firstName)}</span>
@@ -54,7 +54,7 @@ const User: FC<TUserIcon> = props => {
                         <span className={style.nameItem}>{secondName}</span>
                     </div>
 
-                    {type === 'header' ? <div className={style.email}>{email}</div> : null}
+                    {type === Type.header ? <div className={style.email}>{email}</div> : null}
                 </figcaption>
             </figure>
         </div>
