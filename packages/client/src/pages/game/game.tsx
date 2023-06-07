@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Button from '@components/ui/button/button';
 import User, { Type } from '@components/ui/user/user';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
-import Ships, { Mode, Position } from '@components/ui/ships/ships';
+import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
 import style from './game.module.scss';
 import GameReserve from '@/pages/game/gameReserve';
 import userData from '@/mocks/data/user-data.json';
@@ -16,7 +16,7 @@ enum Move {
     enemy = 'enemy',
 }
 
-enum GameOver {
+export enum GameOver {
     win = 'win',
     defeat = 'defeat',
 }
@@ -27,8 +27,6 @@ type TGame = {
     shipsCount?: number;
     gameOver?: GameOver;
 };
-
-const defaultShipsCount = 10;
 
 const Game: FC<TGame> = props => {
     const {

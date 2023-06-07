@@ -1,5 +1,7 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { defaultShipsCount, Mode } from '@components/ui/ships/ships';
+import { GameOver } from '@pages/game/game';
 import Layout from '@/layout/default/layout';
 import { Loader } from '@/components/ui';
 
@@ -16,8 +18,11 @@ const Router = () => (
         <Route element={<Layout />}>
             <Route element={<HomePage />} path="/home" />
             <Route element={<GamePage />} path="/game" />
-            <Route element={<GamePage mode="placement" shipsCount={10} />} path="/game/start" />
-            <Route element={<GamePage gameOver="win" />} path="/game/finish" />
+            <Route
+                element={<GamePage mode={Mode.placement} shipsCount={defaultShipsCount} />}
+                path="/game/start"
+            />
+            <Route element={<GamePage gameOver={GameOver.win} />} path="/game/finish" />
             <Route element={<ProfilePage />} path="/profile" />
             <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
         </Route>

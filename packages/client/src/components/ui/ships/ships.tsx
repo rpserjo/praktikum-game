@@ -39,6 +39,8 @@ const shipsMapping: TShipsMapping = {
     },
 };
 
+export const defaultShipsCount = 10;
+
 const Ships: FC<TShips> = props => {
     const [fleet, setFleet] = useState<TShipsMapping>({ ...shipsMapping });
     const { position = Position.right, mode = Mode.placement, isUserShips = false } = props;
