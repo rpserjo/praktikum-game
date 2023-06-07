@@ -1,9 +1,13 @@
 $fontFamily: Tektur;
-$backgroundColorMain: #3E92B3;
-$backgroundColorSecondary: #7ECBD5;
-$colorMain: #F0EFEA;
-$colorYellow: #F8CD6B;
-$colorBlue: #265B8F;
-$colorRed: #C1564B;
-$colorDark: #3F4151;
-$colorLightBlue: #E4EBF0;
+$backgroundColorMain: #3e92b3;
+$backgroundColorSecondary: #7ecbd5;
+$colorMain: #f0efea;
+$colorYellow: #f8cd6b;
+$colorBlue: #265b8f;
+$colorRed: #c1564b;
+$colorDark: #3f4151;
+$colorLightBlue: #e4ebf0;
+
+@mixin transition {
+  transition: all 0.2s ease-in-out;
+}

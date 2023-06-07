@@ -7,7 +7,12 @@ type ButtonProps = {
     buttonStyle?: 'normal' | 'outlined';
     onClick?: MouseEventHandler;
 };
-const Button: FC<ButtonProps> = ({ children, buttonSize = 'small', buttonStyle = 'normal', onClick }) => (
+const Button: FC<ButtonProps> = ({
+    children,
+    buttonSize = 'small',
+    buttonStyle = 'normal',
+    onClick,
+}) => (
     <button onClick={onClick} className={`${style[buttonStyle]} ${style[buttonSize]}`}>
         {children}
     </button>

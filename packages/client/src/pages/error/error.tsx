@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@ui';
 import style from './error.module.scss';
 
-const ErrorPage: FC<{ code?: number; message?: string }> = ({ code = 404, message = 'Ничего не найдено' }) => {
+const ErrorPage: FC<{ code?: number; message?: string }> = ({
+    code = 404,
+    message = 'Ничего не найдено',
+}) => {
     const navigate = useNavigate();
 
     return (

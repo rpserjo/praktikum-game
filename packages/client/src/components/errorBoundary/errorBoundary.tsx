@@ -10,7 +10,10 @@ type TErrorBoundaryState = {
     hasError: boolean;
 };
 
-export default class ErrorBoundary extends React.Component<TErrorBoundaryProps, TErrorBoundaryState> {
+export default class ErrorBoundary extends React.Component<
+    TErrorBoundaryProps,
+    TErrorBoundaryState
+> {
     constructor(props: TErrorBoundaryProps) {
         super(props);
 
@@ -32,11 +35,17 @@ export default class ErrorBoundary extends React.Component<TErrorBoundaryProps, 
     }
 
     render() {
-        const reserve = <div className={style.errorBoundaryReserveContentPlug}>Что-то пошло не так</div>;
+        const reserve = (
+            <div className={style.errorBoundaryReserveContentPlug}>Что-то пошло не так</div>
+        );
         const { state, props } = this;
         const { reserveUI = reserve, children } = props;
         const { hasError } = state;
 
-        return hasError ? <div className={style.errorBoundaryReserveContent}>{reserveUI}</div> : children;
+        return hasError ? (
+            <div className={style.errorBoundaryReserveContent}>{reserveUI}</div>
+        ) : (
+            children
+        );
     }
 }

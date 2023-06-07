@@ -1,23 +1,25 @@
-@import '@/assets/tektur/font-tektur';
-@import '@/assets/variables';
+@import '@/assets/tektur/font-tektur.scss';
+@import '@/assets/variables.scss';
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: $fontFamily;
 }
 
-body{
+body {
   background-color: $backgroundColorMain;
 }
 
-#root{
+#root {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-a, a:link, a:visited  {
+a,
+a:link,
+a:visited {
   text-decoration: none;
 }
