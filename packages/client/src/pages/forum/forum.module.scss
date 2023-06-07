@@ -1,0 +1,162 @@
+@use '@/assets/variables' as mixin;
+
+.main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 60px 15px 15px;
+    position: relative;
+
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        max-width: 1300px;
+        width: 100%;
+
+
+        .h1 {
+            text-align: center;
+            color: mixin.$colorMain;
+            font-weight: 500;
+            font-size: 64px;
+            padding: 0 0 10px;
+        }
+
+        .btn-them-wrap {
+            width: 180px;
+            padding: 8px 10px;
+            align-self: flex-end;
+        }
+
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 10px;
+
+            .topic-row-wrapper {
+                display: flex;
+                padding: 10px 7px;
+                border-top: 1px solid mixin.$colorMain;
+
+                &:last-child {
+                    border-bottom: 1px solid mixin.$colorMain;
+                }
+
+
+                .topic-present {
+                    display: flex;
+                    flex-grow: 3;
+                    flex-direction: column;
+                    width: 400px;
+
+                    .topic-name {
+                        font-size: 18px;
+                        font-weight: 300;
+                        color: mixin.$colorYellow;
+                        padding-bottom: 7px;
+                        overflow-wrap: anywhere;
+                    }
+
+                    .topic-author {
+                        color: mixin.$colorMain;
+                        font-size: 14px;
+                        font-weight: 100;
+                    }
+
+                }
+
+                .qty-message-wrapper {
+                    width: 70px;
+                    margin: 0 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .qty-message-img {
+                        padding: 5px 5px 0;
+                        flex: 1;
+                        width: 50px;
+                    }
+
+                    .qty-message-span {
+                        width: 40px;
+                        display: block;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: mixin.$colorYellow;
+                    }
+                }
+
+                .last-message-date {
+                    justify-self: unset;
+                    margin: auto 0;
+                    width: 180px;
+                    text-align: right;
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: mixin.$colorYellow;
+                }
+            }
+        }
+
+        .wrapper-links {
+            text-align: right;
+            color: mixin.$colorMain;
+
+            .link {
+                color: mixin.$colorMain;
+                margin: 0 5px;
+            }
+        }
+    }
+
+    .newTopicModal {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 26, 26, 0.6);
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+    
+        &.active {
+          opacity: 1;
+          visibility: visible;
+        }
+    
+        .modalContent {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 600px;
+          background: mixin.$backgroundColorSecondary;
+          border-radius: 5px;
+          padding: 30px 25px 60px;
+    
+          .modalTitle {
+            font-size: 24px;
+            color: mixin.$colorDark;
+            margin: 0 0 40px;
+          }
+
+          .topicName-wrapper{
+            padding-bottom: 15px;
+          }
+
+          .button-wrap{
+            display: flex;
+            justify-content: space-around;
+            padding-top: 30px;
+          }
+        }
+    }
+}

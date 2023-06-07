@@ -24,7 +24,8 @@ const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
             <Link to="/game/finish">Game finish</Link>
             <Link to="/profile">Profile</Link>
             <Link to="/leaderboard">Leaderboard</Link>
-            <Link to="/forum">Forum [404]</Link>
+            <Link to="/forum">Forum</Link>
+            <Link to="/wrong-path">404</Link>
             <Link to="/500">500</Link>
         </div>
     </>
