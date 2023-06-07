@@ -67,7 +67,7 @@ const Game: FC<TGame> = props => {
             renderBattlefield(650, 70);
             renderBattlefield(250, 70);
 
-            // text render
+            // render horisontal text
             // eslint-disable-next-line
             function fillTextWithSpacing(context: CanvasRenderingContext2D, text: string, x: number, y: number, spacing: number) {
                 const totalWidth = context.measureText(text).width + spacing * (text.length - 1);
@@ -117,11 +117,26 @@ const Game: FC<TGame> = props => {
             }
             ctx!.font = '19px inter';
             ctx!.fillStyle = 'white';
-            const text = 'A B C D E F G H I G';
+            const textH = 'A B C D E F G H I G';
             // eslint-disable-next-line
-            [...Array(2).keys()].forEach(i => fillTextWithSpacing(ctx!, text, 257 + 400 * i, 63, 6.6));
+            [...Array(2).keys()].forEach(i => fillTextWithSpacing(ctx!, textH, 257 + 400 * i, 63, 6.6));
+
+            // render horizontal text
+            // eslint-disable-next-line
+            [...Array(2).keys()].forEach(i => {
+                for (let index = 0; index < 10; index += 1) {
+                    let x = 233 + 400 * i;
+                    if (index === 9) {
+                        x -= 7;
+                    }
+                    ctx!.fillText(String(index + 1), x, 93 + 30 * index);
+                }
+            });
 
             // render ships
+            // eslint-disable-next-line
+            const shipsAmount = [4, 3, 2, 1];
+            ctx!.font = '32px inter';
             // eslint-disable-next-line
             [...Array(4).keys()].forEach(i => {
                 const image = new Image();
@@ -129,6 +144,7 @@ const Game: FC<TGame> = props => {
                 image.addEventListener('load', () => {
                     ctx!.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
                 });
+                ctx!.fillText(String(shipsAmount[i]), 1175, 188 + i * 59);
             });
         }
     }, []);
