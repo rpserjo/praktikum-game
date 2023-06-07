@@ -8,7 +8,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier',
-        'airbnb',
+        'airbnb'
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -35,5 +35,11 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
+        'no-unused-expressions': ['error', { 'allowTernary': true }],
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"]
+        
     },
 };
