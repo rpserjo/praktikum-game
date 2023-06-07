@@ -93,7 +93,8 @@ const Game: FC<TGame> = props => {
                 let char;
                 let charNext;
 
-                for (offset = 0; offset < text.length; offset += offset + 1) {
+                // eslint-disable-next-line
+                for (offset = 0; offset < text.length; offset = offset + 1) {
                     char = text.charAt(offset);
                     pairSpacing = 0;
                     if (offset + 1 < text.length) {
