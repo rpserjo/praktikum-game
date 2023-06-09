@@ -1,4 +1,5 @@
 import React, { FC, useRef, useEffect } from 'react';
+import style from './game.module.scss';
 import style from './canvas.module.scss';
 import React, { FC, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -115,7 +116,7 @@ const Game: FC<TGame> = props => {
 
                 context.textAlign = align;
             }
-            ctx!.font = '19px inter';
+            ctx!.font = '19px Tektur';
             ctx!.fillStyle = 'white';
             const textH = 'A B C D E F G H I G';
             // eslint-disable-next-line
@@ -136,7 +137,7 @@ const Game: FC<TGame> = props => {
             // render ships
             // eslint-disable-next-line
             const shipsAmount = [4, 3, 2, 1];
-            ctx!.font = '32px inter';
+            ctx!.font = '32px Tektur';
             // eslint-disable-next-line
             [...Array(4).keys()].forEach(i => {
                 const image = new Image();

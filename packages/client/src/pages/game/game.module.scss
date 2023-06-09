@@ -88,11 +88,9 @@
 
 .canvasWindow {
   position: relative;
-  width: 900px;
-  height: 420px;
+  width: 1200px;
+  height: 400px;
   margin: 0 auto;
-  background: $backgroundColorThird;
-  border-radius: 10px;
 }
 
 .title {
@@ -109,4 +107,3 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
