@@ -1,4 +1,4 @@
-@use '@/assets/variables' as mixin;
+@import '@/assets/variables.scss';
 
 .main {
     display: flex;
@@ -18,7 +18,7 @@
 
         .h1 {
             text-align: center;
-            color: mixin.$colorMain;
+            color: $colorMain;
             font-weight: 500;
             font-size: 64px;
             padding: 0 0 10px;
@@ -38,10 +38,10 @@
             .topic-row-wrapper {
                 display: flex;
                 padding: 10px 7px;
-                border-top: 1px solid mixin.$colorMain;
+                border-top: 1px solid $colorMain;
 
                 &:last-child {
-                    border-bottom: 1px solid mixin.$colorMain;
+                    border-bottom: 1px solid $colorMain;
                 }
 
 
@@ -54,13 +54,13 @@
                     .topic-name {
                         font-size: 18px;
                         font-weight: 300;
-                        color: mixin.$colorYellow;
+                        color: $colorYellow;
                         padding-bottom: 7px;
                         overflow-wrap: anywhere;
                     }
 
                     .topic-author {
-                        color: mixin.$colorMain;
+                        color: $colorMain;
                         font-size: 14px;
                         font-weight: 100;
                     }
@@ -86,7 +86,7 @@
                         text-align: center;
                         font-size: 18px;
                         font-weight: 500;
-                        color: mixin.$colorYellow;
+                        color: $colorYellow;
                     }
                 }
 
@@ -97,17 +97,17 @@
                     text-align: right;
                     font-size: 18px;
                     font-weight: 500;
-                    color: mixin.$colorYellow;
+                    color: $colorYellow;
                 }
             }
         }
 
         .wrapper-links {
             text-align: right;
-            color: mixin.$colorMain;
+            color: $colorMain;
 
             .link {
-                color: mixin.$colorMain;
+                color: $colorMain;
                 margin: 0 5px;
             }
         }
@@ -138,13 +138,13 @@
           justify-content: center;
           align-items: center;
           width: 600px;
-          background: mixin.$backgroundColorSecondary;
+          background: $backgroundColorSecondary;
           border-radius: 5px;
           padding: 30px 25px 60px;
     
           .modalTitle {
             font-size: 24px;
-            color: mixin.$colorDark;
+            color: $colorDark;
             margin: 0 0 40px;
           }
 

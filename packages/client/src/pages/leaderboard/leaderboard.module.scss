@@ -1,4 +1,4 @@
-@use '@/assets/variables' as mixin;
+@import '@/assets/variables'
 
 .main {
     flex-grow: 1;
@@ -8,17 +8,17 @@
     .h1 {
         margin: 100px auto 70px;
         text-align: center;
-        color: mixin.$colorMain;
+        color: $colorMain;
         font-weight: 500;
         font-size: 64px;
     }
 
     .wrapper-links {
         text-align: right;
-        color: mixin.$colorMain;
+        color: $colorMain;
 
         .link {
-            color: mixin.$colorMain;
+            color: $colorMain;
             margin: 0 5px;
         }
     }
@@ -26,7 +26,7 @@
     .table-board {
         margin: 10px auto;
         border-collapse: collapse;
-        color: mixin.$colorMain;
+        color: $colorMain;
         text-align: center;
 
         .td {
@@ -34,7 +34,7 @@
         }
 
         .tr {
-            border-bottom: 1px solid mixin.$colorMain;
+            border-bottom: 1px solid $colorMain;
         }
     }
 }
