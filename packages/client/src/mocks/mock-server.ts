@@ -33,7 +33,9 @@ export default class MockServer {
 
                     item.msgQty += 1;
 
-                    if (Date.parse(item.dateLstMsg) < Date.parse(o.createDate)) item.dateLstMsg = o.createDate;
+                    if (Date.parse(item.dateLstMsg) < Date.parse(o.createDate)) {
+                        item.dateLstMsg = o.createDate;
+                    }
 
                     return r.set(key, item);
                 }, new Map())

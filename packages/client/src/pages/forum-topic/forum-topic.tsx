@@ -59,9 +59,18 @@ const ForumTopic: FC = () => {
                 <div className={style['msg-list']}>
                     {items.map(item => (
                         <div key={item.msgId} className={style['topic-row-wrapper']}>
-                            <img className={style.sceleton} src={userSceleton} alt="user sceleton" />
+                            <img
+                                className={style.sceleton}
+                                src={userSceleton}
+                                alt="user sceleton"
+                            />
                             <div className={style['message-container']}>
-                                <span className={style['topic-author']}>{`Автор: ${item.author} -   ${dateFormat(item.createDate, FormatType.DATE_TIME)}`}</span>
+                                <span className={style['topic-author']}>
+                                    {`Автор: ${item.author} -   ${dateFormat(
+                                        item.createDate,
+                                        FormatType.DATE_TIME
+                                    )}`}
+                                </span>
                                 <span className={style.message}>{item.message}</span>
                             </div>
                         </div>
@@ -69,13 +78,19 @@ const ForumTopic: FC = () => {
                 </div>
                 <div className={style['wrapper-links']}>
                     {isShowPrev && (
-                        <Link className={style.link} to={`/forum-topic/${topicId}/${Number(page) - 1}`}>
+                        <Link
+                            className={style.link}
+                            to={`/forum-topic/${topicId}/${Number(page) - 1}`}
+                        >
                             Prev
                         </Link>
                     )}
                     <span>{`< ${page} >`}</span>
                     {isShowNext && (
-                        <Link className={style.link} to={`/forum-topic/${topicId}/${Number(page) + 1}`}>
+                        <Link
+                            className={style.link}
+                            to={`/forum-topic/${topicId}/${Number(page) + 1}`}
+                        >
                             Next
                         </Link>
                     )}
@@ -85,7 +100,12 @@ const ForumTopic: FC = () => {
                 <div className={style.modalContent}>
                     <span className={style.modalTitle}>Новое сообщение в обсуждение</span>
                     <form onSubmit={handleSubmit}>
-                        <TextArea rows={10} cols={50} label="Вашe сообщение" nameElement="topicMsg" />
+                        <TextArea
+                            rows={10}
+                            cols={50}
+                            label="Вашe сообщение"
+                            nameElement="topicMsg"
+                        />
                         <div className={style['button-wrap']}>
                             <Button onClick={handleCloseModal} buttonSize="medium">
                                 Отмена

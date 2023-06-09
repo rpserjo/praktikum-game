@@ -63,16 +63,30 @@ const Forum: FC = () => {
                     {items.map(item => (
                         <div key={item.topicId} className={style['topic-row-wrapper']}>
                             <div className={style['topic-present']}>
-                                <Link to={`/forum-topic/${item.topicId}/1`} className={style['topic-name']}>
+                                <Link
+                                    to={`/forum-topic/${item.topicId}/1`}
+                                    className={style['topic-name']}
+                                >
                                     {item.topic}
                                 </Link>
-                                <span className={style['topic-author']}>{`Автор: ${item.author} -   ${dateFormat(item.createDate, FormatType.DATE_TIME)}`}</span>
+                                <span className={style['topic-author']}>
+                                    {`Автор: ${item.author} -   ${dateFormat(
+                                        item.createDate,
+                                        FormatType.DATE_TIME
+                                    )}`}
+                                </span>
                             </div>
                             <div className={style['qty-message-wrapper']}>
-                                <img className={style['qty-message-img']} src={msgIcon} alt="message logo" />
+                                <img
+                                    className={style['qty-message-img']}
+                                    src={msgIcon}
+                                    alt="message logo"
+                                />
                                 <span className={style['qty-message-span']}>{item.msgQty}</span>
                             </div>
-                            <div className={style['last-message-date']}>{dateFormat(item.dateLstMsg, FormatType.DATE)}</div>
+                            <div className={style['last-message-date']}>
+                                {dateFormat(item.dateLstMsg, FormatType.DATE)}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -94,8 +108,17 @@ const Forum: FC = () => {
                 <div className={style.modalContent}>
                     <span className={style.modalTitle}>Создание новой темы форума</span>
                     <form onSubmit={handleSubmit}>
-                        <Input classNameWrap={style['topicName-wrapper']} label="Название темы" nameElement="topicName" />
-                        <TextArea rows={6} cols={50} label="Вашe сообщение" nameElement="topicMsg" />
+                        <Input
+                            classNameWrap={style['topicName-wrapper']}
+                            label="Название темы"
+                            nameElement="topicName"
+                        />
+                        <TextArea
+                            rows={6}
+                            cols={50}
+                            label="Вашe сообщение"
+                            nameElement="topicMsg"
+                        />
                         <div className={style['button-wrap']}>
                             <Button onClick={handleCloseModal} buttonSize="medium">
                                 Отмена

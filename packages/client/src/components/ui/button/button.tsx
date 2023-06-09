@@ -8,7 +8,13 @@ type ButtonProps = {
     onClick?: MouseEventHandler;
     type?: 'button' | 'submit' | 'reset' | undefined;
 };
-const Button: FC<ButtonProps> = ({ children, buttonSize = 'small', buttonStyle = 'normal', onClick, type }) => (
+const Button: FC<ButtonProps> = ({
+    children,
+    buttonSize = 'small',
+    buttonStyle = 'normal',
+    onClick,
+    type,
+}) => (
     <button onClick={onClick} type={type} className={`${style[buttonStyle]} ${style[buttonSize]}`}>
         {children}
     </button>
