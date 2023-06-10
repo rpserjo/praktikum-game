@@ -6,7 +6,7 @@ type ButtonProps = {
     buttonSize?: 'small' | 'medium' | 'large';
     buttonStyle?: 'normal' | 'outlined';
     onClick?: MouseEventHandler;
-    type?: 'button' | 'submit' | 'reset' | undefined;
+    type?: 'button' | 'submit' | 'reset';
 };
 const Button: FC<ButtonProps> = ({
     children,

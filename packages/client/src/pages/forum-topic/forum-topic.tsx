@@ -8,11 +8,11 @@ import { dateFormat, FormatType } from '@/helpers/dateformat';
 import TextArea from '@/components/ui/textarea/textarea';
 import userSceleton from '@/assets/images/user-sceleton.png';
 
-const ForumTopic: FC = () => {
-    type FormFields = {
-        topicMsg: HTMLInputElement;
-    };
+type FormFields = {
+    topicMsg: HTMLInputElement;
+};
 
+const ForumTopic: FC = () => {
     const { page = 1, topicId } = useParams();
     const [newMsgModal, setNewTopicModal] = useState(false);
 
@@ -41,11 +41,16 @@ const ForumTopic: FC = () => {
     const server = new MockServer();
     const topicData = server.getTopic(+topicId!);
 
-    const items = topicData.slice((+page! - 1) * 10, +page! * 10);
-    const isShowPrev = page && +page > 1 ? true : undefined;
+    // todo: техдолг - вынести пагинацию в отдельный компонент
+    const MAX_ELEMENTS_PER_PAGE = 10;
+    const items = topicData.slice(
+        (+page! - 1) * MAX_ELEMENTS_PER_PAGE,
+        +page! * MAX_ELEMENTS_PER_PAGE
+    );
+    const isShowPrev = page && +page > 1;
 
-    const lastPage = Math.ceil(topicData.length / 10);
-    const isShowNext = page && +page < lastPage ? true : undefined;
+    const lastPage = Math.ceil(topicData.length / MAX_ELEMENTS_PER_PAGE);
+    const isShowNext = page && +page < lastPage;
 
     return (
         <main className={style.main}>

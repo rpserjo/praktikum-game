@@ -44,11 +44,16 @@ const Forum: FC = () => {
     const server = new MockServer();
     const topicData = server.getTopicList();
 
-    const items = topicData.slice((+page! - 1) * 10, +page! * 10);
-    const isShowPrev = page && +page > 1 ? true : undefined;
+    // todo: техдолг - вынести пагинацию в отдельный компонент
+    const MAX_ELEMENTS_PER_PAGE = 10;
+    const items = topicData.slice(
+        (+page! - 1) * MAX_ELEMENTS_PER_PAGE,
+        +page! * MAX_ELEMENTS_PER_PAGE
+    );
+    const isShowPrev = page && +page > 1;
 
-    const lastPage = Math.ceil(topicData.length / 10);
-    const isShowNext = page && +page < lastPage ? true : undefined;
+    const lastPage = Math.ceil(topicData.length / MAX_ELEMENTS_PER_PAGE);
+    const isShowNext = page && +page < lastPage;
 
     return (
         <main className={style.main}>
@@ -108,11 +113,9 @@ const Forum: FC = () => {
                 <div className={style.modalContent}>
                     <span className={style.modalTitle}>Создание новой темы форума</span>
                     <form onSubmit={handleSubmit}>
-                        <Input
-                            classNameWrap={style['topicName-wrapper']}
-                            label="Название темы"
-                            nameElement="topicName"
-                        />
+                        <div className={style['topicName-wrapper']}>
+                            <Input label="Название темы" nameElement="topicName" />
+                        </div>
                         <TextArea
                             rows={6}
                             cols={50}
