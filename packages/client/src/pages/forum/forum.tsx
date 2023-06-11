@@ -1,6 +1,5 @@
 import React, { FC, MouseEventHandler, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import cn from 'classnames';
 import Button from '@components/ui/button/button';
 import style from './forum.module.scss';
 import MockServer from '@/mocks/mock-server';
@@ -8,6 +7,8 @@ import { dateFormat, FormatType } from '@/helpers/dateformat';
 import msgIcon from '@/assets/images/message_icon.png';
 import Input from '@/components/ui/input/input';
 import TextArea from '@/components/ui/textarea/textarea';
+import Pagination from '@/components/ui/pagination/pagination';
+import Modal from '@/components/ui/modal/modal';
 
 const Forum: FC = () => {
     type FormFields = {
@@ -17,10 +18,6 @@ const Forum: FC = () => {
 
     const { page = 1 } = useParams();
     const [newTopicModal, setNewTopicModal] = useState(false);
-
-    const newTopicModalClasses = cn(style.newTopicModal, {
-        [style.active]: newTopicModal,
-    });
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = event => {
         event.preventDefault();
@@ -41,19 +38,9 @@ const Forum: FC = () => {
         setNewTopicModal(false);
     };
 
-    const server = new MockServer();
-    const topicData = server.getTopicList();
-
-    // todo: техдолг - вынести пагинацию в отдельный компонент
     const MAX_ELEMENTS_PER_PAGE = 10;
-    const items = topicData.slice(
-        (+page! - 1) * MAX_ELEMENTS_PER_PAGE,
-        +page! * MAX_ELEMENTS_PER_PAGE
-    );
-    const isShowPrev = page && +page > 1;
-
-    const lastPage = Math.ceil(topicData.length / MAX_ELEMENTS_PER_PAGE);
-    const isShowNext = page && +page < lastPage;
+    const server = new MockServer();
+    const serverData = server.getTopicList(+page, MAX_ELEMENTS_PER_PAGE);
 
     return (
         <main className={style.main}>
@@ -65,7 +52,7 @@ const Forum: FC = () => {
                     </Button>
                 </div>
                 <div className={style['topics-list']}>
-                    {items.map(item => (
+                    {serverData.items.map(item => (
                         <div key={item.topicId} className={style['topic-row-wrapper']}>
                             <div className={style['topic-present']}>
                                 <Link
@@ -87,7 +74,7 @@ const Forum: FC = () => {
                                     src={msgIcon}
                                     alt="message logo"
                                 />
-                                <span className={style['qty-message-span']}>{item.msgQty}</span>
+                                <span className={style['qty-message-span']}>{item.messageQty}</span>
                             </div>
                             <div className={style['last-message-date']}>
                                 {dateFormat(item.dateLastMessage, FormatType.DATE)}
@@ -95,39 +82,25 @@ const Forum: FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className={style['wrapper-links']}>
-                    {isShowPrev && (
-                        <Link className={style.link} to={`/forum/${Number(page) - 1}`}>
-                            Prev
-                        </Link>
-                    )}
-                    <span>{`< ${page} >`}</span>
-                    {isShowNext && (
-                        <Link className={style.link} to={`/forum/${Number(page) + 1}`}>
-                            Next
-                        </Link>
-                    )}
-                </div>
+                <Pagination currentPage={+page} lastPage={serverData.lastPage} linkPath="/forum/" />
             </div>
-            <div className={newTopicModalClasses}>
-                <div className={style.modalContent}>
-                    <span className={style.modalTitle}>Создание новой темы форума</span>
-                    <form onSubmit={handleSubmit}>
-                        <div className={style['topicName-wrapper']}>
-                            <Input label="Название темы" name="topicName" />
-                        </div>
-                        <TextArea rows={6} cols={50} label="Вашe сообщение" name="topicMessage" />
-                        <div className={style['button-wrap']}>
-                            <Button onClick={handleCloseModal} buttonSize="medium">
-                                Отмена
-                            </Button>
-                            <Button type="submit" buttonSize="medium">
-                                Создать
-                            </Button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <Modal isActive={newTopicModal}>
+                <span className={style.modalTitle}>Создание новой темы форума</span>
+                <form onSubmit={handleSubmit}>
+                    <div className={style['topicName-wrapper']}>
+                        <Input label="Название темы" name="topicName" />
+                    </div>
+                    <TextArea rows={6} cols={50} label="Вашe сообщение" name="topicMessage" />
+                    <div className={style['button-wrap']}>
+                        <Button onClick={handleCloseModal} buttonSize="medium">
+                            Отмена
+                        </Button>
+                        <Button type="submit" buttonSize="medium">
+                            Создать
+                        </Button>
+                    </div>
+                </form>
+            </Modal>
         </main>
     );
 };

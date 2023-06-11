@@ -101,62 +101,22 @@
                 }
             }
         }
-
-        .wrapper-links {
-            text-align: right;
-           color: $colorText;
-
-            .link {
-               color: $colorText;
-                margin: 0 5px;
-            }
-        }
     }
 
-    .newTopicModal {
+    .modalTitle {
+        font-size: 24px;
+        color: $colorTextDark;
+        margin: 0 0 40px;
+    }
+
+    .topicName-wrapper {
+        padding-bottom: 15px;
+    }
+
+    .button-wrap {
         display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: $colorBgModal;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        visibility: hidden;
-    
-        &.active {
-          opacity: 1;
-          visibility: visible;
-        }
-    
-        .modalContent {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 600px;
-          background: $backgroundColorSecondary;
-          border-radius: 5px;
-          padding: 30px 25px 60px;
-    
-          .modalTitle {
-            font-size: 24px;
-            color: $colorTextDark;
-            margin: 0 0 40px;
-          }
-
-          .topicName-wrapper{
-            padding-bottom: 15px;
-          }
-
-          .button-wrap{
-            display: flex;
-            justify-content: space-around;
-            padding-top: 30px;
-          }
-        }
+        justify-content: space-around;
+        padding-top: 30px;
     }
+
 }

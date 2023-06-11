@@ -1,6 +1,6 @@
 import leaderBoardData from './data/mock-leaderbord-data.json';
 import forumData from './data/mock-forum-data.json';
-import { TLeaderBoardData, TForumData } from '@/types/data-types';
+import { TLeaderBoardData, TForumData, TTopicList } from '@/types/data-types';
 
 export default class MockServer {
     protected leaderBoardData: TLeaderBoardData[];
@@ -16,7 +16,7 @@ export default class MockServer {
         return this.leaderBoardData;
     }
 
-    public getTopicList() {
+    public getTopicList(currentPage: number, elementsPerPage: number) {
         const topicList = [
             ...this.forumData
                 .reduce((groupMap, object) => {
@@ -25,16 +25,16 @@ export default class MockServer {
                     const item = groupMap.get(key) || {
                         topic: object.topic,
                         author: object.author,
-                        msgQty: 0,
+                        messageQty: 0,
                         createDate: object.createDate,
                         dateLastMessage: object.createDate,
                         topicId: object.topicId,
                     };
 
-                    item.msgQty += 1;
+                    item.messageQty += 1;
 
-                    if (Date.parse(item.dateLstMsg) < Date.parse(object.createDate)) {
-                        item.dateLstMsg = object.createDate;
+                    if (Date.parse(item.dateLastMessage) < Date.parse(object.createDate)) {
+                        item.dateLastMessage = object.createDate;
                     }
 
                     return groupMap.set(key, item);
@@ -42,10 +42,23 @@ export default class MockServer {
                 .values(),
         ];
 
-        return topicList;
+        return MockServer.sliceDataPerPage<TTopicList>(topicList, currentPage, elementsPerPage);
     }
 
-    public getTopic(id: number) {
-        return this.forumData.filter(({ topicId }) => topicId === id);
+    static sliceDataPerPage<T>(arr: T[], currentPage: number, elementsPerPage: number) {
+        const items = arr.slice(
+            (+currentPage! - 1) * elementsPerPage,
+            +currentPage! * elementsPerPage
+        );
+
+        const lastPage = Math.ceil(arr.length / elementsPerPage);
+
+        return { items, lastPage };
+    }
+
+    public getTopic(id: number, currentPage: number, elementsPerPage: number) {
+        const topicData = this.forumData.filter(({ topicId }) => topicId === id);
+
+        return MockServer.sliceDataPerPage<TForumData>(topicData, currentPage, elementsPerPage);
     }
 }
