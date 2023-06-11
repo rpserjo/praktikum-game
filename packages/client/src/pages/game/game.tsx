@@ -62,10 +62,12 @@ const Game: FC<TGame> = props => {
             const renderBattlefield = function <T extends number>(x: T, y: T): void {
                 ctx.strokeStyle = 'white';
                 ctx.lineWidth = 1;
+                const fieldSize = 30;
+                const screenSize = 300;
 
                 for (let index = 0; index < 10; index += 1) {
-                    ctx.strokeRect(x + 30 * index, y, 30, 300);
-                    ctx.strokeRect(x, y + 30 * index, 300, 30);
+                    ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
+                    ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
                 }
             };
 
@@ -82,13 +84,17 @@ const Game: FC<TGame> = props => {
 
             // render horizontal text
             // eslint-disable-next-line
+            const top = 93;
+            const squaresize = 30;
+            // eslint-disable-next-line
             [...Array(2).keys()].forEach(i => {
                 for (let index = 0; index < 10; index += 1) {
-                    let x = 233 + 400 * i;
+                    let left = 233 + 400 * i;
                     if (index === 9) {
-                        x -= 7;
+                        const tenWidth = 7;
+                        left -= tenWidth;
                     }
-                    ctx.fillText(String(index + 1), x, 93 + 30 * index);
+                    ctx.fillText(String(index + 1), left, top + squaresize * index);
                 }
             });
 
@@ -100,13 +106,22 @@ const Game: FC<TGame> = props => {
                     return;
                 }
                 // eslint-disable-next-line
+                const numLeft = 1175;
+                const numTop = 188;
+                const numHeightAdd = 59;
+                const shipLeft = 1030;
+                const shipLeftAdd = 120;
+                const shipTop = 160;
+                const shipTopAdd = 60;
+
+                // eslint-disable-next-line
                 [...Array(4).keys()].forEach(i => {
                     const image = new Image();
                     image.src = `../../../../public/sprites/ship_${i}.svg`;
                     image.addEventListener('load', () => {
-                        ctx.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
+                        ctx.drawImage(image, shipLeft + squaresize * i, shipTop + shipTopAdd * i, shipLeftAdd - i * squaresize, squaresize);
                     });
-                    ctx.fillText(String(shipsAmount[i]), 1175, 188 + i * 59);
+                    ctx.fillText(String(shipsAmount[i]), numLeft, numTop + i * numHeightAdd);
                 });
             }
 
