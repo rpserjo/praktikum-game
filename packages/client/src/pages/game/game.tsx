@@ -32,6 +32,7 @@ type TGame = {
     gameOver?: GameOver;
 };
 
+// eslint-disable-next-line
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
