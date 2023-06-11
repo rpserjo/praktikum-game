@@ -141,7 +141,7 @@ const Game: FC<TGame> = props => {
             // eslint-disable-next-line
             [...Array(4).keys()].forEach(i => {
                 const image = new Image();
-                image.src = `../../../../images/ship_${i}.svg`;
+                image.src = `../../../../public/sprites/ship_${i}.svg`;
                 image.addEventListener('load', () => {
                     ctx!.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
                 });
