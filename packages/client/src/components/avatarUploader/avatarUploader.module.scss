@@ -1,0 +1,49 @@
+@import '@/assets/variables';
+
+.avatar-uploader {
+  width: 116px;
+  height: 116px;
+  position: relative;
+  overflow: hidden;
+
+  .current-avatar {
+    background-color: $colorMain;
+    width: 100%;
+    height: 100%;
+    border-radius: 58px;
+    overflow: hidden;
+
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .upload-icon {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: $backgroundColorSecondary;
+    border: 1px solid $backgroundColorMain;
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.no-avatar {
+  background-color: $colorLightBlue;
+  padding: 32px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
