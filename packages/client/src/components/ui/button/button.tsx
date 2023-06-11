@@ -13,7 +13,7 @@ const Button: FC<ButtonProps> = ({
     buttonSize = 'small',
     buttonStyle = 'normal',
     onClick,
-    type,
+    type = 'button',
 }) => (
     <button onClick={onClick} type={type} className={`${style[buttonStyle]} ${style[buttonSize]}`}>
         {children}
