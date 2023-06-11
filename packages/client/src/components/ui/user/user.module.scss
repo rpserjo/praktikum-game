@@ -9,7 +9,7 @@
     .imgContainer {
       width: 60px;
       height: 60px;
-      background: $colorLightBlue;
+      background: $colorBgThumbnailLite;
       border-radius: 50px;
       display: flex;
       justify-content: center;
@@ -19,7 +19,7 @@
       .initial {
         font-size: 24px;
         line-height: 27px;
-        color: $colorDark;
+        color: $colorBgThumbnail;
         display: inline-block;
         margin: 0 3px 0 0;
         font-weight: 600;
@@ -38,7 +38,7 @@
     }
 
     .caption {
-      color: $colorMain;
+     color: $colorText;
 
       .name {
         font-size: 20px;

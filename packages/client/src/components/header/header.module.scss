@@ -10,7 +10,7 @@
 
   .logo{
     display: flex;
-    color: $colorMain;
+   color: $colorText;
 
     img{
       height: 73px;
@@ -30,13 +30,13 @@
 
       a, a:visited{
         display: flex;
-        color: $colorMain;
+       color: $colorText;
         font-size: 20px;
         font-weight: 600;
       }
 
       a.active, a:hover, a:active{
-        color: $colorYellow;
+       color: $colorTextSecondary;
         text-decoration: underline;
       }
     }

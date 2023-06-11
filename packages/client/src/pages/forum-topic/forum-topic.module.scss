@@ -18,7 +18,7 @@
 
         .h1 {
             text-align: left;
-            color: $colorMain;
+           color: $colorText;
             font-weight: 500;
             padding: 0 0 10px;
         }
@@ -37,10 +37,10 @@
             .topic-row-wrapper {
                 display: flex;
                 padding: 10px 7px;
-                border-top: 1px solid $colorMain;
+                border-top: 1px solid $colorBorder;
 
                 &:last-child {
-                    border-bottom: 1px solid $colorMain;
+                    border-bottom: 1px solid $colorBorder;
                 }
 
 
@@ -51,7 +51,7 @@
                     width: 100px;
                     
                     .topic-author {
-                        color: $colorMain;
+                       color: $colorText;
                         font-size: 14px;
                         display: block;
                         padding-bottom: 15px;
@@ -60,7 +60,7 @@
                     .message {
                         text-align: start;
                         font-weight: 300;
-                        color: $colorMain;
+                       color: $colorText;
                         padding-bottom: 7px;
                         overflow-wrap: anywhere;
                     }
@@ -78,10 +78,10 @@
 
         .wrapper-links {
             text-align: right;
-            color: $colorMain;
+           color: $colorText;
 
             .link {
-                color: $colorMain;
+               color: $colorText;
                 margin: 0 5px;
             }
         }
@@ -95,7 +95,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: $backgroundModal;
+        background: $colorBgModal;
         justify-content: center;
         align-items: center;
         opacity: 0;
@@ -118,7 +118,7 @@
     
           .modalTitle {
             font-size: 24px;
-            color: $colorDark;
+            color: $colorTextDark;
             margin: 0 0 40px;
           }
 
