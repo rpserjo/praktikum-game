@@ -53,7 +53,7 @@ const EditPasswordView: FC = () => {
                 <div className={style.row}>
                     <label htmlFor="oldPassword">Текущий пароль</label>
                     <input
-                        type="text"
+                        type="password"
                         name="oldPassword"
                         id="oldPassword"
                         value={oldPassword}
@@ -63,7 +63,7 @@ const EditPasswordView: FC = () => {
                 <div className={style.row}>
                     <label htmlFor="newPassword">Новый пароль</label>
                     <input
-                        type="text"
+                        type="password"
                         name="newPassword"
                         value={newPassword}
                         onChange={e => setNewPassword(e.target.value)}
@@ -72,7 +72,7 @@ const EditPasswordView: FC = () => {
                 <div className={style.row}>
                     <label htmlFor="repeatNewPassword">Повторите новый пароль</label>
                     <input
-                        type="text"
+                        type="password"
                         name="repeatNewPassword"
                         value={repeatNewPassword}
                         onChange={e => setRepeatNewPassword(e.target.value)}
