@@ -9,27 +9,27 @@ import TextArea from '@/components/ui/textarea/textarea';
 import userSceleton from '@/assets/images/user-sceleton.png';
 
 type FormFields = {
-    topicMsg: HTMLInputElement;
+    topicMessage: HTMLInputElement;
 };
 
 const ForumTopic: FC = () => {
     const { page = 1, topicId } = useParams();
-    const [newMsgModal, setNewTopicModal] = useState(false);
+    const [newMessageModal, setNewTopicModal] = useState(false);
 
-    const newMsgModalClasses = cn(style.newMsgModal, {
-        [style.active]: newMsgModal,
+    const newMessageModalClasses = cn(style.newMessageModal, {
+        [style.active]: newMessageModal,
     });
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = event => {
         event.preventDefault();
         const form = event.currentTarget;
-        const { topicMsg } = form;
-        console.log('Отправили данные формы', topicMsg.value);
+        const { topicMessage } = form;
+        console.log('Отправили данные формы', topicMessage.value);
         setNewTopicModal(false);
-        topicMsg.value = '';
+        topicMessage.value = '';
     };
 
-    const handleNewMsg: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleNewMessage: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         setNewTopicModal(true);
     };
@@ -57,11 +57,11 @@ const ForumTopic: FC = () => {
             <div className={style.content}>
                 <h1 className={style.h1}>{topicData[0].topic}</h1>
                 <div className={style['btn-them-wrap']}>
-                    <Button onClick={handleNewMsg} buttonSize="medium">
+                    <Button onClick={handleNewMessage} buttonSize="medium">
                         Ответить
                     </Button>
                 </div>
-                <div className={style['msg-list']}>
+                <div className={style['message-list']}>
                     {items.map(item => (
                         <div key={item.msgId} className={style['topic-row-wrapper']}>
                             <img
@@ -101,16 +101,11 @@ const ForumTopic: FC = () => {
                     )}
                 </div>
             </div>
-            <div className={newMsgModalClasses}>
+            <div className={newMessageModalClasses}>
                 <div className={style.modalContent}>
                     <span className={style.modalTitle}>Новое сообщение в обсуждение</span>
                     <form onSubmit={handleSubmit}>
-                        <TextArea
-                            rows={10}
-                            cols={50}
-                            label="Вашe сообщение"
-                            nameElement="topicMsg"
-                        />
+                        <TextArea rows={10} cols={50} label="Вашe сообщение" name="topicMessage" />
                         <div className={style['button-wrap']}>
                             <Button onClick={handleCloseModal} buttonSize="medium">
                                 Отмена

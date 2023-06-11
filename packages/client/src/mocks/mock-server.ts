@@ -19,25 +19,25 @@ export default class MockServer {
     public getTopicList() {
         const topicList = [
             ...this.forumData
-                .reduce((r, o) => {
-                    const key = o.topicId;
+                .reduce((groupMap, object) => {
+                    const key = object.topicId;
 
-                    const item = r.get(key) || {
-                        topic: o.topic,
-                        author: o.author,
+                    const item = groupMap.get(key) || {
+                        topic: object.topic,
+                        author: object.author,
                         msgQty: 0,
-                        createDate: o.createDate,
-                        dateLstMsg: o.createDate,
-                        topicId: o.topicId,
+                        createDate: object.createDate,
+                        dateLastMessage: object.createDate,
+                        topicId: object.topicId,
                     };
 
                     item.msgQty += 1;
 
-                    if (Date.parse(item.dateLstMsg) < Date.parse(o.createDate)) {
-                        item.dateLstMsg = o.createDate;
+                    if (Date.parse(item.dateLstMsg) < Date.parse(object.createDate)) {
+                        item.dateLstMsg = object.createDate;
                     }
 
-                    return r.set(key, item);
+                    return groupMap.set(key, item);
                 }, new Map())
                 .values(),
         ];
@@ -46,8 +46,6 @@ export default class MockServer {
     }
 
     public getTopic(id: number) {
-        const topicData = this.forumData.filter(val => val.topicId === id);
-
-        return topicData;
+        return this.forumData.filter(({ topicId }) => topicId === id);
     }
 }

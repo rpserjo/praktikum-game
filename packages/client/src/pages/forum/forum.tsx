@@ -25,11 +25,11 @@ const Forum: FC = () => {
     const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = event => {
         event.preventDefault();
         const form = event.currentTarget;
-        const { topicName, topicMsg } = form;
-        console.log('Отправили данные формы', topicName.value, topicMsg.value);
+        const { topicName, topicMessage } = form;
+        console.log('Отправили данные формы', topicName.value, topicMessage.value);
         setNewTopicModal(false);
         topicName.value = '';
-        topicMsg.value = '';
+        topicMessage.value = '';
     };
 
     const handleNewTopic: MouseEventHandler<HTMLButtonElement> = event => {
@@ -90,7 +90,7 @@ const Forum: FC = () => {
                                 <span className={style['qty-message-span']}>{item.msgQty}</span>
                             </div>
                             <div className={style['last-message-date']}>
-                                {dateFormat(item.dateLstMsg, FormatType.DATE)}
+                                {dateFormat(item.dateLastMessage, FormatType.DATE)}
                             </div>
                         </div>
                     ))}
@@ -114,14 +114,9 @@ const Forum: FC = () => {
                     <span className={style.modalTitle}>Создание новой темы форума</span>
                     <form onSubmit={handleSubmit}>
                         <div className={style['topicName-wrapper']}>
-                            <Input label="Название темы" nameElement="topicName" />
+                            <Input label="Название темы" name="topicName" />
                         </div>
-                        <TextArea
-                            rows={6}
-                            cols={50}
-                            label="Вашe сообщение"
-                            nameElement="topicMsg"
-                        />
+                        <TextArea rows={6} cols={50} label="Вашe сообщение" name="topicMessage" />
                         <div className={style['button-wrap']}>
                             <Button onClick={handleCloseModal} buttonSize="medium">
                                 Отмена

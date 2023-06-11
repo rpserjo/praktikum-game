@@ -6,22 +6,14 @@ type TextAreaProps = {
     rows: number;
     cols: number;
     label: string;
-    nameElement: string;
+    name: string;
     placeholder?: string;
     onBlur?: FocusEventHandler;
     onFocus?: FocusEventHandler;
 };
-const TextArea: FC<TextAreaProps> = ({
-    rows,
-    cols,
-    nameElement,
-    label,
-    placeholder,
-    onBlur,
-    onFocus,
-}) => (
+const TextArea: FC<TextAreaProps> = ({ rows, cols, name, label, placeholder, onBlur, onFocus }) => (
     <div className={style['textarea-wrapper']}>
-        <label className={style.label} htmlFor={nameElement}>
+        <label className={style.label} htmlFor={name}>
             {label}
         </label>
         <textarea
@@ -30,8 +22,8 @@ const TextArea: FC<TextAreaProps> = ({
             cols={cols}
             onBlur={onBlur}
             onFocus={onFocus}
-            name={nameElement}
-            id={nameElement}
+            name={name}
+            id={name}
             placeholder={placeholder}
         />
     </div>

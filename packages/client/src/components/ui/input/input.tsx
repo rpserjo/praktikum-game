@@ -6,7 +6,7 @@ type InputProps = {
     value?: string;
     label?: string;
     type?: string;
-    nameElement: string;
+    name: string;
     placeholder?: string;
     onBlur?: FocusEventHandler;
     onFocus?: FocusEventHandler;
@@ -15,7 +15,7 @@ type InputProps = {
 const Input: FC<InputProps> = ({
     value,
     type = 'text',
-    nameElement,
+    name,
     label,
     placeholder,
     onBlur,
@@ -24,7 +24,7 @@ const Input: FC<InputProps> = ({
 }) => (
     <div className={style['input-block']}>
         {label && (
-            <label className={style.label} htmlFor={nameElement}>
+            <label className={style.label} htmlFor={name}>
                 {label}
             </label>
         )}
@@ -35,8 +35,8 @@ const Input: FC<InputProps> = ({
                 onBlur={onBlur}
                 onFocus={onFocus}
                 type={type}
-                name={nameElement}
-                id={nameElement}
+                name={name}
+                id={name}
                 placeholder={placeholder}
             />
         )}
@@ -47,8 +47,8 @@ const Input: FC<InputProps> = ({
                 onBlur={onBlur}
                 onFocus={onFocus}
                 type={type}
-                name={nameElement}
-                id={nameElement}
+                name={name}
+                id={name}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}

@@ -29,7 +29,7 @@
             align-self: flex-end;
         }
 
-        .msg-list {
+        .message-list {
             display: flex;
             flex-direction: column;
             padding-bottom: 10px;
@@ -87,7 +87,7 @@
         }
     }
 
-    .newMsgModal {
+    .newMessageModal {
         display: flex;
         flex-direction: column;
         position: fixed;
