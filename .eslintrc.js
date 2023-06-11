@@ -33,5 +33,8 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
+        'prefer-template': 'off',
+        'no-nested-ternary': 'off',
+        'jsx-a11y/label-has-associated-control': 'off'
     },
 };
