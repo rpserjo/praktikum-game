@@ -1,5 +1,5 @@
 import React, { FC, useRef, useEffect } from 'react';
-import renderHorizontalText from './hame.helper';
+import renderHorizontalText from './game.helper';
 import style from './game.module.scss';
 import style from './canvas.module.scss';
 import React, { FC, MouseEventHandler } from 'react';
