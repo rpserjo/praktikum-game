@@ -37,31 +37,34 @@ const Game: FC<TGame> = props => {
     useEffect(() => {
         if (ref.current) {
             const ctx = ref.current.getContext('2d');
+            if (ctx === null || ctx === undefined) {
+                return;
+            }
 
             // render main field
             // eslint-disable-next-line
             const roundRect = function <T extends number>(x: T, y: T, width: T, height: T, radius: T): void {
-                ctx!.beginPath();
-                ctx!.moveTo(x + radius, y);
-                ctx!.arcTo(x + width, y, x + width, y + height, radius);
-                ctx!.arcTo(x + width, y + height, x, y + height, radius);
-                ctx!.arcTo(x, y + height, x, y, radius);
-                ctx!.arcTo(x, y, x + width, y, radius);
-                ctx!.closePath();
-                ctx!.fillStyle = '#265B8F';
-                ctx!.fill();
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.arcTo(x + width, y, x + width, y + height, radius);
+                ctx.arcTo(x + width, y + height, x, y + height, radius);
+                ctx.arcTo(x, y + height, x, y, radius);
+                ctx.arcTo(x, y, x + width, y, radius);
+                ctx.closePath();
+                ctx.fillStyle = '#265B8F';
+                ctx.fill();
             };
             roundRect(200, 0, 800, 400, 10);
 
             // render battlefield
             // eslint-disable-next-line
             const renderBattlefield = function <T extends number>(x: T, y: T): void {
-                ctx!.strokeStyle = 'white';
-                ctx!.lineWidth = 1;
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1;
 
                 for (let index = 0; index < 10; index += 1) {
-                    ctx!.strokeRect(x + 30 * index, y, 30, 300);
-                    ctx!.strokeRect(x, y + 30 * index, 300, 30);
+                    ctx.strokeRect(x + 30 * index, y, 30, 300);
+                    ctx.strokeRect(x, y + 30 * index, 300, 30);
                 }
             };
 
@@ -116,11 +119,11 @@ const Game: FC<TGame> = props => {
 
                 context.textAlign = align;
             }
-            ctx!.font = '19px Tektur';
-            ctx!.fillStyle = 'white';
+            ctx.font = '19px Tektur';
+            ctx.fillStyle = 'white';
             const textH = 'A B C D E F G H I G';
             // eslint-disable-next-line
-            [...Array(2).keys()].forEach(i => fillTextWithSpacing(ctx!, textH, 257 + 400 * i, 63, 6.6));
+            [...Array(2).keys()].forEach(i => fillTextWithSpacing(ctx, textH, 257 + 400 * i, 63, 6.6));
 
             // render horizontal text
             // eslint-disable-next-line
@@ -130,23 +133,29 @@ const Game: FC<TGame> = props => {
                     if (index === 9) {
                         x -= 7;
                     }
-                    ctx!.fillText(String(index + 1), x, 93 + 30 * index);
+                    ctx.fillText(String(index + 1), x, 93 + 30 * index);
                 }
             });
 
             // render ships
+            ctx.font = '32px Tektur';
             // eslint-disable-next-line
-            const shipsAmount = [4, 3, 2, 1];
-            ctx!.font = '32px Tektur';
-            // eslint-disable-next-line
-            [...Array(4).keys()].forEach(i => {
-                const image = new Image();
-                image.src = `../../../../public/sprites/ship_${i}.svg`;
-                image.addEventListener('load', () => {
-                    ctx!.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
+            function renderShips(shipsAmount) {
+                if (ctx === null || ctx === undefined) {
+                    return;
+                }
+                // eslint-disable-next-line
+                [...Array(4).keys()].forEach(i => {
+                    const image = new Image();
+                    image.src = `../../../../public/sprites/ship_${i}.svg`;
+                    image.addEventListener('load', () => {
+                        ctx.drawImage(image, 1030 + 30 * i, 160 + 60 * i, 120 - i * 30, 30);
+                    });
+                    ctx.fillText(String(shipsAmount[i]), 1175, 188 + i * 59);
                 });
-                ctx!.fillText(String(shipsAmount[i]), 1175, 188 + i * 59);
-            });
+            }
+
+            renderShips([4, 3, 2, 1]);
         }
     }, []);
 
