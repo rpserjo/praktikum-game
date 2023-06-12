@@ -1,9 +1,19 @@
 $fontFamily: Tektur;
-$backgroundColorMain: #3E92B3;
-$backgroundColorSecondary: #7ECBD5;
-$colorMain: #F0EFEA;
-$colorYellow: #F8CD6B;
-$colorBlue: #265B8F;
-$colorRed: #C1564B;
-$colorDark: #3F4151;
-$colorLightBlue: #E4EBF0;
+$backgroundColorMain: #3e92b3;
+$backgroundColorSecondary: #7ecbd5;
+$backgroundColorThird: #265b8f;
+$colorBgModal: rgba(26, 26, 26, 0.6);
+$colorMain: #f0efea;
+$colorBorder: #f0efea;
+$colorText: #f0efea;
+$colorTextSecondary: #f8cd6b;
+$colorTextDark: #3f4151;
+$colorBgButton: #f8cd6b;
+$colorAccent: #f8cd6b;
+$colorAlert: #c1564b;
+$colorBgThumbnail: #3f4151;
+$colorBgThumbnailLite: #e4ebf0;
+
+@mixin transition {
+  transition: all 0.2s ease-in-out;
+}

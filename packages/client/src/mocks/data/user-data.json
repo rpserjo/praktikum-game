@@ -1,0 +1,11 @@
+{
+    "user": {
+        "firstName": "Петр",
+        "secondName": "Таранов",
+        "email": "petr_taranov@mail.ru"
+    },
+    "ai": {
+        "firstName": "Иск.",
+        "secondName": "Интеллект"
+    }
+}
