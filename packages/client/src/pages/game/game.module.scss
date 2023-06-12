@@ -23,7 +23,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(26, 26, 26, 0.6);
+    background: $colorBgModal;
     justify-content: center;
     align-items: center;
     opacity: 0;
@@ -47,7 +47,7 @@
       .modalTitle {
         font-size: 48px;
         line-height: 58px;
-        color: $colorDark;
+        color: $colorTextDark;
         margin: 0 0 40px;
       }
     }
@@ -75,7 +75,7 @@
       .gameMessage {
         font-size: 32px;
         line-height: 35px;
-        color: $colorYellow;
+       color: $colorTextSecondary;
       }
     }
   }
@@ -91,7 +91,7 @@
   width: 900px;
   height: 420px;
   margin: 0 auto;
-  background: $colorBlue;
+  background: $backgroundColorThird;
   border-radius: 10px;
 }
 

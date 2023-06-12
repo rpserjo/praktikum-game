@@ -1,0 +1,11 @@
+@import '@/assets/variables.scss';
+
+.pagination {
+    text-align: right;
+    color: $colorMain;
+
+    .link {
+        color: $colorMain;
+        margin: 0 5px;
+    }
+}

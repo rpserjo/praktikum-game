@@ -1,0 +1,23 @@
+@import '@/assets/variables.scss';
+
+.input-block {
+  width: 100%;
+
+  .label {
+    display: block;
+    padding: 0 0 2px 2px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .input {
+    all: unset;
+    box-sizing: border-box;
+    background-color: $colorMain;
+    display: block;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: 16px;
+    width: 100%;
+  }
+}

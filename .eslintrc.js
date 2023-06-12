@@ -4,7 +4,12 @@ module.exports = {
         es2020: true,
         node: true,
     },
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'airbnb'],
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'prettier',
+        'airbnb'
+    ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 11,
@@ -33,5 +38,12 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
+        'no-unused-expressions': ['error', { 'allowTernary': true }],
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "operator-linebreak": ["error", "before"]
+        
     },
 };
