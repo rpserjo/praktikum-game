@@ -7,7 +7,7 @@ type TLayoutProps = {
     showHeader?: boolean;
 };
 
-enum Route {
+export enum Routes {
     Landing = '/',
     Signup = '/signup',
     Signin = '/signin',
@@ -30,18 +30,18 @@ const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
         </div>
 
         <div className={style['bottom-links']}>
-            <Link to={Route.Landing}>Landing</Link>
-            <Link to={Route.Signup}>Sign up</Link>
-            <Link to={Route.Signin}>Sign in</Link>
-            <Link to={Route.Home}>Home</Link>
-            <Link to={Route.Game}>Game</Link>
-            <Link to={Route.GameStart}>Game start</Link>
-            <Link to={Route.GameFinish}>Game finish</Link>
-            <Link to={Route.Profile}>Profile</Link>
-            <Link to={Route.Leaderboard}>Leaderboard</Link>
-            <Link to={Route.Forum}>Forum</Link>
-            <Link to={Route.NotFound}>404</Link>
-            <Link to={Route.ServerErr}>500</Link>
+            <Link to={Routes.Landing}>Landing</Link>
+            <Link to={Routes.Signup}>Sign up</Link>
+            <Link to={Routes.Signin}>Sign in</Link>
+            <Link to={Routes.Home}>Home</Link>
+            <Link to={Routes.Game}>Game</Link>
+            <Link to={Routes.GameStart}>Game start</Link>
+            <Link to={Routes.GameFinish}>Game finish</Link>
+            <Link to={Routes.Profile}>Profile</Link>
+            <Link to={Routes.Leaderboard}>Leaderboard</Link>
+            <Link to={Routes.Forum}>Forum</Link>
+            <Link to={Routes.NotFound}>404</Link>
+            <Link to={Routes.ServerErr}>500</Link>
         </div>
     </>
 );

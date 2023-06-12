@@ -61,4 +61,18 @@ export default class MockServer {
 
         return MockServer.sliceDataPerPage<TForumData>(topicData, currentPage, elementsPerPage);
     }
+
+    // eslint-disable-next-line
+    public signin(
+        login: string,
+        password: string,
+        cb: () => void,
+        // eslint-disable-next-line
+        errorCb = (error: string) => {}
+    ): void {
+        console.log('in server method');
+        console.log(login, password);
+        cb();
+        errorCb('Такой логин уже есть');
+    }
 }

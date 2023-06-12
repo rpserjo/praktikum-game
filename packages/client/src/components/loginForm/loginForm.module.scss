@@ -1,0 +1,27 @@
+@import '@/assets/variables.scss';
+
+.form {
+  @include roundBordedWindow;
+  border: 1px solid white;
+  width: 500px;
+  padding: 2em 3em;
+  color: $colorTextDark;
+}
+
+.form__header {
+  margin-bottom: 1em;
+}
+
+.form__link {
+  margin-top: 1em;
+}
+
+.form__input_wrapper {
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.form__error {
+  color: $colorAlert;
+  padding: 0 0 1em;
+}
