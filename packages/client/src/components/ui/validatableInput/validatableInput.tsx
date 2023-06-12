@@ -8,12 +8,11 @@ type ValidatableInputProps = {
     placeholder: string;
     type: RuleNames;
     handleChange?: (name: string, value: string, isValid: boolean) => void;
-    inputClass: string;
     wrapperClass: string;
 };
 
 const ValidatableInput: FC<ValidatableInputProps> = props => {
-    const { name, placeholder, type, handleChange, inputClass, wrapperClass } = props;
+    const { name, placeholder, type, handleChange, wrapperClass } = props;
     const [error, setError] = useState('');
 
     const onChange = (event: React.FocusEvent) => {
@@ -27,7 +26,13 @@ const ValidatableInput: FC<ValidatableInputProps> = props => {
 
     return (
         <div className={wrapperClass}>
-            <Input label="" nameElement={name} placeholder={placeholder} classNameInput={inputClass} onBlur={onChange} onFocus={onChange} />
+            <Input
+                label=""
+                name={name}
+                placeholder={placeholder}
+                onBlur={onChange}
+                onFocus={onChange}
+            />
             <p className={style.error}>{error}</p>
         </div>
     );
