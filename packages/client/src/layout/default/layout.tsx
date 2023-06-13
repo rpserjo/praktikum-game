@@ -7,19 +7,19 @@ type TLayoutProps = {
     showHeader?: boolean;
 };
 
-export enum Routes {
-    Landing = '/',
-    Signup = '/signup',
-    Signin = '/signin',
-    Home = '/home',
-    Game = '/game',
-    GameStart = '/game/start',
-    GameFinish = '/game/finish',
-    Profile = '/profile',
-    Leaderboard = '/leaderboard',
-    Forum = '/forum',
-    NotFound = '/wrong-path',
-    ServerErr = '/500',
+export enum RouteNames {
+    LANDING = '/',
+    SIGNUP = '/signup',
+    SIGNIN = '/signin',
+    HOME = '/home',
+    GAME = '/game',
+    GAME_START = '/game/start',
+    GAME_FINISH = '/game/finish',
+    PROFILE = '/profile',
+    LEADERBOARD = '/leaderboard',
+    FORUM = '/forum',
+    NOT_FOUND = '/wrong-path',
+    SERVER_ERROR = '/500',
 }
 
 const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
@@ -30,18 +30,18 @@ const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
         </div>
 
         <div className={style['bottom-links']}>
-            <Link to={Routes.Landing}>Landing</Link>
-            <Link to={Routes.Signup}>Sign up</Link>
-            <Link to={Routes.Signin}>Sign in</Link>
-            <Link to={Routes.Home}>Home</Link>
-            <Link to={Routes.Game}>Game</Link>
-            <Link to={Routes.GameStart}>Game start</Link>
-            <Link to={Routes.GameFinish}>Game finish</Link>
-            <Link to={Routes.Profile}>Profile</Link>
-            <Link to={Routes.Leaderboard}>Leaderboard</Link>
-            <Link to={Routes.Forum}>Forum</Link>
-            <Link to={Routes.NotFound}>404</Link>
-            <Link to={Routes.ServerErr}>500</Link>
+            <Link to={RouteNames.LANDING}>Landing</Link>
+            <Link to={RouteNames.SIGNUP}>Sign up</Link>
+            <Link to={RouteNames.SIGNIN}>Sign in</Link>
+            <Link to={RouteNames.HOME}>Home</Link>
+            <Link to={RouteNames.GAME}>Game</Link>
+            <Link to={RouteNames.GAME_START}>Game start</Link>
+            <Link to={RouteNames.GAME_FINISH}>Game finish</Link>
+            <Link to={RouteNames.PROFILE}>Profile</Link>
+            <Link to={RouteNames.LEADERBOARD}>Leaderboard</Link>
+            <Link to={RouteNames.FORUM}>Forum</Link>
+            <Link to={RouteNames.NOT_FOUND}>404</Link>
+            <Link to={RouteNames.SERVER_ERROR}>500</Link>
         </div>
     </>
 );

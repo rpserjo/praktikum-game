@@ -31,6 +31,12 @@ class AuthController {
                 }
             });
     }
+
+    // eslint-disable-next-line
+    public isLoggedIn() {
+        // eslint-disable-next-line
+        return false;
+    }
 }
 
 export default new AuthController();

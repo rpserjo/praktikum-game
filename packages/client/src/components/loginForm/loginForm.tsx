@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ValidatableInput from '../ui/validatableInput/validatableInput';
 import Button from '../ui/button/button';
 import { RuleNames } from '@/utils/validationService';
-import { Routes } from '@/layout/default/layout';
+import { RouteNames } from '@/layout/default/layout';
 import style from './loginForm.module.scss';
 import authController from '@/controllers/authController';
 
@@ -36,7 +36,7 @@ const LoginForm = () => {
     };
 
     const proceedToGame = () => {
-        navigate(Routes.Game);
+        navigate(RouteNames.GAME);
     };
 
     const showError = (formError: string) => {
@@ -80,7 +80,7 @@ const LoginForm = () => {
             <Button buttonSize="large" onClick={handleSubmit}>
                 Войти
             </Button>
-            <Link className={style.form__link} to={Routes.Signup}>
+            <Link className={style.form__link} to={RouteNames.SIGNUP}>
                 Зарегистрироваться
             </Link>
         </form>
