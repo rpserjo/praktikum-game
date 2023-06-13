@@ -3,7 +3,7 @@ import style from '@pages/profile/profile.module.scss';
 import { Button } from '@ui';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { PROFILE_FIELDS, TProfileProps } from '@pages/profile/profile';
+import { ProfileFields, TProfileProps } from '@pages/profile/profile';
 import AvatarUploader from '@components/avatarUploader/avatarUploader';
 import API from '@/api/api';
 
@@ -18,32 +18,31 @@ const DefaultProfileView: FC<{ userData: TProfileProps }> = ({ userData }) => {
                 </div>
                 <div className={style.info}>
                     <div className={style.fullname}>
-                        {userData.first_name}
-                        {userData.second_name}
+                        {`${userData.first_name} ${userData.second_name}`}
                     </div>
                     <div className={style.rows}>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.first_name}</div>
+                            <div className={style.rowname}>{ProfileFields.FIRST_NAME}</div>
                             <div className={style.rowvalue}>{userData.first_name}</div>
                         </div>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.second_name}</div>
+                            <div className={style.rowname}>{ProfileFields.SECOND_NAME}</div>
                             <div className={style.rowvalue}>{userData.second_name}</div>
                         </div>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.display_name}</div>
+                            <div className={style.rowname}>{ProfileFields.DISPLAY_NAME}</div>
                             <div className={style.rowvalue}>{userData.display_name}</div>
                         </div>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.email}</div>
+                            <div className={style.rowname}>{ProfileFields.EMAIL}</div>
                             <div className={style.rowvalue}>{userData.email}</div>
                         </div>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.phone}</div>
+                            <div className={style.rowname}>{ProfileFields.PHONE}</div>
                             <div className={style.rowvalue}>{userData.phone}</div>
                         </div>
                         <div className={style.row}>
-                            <div className={style.rowname}>{PROFILE_FIELDS.login}</div>
+                            <div className={style.rowname}>{ProfileFields.LOGIN}</div>
                             <div className={style.rowvalue}>{userData.login}</div>
                         </div>
                     </div>
