@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, MouseEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PROFILE_FIELDS, TProfileProps } from '@pages/profile/profile';
+import { ProfileFields, TProfileProps } from '@pages/profile/profile';
 import cn from 'classnames';
 import { Button } from '@ui';
 import UserApi from '@/api/UserApi';
@@ -51,7 +51,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
             <form onSubmit={handleSubmit} className={style.form}>
                 <h1>Редактирование профиля</h1>
                 <div className={style.row}>
-                    <label htmlFor="first_name">{PROFILE_FIELDS.first_name}</label>
+                    <label htmlFor="first_name">{ProfileFields.FIRST_NAME}</label>
                     <input
                         type="text"
                         name="first_name"
@@ -60,7 +60,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
                     />
                 </div>
                 <div className={style.row}>
-                    <label htmlFor="first_name">{PROFILE_FIELDS.second_name}</label>
+                    <label htmlFor="first_name">{ProfileFields.SECOND_NAME}</label>
                     <input
                         type="text"
                         name="second_name"
@@ -69,7 +69,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
                     />
                 </div>
                 <div className={style.row}>
-                    <label htmlFor="login">{PROFILE_FIELDS.display_name}</label>
+                    <label htmlFor="login">{ProfileFields.DISPLAY_NAME}</label>
                     <input
                         type="text"
                         name="display_name"
@@ -78,7 +78,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
                     />
                 </div>
                 <div className={style.row}>
-                    <label htmlFor="email">{PROFILE_FIELDS.email}</label>
+                    <label htmlFor="email">{ProfileFields.EMAIL}</label>
                     <input
                         type="text"
                         name="email"
@@ -87,7 +87,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
                     />
                 </div>
                 <div className={style.row}>
-                    <label htmlFor="first_name">{PROFILE_FIELDS.phone}</label>
+                    <label htmlFor="first_name">{ProfileFields.PHONE}</label>
                     <input
                         type="text"
                         name="phone"
@@ -96,7 +96,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
                     />
                 </div>
                 <div className={style.row}>
-                    <label htmlFor="login">{PROFILE_FIELDS.login}</label>
+                    <label htmlFor="login">{ProfileFields.LOGIN}</label>
                     <input
                         type="text"
                         name="login"

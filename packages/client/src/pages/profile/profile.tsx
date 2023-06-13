@@ -16,15 +16,15 @@ export type TProfileProps = {
     avatar?: string;
 };
 
-export const PROFILE_FIELDS = {
-    email: 'E-mail',
-    login: 'Логин',
-    first_name: 'Имя',
-    second_name: 'Фамилия',
-    display_name: 'Отображаемое имя',
-    phone: 'Телефон',
-    avatar: 'Аватар',
-};
+export enum ProfileFields {
+    EMAIL = 'E-mail',
+    LOGIN = 'Логин',
+    FIRST_NAME = 'Имя',
+    SECOND_NAME = 'Фамилия',
+    DISPLAY_NAME = 'Отображаемое имя',
+    PHONE = 'Телефон',
+    AVATAR = 'Аватар',
+}
 
 type TProfilePageProps = {
     section?: 'default' | 'edit' | 'password';
