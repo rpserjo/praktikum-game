@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { LoginForm } from '@/components/loginForm/loginForm';
+import LoginForm from '@/components/loginForm/loginForm';
 import style from './signin.module.scss';
 
 const SignIn: FC = () => (

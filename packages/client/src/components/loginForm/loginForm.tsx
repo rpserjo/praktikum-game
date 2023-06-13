@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import ValidatableInput from '../ui/validatableInput/validatableInput';
 import Button from '../ui/button/button';
 import { RuleNames } from '@/utils/validationService';
-import MockServer from '@/mocks/mock-server';
 import { Routes } from '@/layout/default/layout';
 import style from './loginForm.module.scss';
+import authController from '@/controllers/authController';
 
 type FormState = {
     [key in string]: {
@@ -55,12 +55,7 @@ const LoginForm = () => {
         }
 
         if (isFormValid) {
-            new MockServer().signin(
-                form.login.value,
-                form.password.value,
-                proceedToGame,
-                showError
-            );
+            authController.login(form.login.value, form.password.value, proceedToGame, showError);
         }
     };
 
