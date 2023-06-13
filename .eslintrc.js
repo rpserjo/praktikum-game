@@ -38,7 +38,7 @@ module.exports = {
         'arrow-parens': ['error', 'as-needed'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
-        'jsx-a11y/label-has-associated-control': 'off'
+        'jsx-a11y/label-has-associated-control': 'off',
         'no-unused-expressions': ['error', { 'allowTernary': true }],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
