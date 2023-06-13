@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { RouteNames } from '@/layout/default/layout';
 import AuthApi from '@/api/AuthApi';
+import Loader from '../ui/loader/loader';
 
 export type TProfileProps = {
     email: string;
@@ -38,6 +39,6 @@ const PrivateRoutes = () => {
     if (userFetched) {
         return isLoggedIn ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
     }
-    return <p>Страница загружается</p>;
+    return <Loader />;
 };
 export default PrivateRoutes;
