@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import authController from '@/controllers/authController';
 import { RouteNames } from '@/layout/default/layout';
+import AuthApi from '@/api/AuthApi';
+
+export type TProfileProps = {
+    email: string;
+    login: string;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    phone: string;
+    avatar?: string;
+};
 
 const PrivateRoutes = () => {
-    const isLoggedIn = authController.isLoggedIn();
-    return isLoggedIn ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
+    const authApi = new AuthApi();
+    const [userData, setUserData] = useState<TProfileProps | null>(null);
+    const [userFetched, setUserFetched] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await authApi
+                .user()
+                .then(response => {
+                    setUserData(response.data as TProfileProps);
+                    setUserFetched(true);
+                })
+                .catch(() => {
+                    setUserFetched(true);
+                });
+        };
+        fetchData();
+    }, []);
+
+    const isLoggedIn = userData != null;
+
+    if (userFetched) {
+        return isLoggedIn ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
+    }
+    return <p>Страница загружается</p>;
 };
 export default PrivateRoutes;

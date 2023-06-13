@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import ValidatableInput from '../ui/validatableInput/validatableInput';
 import Button from '../ui/button/button';
 import { RuleNames } from '@/utils/validationService';
 import { RouteNames } from '@/layout/default/layout';
 import style from './loginForm.module.scss';
-import authController from '@/controllers/authController';
+import AuthApi, { ISignInData } from '@/api/AuthApi';
 
 type FormState = {
     [key in string]: {
         value: string;
         isValid: boolean;
     };
+};
+
+type ErrorResponse = {
+    reason: string;
 };
 
 const LoginForm = () => {
@@ -43,6 +48,31 @@ const LoginForm = () => {
         setError(formError);
     };
 
+    const signin = (
+        login: string,
+        password: string,
+        cb: () => void,
+        errorCb: (error: string) => void
+    ) => {
+        const data: ISignInData = { login, password };
+        const authApi = new AuthApi();
+        authApi
+            .signin(data)
+            .then(() => {
+                cb();
+            })
+            .catch((response: AxiosError) => {
+                const responseData = response.response?.data;
+                const { reason } = responseData as ErrorResponse;
+
+                if (reason === 'User already in system') {
+                    cb();
+                } else {
+                    errorCb(reason);
+                }
+            });
+    };
+
     const handleSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
         let isFormValid = true;
@@ -55,7 +85,7 @@ const LoginForm = () => {
         }
 
         if (isFormValid) {
-            authController.login(form.login.value, form.password.value, proceedToGame, showError);
+            signin(form.login.value, form.password.value, proceedToGame, showError);
         }
     };
 

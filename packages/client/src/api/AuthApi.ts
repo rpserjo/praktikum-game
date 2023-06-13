@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import BaseApi from './BaseApi';
 import API from '@/api/api';
 
@@ -11,7 +12,7 @@ class AuthApi extends BaseApi {
         super(API.ENDPOINTS.AUTH.ENDPOINT);
     }
 
-    public signin(data: ISignInData): Promise<Record<string, string>> {
+    public signin(data: ISignInData): Promise<AxiosResponse> {
         return this.http.post(API.ENDPOINTS.AUTH.SIGNIN, data);
     }
 
@@ -19,7 +20,7 @@ class AuthApi extends BaseApi {
         return this.http.post(API.ENDPOINTS.AUTH.LOGOUT);
     }
 
-    public user() {
+    public user(): Promise<AxiosResponse> {
         return this.http.get(API.ENDPOINTS.AUTH.USER);
     }
 }
