@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import style from './validatableInput.module.scss';
 import ValidationService, { RuleNames, IValidationResult } from '@/utils/validationService';
-import Input from '../input/input';
+import Input from '@ui/input/input';
 
 type ValidatableInputProps = {
     name: string;
