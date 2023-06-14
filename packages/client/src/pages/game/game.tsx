@@ -102,7 +102,7 @@ const Game: FC<TGame> = props => {
             // render ships
             ctx.font = '32px Tektur';
             // eslint-disable-next-line
-            function renderShips(shipsAmount) {
+            function renderShips(shipsAmount: Array<number>) {
                 if (ctx === null || ctx === undefined) {
                     return;
                 }
