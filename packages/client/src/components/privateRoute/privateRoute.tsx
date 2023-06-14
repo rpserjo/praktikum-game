@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import AuthApi from '@/api/AuthApi';
-import Loader from '../ui/loader/loader';
+import Loader from '@/components/ui/loader/loader';
 import { RouteNames } from '@/router/router';
 
 export type TProfileProps = {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import ValidatableInput from '../ui/validatableInput/validatableInput';
-import Button from '../ui/button/button';
+import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
+import Button from '@/components/ui/button/button';
 import { RuleNames } from '@/utils/validationService';
 import style from './loginForm.module.scss';
 import AuthApi, { ISignInData } from '@/api/AuthApi';
@@ -105,6 +105,7 @@ const LoginForm = () => {
                 ruleType={RuleNames.PASSWORD}
                 handleChange={handleChange}
                 wrapperClass={style.form__input_wrapper}
+                type="password"
             />
             <p className={style.form__error}>{error}</p>
             <Button buttonSize="large" onClick={handleSubmit}>
