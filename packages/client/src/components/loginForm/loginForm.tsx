@@ -4,9 +4,9 @@ import { AxiosError } from 'axios';
 import ValidatableInput from '../ui/validatableInput/validatableInput';
 import Button from '../ui/button/button';
 import { RuleNames } from '@/utils/validationService';
-import { RouteNames } from '@/layout/default/layout';
 import style from './loginForm.module.scss';
 import AuthApi, { ISignInData } from '@/api/AuthApi';
+import { RouteNames } from '@/router/router';
 
 type FormState = {
     [key in string]: {

@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { defaultShipsCount, Mode } from '@components/ui/ships/ships';
 import { GameOver } from '@pages/game/game';
-import Layout, { RouteNames } from '@/layout/default/layout';
+import Layout from '@/layout/default/layout';
 import { Loader } from '@/components/ui';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';
 
@@ -15,6 +15,21 @@ const SignUpPage = lazy(() => import('@pages/signup/signup'));
 const ErrorPage = lazy(() => import('@pages/error/error'));
 const ForumPage = lazy(() => import('@pages/forum/forum'));
 const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
+
+export enum RouteNames {
+    LANDING = '/',
+    SIGNUP = '/signup',
+    SIGNIN = '/signin',
+    HOME = '/home',
+    GAME = '/game',
+    GAME_START = '/game/start',
+    GAME_FINISH = '/game/finish',
+    PROFILE = '/profile',
+    LEADERBOARD = '/leaderboard',
+    FORUM = '/forum',
+    NOT_FOUND = '/wrong-path',
+    SERVER_ERROR = '/500',
+}
 
 const Router = () => (
     <Routes>

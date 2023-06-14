@@ -2,25 +2,11 @@ import React, { FC } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Header from '@components/header/header';
 import style from './layout.module.scss';
+import { RouteNames } from '@/router/router';
 
 type TLayoutProps = {
     showHeader?: boolean;
 };
-
-export enum RouteNames {
-    LANDING = '/',
-    SIGNUP = '/signup',
-    SIGNIN = '/signin',
-    HOME = '/home',
-    GAME = '/game',
-    GAME_START = '/game/start',
-    GAME_FINISH = '/game/finish',
-    PROFILE = '/profile',
-    LEADERBOARD = '/leaderboard',
-    FORUM = '/forum',
-    NOT_FOUND = '/wrong-path',
-    SERVER_ERROR = '/500',
-}
 
 const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
     <>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { RouteNames } from '@/layout/default/layout';
 import AuthApi from '@/api/AuthApi';
 import Loader from '../ui/loader/loader';
+import { RouteNames } from '@/router/router';
 
 export type TProfileProps = {
     email: string;
