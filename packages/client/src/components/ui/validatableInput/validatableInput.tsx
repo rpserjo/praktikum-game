@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import style from './validatableInput.module.scss';
 import ValidationService, { RuleNames, IValidationResult } from '@/utils/validationService';
-import Input from '@ui/input/input';
+import Input from '@/components/ui/input/input';
 
 type ValidatableInputProps = {
     name: string;
@@ -11,10 +11,12 @@ type ValidatableInputProps = {
     ruleType: RuleNames;
     handleChange?: (name: string, value: string, isValid: boolean) => void;
     wrapperClass: string;
+    type?: string;
 };
 
 const ValidatableInput: FC<ValidatableInputProps> = props => {
-    const { name, initialValue, label, placeholder, ruleType, handleChange, wrapperClass } = props;
+    const { name, initialValue, label, placeholder, ruleType, handleChange, wrapperClass, type } =
+        props;
     const [error, setError] = useState('');
 
     const onChange = (event: React.FocusEvent) => {
@@ -35,6 +37,7 @@ const ValidatableInput: FC<ValidatableInputProps> = props => {
                 placeholder={placeholder}
                 onBlur={onChange}
                 onFocus={onChange}
+                type={type}
             />
             <p className={style.error}>{error}</p>
         </div>
