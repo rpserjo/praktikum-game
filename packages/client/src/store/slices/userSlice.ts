@@ -12,12 +12,10 @@ export type TUser = {
 };
 
 export type TState = {
-    status: string;
     user: TUser | null;
 };
 
 const initialState: TState = {
-    status: 'error',
     user: null,
 };
 
@@ -28,15 +26,8 @@ const userSlice = createSlice({
         setUser(state, action) {
             state.user = action.payload;
         },
-        setStatus(state, action) {
-            state.status = action.payload;
-        },
-        setLogin(state, action) {
-            console.log('set login');
-            state!.user!.login = action.payload;
-        },
     },
 });
 
 export default userSlice.reducer;
-export const { setUser, setStatus, setLogin } = userSlice.actions;
+export const { setUser } = userSlice.actions;
