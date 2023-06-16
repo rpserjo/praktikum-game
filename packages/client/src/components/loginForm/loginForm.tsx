@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
 import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
 import Button from '@/components/ui/button/button';
-import { RuleNames } from '@/utils/validationService';
 import style from './loginForm.module.scss';
-import AuthApi, { ISignInData } from '@/api/AuthApi';
+import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
+import { SignInData } from '@/models/models';
+import { RuleNames } from '@/utils/validationModels';
 
 type FormState = {
     [key in string]: {
         value: string;
         isValid: boolean;
     };
-};
-
-type ErrorResponse = {
-    reason: string;
 };
 
 const LoginForm = () => {
@@ -51,42 +47,23 @@ const LoginForm = () => {
     const signin = (
         login: string,
         password: string,
-        cb: () => void,
-        errorCb: (error: string) => void
+        proceedCallback: () => void,
+        errorCallback: (error: string) => void
     ) => {
-        const data: ISignInData = { login, password };
+        const data: SignInData = new SignInData(login, password);
         const authApi = new AuthApi();
-        authApi
-            .signin(data)
-            .then(() => {
-                cb();
-            })
-            .catch((response: AxiosError) => {
-                const responseData = response.response?.data;
-                const { reason } = responseData as ErrorResponse;
+        authApi.signin(data, proceedCallback, errorCallback);
+    };
 
-                if (reason === 'User already in system') {
-                    cb();
-                } else {
-                    errorCb(reason);
-                }
-            });
+    const isFormValid = () => {
+        const found = Object.values(form).find(state => !state.isValid);
+        return found === undefined;
     };
 
     const handleSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
-        let isFormValid = true;
-        // eslint-disable-next-line
-        for (const state of Object.values(form)) {
-            if (!state.isValid) {
-                isFormValid = false;
-                break;
-            }
-        }
-
-        if (isFormValid) {
-            signin(form.login.value, form.password.value, proceedToGame, showError);
-        }
+        if (!isFormValid()) return;
+        signin(form.login.value, form.password.value, proceedToGame, showError);
     };
 
     return (

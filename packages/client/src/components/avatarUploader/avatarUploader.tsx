@@ -28,7 +28,7 @@ const AvatarUploader: FC<TAvatarUploaderProps> = ({ currentAvatar }) => {
         input.onchange = () => {
             if (input.files?.length && input.files[0]) {
                 userApi
-                    .avatar(input.files[0])
+                    .getAvatar(input.files[0])
                     .then(response => {
                         console.log(response);
                         alert('Аватар загружен. Обновите страницу');

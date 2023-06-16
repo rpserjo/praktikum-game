@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 import style from './validatableInput.module.scss';
-import ValidationService, { RuleNames, IValidationResult } from '@/utils/validationService';
+import ValidationService from '@/utils/validationService';
 import Input from '@/components/ui/input/input';
+import { RuleNames, ValidationResult } from '@/utils/validationModels';
 
 type ValidatableInputProps = {
     name: string;
@@ -21,7 +22,7 @@ const ValidatableInput: FC<ValidatableInputProps> = props => {
 
     const onChange = (event: React.FocusEvent) => {
         const { value } = event.currentTarget as HTMLInputElement;
-        const result: IValidationResult = ValidationService.validateInput(ruleType, value);
+        const result: ValidationResult = ValidationService.validateInput(ruleType, value);
         setError(result.isValid ? '' : result.errorMessage);
         if (handleChange) {
             handleChange(name, value, result.isValid);

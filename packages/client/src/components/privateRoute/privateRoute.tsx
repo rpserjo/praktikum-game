@@ -3,16 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import AuthApi from '@/api/AuthApi';
 import Loader from '@/components/ui/loader/loader';
 import { RouteNames } from '@/router/router';
-
-export type TProfileProps = {
-    email: string;
-    login: string;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    phone: string;
-    avatar?: string;
-};
+import { TProfileProps } from '@/models/models';
 
 const PrivateRoutes = () => {
     const authApi = new AuthApi();
@@ -21,22 +12,13 @@ const PrivateRoutes = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await authApi
-                .user()
-                .then(response => {
-                    setUserData(response.data as TProfileProps);
-                    setUserFetched(true);
-                })
-                .catch(() => {
-                    setUserFetched(true);
-                });
+            await authApi.getUser(setUserData, setUserFetched);
         };
         fetchData();
     }, []);
 
-    const isLoggedIn = userData != null;
-
     if (userFetched) {
+        const isLoggedIn = userData != null;
         return isLoggedIn ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
     }
     return <Loader />;

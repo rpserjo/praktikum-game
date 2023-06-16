@@ -1,11 +1,12 @@
 import React, { FC, FormEvent, MouseEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProfileFields, TProfileProps } from '@pages/profile/profile';
+import { ProfileFields } from '@pages/profile/profile';
 import cn from 'classnames';
 import { Button } from '@ui';
 import UserApi from '@/api/UserApi';
 
 import style from '../profile.module.scss';
+import { TProfileProps } from '@/models/models';
 
 const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData }) => {
     const [firstName, setFirstName] = useState(userData?.first_name);
