@@ -11,6 +11,7 @@
         "test": "jest ./"
     },
     "dependencies": {
+        "@reduxjs/toolkit": "^1.9.5",
         "axios": "1.4.0",
         "classnames": "2.3.2",
         "dotenv": "16.0.2",
@@ -19,7 +20,9 @@
         "prettier": "2.7.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-router-dom": "6.11.2"
+        "react-redux": "^8.1.0",
+        "react-router-dom": "6.11.2",
+        "redux": "^4.2.1"
     },
     "devDependencies": {
         "@testing-library/react": "13.3.0",
@@ -27,6 +30,8 @@
         "@types/lodash": "4.14.195",
         "@types/react": "18.0.17",
         "@types/react-dom": "18.0.6",
+        "@types/react-redux": "^7.1.25",
+        "@types/redux": "^3.6.0",
         "@typescript-eslint/eslint-plugin": "5.35.1",
         "@typescript-eslint/parser": "5.35.1",
         "@vitejs/plugin-react": "2.0.1",
