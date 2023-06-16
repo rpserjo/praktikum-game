@@ -1,0 +1,149 @@
+@import '@/assets/variables';
+
+.profile {
+  width: 600px;
+  margin: 60px auto 0;
+
+  .wrapper {
+    h1{
+      color: $colorMain;
+      text-align: center;
+      font-weight: 600;
+      font-size: 64px;
+    }
+
+    .avatar{
+      margin: 50px auto 35px;
+      justify-content: center;
+      display: flex;
+    }
+
+    .info{
+
+      .fullname{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: $colorMain;
+        margin-bottom: 40px;
+      }
+
+      .rows{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .row{
+          width: 100%;
+          height: 25px;
+          line-height: 25px;
+          display: flex;
+          font-weight: 500;
+          font-size: 16px;
+          color: $colorMain;
+          border-bottom: 1px solid $colorMain;
+
+          .rowname{
+
+          }
+
+          .rowvalue{
+            display: flex;
+            flex-grow: 1;
+            justify-content: end;
+          }
+      }
+
+      }
+    }
+
+    .actions{
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      justify-content: center;
+
+      .row{
+        width: 100%;
+        display: flex;
+        align-content: space-between;
+      }
+
+      .center{
+        justify-content: center;
+      }
+
+      .sb{
+        justify-content: space-between;
+      }
+    }
+  }
+}
+
+
+.avatar-uploader{
+  width: 50%;
+  padding: 15px;
+
+}
+
+.form-wrapper {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  .form {
+    background-color: $backgroundColorSecondary;
+    border-radius: 5px;
+    width: 700px;
+    padding: 40px 105px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      font-size: 36px;
+      line-height: 36px;
+      color: $colorTextDark;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .row{
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+
+      label{
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      input{
+        font-size: 20px;
+        font-weight: 600;
+        padding: 13px 20px;
+        outline: none;
+        border-radius: 5px;
+        border-width: 0;
+      }
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: row;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .space-between{
+      justify-content: space-between;
+    }
+  }
+}

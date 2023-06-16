@@ -25,6 +25,8 @@ export enum RouteNames {
     GAME_START = '/game/start',
     GAME_FINISH = '/game/finish',
     PROFILE = '/profile',
+    PROFILE_EDIT = '/profile/edit',
+    PROFILE_PASSWORD = '/profile/password',
     LEADERBOARD = '/leaderboard',
     FORUM = '/forum',
     NOT_FOUND = '/wrong-path',
@@ -57,6 +59,11 @@ const Router = () => (
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path={RouteNames.SIGNIN} />
             <Route element={<SignUpPage />} path={RouteNames.SIGNUP} />
+            <Route element={<ProfilePage section="edit" />} path={RouteNames.PROFILE_EDIT} />
+            <Route
+                element={<ProfilePage section="password" />}
+                path={RouteNames.PROFILE_PASSWORD}
+            />
             <Route
                 element={<ErrorPage code={500} message="Что-то поломалось. Но мы уже чиним" />}
                 path="/500"
