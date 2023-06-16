@@ -13,7 +13,7 @@ module.exports = {
     rules: {
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
-        'max-len': ['error', { code: 100 }],
+        'max-len': ['warn', { code: 100 }],
         'react/jsx-boolean-value': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         indent: ['error', 4],
@@ -37,6 +37,6 @@ module.exports = {
         'no-unused-expressions': ['error', { allowTernary: true }],
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': ['error'],
-        'operator-linebreak': ['error', 'after'],
+        'operator-linebreak': ['warn', 'after'],
     },
 };
