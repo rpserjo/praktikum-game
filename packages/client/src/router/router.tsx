@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { defaultShipsCount, Mode } from '@components/ui/ships/ships';
-import { GameOver } from '@pages/game/game';
+import { defaultShipsCount, Mode } from '@/components/ui/ships/ships';
+import { GameOver } from '@/pages/game/game';
 import Layout from '@/layout/default/layout';
 import { Loader } from '@/components/ui';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';

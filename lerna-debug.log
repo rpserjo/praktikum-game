@@ -1,0 +1,16 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   lernaVersion: '5.4.3',
+0 silly argv   '$0': '/home/helga/YandexPracticum/module_2/praktikum-game/node_modules/.bin/lerna',
+0 silly argv   script: 'test'
+0 silly argv }
+1 notice cli v5.4.3
+2 verbose rootPath /home/helga/YandexPracticum/module_2/praktikum-game
+3 error SystemError [ERR_TTY_INIT_FAILED]: TTY initialization failed: uv_tty_init returned EINVAL (invalid argument)
+3 error     at new SystemError (node:internal/errors:250:5)
+3 error     at new NodeError (node:internal/errors:361:7)
+3 error     at new ReadStream (node:tty:56:11)
+3 error     at process.getStdin [as stdin] (node:internal/bootstrap/switches/is_main_thread:196:15)
+3 error     at /home/helga/YandexPracticum/module_2/praktikum-game/node_modules/nx/src/tasks-runner/run-command.js:138:21
+3 error     at Generator.next (<anonymous>)
+3 error     at fulfilled (/home/helga/YandexPracticum/module_2/praktikum-game/node_modules/tslib/tslib.js:115:62)

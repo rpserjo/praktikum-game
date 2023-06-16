@@ -11,7 +11,7 @@ type ValidatableInputProps = {
     placeholder?: string;
     ruleType: RuleNames;
     handleChange?: (name: string, value: string, isValid: boolean) => void;
-    wrapperClass: string;
+    wrapperClass?: string;
     type?: string;
 };
 

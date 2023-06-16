@@ -1,10 +1,10 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
-import Button from '@components/ui/button/button';
-import User, { Type } from '@components/ui/user/user';
-import ErrorBoundary from '@components/errorBoundary/errorBoundary';
-import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
+import Button from '@/components/ui/button/button';
+import User, { Type } from '@/components/ui/user/user';
+import ErrorBoundary from '@/components/errorBoundary/errorBoundary';
+import Ships, { defaultShipsCount, Mode, Position } from '@/components/ui/ships/ships';
 import style from './game.module.scss';
 import GameReserve from '@/pages/game/gameReserve';
 import userData from '@/mocks/data/user-data.json';
