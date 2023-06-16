@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
 import Button from '@/components/ui/button/button';
 import style from './loginForm.module.scss';
 import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
-import { SignInData } from '@/models/models';
+import { SignInData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
+import { setUser } from '@/store/slices/userSlice';
 
 type FormState = {
     [key in string]: {
@@ -29,6 +31,8 @@ const LoginForm = () => {
     const [form, setForm] = useState(initialState);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const authApi = new AuthApi();
+    const dispatch = useDispatch();
 
     const handleChange = (name: string, value: string, isValid: boolean) => {
         const newForm: FormState = { ...form };
@@ -51,7 +55,7 @@ const LoginForm = () => {
         errorCallback: (error: string) => void
     ) => {
         const data: SignInData = new SignInData(login, password);
-        const authApi = new AuthApi();
+
         authApi.signin(data, proceedCallback, errorCallback);
     };
 
@@ -60,10 +64,19 @@ const LoginForm = () => {
         return found === undefined;
     };
 
+    const handleLogin = () => {
+        const handleUser = (userData: TProfileProps) => {
+            dispatch(setUser(userData));
+            proceedToGame();
+        };
+
+        authApi.getUser(handleUser);
+    };
+
     const handleSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
         if (!isFormValid()) return;
-        signin(form.login.value, form.password.value, proceedToGame, showError);
+        signin(form.login.value, form.password.value, handleLogin, showError);
     };
 
     return (
