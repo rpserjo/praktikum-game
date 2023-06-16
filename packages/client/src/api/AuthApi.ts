@@ -37,6 +37,10 @@ class AuthApi extends BaseApi {
         return this.http.post(API.ENDPOINTS.AUTH.LOGOUT);
     }
 
+    public getUserData() {
+        return this.http.get(API.ENDPOINTS.AUTH.USER);
+    }
+
     // todo how can we refactor this when redux will store user data?
     public async getUser(
         setUserDataCallback: (userData: TProfileProps) => void,
