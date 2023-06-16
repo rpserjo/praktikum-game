@@ -37,6 +37,8 @@ module.exports = {
         'no-unused-expressions': ['error', { allowTernary: true }],
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': ['error'],
-        'operator-linebreak': ['error', 'after'],
+        'operator-linebreak': ['warn', 'after'],
+        'import/prefer-default-export': 'off',
+        'no-param-reassign': 'off',
     },
 };
