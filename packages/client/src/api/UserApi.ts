@@ -10,7 +10,7 @@ class UserApi extends BaseApi {
         return this.http.put(API.ENDPOINTS.USER.PROFILE, data);
     }
 
-    public avatar(avatar: File) {
+    public getAvatar(avatar: File) {
         const form = new FormData();
         form.append('avatar', avatar);
         return this.http.put(API.ENDPOINTS.USER.AVATAR, form);

@@ -1,16 +1,4 @@
-export interface IValidationResult {
-    errorMessage: string;
-    isValid: boolean;
-}
-
-// eslint-disable-next-line
-export enum RuleNames {
-    NAME,
-    LOGIN,
-    PASSWORD,
-    EMAIL,
-    PHONE,
-}
+import { RuleNames, ValidationResult } from './validationModels';
 
 class ValidationService {
     private _rules = {
@@ -39,13 +27,10 @@ class ValidationService {
         },
     };
 
-    public validateInput(type: RuleNames, value: string): IValidationResult {
+    public validateInput(type: RuleNames, value: string): ValidationResult {
         // eslint-disable-next-line
         const info = this._rules[type];
-        return {
-            errorMessage: info.error,
-            isValid: info.regex.test(value),
-        };
+        return new ValidationResult(info.regex.test(value), info.error);
     }
 }
 

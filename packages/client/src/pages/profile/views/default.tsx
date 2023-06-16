@@ -3,9 +3,10 @@ import style from '@pages/profile/profile.module.scss';
 import { Button } from '@ui';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { ProfileFields, TProfileProps } from '@pages/profile/profile';
+import { ProfileFields } from '@pages/profile/profile';
 import AvatarUploader from '@components/avatarUploader/avatarUploader';
 import API from '@/api/api';
+import { TProfileProps } from '@/models/models';
 
 const DefaultProfileView: FC<{ userData: TProfileProps }> = ({ userData }) => {
     const navigate = useNavigate();

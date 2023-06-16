@@ -4,6 +4,7 @@ import { Button } from '@ui';
 import style from './header.module.scss';
 import Logo from '@/assets/logo.svg';
 import AuthApi from '@/api/AuthApi';
+import { RouteNames } from '@/router/router';
 
 type HeaderProps = {}; // eslint-disable-line
 
@@ -21,14 +22,14 @@ const Header: FC<HeaderProps> = (): ReactElement => {
     return (
         <div className={style.header}>
             <div className={style.logo}>
-                <Link to="/">
+                <Link to={RouteNames.LANDING}>
                     <img alt="Главная" src={Logo} />
                 </Link>
             </div>
             <div className={style.navigation}>
                 <div className={style.links}>
                     <NavLink
-                        to="/forum"
+                        to={RouteNames.FORUM}
                         className={({ isActive }) => (isActive ? style.active : '')}
                     >
                         Форум
@@ -42,7 +43,7 @@ const Header: FC<HeaderProps> = (): ReactElement => {
                     </NavLink>
 
                     <NavLink
-                        to="/profile"
+                        to={RouteNames.PROFILE}
                         className={({ isActive }) => (isActive ? style.active : '')}
                     >
                         Профиль

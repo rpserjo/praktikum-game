@@ -17,3 +17,12 @@ $colorBgThumbnailLite: #e4ebf0;
 @mixin transition {
   transition: all 0.2s ease-in-out;
 }
+
+@mixin roundBordedWindow {
+  background: $backgroundColorSecondary;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

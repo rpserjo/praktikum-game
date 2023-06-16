@@ -4,12 +4,7 @@ module.exports = {
         es2020: true,
         node: true,
     },
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'airbnb'
-    ],
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'airbnb'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 11,
@@ -39,9 +34,9 @@ module.exports = {
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
-        'no-unused-expressions': ['error', { 'allowTernary': true }],
-        "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": ["error"],
-        "operator-linebreak": ["error", "before"]
+        'no-unused-expressions': ['error', { allowTernary: true }],
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': ['error'],
+        'operator-linebreak': ['error', 'after'],
     },
 };
