@@ -5,9 +5,10 @@ import { Button } from '@ui';
 import UserBlock from '@components/userBlock/userBlock';
 import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
-import { setUser, TState } from '@/store/slices/userSlice';
+import { setUser } from '@/store/slices/userSlice';
 import style from './header.module.scss';
 import Logo from '@/assets/logo.svg';
+import { RootState } from '@/store';
 
 type HeaderProps = {}; // eslint-disable-line
 
@@ -25,7 +26,7 @@ const Header: FC<HeaderProps> = (): ReactElement => {
             .catch(e => console.log(e));
     };
 
-    const userState = useSelector((state: { user: TState }) => state.user);
+    const userState = useSelector((state: RootState) => state.user);
 
     return (
         <div className={style.header}>

@@ -12,7 +12,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const checkUser = async () => {
+        const checkUser = () => {
             const authApi = new AuthApi();
             authApi
                 .getUserData()
