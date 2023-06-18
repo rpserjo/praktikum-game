@@ -20,12 +20,12 @@
     left: 30px;
     top: 30px;
 
-    .icon{
+    .icon {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      svg{
+      svg {
         width: 36px;
         height: 36px;
 
@@ -128,4 +128,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.spacedTop30px {
+  margin-top: 30px;
+}
+
+.spacedBottom30px {
+  margin-bottom: 30px;
 }

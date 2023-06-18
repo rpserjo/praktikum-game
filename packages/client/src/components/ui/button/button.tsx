@@ -7,6 +7,7 @@ type ButtonProps = {
     buttonStyle?: 'normal' | 'outlined';
     onClick?: MouseEventHandler;
     type?: 'button' | 'submit' | 'reset';
+    className?: string | undefined;
 };
 const Button: FC<ButtonProps> = ({
     children,
@@ -14,8 +15,13 @@ const Button: FC<ButtonProps> = ({
     buttonStyle = 'normal',
     onClick,
     type = 'button',
+    className,
 }) => (
-    <button onClick={onClick} type={type} className={`${style[buttonStyle]} ${style[buttonSize]}`}>
+    <button
+        onClick={onClick}
+        type={type}
+        className={`${style[buttonStyle]} ${style[buttonSize]} ${className ?? ''}`}
+    >
         {children}
     </button>
 );
