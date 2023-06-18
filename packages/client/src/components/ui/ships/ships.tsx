@@ -39,7 +39,8 @@ const shipsMapping: TShipsMapping = {
     },
 };
 
-export const defaultShipsCount = 10;
+// todo: вернуть начальное количество кораблей, когда игра уже будет работать
+export const defaultShipsCount = 0;
 
 const Ships: FC<TShips> = props => {
     const [fleet, setFleet] = useState<TShipsMapping>({ ...shipsMapping });
