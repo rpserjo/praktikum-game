@@ -42,7 +42,53 @@ const Game: FC<TGame> = props => {
         originTop: number;
         currentLeft: number;
         currentTop: number;
+        isRotated: boolean;
     };
+
+    type ships = Array<ship>;
+
+    const shipsImg: ships = [
+        {
+            decksAmount: 4,
+            width: 120,
+            height: 30,
+            originLeft: 1030,
+            originTop: 160,
+            currentLeft: 1030,
+            currentTop: 160,
+            isRotated: false,
+        },
+        {
+            decksAmount: 3,
+            width: 90,
+            height: 30,
+            originLeft: 1060,
+            originTop: 220,
+            currentLeft: 1060,
+            currentTop: 220,
+            isRotated: false,
+        },
+        {
+            decksAmount: 2,
+            width: 60,
+            height: 30,
+            originLeft: 1090,
+            originTop: 280,
+            currentLeft: 1090,
+            currentTop: 280,
+            isRotated: false,
+        },
+        {
+            decksAmount: 1,
+            width: 30,
+            height: 30,
+            originLeft: 1120,
+            originTop: 340,
+            currentLeft: 1120,
+            currentTop: 340,
+            isRotated: false,
+        },
+    ];
 
     const data: {
         isMoucePressed: boolean;
@@ -62,46 +108,23 @@ const Game: FC<TGame> = props => {
         isDragging: false,
     };
 
-    type ships = Array<ship>;
+    let differenceOfShipClickX: number;
+    let differenceOfShipClickY: number;
 
-    const shipsImg: ships = [
-        {
-            decksAmount: 4,
-            width: 120,
-            height: 30,
-            originLeft: 1030,
-            originTop: 160,
-            currentLeft: 1030,
-            currentTop: 160,
-        },
-        {
-            decksAmount: 3,
-            width: 90,
-            height: 30,
-            originLeft: 1060,
-            originTop: 220,
-            currentLeft: 1060,
-            currentTop: 220,
-        },
-        {
-            decksAmount: 2,
-            width: 60,
-            height: 30,
-            originLeft: 1090,
-            originTop: 280,
-            currentLeft: 1090,
-            currentTop: 280,
-        },
-        {
-            decksAmount: 1,
-            width: 30,
-            height: 30,
-            originLeft: 1120,
-            originTop: 340,
-            currentLeft: 1120,
-            currentTop: 340,
-        },
-    ];
+    const rotateOnClick = event => {
+        if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
+            if (data.currnetShip.isRotated) {
+                data.currnetShip.isRotated = false;
+            } else {
+                data.currnetShip.isRotated = true;
+                // const oldHeght = data.currnetShip.height;
+                // data.currnetShip.height = data.currnetShip.width;
+                // data.currnetShip.width = oldHeght;
+                // data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
+                // data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
+            }
+        }
+    };
 
     const drawCanvasItems = function () {
         if (ref.current) {
@@ -187,13 +210,32 @@ const Game: FC<TGame> = props => {
                     const image = new Image();
                     image.src = `../../../../public/sprites/ship_${i}.svg`;
                     image.addEventListener('load', () => {
-                        ctx.drawImage(
-                            image,
-                            ship.currentLeft,
-                            ship.currentTop,
-                            ship.width,
-                            ship.height
-                        );
+                        if (ship.isRotated) {
+                            ctx.save();
+                            ctx.translate(
+                                ship.currentLeft + differenceOfShipClickX,
+                                ship.currentTop + differenceOfShipClickY
+                            );
+
+                            ctx.rotate(Math.PI / 2);
+
+                            ctx.drawImage(
+                                image,
+                                -ship.width / 2,
+                                -ship.height / 2,
+                                ship.width,
+                                ship.height
+                            );
+                            ctx.restore();
+                        } else {
+                            ctx.drawImage(
+                                image,
+                                ship.currentLeft,
+                                ship.currentTop,
+                                ship.width,
+                                ship.height
+                            );
+                        }
                     });
                 });
             }
@@ -214,6 +256,7 @@ const Game: FC<TGame> = props => {
 
     useEffect(() => {
         drawCanvasItems();
+        window.addEventListener('keydown', rotateOnClick);
     }, []);
     // eslint-disable-next-line
     const isMouseInShape = function <T extends number>(x: T, y: T, ship: ship): boolean {
@@ -225,9 +268,6 @@ const Game: FC<TGame> = props => {
         const res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
         return res;
     };
-
-    let differenceOfShipClickX: number;
-    let differenceOfShipClickY: number;
 
     const mouseDown = event => {
         data.isMoucePressed = true;
