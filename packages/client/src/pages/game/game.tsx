@@ -1,16 +1,13 @@
-import React, { FC, useRef, useEffect } from 'react';
-import renderHorizontalText from './game.helper';
-import style from './game.module.scss';
-import style from './canvas.module.scss';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, useRef, useEffect, MouseEventHandler } from 'react';
+import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
+import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import Button from '@components/ui/button/button';
 import User, { Type } from '@components/ui/user/user';
-import ErrorBoundary from '@components/errorBoundary/errorBoundary';
-import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
-import style from './game.module.scss';
 import GameReserve from '@/pages/game/gameReserve';
+import renderHorizontalText from './game.helper';
+import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 
 // todo: использование пропсов - временное решение.
@@ -45,7 +42,13 @@ const Game: FC<TGame> = props => {
 
             // render main field
             // eslint-disable-next-line
-            const roundRect = function <T extends number>(x: T, y: T, width: T, height: T, radius: T): void {
+            const roundRect = function <T extends number>(
+                x: T,
+                y: T,
+                width: T,
+                height: T,
+                radius: T
+            ): void {
                 ctx.beginPath();
                 ctx.moveTo(x + radius, y);
                 ctx.arcTo(x + width, y, x + width, y + height, radius);
@@ -79,9 +82,11 @@ const Game: FC<TGame> = props => {
             // eslint-disable-next-line
             ctx.font = '19px Tektur';
             ctx.fillStyle = 'white';
-            const textHeight = 'A B C D E F G H I G';
-            // eslint-disable-next-line
-            [...Array(2).keys()].forEach(i => renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6));
+            const textHeight = 'A B C D E F G H I J';
+
+            for (let i = 0; i < 2; i += 1) {
+                renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6);
+            }
 
             // render horizontal text
             // eslint-disable-next-line
@@ -120,7 +125,13 @@ const Game: FC<TGame> = props => {
                     const image = new Image();
                     image.src = `../../../../public/sprites/ship_${i}.svg`;
                     image.addEventListener('load', () => {
-                        ctx.drawImage(image, shipLeft + squaresize * i, shipTop + shipTopAdd * i, shipLeftAdd - i * squaresize, squaresize);
+                        ctx.drawImage(
+                            image,
+                            shipLeft + squaresize * i,
+                            shipTop + shipTopAdd * i,
+                            shipLeftAdd - i * squaresize,
+                            squaresize
+                        );
                     });
                     ctx.fillText(String(shipsAmount[i]), numLeft, numTop + i * numHeightAdd);
                 });
