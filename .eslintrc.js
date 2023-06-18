@@ -14,6 +14,7 @@ module.exports = {
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
         'max-len': ['warn', { code: 100 }],
+        '@typescript-eslint/no-unused-vars': 2,
         'react/jsx-boolean-value': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         indent: ['error', 4],
