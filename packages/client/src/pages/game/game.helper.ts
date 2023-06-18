@@ -1,4 +1,10 @@
-export default function renderHorizontalText(context: CanvasRenderingContext2D, text: string, x: number, y: number, spacing: number) {
+export default function renderHorizontalText(
+    context: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    spacing: number
+) {
     const totalWidth = context.measureText(text).width + spacing * (text.length - 1);
 
     const align = context.textAlign;
