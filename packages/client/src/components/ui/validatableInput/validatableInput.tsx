@@ -16,8 +16,9 @@ type ValidatableInputProps = {
 };
 
 const ValidatableInput: FC<ValidatableInputProps> = props => {
-    const { name, initialValue, label, placeholder, ruleType, handleChange, wrapperClass, type } =
-        props;
+    const { name, initialValue, label, placeholder } = props;
+    const { ruleType, handleChange, wrapperClass, type } = props;
+
     const [error, setError] = useState('');
 
     const onChange = (event: React.FocusEvent) => {
