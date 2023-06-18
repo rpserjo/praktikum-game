@@ -33,6 +33,8 @@ type TGame = {
 // eslint-disable-next-line
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
+    let differenceOfShipClickX: number;
+    let differenceOfShipClickY: number;
 
     type ship = {
         decksAmount: number;
@@ -43,6 +45,24 @@ const Game: FC<TGame> = props => {
         currentLeft: number;
         currentTop: number;
         isRotated: boolean;
+    };
+
+    const data: {
+        isMoucePressed: boolean;
+        placeShipStep: boolean;
+        currentShipIndex: null | number;
+        currnetShip: ship | null;
+        squareSize: number;
+        ctxCopy: unknown;
+        isDragging: boolean;
+    } = {
+        isMoucePressed: false,
+        placeShipStep: true,
+        currentShipIndex: null,
+        currnetShip: null,
+        squareSize: 30,
+        ctxCopy: null,
+        isDragging: false,
     };
 
     type ships = Array<ship>;
@@ -89,42 +109,6 @@ const Game: FC<TGame> = props => {
             isRotated: false,
         },
     ];
-
-    const data: {
-        isMoucePressed: boolean;
-        placeShipStep: boolean;
-        currentShipIndex: null | number;
-        currnetShip: ship | null;
-        squareSize: number;
-        ctxCopy: unknown;
-        isDragging: boolean;
-    } = {
-        isMoucePressed: false,
-        placeShipStep: true,
-        currentShipIndex: null,
-        currnetShip: null,
-        squareSize: 30,
-        ctxCopy: null,
-        isDragging: false,
-    };
-
-    let differenceOfShipClickX: number;
-    let differenceOfShipClickY: number;
-
-    const rotateOnClick = event => {
-        if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
-            if (data.currnetShip.isRotated) {
-                data.currnetShip.isRotated = false;
-            } else {
-                data.currnetShip.isRotated = true;
-                // const oldHeght = data.currnetShip.height;
-                // data.currnetShip.height = data.currnetShip.width;
-                // data.currnetShip.width = oldHeght;
-                // data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
-                // data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
-            }
-        }
-    };
 
     const drawCanvasItems = function () {
         if (ref.current) {
@@ -254,9 +238,24 @@ const Game: FC<TGame> = props => {
         }
     };
 
+    const rotate = event => {
+        if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
+            if (data.currnetShip.isRotated) {
+                data.currnetShip.isRotated = false;
+            } else {
+                data.currnetShip.isRotated = true;
+                // const oldHeght = data.currnetShip.height;
+                // data.currnetShip.height = data.currnetShip.width;
+                // data.currnetShip.width = oldHeght;
+                // data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
+                // data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
+            }
+        }
+    };
+
     useEffect(() => {
         drawCanvasItems();
-        window.addEventListener('keydown', rotateOnClick);
+        window.addEventListener('keydown', rotate);
     }, []);
     // eslint-disable-next-line
     const isMouseInShape = function <T extends number>(x: T, y: T, ship: ship): boolean {
