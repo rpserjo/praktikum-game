@@ -21,7 +21,7 @@ describe('Forum tests', () => {
             },
             {
                 msgId: 2,
-                topicId: 1,
+                topicId: 2,
                 topic: 'Комп выключился при запуске игры',
                 message: 'Проверь блок питания',
                 author: 'Джек Воробей',
@@ -31,7 +31,7 @@ describe('Forum tests', () => {
             },
             {
                 msgId: 3,
-                topicId: 2,
+                topicId: 3,
                 topic: 'RTX 2060 6gb от Gigabyte греется под нагрузкой под 85 градусов это нормально или же нет?',
                 message: 'Не пойму что делать с компьютером, друзья, помогите',
                 author: 'Капитан Флинт',
