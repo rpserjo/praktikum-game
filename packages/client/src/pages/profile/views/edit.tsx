@@ -1,12 +1,13 @@
 import React, { FC, FormEvent, MouseEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { ProfileFields } from '@pages/profile/profile';
 import cn from 'classnames';
 import { Button } from '@ui';
 import UserApi from '@/api/UserApi';
-
 import style from '../profile.module.scss';
 import { TProfileProps } from '@/models/models';
+import { setUser } from '@/store/slices/userSlice';
 
 const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData }) => {
     const [firstName, setFirstName] = useState(userData?.first_name);
@@ -16,6 +17,7 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
     const [phone, setPhone] = useState(userData?.phone);
     const [login, setLogin] = useState(userData?.login);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleCancel: MouseEventHandler = e => {
         e.preventDefault();
@@ -33,7 +35,8 @@ const EditProfileView: FC<{ userData: TProfileProps | undefined }> = ({ userData
         const userApi = new UserApi();
         userApi
             .user(data)
-            .then(() => {
+            .then(response => {
+                dispatch(setUser(response.data));
                 navigate(-1);
                 alert('Данные сохранены');
             })
