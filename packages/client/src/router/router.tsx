@@ -13,7 +13,7 @@ const ProfilePage = lazy(() => import('@pages/profile/profile'));
 const SignInPage = lazy(() => import('@pages/signin/signin'));
 const SignUpPage = lazy(() => import('@pages/signup/signup'));
 const ErrorPage = lazy(() => import('@pages/error/error'));
-const ForumPage = lazy(() => import('@pages/forum/forum'));
+const ForumPage = lazy(() => import('@pages/forum/dataLoader/dataLoader'));
 const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
 
 export enum RouteNames {

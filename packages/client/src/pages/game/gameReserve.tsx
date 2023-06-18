@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/ui';
+import { Button } from '@/components/ui';
 import style from './game.module.scss';
 
 const GameReserve = () => {

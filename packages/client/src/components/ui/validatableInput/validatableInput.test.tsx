@@ -1,14 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import ValidatableInput from './validatableInput';
 import { RuleNames } from '@/utils/validationModels';
 
-// check if entered value is validated by right rule
-// check if invalid value returns with error
 describe('Validatable input tests', () => {
-    it('renders ValidatableInput component', () => {
+    it('renders ValidatableInput component', async () => {
         render(<ValidatableInput name="name" ruleType={RuleNames.NAME} />);
-        //expect(screen.getByText(btnText)).toBeInTheDocument();
+        expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+    it('checks if the error message appears', async () => {
+        render(<ValidatableInput name="name" ruleType={RuleNames.NAME} />);
+        await userEvent.type(screen.getByRole('textbox'), 'qqq');
+        userEvent.click(document.body);
+        expect(screen.getByText(/Первая буква должна быть заглавной/)).toBeInTheDocument();
     });
 });

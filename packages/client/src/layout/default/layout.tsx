@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import Header from '@components/header/header';
+import Header from '@/components/header/header';
 import style from './layout.module.scss';
 import { RouteNames } from '@/router/router';
 

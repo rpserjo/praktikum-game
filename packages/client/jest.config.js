@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import React from 'react';
 
 dotenv.config();
 
@@ -10,6 +11,9 @@ export default {
         __SERVER_PORT__: process.env.SERVER_PORT,
     },
     verbose: true,
+    transform: {
+        '\\.(svg|png)$': '<rootDir>/__mocks__/svg.cjs',
+    },
     moduleNameMapper: {
         '\\.(css|scss)$': 'identity-obj-proxy',
         '^@/(.*)$': '<rootDir>/src/$1',

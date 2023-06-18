@@ -1,6 +1,6 @@
 import React, { FC, MouseEventHandler, ReactElement } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Button } from '@ui';
+import Button from '@/components/ui/button/button';
 import style from './header.module.scss';
 import Logo from '@/assets/logo.svg';
 import AuthApi from '@/api/AuthApi';
