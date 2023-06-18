@@ -34,12 +34,84 @@ type TGame = {
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
-    useEffect(() => {
+    type ship = {
+        decksAmount: number;
+        width: number;
+        height: number;
+        originLeft: number;
+        originTop: number;
+        currentLeft: number;
+        currentTop: number;
+    };
+
+    const data: {
+        isMoucePressed: boolean;
+        placeShipStep: boolean;
+        currentShipIndex: null | number;
+        currnetShip: ship | null;
+        squareSize: number;
+        ctxCopy: unknown;
+        isDragging: boolean;
+    } = {
+        isMoucePressed: false,
+        placeShipStep: true,
+        currentShipIndex: null,
+        currnetShip: null,
+        squareSize: 30,
+        ctxCopy: null,
+        isDragging: false,
+    };
+
+    type ships = Array<ship>;
+
+    const shipsImg: ships = [
+        {
+            decksAmount: 4,
+            width: 120,
+            height: 30,
+            originLeft: 1030,
+            originTop: 160,
+            currentLeft: 1030,
+            currentTop: 160,
+        },
+        {
+            decksAmount: 3,
+            width: 90,
+            height: 30,
+            originLeft: 1060,
+            originTop: 220,
+            currentLeft: 1060,
+            currentTop: 220,
+        },
+        {
+            decksAmount: 2,
+            width: 60,
+            height: 30,
+            originLeft: 1090,
+            originTop: 280,
+            currentLeft: 1090,
+            currentTop: 280,
+        },
+        {
+            decksAmount: 1,
+            width: 30,
+            height: 30,
+            originLeft: 1120,
+            originTop: 340,
+            currentLeft: 1120,
+            currentTop: 340,
+        },
+    ];
+
+    const drawCanvasItems = function () {
         if (ref.current) {
             const ctx = ref.current.getContext('2d');
+
             if (ctx === null || ctx === undefined) {
                 return;
             }
+
+            ctx.clearRect(0, 0, 1200, 400);
 
             // render main field
             // eslint-disable-next-line
@@ -84,15 +156,12 @@ const Game: FC<TGame> = props => {
             ctx.font = '19px Tektur';
             ctx.fillStyle = 'white';
             const textHeight = 'A B C D E F G H I J';
-
+            // eslint-disable-next-line
             for (let i = 0; i < 2; i += 1) {
                 renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6);
             }
 
-            // render horizontal text
-            // eslint-disable-next-line
             const top = 93;
-            const squaresize = 30;
             // eslint-disable-next-line
             [...Array(2).keys()].forEach(i => {
                 for (let index = 0; index < 10; index += 1) {
@@ -101,46 +170,110 @@ const Game: FC<TGame> = props => {
                         const tenWidth = 7;
                         left -= tenWidth;
                     }
-                    ctx.fillText(String(index + 1), left, top + squaresize * index);
+                    ctx.fillText(String(index + 1), left, top + data.squareSize * index);
                 }
             });
-
             // render ships
             ctx.font = '32px Tektur';
+
             // eslint-disable-next-line
-            function renderShips(shipsAmount: Array<number>) {
+            function renderShips(shipsImg: ships) {
                 if (ctx === null || ctx === undefined) {
                     return;
                 }
-                // eslint-disable-next-line
-                const numLeft = 1175;
-                const numTop = 188;
-                const numHeightAdd = 59;
-                const shipLeft = 1030;
-                const shipLeftAdd = 120;
-                const shipTop = 160;
-                const shipTopAdd = 60;
 
                 // eslint-disable-next-line
-                [...Array(4).keys()].forEach(i => {
+                shipsImg.forEach((ship, i) => {
                     const image = new Image();
                     image.src = `../../../../public/sprites/ship_${i}.svg`;
                     image.addEventListener('load', () => {
                         ctx.drawImage(
                             image,
-                            shipLeft + squaresize * i,
-                            shipTop + shipTopAdd * i,
-                            shipLeftAdd - i * squaresize,
-                            squaresize
+                            ship.currentLeft,
+                            ship.currentTop,
+                            ship.width,
+                            ship.height
                         );
                     });
-                    ctx.fillText(String(shipsAmount[i]), numLeft, numTop + i * numHeightAdd);
                 });
             }
 
-            renderShips([4, 3, 2, 1]);
+            // create ship nums
+            const numLeft = 1175;
+            const numTop = 188;
+            const numHeightAdd = 59;
+
+            // eslint-disable-next-line
+            shipsImg.forEach((ship, i) => {
+                ctx.fillText(String(ship.decksAmount), numLeft, numTop + i * numHeightAdd);
+            });
+
+            renderShips(shipsImg);
         }
+    };
+
+    useEffect(() => {
+        drawCanvasItems();
     }, []);
+    // eslint-disable-next-line
+    const isMouseInShape = function <T extends number>(x: T, y: T, ship: ship): boolean {
+        const shipLeft = ship.currentLeft;
+        const shipRight = ship.currentLeft + ship.width;
+        const shipTop = ship.currentTop;
+        const shipBottom = ship.currentTop + ship.height;
+
+        const res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
+        return res;
+    };
+
+    let differenceOfShipClickX: number;
+    let differenceOfShipClickY: number;
+
+    const mouseDown = event => {
+        data.isMoucePressed = true;
+        let canvasX = 0;
+        let canvasY = 0;
+        if (ref.current) {
+            const rect = ref.current.getBoundingClientRect();
+            canvasX = event.clientX - rect.left;
+            canvasY = event.clientY - rect.top;
+        }
+
+        shipsImg.forEach((ship, i) => {
+            if (isMouseInShape(canvasX, canvasY, ship)) {
+                data.currentShipIndex = i;
+                data.currnetShip = shipsImg[i];
+                differenceOfShipClickX = canvasX - data.currnetShip.currentLeft;
+                differenceOfShipClickY = canvasY - data.currnetShip.currentTop;
+                data.isDragging = true;
+            }
+        });
+    };
+
+    const mouseUp = () => {
+        data.isMoucePressed = false;
+        data.currentShipIndex = null;
+        data.isDragging = false;
+    };
+
+    const mouseMove = event => {
+        if (data.isMoucePressed && data.placeShipStep) {
+            let canvasX = 0;
+            let canvasY = 0;
+            if (ref.current) {
+                const rect = ref.current.getBoundingClientRect();
+                canvasX = event.clientX - rect.left;
+                canvasY = event.clientY - rect.top;
+            }
+
+            if (data.isDragging && data.currentShipIndex !== null && data.currnetShip !== null) {
+                data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
+                data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
+
+                drawCanvasItems();
+            }
+        }
+    };
 
     const {
         mode = Mode.battle,
@@ -209,7 +342,14 @@ const Game: FC<TGame> = props => {
 
                     <div className={style.middle}>
                         <div className={style.canvasWindow}>
-                            <canvas ref={ref} width={1200} height={400} />
+                            <canvas
+                                onMouseDown={mouseDown}
+                                onMouseUp={mouseUp}
+                                onMouseMove={mouseMove}
+                                ref={ref}
+                                width={1200}
+                                height={400}
+                            />
                         </div>
 
                         <div className={style.userInfoBlock}>
