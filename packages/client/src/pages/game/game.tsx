@@ -1,7 +1,7 @@
 import React, { FC, useRef, useEffect, useState, MouseEventHandler } from 'react';
-import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
+import Ships, { Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import Button from '@components/ui/button/button';
 import { Icon } from '@ui';
@@ -10,6 +10,8 @@ import GameReserve from '@/pages/game/gameReserve';
 import renderHorizontalText from './game.helper';
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
+import { RootState } from '@/store';
+import { setGame } from '@/store/slices/gameSlice';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -27,12 +29,14 @@ type TGame = {
     mode?: Mode;
     move?: Move;
     shipsCount?: number;
-    gameOver?: GameOver;
+    gameOver?: GameOver | undefined;
 };
 
-// eslint-disable-next-line
-const Game: FC<TGame> = props => {
+const Game: FC<TGame> = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
+    const gameState = useSelector((state: RootState) => state.game);
+    const { game } = gameState;
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (ref.current) {
@@ -142,22 +146,28 @@ const Game: FC<TGame> = props => {
         }
     }, []);
 
-    const {
-        mode = Mode.battle,
-        move = Move.user,
-        shipsCount = defaultShipsCount,
-        gameOver,
-    } = props;
-    const navigate = useNavigate();
+    const { mode, move, shipsCount, gameOver } = game;
 
     const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        navigate('/game');
+        dispatch(
+            setGame({
+                ...game,
+                gameOver: null,
+                mode: Mode.placement,
+            })
+        );
     };
 
     const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        navigate('/game');
+        dispatch(
+            setGame({
+                ...game,
+                gameOver: null,
+                mode: Mode.placement,
+            })
+        );
     };
 
     const endGameModalClasses = cn(style.endGameModal, {
@@ -174,6 +184,21 @@ const Game: FC<TGame> = props => {
         }
     };
 
+    const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
+        event.preventDefault();
+        dispatch(setGame({ ...game, mode: Mode.battle }));
+    };
+
+    const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+        event.preventDefault();
+        dispatch(setGame({ ...game, gameOver: GameOver.win }));
+    };
+
+    const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+        event.preventDefault();
+        dispatch(setGame({ ...game, gameOver: GameOver.defeat }));
+    };
+
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
             <div className={style.gamePage}>
@@ -182,6 +207,7 @@ const Game: FC<TGame> = props => {
                 <div className={style.buttonContainer}>
                     <Button buttonSize="medium">Выйти из игры</Button>
                 </div>
+
                 <div className={style.buttonFullscreen}>
                     <Button buttonSize="small" buttonStyle="outlined" onClick={handleFullscreen}>
                         <div
@@ -226,7 +252,27 @@ const Game: FC<TGame> = props => {
                             ) : null}
 
                             {mode === Mode.placement && !shipsCount ? (
-                                <Button buttonSize="medium">Готов к бою!</Button>
+                                <Button buttonSize="medium" onClick={gameStartHandle}>
+                                    Готов к бою!
+                                </Button>
+                            ) : null}
+
+                            {/* todo: кнопки нужны для имитации окончания игры */}
+
+                            {mode === Mode.battle ? (
+                                <>
+                                    <Button
+                                        buttonSize="medium"
+                                        onClick={gameDefeatWinHandle}
+                                        className={`${style.spacedBottom30px} ${style.spacedTop30px} `}
+                                    >
+                                        Поражение
+                                    </Button>
+
+                                    <Button buttonSize="medium" onClick={gameOverWinHandle}>
+                                        Победа
+                                    </Button>
+                                </>
                             ) : null}
                         </div>
                     </div>
