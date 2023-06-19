@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Loader } from '@ui';
+import startServiceWorker from './utils/service-worker/register-sw';
 import Router from '@/router/router';
 import '@/assets/style.scss';
 
@@ -14,3 +15,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </BrowserRouter>
     </React.StrictMode>
 );
+
+startServiceWorker();

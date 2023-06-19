@@ -25,12 +25,13 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
-            registerType: 'autoUpdate',
-            devOptions: {
-                enabled: true,
-            },
-            workbox: {
-                globPatterns: ['**/*.{ts,html,js,css,tsx,scss,woff2,png,svg,jpg,js}'],
+            srcDir: 'src/utils/service-worker',
+            filename: 'service-worker.ts',
+            strategies: 'injectManifest',
+            injectRegister: false,
+            manifest: false,
+            injectManifest: {
+                globPatterns: ['**/*.{ts,js,css,tsx,scss,woff2,png,svg,jpg,js}'],
             },
         }),
     ],
