@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useState } from 'react';
+import React, { FC, FormEventHandler, MouseEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@/components/ui/button/button';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
@@ -28,7 +28,7 @@ const ForumContent: FC<ForumContentProps> = ({ serverData, page }) => {
         setNewTopicModal(false);
     };
 
-    const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = event => {
+    const handleSubmit: FormEventHandler<HTMLFormElement & FormFields> = event => {
         event.preventDefault();
         const form = event.currentTarget;
         const { topicName, topicMessage } = form;
