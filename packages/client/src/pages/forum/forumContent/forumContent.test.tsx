@@ -70,25 +70,6 @@ describe('Forum tests', () => {
             </BrowserRouter>
         );
         userEvent.click(screen.getByText('Новая тема'));
-
         expect(screen.getByText('Создание новой темы форума')).toBeInTheDocument();
-    });
-
-    it('checks that new theme logs in console', async () => {
-        const themeName = 'New theme';
-        render(
-            <BrowserRouter>
-                <ForumContent serverData={mockServerData} page={0} />
-            </BrowserRouter>
-        );
-
-        const logSpy = jest.spyOn(global.console, 'log');
-        await userEvent.click(screen.getByText('Новая тема'));
-        const inputNode = screen.getByLabelText('Название темы');
-        await userEvent.type(inputNode, themeName);
-        //await userEvent.click(screen.getByText('Создать')); /**/
-        //screen.debug();
-        //expect(logSpy).toHaveBeenCalled();
-        //expect(logSpy).toHaveBeenCalledWith(themeName);
     });
 });

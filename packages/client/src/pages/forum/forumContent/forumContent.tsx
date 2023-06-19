@@ -6,7 +6,8 @@ import msgIcon from '@/assets/images/message_icon.png';
 import Pagination from '@/components/ui/pagination/pagination';
 import { TTopicServerData } from '@/types/data-types';
 import style from '../forum.module.scss';
-import ForumModal from '@/pages/forum/modal/modal';
+import Modal from '@/components/ui/modal/modal';
+import TopicForm from '@/pages/forum/topicForm/topicForm';
 
 type ForumContentProps = {
     serverData: TTopicServerData;
@@ -80,13 +81,10 @@ const ForumContent: FC<ForumContentProps> = ({ serverData, page }) => {
                 </div>
                 <Pagination currentPage={+page} lastPage={serverData.lastPage} linkPath="/forum/" />
             </div>
-            <ForumModal
-                newTopicModal={newTopicModal}
-                handleSubmit={handleSubmit}
-                handleCloseModal={handleCloseModal}
-            />
+            <Modal isActive={newTopicModal}>
+                <TopicForm handleSubmit={handleSubmit} handleCloseModal={handleCloseModal} />
+            </Modal>
         </>
     );
 };
-
 export default ForumContent;

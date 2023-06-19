@@ -1,18 +1,16 @@
 import React, { FC, FormEventHandler, MouseEventHandler } from 'react';
-import Modal from '@/components/ui/modal/modal';
+import Button from '@/components/ui/button/button';
 import Input from '@/components/ui/input/input';
 import TextArea from '@/components/ui/textarea/textarea';
-import Button from '@/components/ui/button/button';
 import style from '../forum.module.scss';
 
-type TModalProps = {
-    newTopicModal: boolean;
+type TTopicFormProps = {
     handleSubmit: FormEventHandler;
     handleCloseModal: MouseEventHandler;
 };
 
-const ForumModal: FC<TModalProps> = ({ newTopicModal, handleSubmit, handleCloseModal }) => (
-    <Modal isActive={newTopicModal}>
+const TopicForm: FC<TTopicFormProps> = ({ handleSubmit, handleCloseModal }) => (
+    <>
         <span className={style.modalTitle}>Создание новой темы форума</span>
         <form onSubmit={handleSubmit}>
             <div className={style['topicName-wrapper']}>
@@ -28,7 +26,7 @@ const ForumModal: FC<TModalProps> = ({ newTopicModal, handleSubmit, handleCloseM
                 </Button>
             </div>
         </form>
-    </Modal>
+    </>
 );
 
-export default ForumModal;
+export default TopicForm;
