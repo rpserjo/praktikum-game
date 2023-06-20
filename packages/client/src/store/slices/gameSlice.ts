@@ -1,24 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { defaultShipsCount, Mode } from '@components/ui/ships/ships';
 
-export enum GameOver {
+export enum GameOverReason {
     win = 'win',
     defeat = 'defeat',
 }
 
-enum Move {
+export enum Move {
     user = 'user',
     enemy = 'enemy',
 }
 
 export type TGame = {
     isMousePressed: boolean;
-    placeShipStep: boolean;
+    isShipStepPlaceable: boolean;
     currentShipIndex: null | number;
     squareSize: number;
     ctxCopy: unknown;
     shipsCount: number;
-    gameOver: GameOver | null;
+    gameOverReason: GameOverReason | null;
     mode: Mode;
     move: Move;
 };
@@ -30,12 +30,12 @@ type TGameState = {
 const initialState: TGameState = {
     game: {
         isMousePressed: false,
-        placeShipStep: true,
+        isShipStepPlaceable: true,
         currentShipIndex: null,
         squareSize: 30,
         ctxCopy: null,
         shipsCount: defaultShipsCount,
-        gameOver: null,
+        gameOverReason: null,
         mode: Mode.placement,
         move: Move.user,
     },

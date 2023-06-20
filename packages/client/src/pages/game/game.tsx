@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState, MouseEventHandler } from 'react';
+import React, { FC, useRef, useEffect, useState, MouseEventHandler, MouseEvent } from 'react';
 import Ships, { Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,26 +11,7 @@ import renderHorizontalText from './game.helper';
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
-import { setGame } from '@/store/slices/gameSlice';
-
-// todo: использование пропсов - временное решение.
-//  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
-enum Move {
-    user = 'user',
-    enemy = 'enemy',
-}
-
-export enum GameOver {
-    win = 'win',
-    defeat = 'defeat',
-}
-
-type TGame = {
-    mode?: Mode;
-    move?: Move;
-    shipsCount?: number;
-    gameOver?: GameOver | undefined;
-};
+import { GameOverReason, Move, setGame, TGame } from '@/store/slices/gameSlice';
 
 const Game: FC<TGame> = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -146,32 +127,36 @@ const Game: FC<TGame> = () => {
         }
     }, []);
 
-    const { mode, move, shipsCount, gameOver } = game;
+    const { mode, move, shipsCount, gameOverReason } = game;
 
-    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         dispatch(
             setGame({
                 ...game,
-                gameOver: null,
+                gameOverReason: null,
                 mode: Mode.placement,
             })
         );
     };
 
-    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         dispatch(
             setGame({
                 ...game,
-                gameOver: null,
+                gameOverReason: null,
                 mode: Mode.placement,
             })
         );
     };
 
     const endGameModalClasses = cn(style.endGameModal, {
-        [style.active]: !!gameOver,
+        [style.active]: !!gameOverReason,
     });
 
     const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement !== null);
@@ -191,12 +176,12 @@ const Game: FC<TGame> = () => {
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        dispatch(setGame({ ...game, gameOver: GameOver.win }));
+        dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        dispatch(setGame({ ...game, gameOver: GameOver.defeat }));
+        dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
     };
 
     return (
@@ -261,13 +246,11 @@ const Game: FC<TGame> = () => {
 
                             {mode === Mode.battle ? (
                                 <>
-                                    <Button
-                                        buttonSize="medium"
-                                        onClick={gameDefeatWinHandle}
-                                        className={`${style.spacedBottom30px} ${style.spacedTop30px} `}
-                                    >
-                                        Поражение
-                                    </Button>
+                                    <div className={style.temporaryWrapperForButton}>
+                                        <Button buttonSize="medium" onClick={gameDefeatWinHandle}>
+                                            Поражение
+                                        </Button>
+                                    </div>
 
                                     <Button buttonSize="medium" onClick={gameOverWinHandle}>
                                         Победа
@@ -286,17 +269,17 @@ const Game: FC<TGame> = () => {
                 <div className={endGameModalClasses}>
                     <div className={style.modalContent}>
                         <div className={style.modalTitle}>
-                            {gameOver === GameOver.win && 'Вы победили!'}
-                            {gameOver === GameOver.defeat && 'Вы проиграли :('}
+                            {gameOverReason === GameOverReason.win && 'Вы победили!'}
+                            {gameOverReason === GameOverReason.defeat && 'Вы проиграли :('}
                         </div>
 
-                        {gameOver === GameOver.win ? (
+                        {gameOverReason === GameOverReason.win ? (
                             <Button buttonSize="large" onClick={handleWinButtonClick}>
                                 Ура!
                             </Button>
                         ) : null}
 
-                        {gameOver === GameOver.defeat ? (
+                        {gameOverReason === GameOverReason.defeat ? (
                             <Button onClick={handleDefeatButtonClick} buttonSize="large">
                                 Угу
                             </Button>
