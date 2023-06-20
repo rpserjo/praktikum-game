@@ -45,6 +45,7 @@ const Game: FC<TGame> = props => {
         currentLeft: number;
         currentTop: number;
         isRotated: boolean;
+        isLoad: boolean;
     };
 
     const data: {
@@ -53,7 +54,6 @@ const Game: FC<TGame> = props => {
         currentShipIndex: null | number;
         currnetShip: ship | null;
         squareSize: number;
-        ctxCopy: unknown;
         isDragging: boolean;
     } = {
         isMoucePressed: false,
@@ -61,7 +61,6 @@ const Game: FC<TGame> = props => {
         currentShipIndex: null,
         currnetShip: null,
         squareSize: 30,
-        ctxCopy: null,
         isDragging: false,
     };
 
@@ -77,6 +76,7 @@ const Game: FC<TGame> = props => {
             currentLeft: 1030,
             currentTop: 160,
             isRotated: false,
+            isLoad: false,
         },
         {
             decksAmount: 3,
@@ -87,6 +87,7 @@ const Game: FC<TGame> = props => {
             currentLeft: 1060,
             currentTop: 220,
             isRotated: false,
+            isLoad: false,
         },
         {
             decksAmount: 2,
@@ -97,6 +98,7 @@ const Game: FC<TGame> = props => {
             currentLeft: 1090,
             currentTop: 280,
             isRotated: false,
+            isLoad: false,
         },
         {
             decksAmount: 1,
@@ -107,6 +109,7 @@ const Game: FC<TGame> = props => {
             currentLeft: 1120,
             currentTop: 340,
             isRotated: false,
+            isLoad: false,
         },
     ];
 
@@ -189,38 +192,51 @@ const Game: FC<TGame> = props => {
                     return;
                 }
 
+                function drawShip(
+                    ctxPassed: CanvasRenderingContext2D,
+                    ship: ship,
+                    image: HTMLImageElement
+                ) {
+                    if (ship.isRotated) {
+                        ctxPassed.save();
+                        ctxPassed.translate(
+                            ship.currentLeft + differenceOfShipClickX,
+                            ship.currentTop + differenceOfShipClickY
+                        );
+
+                        ctxPassed.rotate(Math.PI / 2);
+
+                        ctxPassed.drawImage(
+                            image,
+                            -ship.width / 2,
+                            -ship.height / 2,
+                            ship.width,
+                            ship.height
+                        );
+                        ctxPassed.restore();
+                    } else {
+                        ctxPassed.drawImage(
+                            image,
+                            ship.currentLeft,
+                            ship.currentTop,
+                            ship.width,
+                            ship.height
+                        );
+                    }
+                }
+
                 // eslint-disable-next-line
                 shipsImg.forEach((ship, i) => {
                     const image = new Image();
                     image.src = `../../../../public/sprites/ship_${i}.svg`;
-                    image.addEventListener('load', () => {
-                        if (ship.isRotated) {
-                            ctx.save();
-                            ctx.translate(
-                                ship.currentLeft + differenceOfShipClickX,
-                                ship.currentTop + differenceOfShipClickY
-                            );
-
-                            ctx.rotate(Math.PI / 2);
-
-                            ctx.drawImage(
-                                image,
-                                -ship.width / 2,
-                                -ship.height / 2,
-                                ship.width,
-                                ship.height
-                            );
-                            ctx.restore();
-                        } else {
-                            ctx.drawImage(
-                                image,
-                                ship.currentLeft,
-                                ship.currentTop,
-                                ship.width,
-                                ship.height
-                            );
-                        }
-                    });
+                    if (!ship.isLoad) {
+                        image.addEventListener('load', () => {
+                            ship.isLoad = true;
+                            drawShip(ctx, ship, image);
+                        });
+                    } else {
+                        drawShip(ctx, ship, image);
+                    }
                 });
             }
 
