@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, MouseEventHandler } from 'react';
+import React, { FC, useRef, useEffect, MouseEventHandler, MouseEvent } from 'react';
 import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useNavigate } from 'react-router-dom';
@@ -149,12 +149,16 @@ const Game: FC<TGame> = props => {
     } = props;
     const navigate = useNavigate();
 
-    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         navigate('/game');
     };
 
-    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         navigate('/game');
     };
