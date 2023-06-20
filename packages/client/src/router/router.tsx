@@ -1,7 +1,5 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { defaultShipsCount, Mode } from '@components/ui/ships/ships';
-import { GameOver } from '@pages/game/game';
 import Layout from '@/layout/default/layout';
 import { Loader } from '@/components/ui';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';
@@ -22,8 +20,6 @@ export enum RouteNames {
     SIGNIN = '/signin',
     HOME = '/home',
     GAME = '/game',
-    GAME_START = '/game/start',
-    GAME_FINISH = '/game/finish',
     PROFILE = '/profile',
     PROFILE_EDIT = '/profile/edit',
     PROFILE_PASSWORD = '/profile/password',
@@ -38,15 +34,7 @@ const Router = () => (
         <Route element={<Layout />}>
             <Route element={<PrivateRoutes />}>
                 <Route element={<HomePage />} path="/home" />
-                <Route path={RouteNames.GAME} element={<GamePage />} />
-                <Route
-                    element={<GamePage mode={Mode.placement} shipsCount={defaultShipsCount} />}
-                    path={RouteNames.GAME_START}
-                />
-                <Route
-                    element={<GamePage gameOver={GameOver.win} />}
-                    path={RouteNames.GAME_FINISH}
-                />
+                <Route element={<GamePage />} path={RouteNames.GAME} />
                 <Route element={<ProfilePage />} path={RouteNames.PROFILE} />
                 <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
                 <Route element={<ForumPage />} path="/forum/:page?" />
