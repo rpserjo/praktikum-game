@@ -34,7 +34,7 @@ const Router = () => (
         <Route element={<Layout />}>
             <Route element={<PrivateRoutes />}>
                 <Route element={<HomePage />} path="/home" />
-                <Route path={RouteNames.GAME} element={<GamePage />} />
+                <Route element={<GamePage />} path={RouteNames.GAME} />
                 <Route element={<ProfilePage />} path={RouteNames.PROFILE} />
                 <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
                 <Route element={<ForumPage />} path="/forum/:page?" />

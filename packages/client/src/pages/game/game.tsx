@@ -11,9 +11,9 @@ import renderHorizontalText from './game.helper';
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
-import { GameOverReason, Move, setGame, TGame } from '@/store/slices/gameSlice';
+import { GameOverReason, Move, setGame } from '@/store/slices/gameSlice';
 
-const Game: FC<TGame> = () => {
+const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
     const { game } = gameState;
