@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState, MouseEventHandler } from 'react';
+import React, { FC, useRef, useEffect, useState, MouseEventHandler, MouseEvent } from 'react';
 import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useNavigate } from 'react-router-dom';
@@ -192,7 +192,7 @@ const Game: FC<TGame> = props => {
                 // eslint-disable-next-line
                 shipsImg.forEach((ship, i) => {
                     const image = new Image();
-                    image.src = `../../../../public/sprites/ship_${i}.svg`;
+                    image.src = `./sprites/ship_${i}.svg`;
                     image.addEventListener('load', () => {
                         if (ship.isRotated) {
                             ctx.save();
@@ -238,7 +238,7 @@ const Game: FC<TGame> = props => {
         }
     };
 
-    const rotate = event => {
+    const rotate = (event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
             if (data.currnetShip.isRotated) {
                 data.currnetShip.isRotated = false;
@@ -268,7 +268,7 @@ const Game: FC<TGame> = props => {
         return res;
     };
 
-    const mouseDown = event => {
+    const mouseDown = (event: MouseEvent) => {
         data.isMoucePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -295,7 +295,7 @@ const Game: FC<TGame> = props => {
         data.isDragging = false;
     };
 
-    const mouseMove = event => {
+    const mouseMove = (event: MouseEvent) => {
         if (data.isMoucePressed && data.placeShipStep) {
             let canvasX = 0;
             let canvasY = 0;
@@ -322,12 +322,16 @@ const Game: FC<TGame> = props => {
     } = props;
     const navigate = useNavigate();
 
-    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         navigate('/game');
     };
 
-    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = event => {
+    const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = (
+        event: MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
         navigate('/game');
     };
