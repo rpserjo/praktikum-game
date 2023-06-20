@@ -1,39 +1,22 @@
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 
-export {};
-
-enum Route {
-    Landing = '/',
-    Signup = '/signup',
-    Signin = '/signin',
-    Home = '/home',
-    Game = '/game',
-    GameStart = '/game/start',
-    GameFinish = '/game/finish',
-    Profile = '/profile',
-    Leaderboard = '/leaderboard',
-    Forum = '/forum',
-    NotFound = '/wrong-path',
-    ServerErr = '/500',
-}
-
 declare const self: ServiceWorkerGlobalScope; // eslint-disable-line  no-undef
 
 const STATIC_CACHE = 'static-cache-v1';
 
 const URLS = [
-    Route.Landing,
-    Route.Signup,
-    Route.Signin,
-    Route.Home,
-    Route.Game,
-    Route.GameStart,
-    Route.GameFinish,
-    Route.Profile,
-    Route.Leaderboard,
-    Route.Forum,
-    Route.NotFound,
-    Route.ServerErr,
+    '/',
+    '/signup',
+    '/signin',
+    '/home',
+    '/game',
+    '/game/start',
+    '/game/finish',
+    '/profile',
+    '/leaderboard',
+    '/forum',
+    '/wrong-path',
+    '/500',
 ];
 
 self.addEventListener('install', event => {
