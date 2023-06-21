@@ -228,7 +228,7 @@ const Game: FC<TGame> = props => {
                 // eslint-disable-next-line
                 shipsImg.forEach((ship, i) => {
                     const image = new Image();
-                    image.src = `../../../../public/ship_${i}.svg`;
+                    image.src = `./sprites/ship_${i}.svg`;
                     if (!ship.isLoad) {
                         image.addEventListener('load', () => {
                             ship.isLoad = true;
