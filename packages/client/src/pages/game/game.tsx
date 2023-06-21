@@ -163,7 +163,7 @@ const Game: FC<TGame> = props => {
 
             // render horisontal text
             // eslint-disable-next-line
-            ctx.font = '19px Tektur';
+            ctx.font = '19px tektur';
             ctx.fillStyle = 'white';
             const textHeight = 'A B C D E F G H I J';
             // eslint-disable-next-line
