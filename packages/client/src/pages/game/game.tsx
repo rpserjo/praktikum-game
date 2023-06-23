@@ -33,8 +33,6 @@ type TGame = {
 // eslint-disable-next-line
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-    let differenceOfShipClickX: number;
-    let differenceOfShipClickY: number;
 
     type ship = {
         decksAmount: number;
@@ -199,16 +197,13 @@ const Game: FC<TGame> = props => {
                 ) {
                     if (ship.isRotated) {
                         ctxPassed.save();
-                        ctxPassed.translate(
-                            ship.currentLeft + differenceOfShipClickX,
-                            ship.currentTop + differenceOfShipClickY
-                        );
+                        ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
 
                         ctxPassed.rotate(Math.PI / 2);
 
                         ctxPassed.drawImage(
                             image,
-                            -ship.width / 2,
+                            -ship.width / 2 + 15,
                             -ship.height / 2,
                             ship.width,
                             ship.height
@@ -277,9 +272,9 @@ const Game: FC<TGame> = props => {
         let shipBottom;
         let res;
         if (ship.isRotated) {
-            shipLeft = ship.currentLeft + ship.width / 2;
+            shipLeft = ship.currentLeft - 15 + ship.width / 2;
             shipRight = shipLeft + ship.height;
-            shipTop = ship.currentTop - ship.height / 2;
+            shipTop = ship.currentTop + 15 - ship.width / 2;
             shipBottom = shipTop + ship.width;
             res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
         } else {
@@ -307,9 +302,6 @@ const Game: FC<TGame> = props => {
             if (isMouseInShape(canvasX, canvasY, ship)) {
                 data.currentShipIndex = i;
                 data.currnetShip = shipsImg[i];
-
-                differenceOfShipClickX = canvasX - data.currnetShip.currentLeft;
-                differenceOfShipClickY = canvasY - data.currnetShip.currentTop;
                 data.isDragging = true;
             }
         });
@@ -333,8 +325,8 @@ const Game: FC<TGame> = props => {
             }
 
             if (data.isDragging && data.currentShipIndex !== null && data.currnetShip !== null) {
-                data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
-                data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
+                data.currnetShip.currentLeft = canvasX - data.currnetShip.width / 2;
+                data.currnetShip.currentTop = canvasY - data.currnetShip.height / 2;
 
                 drawCanvasItems();
             }
