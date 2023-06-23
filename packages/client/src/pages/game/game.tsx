@@ -245,8 +245,10 @@ const Game: FC<TGame> = props => {
         if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
             if (data.currnetShip.isRotated) {
                 data.currnetShip.isRotated = false;
+                drawCanvasItems(ref);
             } else {
                 data.currnetShip.isRotated = true;
+                drawCanvasItems(ref);
             }
         }
     };
@@ -254,6 +256,8 @@ const Game: FC<TGame> = props => {
     useEffect(() => {
         drawCanvasItems(ref);
         window.addEventListener('keydown', rotate);
+
+        return () => window.removeEventListener('keydown', rotate);
     }, []);
 
     // eslint-disable-next-line
