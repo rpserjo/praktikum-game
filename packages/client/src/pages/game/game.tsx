@@ -110,6 +110,47 @@ const shipsImg: ships = [
     },
 ];
 
+// eslint-disable-next-line
+function renderShips(ctx: CanvasRenderingContext2D, shipsImg: ships) {
+    if (ctx === null || ctx === undefined) {
+        return;
+    }
+
+    function drawShip(ctxPassed: CanvasRenderingContext2D, ship: ship, image: HTMLImageElement) {
+        if (ship.isRotated) {
+            ctxPassed.save();
+            ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
+
+            ctxPassed.rotate(Math.PI / 2);
+
+            ctxPassed.drawImage(
+                image,
+                -ship.width / 2 + 15,
+                -ship.height / 2,
+                ship.width,
+                ship.height
+            );
+            ctxPassed.restore();
+        } else {
+            ctxPassed.drawImage(image, ship.currentLeft, ship.currentTop, ship.width, ship.height);
+        }
+    }
+
+    // eslint-disable-next-line
+    shipsImg.forEach((ship, i) => {
+        const image = new Image();
+        image.src = `./sprites/ship_${i}.svg`;
+        if (!ship.isLoad) {
+            image.addEventListener('load', () => {
+                ship.isLoad = true;
+                drawShip(ctx, ship, image);
+            });
+        } else {
+            drawShip(ctx, ship, image);
+        }
+    });
+}
+
 const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
@@ -183,57 +224,6 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         // render ships
         ctx.font = '32px Arial';
 
-        // eslint-disable-next-line
-        function renderShips(shipsImg: ships) {
-            if (ctx === null || ctx === undefined) {
-                return;
-            }
-
-            function drawShip(
-                ctxPassed: CanvasRenderingContext2D,
-                ship: ship,
-                image: HTMLImageElement
-            ) {
-                if (ship.isRotated) {
-                    ctxPassed.save();
-                    ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
-
-                    ctxPassed.rotate(Math.PI / 2);
-
-                    ctxPassed.drawImage(
-                        image,
-                        -ship.width / 2 + 15,
-                        -ship.height / 2,
-                        ship.width,
-                        ship.height
-                    );
-                    ctxPassed.restore();
-                } else {
-                    ctxPassed.drawImage(
-                        image,
-                        ship.currentLeft,
-                        ship.currentTop,
-                        ship.width,
-                        ship.height
-                    );
-                }
-            }
-
-            // eslint-disable-next-line
-            shipsImg.forEach((ship, i) => {
-                const image = new Image();
-                image.src = `./sprites/ship_${i}.svg`;
-                if (!ship.isLoad) {
-                    image.addEventListener('load', () => {
-                        ship.isLoad = true;
-                        drawShip(ctx, ship, image);
-                    });
-                } else {
-                    drawShip(ctx, ship, image);
-                }
-            });
-        }
-
         // create ship nums
         const numLeft = 1175;
         const numTop = 188;
@@ -244,7 +234,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
             ctx.fillText(String(ship.decksAmount), numLeft, numTop + i * numHeightAdd);
         });
 
-        renderShips(shipsImg);
+        renderShips(ctx, shipsImg);
     }
 };
 
