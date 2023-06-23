@@ -251,7 +251,7 @@ const Game: FC<TGame> = props => {
         }
     };
 
-    const rotate = event => {
+    const rotate = (event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
             if (data.currnetShip.isRotated) {
                 data.currnetShip.isRotated = false;
@@ -290,7 +290,7 @@ const Game: FC<TGame> = props => {
         return res;
     };
 
-    const mouseDown = event => {
+    const mouseDown = (event: React.MouseEvent) => {
         data.isMoucePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -354,7 +354,7 @@ const Game: FC<TGame> = props => {
         data.isDragging = false;
     };
 
-    const mouseMove = event => {
+    const mouseMove = (event: React.MouseEvent) => {
         if (data.isMoucePressed && data.placeShipStep) {
             let canvasX = 0;
             let canvasY = 0;
