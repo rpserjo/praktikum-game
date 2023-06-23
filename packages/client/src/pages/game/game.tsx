@@ -53,6 +53,7 @@ const Game: FC<TGame> = props => {
         currnetShip: ship | null;
         squareSize: number;
         isDragging: boolean;
+        userField: { size: number; left: number; top: number };
     } = {
         isMoucePressed: false,
         placeShipStep: true,
@@ -60,6 +61,7 @@ const Game: FC<TGame> = props => {
         currnetShip: null,
         squareSize: 30,
         isDragging: false,
+        userField: { size: 300, left: 650, top: 70 },
     };
 
     type ships = Array<ship>;
@@ -307,7 +309,45 @@ const Game: FC<TGame> = props => {
         });
     };
 
+    const isDraggedIntoDropField = function (): boolean {
+        let res = false;
+        const ship = data.currnetShip;
+        const x = data.userField.left;
+        const xWidth = data.userField.left + data.userField.size;
+        const y = data.userField.top;
+        const yWidth = data.userField.top + data.userField.size;
+
+        if (ship !== null) {
+            if (ship.isRotated) {
+                const shipLeft = ship.currentLeft - 15 + ship.width / 2;
+                const shipRight = shipLeft + ship.height;
+                const shipTop = ship.currentTop + 15 - ship.width / 2;
+                const shipBottom = shipTop + ship.width;
+                res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
+            } else {
+                const shipLeft = ship.currentLeft;
+                const shipRight = ship.currentLeft + ship.width;
+                const shipTop = ship.currentTop;
+                const shipBottom = ship.currentTop + ship.height;
+                res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
+            }
+        }
+
+        return res;
+    };
+
     const mouseUp = () => {
+        if (data.isDragging) {
+            if (isDraggedIntoDropField()) {
+                console.log('поставили');
+                //  функция смещения корабля под размер клеток
+                //  запись в дату клеток занятых конкретным кораблем
+            } else {
+                console.log('не поставили');
+                //  функция возвращения на место
+            }
+        }
+
         data.isMoucePressed = false;
         data.currentShipIndex = null;
         data.currnetShip = null;
