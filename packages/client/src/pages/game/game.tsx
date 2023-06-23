@@ -163,7 +163,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         ctx.font = '19px Arial';
         ctx.fillStyle = 'white';
         const textHeight = 'A B C D E F G H I J';
-        // eslint-disable-next-line
+
         for (let i = 0; i < 2; i += 1) {
             renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6);
         }
