@@ -210,7 +210,6 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         }
 
         const top = 93;
-        // eslint-disable-next-line
         [...Array(2).keys()].forEach(i => {
             for (let index = 0; index < 10; index += 1) {
                 let left = 233 + 400 * i;
