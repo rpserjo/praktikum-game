@@ -44,7 +44,7 @@ type ship = {
 type ships = Array<ship>;
 
 type dataType = {
-    isMoucePressed: boolean;
+    isMousePressed: boolean;
     placeShipStep: boolean;
     currentShipIndex: null | number;
     currnetShip: ship | null;
@@ -54,7 +54,7 @@ type dataType = {
 };
 
 const data: dataType = {
-    isMoucePressed: false,
+    isMousePressed: false,
     placeShipStep: true,
     currentShipIndex: null,
     currnetShip: null,
@@ -151,6 +151,26 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsImg: ships) {
     });
 }
 
+// eslint-disable-next-line
+const roundRect = function <T extends number>(
+    ctx: CanvasRenderingContext2D,
+    x: T,
+    y: T,
+    width: T,
+    height: T,
+    radius: T
+): void {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + width, y, x + width, y + height, radius);
+    ctx.arcTo(x + width, y + height, x, y + height, radius);
+    ctx.arcTo(x, y + height, x, y, radius);
+    ctx.arcTo(x, y, x + width, y, radius);
+    ctx.closePath();
+    ctx.fillStyle = '#265B8F';
+    ctx.fill();
+};
+
 const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
@@ -162,25 +182,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         ctx.clearRect(0, 0, 1200, 400);
 
         // render main field
-        // eslint-disable-next-line
-        const roundRect = function <T extends number>(
-            x: T,
-            y: T,
-            width: T,
-            height: T,
-            radius: T
-        ): void {
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.arcTo(x + width, y, x + width, y + height, radius);
-            ctx.arcTo(x + width, y + height, x, y + height, radius);
-            ctx.arcTo(x, y + height, x, y, radius);
-            ctx.arcTo(x, y, x + width, y, radius);
-            ctx.closePath();
-            ctx.fillStyle = '#265B8F';
-            ctx.fill();
-        };
-        roundRect(200, 0, 800, 400, 10);
+        roundRect(ctx, 200, 0, 800, 400, 10);
 
         // render battlefield
         // eslint-disable-next-line
@@ -237,6 +239,29 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
     }
 };
 
+const isMouseInShape = function (x: number, y: number, ship: ship): boolean {
+    let shipLeft;
+    let shipRight;
+    let shipTop;
+    let shipBottom;
+    let res;
+    if (ship.isRotated) {
+        shipLeft = ship.currentLeft - 15 + ship.width / 2;
+        shipRight = shipLeft + ship.height;
+        shipTop = ship.currentTop + 15 - ship.width / 2;
+        shipBottom = shipTop + ship.width;
+        res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
+    } else {
+        shipLeft = ship.currentLeft;
+        shipRight = ship.currentLeft + ship.width;
+        shipTop = ship.currentTop;
+        shipBottom = ship.currentTop + ship.height;
+        res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
+    }
+
+    return res;
+};
+
 // eslint-disable-next-line
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -260,32 +285,8 @@ const Game: FC<TGame> = props => {
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
-    // eslint-disable-next-line
-    const isMouseInShape = function <T extends number>(x: T, y: T, ship: ship): boolean {
-        let shipLeft;
-        let shipRight;
-        let shipTop;
-        let shipBottom;
-        let res;
-        if (ship.isRotated) {
-            shipLeft = ship.currentLeft - 15 + ship.width / 2;
-            shipRight = shipLeft + ship.height;
-            shipTop = ship.currentTop + 15 - ship.width / 2;
-            shipBottom = shipTop + ship.width;
-            res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
-        } else {
-            shipLeft = ship.currentLeft;
-            shipRight = ship.currentLeft + ship.width;
-            shipTop = ship.currentTop;
-            shipBottom = ship.currentTop + ship.height;
-            res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
-        }
-
-        return res;
-    };
-
     const mouseDown = (event: React.MouseEvent) => {
-        data.isMoucePressed = true;
+        data.isMousePressed = true;
         let canvasX = 0;
         let canvasY = 0;
         if (ref.current) {
@@ -342,20 +343,22 @@ const Game: FC<TGame> = props => {
             }
         }
 
-        data.isMoucePressed = false;
+        data.isMousePressed = false;
         data.currentShipIndex = null;
         data.currnetShip = null;
         data.isDragging = false;
     };
 
     const mouseMove = (event: React.MouseEvent) => {
-        if (data.isMoucePressed && data.placeShipStep) {
+        if (data.isMousePressed && data.placeShipStep) {
             let canvasX = 0;
             let canvasY = 0;
             if (ref.current) {
                 const rect = ref.current.getBoundingClientRect();
                 canvasX = event.clientX - rect.left;
                 canvasY = event.clientY - rect.top;
+            } else {
+                return;
             }
 
             if (data.isDragging && data.currentShipIndex !== null && data.currnetShip !== null) {
