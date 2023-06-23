@@ -163,7 +163,7 @@ const Game: FC<TGame> = props => {
 
             // render horisontal text
             // eslint-disable-next-line
-            ctx.font = '19px tektur';
+            ctx.font = '19px Arial';
             ctx.fillStyle = 'white';
             const textHeight = 'A B C D E F G H I J';
             // eslint-disable-next-line
@@ -184,7 +184,7 @@ const Game: FC<TGame> = props => {
                 }
             });
             // render ships
-            ctx.font = '32px Tektur';
+            ctx.font = '32px Arial';
 
             // eslint-disable-next-line
             function renderShips(shipsImg: ships) {
@@ -260,11 +260,6 @@ const Game: FC<TGame> = props => {
                 data.currnetShip.isRotated = false;
             } else {
                 data.currnetShip.isRotated = true;
-                // const oldHeght = data.currnetShip.height;
-                // data.currnetShip.height = data.currnetShip.width;
-                // data.currnetShip.width = oldHeght;
-                // data.currnetShip.currentLeft = canvasX - differenceOfShipClickX;
-                // data.currnetShip.currentTop = canvasY - differenceOfShipClickY;
             }
         }
     };
@@ -273,14 +268,28 @@ const Game: FC<TGame> = props => {
         drawCanvasItems();
         window.addEventListener('keydown', rotate);
     }, []);
+
     // eslint-disable-next-line
     const isMouseInShape = function <T extends number>(x: T, y: T, ship: ship): boolean {
-        const shipLeft = ship.currentLeft;
-        const shipRight = ship.currentLeft + ship.width;
-        const shipTop = ship.currentTop;
-        const shipBottom = ship.currentTop + ship.height;
+        let shipLeft;
+        let shipRight;
+        let shipTop;
+        let shipBottom;
+        let res;
+        if (ship.isRotated) {
+            shipLeft = ship.currentLeft + ship.width / 2;
+            shipRight = shipLeft + ship.height;
+            shipTop = ship.currentTop - ship.height / 2;
+            shipBottom = shipTop + ship.width;
+            res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
+        } else {
+            shipLeft = ship.currentLeft;
+            shipRight = ship.currentLeft + ship.width;
+            shipTop = ship.currentTop;
+            shipBottom = ship.currentTop + ship.height;
+            res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
+        }
 
-        const res = x > shipLeft && x < shipRight && y > shipTop && y < shipBottom;
         return res;
     };
 
@@ -298,6 +307,7 @@ const Game: FC<TGame> = props => {
             if (isMouseInShape(canvasX, canvasY, ship)) {
                 data.currentShipIndex = i;
                 data.currnetShip = shipsImg[i];
+
                 differenceOfShipClickX = canvasX - data.currnetShip.currentLeft;
                 differenceOfShipClickY = canvasY - data.currnetShip.currentTop;
                 data.isDragging = true;
@@ -308,6 +318,7 @@ const Game: FC<TGame> = props => {
     const mouseUp = () => {
         data.isMoucePressed = false;
         data.currentShipIndex = null;
+        data.currnetShip = null;
         data.isDragging = false;
     };
 
