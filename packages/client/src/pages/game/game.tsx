@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState, MouseEventHandler } from 'react';
+import React, { FC, useRef, useEffect, useState, MouseEventHandler, RefObject } from 'react';
 import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useNavigate } from 'react-router-dom';
@@ -30,226 +30,227 @@ type TGame = {
     gameOver?: GameOver;
 };
 
-// eslint-disable-next-line
-const Game: FC<TGame> = props => {
-    const ref = useRef<HTMLCanvasElement | null>(null);
+type ship = {
+    decksAmount: number;
+    width: number;
+    height: number;
+    originLeft: number;
+    originTop: number;
+    currentLeft: number;
+    currentTop: number;
+    isRotated: boolean;
+    isLoad: boolean;
+};
+type ships = Array<ship>;
 
-    type ship = {
-        decksAmount: number;
-        width: number;
-        height: number;
-        originLeft: number;
-        originTop: number;
-        currentLeft: number;
-        currentTop: number;
-        isRotated: boolean;
-        isLoad: boolean;
-    };
+type dataType = {
+    isMoucePressed: boolean;
+    placeShipStep: boolean;
+    currentShipIndex: null | number;
+    currnetShip: ship | null;
+    squareSize: number;
+    isDragging: boolean;
+    userField: { size: number; left: number; top: number };
+};
 
-    const data: {
-        isMoucePressed: boolean;
-        placeShipStep: boolean;
-        currentShipIndex: null | number;
-        currnetShip: ship | null;
-        squareSize: number;
-        isDragging: boolean;
-        userField: { size: number; left: number; top: number };
-    } = {
-        isMoucePressed: false,
-        placeShipStep: true,
-        currentShipIndex: null,
-        currnetShip: null,
-        squareSize: 30,
-        isDragging: false,
-        userField: { size: 300, left: 650, top: 70 },
-    };
+const data: dataType = {
+    isMoucePressed: false,
+    placeShipStep: true,
+    currentShipIndex: null,
+    currnetShip: null,
+    squareSize: 30,
+    isDragging: false,
+    userField: { size: 300, left: 650, top: 70 },
+};
 
-    type ships = Array<ship>;
+const shipsImg: ships = [
+    {
+        decksAmount: 4,
+        width: 120,
+        height: 30,
+        originLeft: 1030,
+        originTop: 160,
+        currentLeft: 1030,
+        currentTop: 160,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 3,
+        width: 90,
+        height: 30,
+        originLeft: 1060,
+        originTop: 220,
+        currentLeft: 1060,
+        currentTop: 220,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 2,
+        width: 60,
+        height: 30,
+        originLeft: 1090,
+        originTop: 280,
+        currentLeft: 1090,
+        currentTop: 280,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 1,
+        width: 30,
+        height: 30,
+        originLeft: 1120,
+        originTop: 340,
+        currentLeft: 1120,
+        currentTop: 340,
+        isRotated: false,
+        isLoad: false,
+    },
+];
 
-    const shipsImg: ships = [
-        {
-            decksAmount: 4,
-            width: 120,
-            height: 30,
-            originLeft: 1030,
-            originTop: 160,
-            currentLeft: 1030,
-            currentTop: 160,
-            isRotated: false,
-            isLoad: false,
-        },
-        {
-            decksAmount: 3,
-            width: 90,
-            height: 30,
-            originLeft: 1060,
-            originTop: 220,
-            currentLeft: 1060,
-            currentTop: 220,
-            isRotated: false,
-            isLoad: false,
-        },
-        {
-            decksAmount: 2,
-            width: 60,
-            height: 30,
-            originLeft: 1090,
-            originTop: 280,
-            currentLeft: 1090,
-            currentTop: 280,
-            isRotated: false,
-            isLoad: false,
-        },
-        {
-            decksAmount: 1,
-            width: 30,
-            height: 30,
-            originLeft: 1120,
-            originTop: 340,
-            currentLeft: 1120,
-            currentTop: 340,
-            isRotated: false,
-            isLoad: false,
-        },
-    ];
+const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
+    if (ref.current) {
+        const ctx = ref.current.getContext('2d');
 
-    const drawCanvasItems = function () {
-        if (ref.current) {
-            const ctx = ref.current.getContext('2d');
+        if (ctx === null || ctx === undefined) {
+            return;
+        }
 
+        ctx.clearRect(0, 0, 1200, 400);
+
+        // render main field
+        // eslint-disable-next-line
+        const roundRect = function <T extends number>(
+            x: T,
+            y: T,
+            width: T,
+            height: T,
+            radius: T
+        ): void {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.arcTo(x + width, y, x + width, y + height, radius);
+            ctx.arcTo(x + width, y + height, x, y + height, radius);
+            ctx.arcTo(x, y + height, x, y, radius);
+            ctx.arcTo(x, y, x + width, y, radius);
+            ctx.closePath();
+            ctx.fillStyle = '#265B8F';
+            ctx.fill();
+        };
+        roundRect(200, 0, 800, 400, 10);
+
+        // render battlefield
+        // eslint-disable-next-line
+        const renderBattlefield = function <T extends number>(x: T, y: T): void {
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1;
+            const fieldSize = 30;
+            const screenSize = 300;
+
+            for (let index = 0; index < 10; index += 1) {
+                ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
+                ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
+            }
+        };
+
+        renderBattlefield(650, 70);
+        renderBattlefield(250, 70);
+
+        // render horisontal text
+        // eslint-disable-next-line
+        ctx.font = '19px Arial';
+        ctx.fillStyle = 'white';
+        const textHeight = 'A B C D E F G H I J';
+        // eslint-disable-next-line
+        for (let i = 0; i < 2; i += 1) {
+            renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6);
+        }
+
+        const top = 93;
+        // eslint-disable-next-line
+        [...Array(2).keys()].forEach(i => {
+            for (let index = 0; index < 10; index += 1) {
+                let left = 233 + 400 * i;
+                if (index === 9) {
+                    const tenWidth = 7;
+                    left -= tenWidth;
+                }
+                ctx.fillText(String(index + 1), left, top + data.squareSize * index);
+            }
+        });
+        // render ships
+        ctx.font = '32px Arial';
+
+        // eslint-disable-next-line
+        function renderShips(shipsImg: ships) {
             if (ctx === null || ctx === undefined) {
                 return;
             }
 
-            ctx.clearRect(0, 0, 1200, 400);
+            function drawShip(
+                ctxPassed: CanvasRenderingContext2D,
+                ship: ship,
+                image: HTMLImageElement
+            ) {
+                if (ship.isRotated) {
+                    ctxPassed.save();
+                    ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
 
-            // render main field
-            // eslint-disable-next-line
-            const roundRect = function <T extends number>(
-                x: T,
-                y: T,
-                width: T,
-                height: T,
-                radius: T
-            ): void {
-                ctx.beginPath();
-                ctx.moveTo(x + radius, y);
-                ctx.arcTo(x + width, y, x + width, y + height, radius);
-                ctx.arcTo(x + width, y + height, x, y + height, radius);
-                ctx.arcTo(x, y + height, x, y, radius);
-                ctx.arcTo(x, y, x + width, y, radius);
-                ctx.closePath();
-                ctx.fillStyle = '#265B8F';
-                ctx.fill();
-            };
-            roundRect(200, 0, 800, 400, 10);
+                    ctxPassed.rotate(Math.PI / 2);
 
-            // render battlefield
-            // eslint-disable-next-line
-            const renderBattlefield = function <T extends number>(x: T, y: T): void {
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 1;
-                const fieldSize = 30;
-                const screenSize = 300;
-
-                for (let index = 0; index < 10; index += 1) {
-                    ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
-                    ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
+                    ctxPassed.drawImage(
+                        image,
+                        -ship.width / 2 + 15,
+                        -ship.height / 2,
+                        ship.width,
+                        ship.height
+                    );
+                    ctxPassed.restore();
+                } else {
+                    ctxPassed.drawImage(
+                        image,
+                        ship.currentLeft,
+                        ship.currentTop,
+                        ship.width,
+                        ship.height
+                    );
                 }
-            };
-
-            renderBattlefield(650, 70);
-            renderBattlefield(250, 70);
-
-            // render horisontal text
-            // eslint-disable-next-line
-            ctx.font = '19px Arial';
-            ctx.fillStyle = 'white';
-            const textHeight = 'A B C D E F G H I J';
-            // eslint-disable-next-line
-            for (let i = 0; i < 2; i += 1) {
-                renderHorizontalText(ctx, textHeight, 257 + 400 * i, 63, 6.6);
             }
-
-            const top = 93;
-            // eslint-disable-next-line
-            [...Array(2).keys()].forEach(i => {
-                for (let index = 0; index < 10; index += 1) {
-                    let left = 233 + 400 * i;
-                    if (index === 9) {
-                        const tenWidth = 7;
-                        left -= tenWidth;
-                    }
-                    ctx.fillText(String(index + 1), left, top + data.squareSize * index);
-                }
-            });
-            // render ships
-            ctx.font = '32px Arial';
-
-            // eslint-disable-next-line
-            function renderShips(shipsImg: ships) {
-                if (ctx === null || ctx === undefined) {
-                    return;
-                }
-
-                function drawShip(
-                    ctxPassed: CanvasRenderingContext2D,
-                    ship: ship,
-                    image: HTMLImageElement
-                ) {
-                    if (ship.isRotated) {
-                        ctxPassed.save();
-                        ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
-
-                        ctxPassed.rotate(Math.PI / 2);
-
-                        ctxPassed.drawImage(
-                            image,
-                            -ship.width / 2 + 15,
-                            -ship.height / 2,
-                            ship.width,
-                            ship.height
-                        );
-                        ctxPassed.restore();
-                    } else {
-                        ctxPassed.drawImage(
-                            image,
-                            ship.currentLeft,
-                            ship.currentTop,
-                            ship.width,
-                            ship.height
-                        );
-                    }
-                }
-
-                // eslint-disable-next-line
-                shipsImg.forEach((ship, i) => {
-                    const image = new Image();
-                    image.src = `./sprites/ship_${i}.svg`;
-                    if (!ship.isLoad) {
-                        image.addEventListener('load', () => {
-                            ship.isLoad = true;
-                            drawShip(ctx, ship, image);
-                        });
-                    } else {
-                        drawShip(ctx, ship, image);
-                    }
-                });
-            }
-
-            // create ship nums
-            const numLeft = 1175;
-            const numTop = 188;
-            const numHeightAdd = 59;
 
             // eslint-disable-next-line
             shipsImg.forEach((ship, i) => {
-                ctx.fillText(String(ship.decksAmount), numLeft, numTop + i * numHeightAdd);
+                const image = new Image();
+                image.src = `./sprites/ship_${i}.svg`;
+                if (!ship.isLoad) {
+                    image.addEventListener('load', () => {
+                        ship.isLoad = true;
+                        drawShip(ctx, ship, image);
+                    });
+                } else {
+                    drawShip(ctx, ship, image);
+                }
             });
-
-            renderShips(shipsImg);
         }
-    };
+
+        // create ship nums
+        const numLeft = 1175;
+        const numTop = 188;
+        const numHeightAdd = 59;
+
+        // eslint-disable-next-line
+        shipsImg.forEach((ship, i) => {
+            ctx.fillText(String(ship.decksAmount), numLeft, numTop + i * numHeightAdd);
+        });
+
+        renderShips(shipsImg);
+    }
+};
+
+// eslint-disable-next-line
+const Game: FC<TGame> = props => {
+    const ref = useRef<HTMLCanvasElement | null>(null);
 
     const rotate = (event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
@@ -262,7 +263,7 @@ const Game: FC<TGame> = props => {
     };
 
     useEffect(() => {
-        drawCanvasItems();
+        drawCanvasItems(ref);
         window.addEventListener('keydown', rotate);
     }, []);
 
@@ -368,7 +369,7 @@ const Game: FC<TGame> = props => {
                 data.currnetShip.currentLeft = canvasX - data.currnetShip.width / 2;
                 data.currnetShip.currentTop = canvasY - data.currnetShip.height / 2;
 
-                drawCanvasItems();
+                drawCanvasItems(ref);
             }
         }
     };
