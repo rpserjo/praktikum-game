@@ -30,7 +30,7 @@ type TGame = {
     gameOver?: GameOver;
 };
 
-type ship = {
+type Ship = {
     decksAmount: number;
     width: number;
     height: number;
@@ -41,19 +41,19 @@ type ship = {
     isRotated: boolean;
     isLoad: boolean;
 };
-type ships = Array<ship>;
+type ShipsType = Array<Ship>;
 
-type dataType = {
+type DataType = {
     isMousePressed: boolean;
     placeShipStep: boolean;
     currentShipIndex: null | number;
-    currnetShip: ship | null;
+    currnetShip: Ship | null;
     squareSize: number;
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
 };
 
-const data: dataType = {
+const data: DataType = {
     isMousePressed: false,
     placeShipStep: true,
     currentShipIndex: null,
@@ -63,7 +63,7 @@ const data: dataType = {
     userField: { size: 300, left: 650, top: 70 },
 };
 
-const shipsImg: ships = [
+const shipsImg: ShipsType = [
     {
         decksAmount: 4,
         width: 120,
@@ -110,34 +110,26 @@ const shipsImg: ships = [
     },
 ];
 
-// eslint-disable-next-line
-function renderShips(ctx: CanvasRenderingContext2D, shipsImg: ships) {
+function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLImageElement) {
+    if (ship.isRotated) {
+        ctxPassed.save();
+        ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
+
+        ctxPassed.rotate(Math.PI / 2);
+
+        ctxPassed.drawImage(image, -ship.width / 2 + 15, -ship.height / 2, ship.width, ship.height);
+        ctxPassed.restore();
+    } else {
+        ctxPassed.drawImage(image, ship.currentLeft, ship.currentTop, ship.width, ship.height);
+    }
+}
+
+function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     if (ctx === null || ctx === undefined) {
         return;
     }
 
-    function drawShip(ctxPassed: CanvasRenderingContext2D, ship: ship, image: HTMLImageElement) {
-        if (ship.isRotated) {
-            ctxPassed.save();
-            ctxPassed.translate(ship.currentLeft + ship.width / 2, ship.currentTop);
-
-            ctxPassed.rotate(Math.PI / 2);
-
-            ctxPassed.drawImage(
-                image,
-                -ship.width / 2 + 15,
-                -ship.height / 2,
-                ship.width,
-                ship.height
-            );
-            ctxPassed.restore();
-        } else {
-            ctxPassed.drawImage(image, ship.currentLeft, ship.currentTop, ship.width, ship.height);
-        }
-    }
-
-    // eslint-disable-next-line
-    shipsImg.forEach((ship, i) => {
+    shipsPictures.forEach((ship, i) => {
         const image = new Image();
         image.src = `./sprites/ship_${i}.svg`;
         if (!ship.isLoad) {
@@ -151,14 +143,13 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsImg: ships) {
     });
 }
 
-// eslint-disable-next-line
-const roundRect = function <T extends number>(
+const roundRect = function (
     ctx: CanvasRenderingContext2D,
-    x: T,
-    y: T,
-    width: T,
-    height: T,
-    radius: T
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    radius: number
 ): void {
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
@@ -171,6 +162,18 @@ const roundRect = function <T extends number>(
     ctx.fill();
 };
 
+const renderBattlefield = function (ctx: CanvasRenderingContext2D, x: number, y: number): void {
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
+    const fieldSize = 30;
+    const screenSize = 300;
+
+    for (let index = 0; index < 10; index += 1) {
+        ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
+        ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
+    }
+};
+
 const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
@@ -180,29 +183,13 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         }
 
         ctx.clearRect(0, 0, 1200, 400);
-
         // render main field
         roundRect(ctx, 200, 0, 800, 400, 10);
 
-        // render battlefield
-        // eslint-disable-next-line
-        const renderBattlefield = function <T extends number>(x: T, y: T): void {
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 1;
-            const fieldSize = 30;
-            const screenSize = 300;
-
-            for (let index = 0; index < 10; index += 1) {
-                ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
-                ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
-            }
-        };
-
-        renderBattlefield(650, 70);
-        renderBattlefield(250, 70);
+        renderBattlefield(ctx, 650, 70);
+        renderBattlefield(ctx, 250, 70);
 
         // render horisontal text
-        // eslint-disable-next-line
         ctx.font = '19px Arial';
         ctx.fillStyle = 'white';
         const textHeight = 'A B C D E F G H I J';
@@ -230,7 +217,6 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         const numTop = 188;
         const numHeightAdd = 59;
 
-        // eslint-disable-next-line
         shipsImg.forEach((ship, i) => {
             ctx.fillText(String(ship.decksAmount), numLeft, numTop + i * numHeightAdd);
         });
@@ -239,7 +225,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
     }
 };
 
-const isMouseInShape = function (x: number, y: number, ship: ship): boolean {
+const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     let shipLeft;
     let shipRight;
     let shipTop;
@@ -262,7 +248,6 @@ const isMouseInShape = function (x: number, y: number, ship: ship): boolean {
     return res;
 };
 
-// eslint-disable-next-line
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
