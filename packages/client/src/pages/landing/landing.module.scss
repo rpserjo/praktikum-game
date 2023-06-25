@@ -39,7 +39,7 @@
         text-align: center;
         color: $colorText;
         font-weight: 500;
-        margin-top: 20px;
+        margin-top: 40px;
         font-size: 48px;
         
     }
@@ -52,5 +52,27 @@
     }
     .margyncostyl {
         width: 30px;
+    }
+
+    
+
+    .steps{
+        &-parent{
+            display: block;
+            margin: 30px auto 0;
+            line-height:200%
+        }
+
+        &-title{
+            color: $colorText;
+            font-size: 30px;
+            text-decoration: none;
+            margin-left: -22px;
+        }
+        
+        &-subtitle{
+            color: $colorText;
+            font-size: 30px;
+        }
     }
 }

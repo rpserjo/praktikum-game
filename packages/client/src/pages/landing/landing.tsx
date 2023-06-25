@@ -12,7 +12,20 @@ const Landing: FC = () => {
                 <h1 className={style.title}>Морской бой</h1>
                 <h2 className={style.subtitle}>Легендарная игра теперь в твоем браузере!</h2>
                 <h3 className={style.subtitle}>Это классический морской бой.</h3>
+                <ol className={style['steps-parent']}>
+                    <p className={style['steps-title']}>Для того чтобы начать игру:</p>
+                    <li className={style['steps-subtitle']}>
+                        Выбери режим одиночной игры или онлайн
+                    </li>
+                    <li className={style['steps-subtitle']}>Расставь корабли на игровом поле</li>
+                    <li className={style['steps-subtitle']}>Нажми кнопку “Готов к бою!”</li>
+                    <li className={style['steps-subtitle']}>
+                        Кликай по клеткам на поле противника, чтобы сделать выстрел
+                    </li>
+                </ol>
+
                 <h3 className={style['subtitle-fight']}>Пора начать игру!</h3>
+
                 <div className={style['button-wrap']}>
                     <Button buttonSize="medium" onClick={() => navigate('/game')}>
                         Играть одному

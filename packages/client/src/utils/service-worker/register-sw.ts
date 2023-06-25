@@ -1,5 +1,5 @@
 export default function startServiceWorker() {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && import.meta.env.MODE === 'production') {
         window.addEventListener('load', () => {
             navigator.serviceWorker
                 .register('/service-worker.js')
