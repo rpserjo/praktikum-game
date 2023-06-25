@@ -1,4 +1,12 @@
-import React, { FC, useRef, useEffect, useState, MouseEventHandler, RefObject } from 'react';
+import React, {
+    FC,
+    useRef,
+    useEffect,
+    useState,
+    MouseEventHandler,
+    RefObject,
+    useCallback,
+} from 'react';
 import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useNavigate } from 'react-router-dom';
@@ -248,10 +256,37 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     return res;
 };
 
+const isDraggedIntoDropField = function (): boolean {
+    let res = false;
+    const ship = data.currnetShip;
+    const x = data.userField.left;
+    const xWidth = data.userField.left + data.userField.size;
+    const y = data.userField.top;
+    const yWidth = data.userField.top + data.userField.size;
+
+    if (ship !== null) {
+        if (ship.isRotated) {
+            const shipLeft = ship.currentLeft - 15 + ship.width / 2;
+            const shipRight = shipLeft + ship.height;
+            const shipTop = ship.currentTop + 15 - ship.width / 2;
+            const shipBottom = shipTop + ship.width;
+            res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
+        } else {
+            const shipLeft = ship.currentLeft;
+            const shipRight = ship.currentLeft + ship.width;
+            const shipTop = ship.currentTop;
+            const shipBottom = ship.currentTop + ship.height;
+            res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
+        }
+    }
+
+    return res;
+};
+
 const Game: FC<TGame> = props => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
-    const rotate = (event: KeyboardEvent) => {
+    const rotate = useCallback((event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
             if (data.currnetShip.isRotated) {
                 data.currnetShip.isRotated = false;
@@ -261,7 +296,7 @@ const Game: FC<TGame> = props => {
                 drawCanvasItems(ref);
             }
         }
-    };
+    }, []);
 
     useEffect(() => {
         drawCanvasItems(ref);
@@ -287,33 +322,6 @@ const Game: FC<TGame> = props => {
                 data.isDragging = true;
             }
         });
-    };
-
-    const isDraggedIntoDropField = function (): boolean {
-        let res = false;
-        const ship = data.currnetShip;
-        const x = data.userField.left;
-        const xWidth = data.userField.left + data.userField.size;
-        const y = data.userField.top;
-        const yWidth = data.userField.top + data.userField.size;
-
-        if (ship !== null) {
-            if (ship.isRotated) {
-                const shipLeft = ship.currentLeft - 15 + ship.width / 2;
-                const shipRight = shipLeft + ship.height;
-                const shipTop = ship.currentTop + 15 - ship.width / 2;
-                const shipBottom = shipTop + ship.width;
-                res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
-            } else {
-                const shipLeft = ship.currentLeft;
-                const shipRight = ship.currentLeft + ship.width;
-                const shipTop = ship.currentTop;
-                const shipBottom = ship.currentTop + ship.height;
-                res = x < shipLeft && shipRight < xWidth && y < shipTop && shipBottom < yWidth;
-            }
-        }
-
-        return res;
     };
 
     const mouseUp = () => {
