@@ -46,8 +46,11 @@
 
     .button-wrap {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+
         padding-top: 30px;
     }
-
+    .margyncostyl {
+        width: 30px;
+    }
 }
