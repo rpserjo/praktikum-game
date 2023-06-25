@@ -11,11 +11,12 @@ const ProfilePage = lazy(() => import('@pages/profile/profile'));
 const SignInPage = lazy(() => import('@pages/signin/signin'));
 const SignUpPage = lazy(() => import('@pages/signup/signup'));
 const ErrorPage = lazy(() => import('@pages/error/error'));
+const LandingPage = lazy(() => import('@pages/landing/landing'));
 const ForumPage = lazy(() => import('@pages/forum/forum'));
 const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
 
 export enum RouteNames {
-    LANDING = '/',
+    LANDING = '/landing',
     SIGNUP = '/signup',
     SIGNIN = '/signin',
     HOME = '/home',
@@ -35,6 +36,7 @@ const Router = () => (
             <Route element={<PrivateRoutes />}>
                 <Route element={<HomePage />} path="/home" />
                 <Route element={<GamePage />} path={RouteNames.GAME} />
+                <Route element={<LandingPage />} path={RouteNames.LANDING} />
                 <Route element={<ProfilePage />} path={RouteNames.PROFILE} />
                 <Route element={<LeaderboardPage />} path="/leaderboard/:page?" />
                 <Route element={<ForumPage />} path="/forum/:page?" />
