@@ -1,5 +1,11 @@
 import React, { FC } from 'react';
+import style from '@pages/signin/signin.module.scss';
+import SignUpForm from '@components/signupForm/signupForm';
 
-const SignUp: FC = () => <h1>Sign Up</h1>;
+const SignUp: FC = () => (
+    <main className={style.main}>
+        <SignUpForm />
+    </main>
+);
 
 export default SignUp;

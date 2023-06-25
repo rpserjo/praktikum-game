@@ -40,5 +40,7 @@ module.exports = {
         'no-unused-vars': 'off',
         'import/prefer-default-export': 'off',
         'no-param-reassign': 'off',
+        'max-classes-per-file': 'off',
+        'camelcase': 'off'
     },
 };
