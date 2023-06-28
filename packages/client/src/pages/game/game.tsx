@@ -365,7 +365,7 @@ const Game: FC = () => {
     const { mode, move, shipsCount, gameOverReason } = game;
 
     const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
-        event: MouseEvent<HTMLButtonElement>
+        event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
         dispatch(
@@ -378,7 +378,7 @@ const Game: FC = () => {
     };
 
     const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = (
-        event: MouseEvent<HTMLButtonElement>
+        event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
         dispatch(
