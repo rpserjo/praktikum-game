@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import BaseApi from './BaseApi';
 import API from '@/api/api';
-import { SignInData, TProfileProps } from '@/models/models';
+import { SignInData, SignUpData, TProfileProps } from '@/models/models';
 
 type ErrorResponse = {
     reason: string;
@@ -17,6 +17,28 @@ class AuthApi extends BaseApi {
         errorCallback: (error: string) => void
     ): Promise<void> {
         const result = this.http.post(API.ENDPOINTS.AUTH.SIGNIN, data);
+        result
+            .then(() => {
+                proceedCallback();
+            })
+            .catch((response: AxiosError) => {
+                const responseData = response.response?.data;
+                const { reason } = responseData as ErrorResponse;
+
+                if (reason === 'User already in system') {
+                    proceedCallback();
+                } else {
+                    errorCallback(reason);
+                }
+            });
+    }
+
+    public async signup(
+        data: SignUpData,
+        proceedCallback: () => void,
+        errorCallback: (error: string) => void
+    ): Promise<void> {
+        const result = this.http.post(API.ENDPOINTS.AUTH.SIGNUP, data);
         result
             .then(() => {
                 proceedCallback();

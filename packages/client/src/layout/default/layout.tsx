@@ -21,8 +21,6 @@ const Layout: FC<TLayoutProps> = ({ showHeader = true }) => (
             <Link to={RouteNames.SIGNIN}>Sign in</Link>
             <Link to={RouteNames.HOME}>Home</Link>
             <Link to={RouteNames.GAME}>Game</Link>
-            <Link to={RouteNames.GAME_START}>Game start</Link>
-            <Link to={RouteNames.GAME_FINISH}>Game finish</Link>
             <Link to={RouteNames.PROFILE}>Profile</Link>
             <Link to={RouteNames.LEADERBOARD}>Leaderboard</Link>
             <Link to={RouteNames.FORUM}>Forum</Link>

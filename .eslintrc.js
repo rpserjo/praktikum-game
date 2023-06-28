@@ -38,9 +38,9 @@ module.exports = {
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
         'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
-        'operator-linebreak': ['warn', 'after'],
         'import/prefer-default-export': 'off',
         'no-param-reassign': 'off',
+        'max-classes-per-file': 'off',
+        'camelcase': 'off'
     },
 };
