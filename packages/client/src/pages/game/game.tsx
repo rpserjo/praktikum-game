@@ -7,7 +7,7 @@ import React, {
     RefObject,
     useCallback,
 } from 'react';
-import Ships, { defaultShipsCount, Mode, Position } from '@components/ui/ships/ships';
+import Ships, { Mode, Position } from '@components/ui/ships/ships';
 
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ import renderHorizontalText from './game.helper';
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
-import { GameOverReason, Move, setGame } from '@/store/slices/gameSlice';
+import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -33,13 +33,6 @@ export enum GameOver {
     win = 'win',
     defeat = 'defeat',
 }
-
-type TGame = {
-    mode?: Mode;
-    move?: Move;
-    shipsCount?: number;
-    gameOver?: GameOver;
-};
 
 type Ship = {
     decksAmount: number;
@@ -286,8 +279,7 @@ const isDraggedIntoDropField = function (): boolean {
     return res;
 };
 
-const Game: FC<TGame> = props => {
-
+const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
     const { game } = gameState;
