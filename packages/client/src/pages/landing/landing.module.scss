@@ -47,11 +47,8 @@
     .button-wrap {
         display: flex;
         justify-content: center;
-
+        gap: 30px;
         padding-top: 30px;
-    }
-    .margyncostyl {
-        width: 30px;
     }
 
     .figures{
@@ -86,7 +83,6 @@
         &-parent{
             display: block;
             margin: 30px auto 0;
-            line-height:200%
         }
 
         &-title{
@@ -94,11 +90,13 @@
             font-size: 30px;
             text-decoration: none;
             margin-left: -1em;
+            line-height: 200%;
         }
         
         &-subtitle{
             color: $colorText;
             font-size: 30px;
+            line-height: 200%;
         }
     }
 }

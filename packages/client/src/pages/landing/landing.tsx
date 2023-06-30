@@ -70,26 +70,30 @@ const Landing: FC = () => {
                     </figure>
                 </div>
                 <h3 className={style.subtitle}>Это классический морской бой.</h3>
-                <ol className={style['steps-parent']}>
+
+                <div className={style['steps-parent']}>
                     <p className={style['steps-title']}>Для того чтобы начать игру:</p>
-                    <li className={style['steps-subtitle']}>
-                        Выбери режим одиночной игры или онлайн
-                    </li>
-                    <li className={style['steps-subtitle']}>Расставь корабли на игровом поле</li>
-                    <li className={style['steps-subtitle']}>Нажми кнопку “Готов к бою!”</li>
-                    <li className={style['steps-subtitle']}>
-                        Кликай по клеткам на поле противника, чтобы сделать выстрел
-                    </li>
-                </ol>
+                    <ol>
+                        <li className={style['steps-subtitle']}>
+                            Выбери режим одиночной игры или онлайн
+                        </li>
+                        <li className={style['steps-subtitle']}>
+                            Расставь корабли на игровом поле
+                        </li>
+                        <li className={style['steps-subtitle']}>Нажми кнопку “Готов к бою!”</li>
+                        <li className={style['steps-subtitle']}>
+                            Кликай по клеткам на поле противника, чтобы сделать выстрел
+                        </li>
+                    </ol>
+                </div>
 
                 <h3 className={style['subtitle-fight']}>Пора начать игру!</h3>
 
                 <div className={style['button-wrap']}>
-                    <Button buttonSize="medium" onClick={() => navigate('/game')}>
+                    <Button buttonSize="large" onClick={() => navigate('/game')}>
                         Играть одному
                     </Button>
-                    <div className={style.margyncostyl} />
-                    <Button type="submit" buttonSize="medium" onClick={() => navigate('/game')}>
+                    <Button buttonSize="large" onClick={() => navigate('/game')}>
                         Играть онлайн
                     </Button>
                 </div>
