@@ -12,6 +12,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log('useEffect');
         const checkUser = () => {
             const authApi = new AuthApi();
             authApi
