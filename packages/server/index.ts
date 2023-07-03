@@ -28,6 +28,7 @@ async function startServer() {
 
     if (!isDev()) {
         app.use('/assets', express.static(path.resolve(distPath, 'assets')));
+        app.use('/sprites', express.static(path.resolve(distPath, 'sprites')));
         app.use('/service-worker.js', express.static(path.resolve(distPath, 'service-worker.js')));
     }
 
@@ -53,7 +54,7 @@ async function startServer() {
 
             const appHtml = await render();
             const html = template.replace('<!--ssr-outlet-->', appHtml);
-            res.status(210).set({ 'Content-Type': 'text/html' }).end(html);
+            res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
         } catch (e) {
             if (isDev()) {
                 vite!.ssrFixStacktrace(e as Error);
