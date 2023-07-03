@@ -11,6 +11,7 @@ const ProfilePage = lazy(() => import('@pages/profile/profile'));
 const SignInPage = lazy(() => import('@pages/signin/signin'));
 const SignUpPage = lazy(() => import('@pages/signup/signup'));
 const ErrorPage = lazy(() => import('@pages/error/error'));
+const LandingPage = lazy(() => import('@pages/landing/landing'));
 const ForumPage = lazy(() => import('@pages/forum/forum'));
 const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
 
@@ -43,6 +44,7 @@ const Router = () => (
         </Route>
 
         <Route element={<Layout showHeader={false} />}>
+            <Route element={<LandingPage />} path={RouteNames.LANDING} />
             <Route element={<HomePage />} path={RouteNames.LANDING} />
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path={RouteNames.SIGNIN} />
