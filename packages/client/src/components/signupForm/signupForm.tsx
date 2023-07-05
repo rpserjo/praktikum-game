@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
 import Button from '@/components/ui/button/button';
-import style from './loginForm.module.scss';
 import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
-import { SignInData, TProfileProps } from '@/models/models';
+import { SignUpData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
 import { setUser } from '@/store/slices/userSlice';
+import style from '../loginForm/loginForm.module.scss';
 
 type FormState = {
     [key in string]: {
@@ -17,8 +17,24 @@ type FormState = {
     };
 };
 
-const LoginForm = () => {
+const SignUpForm = () => {
     const initialState: FormState = {
+        first_name: {
+            value: '',
+            isValid: false,
+        },
+        second_name: {
+            value: '',
+            isValid: false,
+        },
+        email: {
+            value: '',
+            isValid: false,
+        },
+        phone: {
+            value: '',
+            isValid: false,
+        },
         login: {
             value: '',
             isValid: false,
@@ -48,15 +64,26 @@ const LoginForm = () => {
         setError(formError);
     };
 
-    const signin = (
+    const signup = (
+        first_name: string,
+        second_name: string,
+        email: string,
+        phone: string,
         login: string,
         password: string,
         proceedCallback: () => void,
         errorCallback: (error: string) => void
     ) => {
-        const data: SignInData = new SignInData(login, password);
+        const data: SignUpData = new SignUpData(
+            first_name,
+            second_name,
+            email,
+            phone,
+            login,
+            password
+        );
 
-        authApi.signin(data, proceedCallback, errorCallback);
+        authApi.signup(data, proceedCallback, errorCallback);
     };
 
     const isFormValid = () => {
@@ -76,12 +103,49 @@ const LoginForm = () => {
     const handleSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
         if (!isFormValid()) return;
-        signin(form.login.value, form.password.value, handleLogin, showError);
+        signup(
+            form.first_name.value,
+            form.second_name.value,
+            form.email.value,
+            form.phone.value,
+            form.login.value,
+            form.password.value,
+            handleLogin,
+            showError
+        );
     };
 
     return (
         <form className={style.form}>
-            <h1 className={style.form__header}>Авторизация</h1>
+            <h1 className={style.form__header}>Регистрация</h1>
+            <ValidatableInput
+                name="first_name"
+                placeholder="Имя"
+                ruleType={RuleNames.NAME}
+                handleChange={handleChange}
+                wrapperClass={style.form__input_wrapper}
+            />
+            <ValidatableInput
+                name="second_name"
+                placeholder="Фамилия"
+                ruleType={RuleNames.NAME}
+                handleChange={handleChange}
+                wrapperClass={style.form__input_wrapper}
+            />
+            <ValidatableInput
+                name="email"
+                placeholder="E-mail"
+                ruleType={RuleNames.EMAIL}
+                handleChange={handleChange}
+                wrapperClass={style.form__input_wrapper}
+            />
+            <ValidatableInput
+                name="phone"
+                placeholder="Телефон"
+                ruleType={RuleNames.PHONE}
+                handleChange={handleChange}
+                wrapperClass={style.form__input_wrapper}
+            />
             <ValidatableInput
                 name="login"
                 placeholder="Логин"
@@ -98,14 +162,14 @@ const LoginForm = () => {
                 type="password"
             />
             <p className={style.form__error}>{error}</p>
-            <Button buttonSize="large" onClick={handleSubmit}>
-                Войти
-            </Button>
-            <Link className={style.form__link} to={RouteNames.SIGNUP}>
+            <Button buttonSize="medium" onClick={handleSubmit}>
                 Зарегистрироваться
+            </Button>
+            <Link className={style.form__link} to={RouteNames.SIGNIN}>
+                Войти
             </Link>
         </form>
     );
 };
 
-export default LoginForm;
+export default SignUpForm;

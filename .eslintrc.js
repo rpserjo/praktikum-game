@@ -13,7 +13,8 @@ module.exports = {
     rules: {
         'no-shadow': 'off',
         '@typescript-eslint/no-shadow': ['error'],
-        'max-len': ['error', { code: 100 }],
+        'max-len': ['warn', { code: 100 }],
+        '@typescript-eslint/no-unused-vars': 2,
         'react/jsx-boolean-value': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         indent: ['error', 4],
@@ -31,12 +32,15 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
+        'no-unused-expressions': ['error', { allowTernary: true }],
+        'operator-linebreak': ['error', 'before'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
-        'no-unused-expressions': ['error', { allowTernary: true }],
         'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
-        'operator-linebreak': ['error', 'after'],
+        'import/prefer-default-export': 'off',
+        'no-param-reassign': 'off',
+        'max-classes-per-file': 'off',
+        'camelcase': 'off'
     },
 };

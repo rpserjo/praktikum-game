@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import AuthApi from '@/api/AuthApi';
-import Loader from '@/components/ui/loader/loader';
 import { RouteNames } from '@/router/router';
-import { TProfileProps } from '@/models/models';
+import { TState } from '@/store/slices/userSlice';
 
 const PrivateRoutes = () => {
-    const authApi = new AuthApi();
-    const [userData, setUserData] = useState<TProfileProps | null>(null);
-    const [userFetched, setUserFetched] = useState(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await authApi.getUser(setUserData, setUserFetched);
-        };
-        fetchData();
-    }, []);
-
-    if (userFetched) {
-        const isLoggedIn = userData != null;
-        return isLoggedIn ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
-    }
-    return <Loader />;
+    const userState = useSelector((state: { user: TState }) => state.user);
+    return userState.user !== null ? <Outlet /> : <Navigate to={RouteNames.SIGNIN} />;
 };
+
 export default PrivateRoutes;

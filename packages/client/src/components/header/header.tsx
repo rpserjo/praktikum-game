@@ -1,23 +1,32 @@
 import React, { FC, MouseEventHandler, ReactElement } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import Button from '@/components/ui/button/button';
-import style from './header.module.scss';
-import Logo from '@/assets/logo.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@/components/ui/button/button';
+import UserBlock from '@/components/userBlock/userBlock';
 import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
+import { setUser } from '@/store/slices/userSlice';
+import style from './header.module.scss';
+import Logo from '@/assets/logo.svg';
+import { RootState } from '@/store';
 
 type HeaderProps = {}; // eslint-disable-line
 
 const Header: FC<HeaderProps> = (): ReactElement => {
+    const dispatch = useDispatch();
+
     const handleLogout: MouseEventHandler = () => {
         const authApi = new AuthApi();
         authApi
             .logout()
             .then(() => {
                 alert('Logged out');
+                dispatch(setUser(null));
             })
             .catch(e => console.log(e));
     };
+
+    const userState = useSelector((state: RootState) => state.user);
 
     return (
         <div className={style.header}>
@@ -49,7 +58,9 @@ const Header: FC<HeaderProps> = (): ReactElement => {
                         Профиль
                     </NavLink>
                 </div>
-                <div className={style.user}>USER</div>
+                <div className={style.user}>
+                    {userState.user !== null && <UserBlock user={userState.user} />}
+                </div>
                 <Button buttonSize="medium" onClick={handleLogout}>
                     Выйти
                 </Button>
