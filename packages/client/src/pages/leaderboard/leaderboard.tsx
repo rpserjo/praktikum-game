@@ -1,9 +1,28 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import style from './leaderboard.module.scss';
 import MockServer from '@/mocks/mock-server';
+import LeaderBoardApi from '@/api/LeaderBoardApi';
 
 const Leaderboard: FC = () => {
+    useEffect(() => {
+        const getBoardData = () => {
+            const leaderBoardApi = new LeaderBoardApi();
+            leaderBoardApi
+                .getLeaderboardData()
+                .then(response => {
+                    console.log(response);
+                    console.log(response.data);
+                    // dispatch(setUser(response.data));
+                })
+                .catch(e => {
+                    console.log('Error', e);
+                    // dispatch(setUser(null));
+                });
+        };
+        getBoardData();
+    }, []);
+
     const { page = 1 } = useParams();
 
     const server = new MockServer();
