@@ -11,7 +11,6 @@ const Leaderboard: FC = () => {
             leaderBoardApi
                 .getLeaderboardData()
                 .then(response => {
-                    console.log(response);
                     console.log(response.data);
                     // dispatch(setUser(response.data));
                 })
