@@ -8,7 +8,17 @@ class LeaderBoardApi extends BaseApi {
     }
 
     public getLeaderboardData() {
-        return this.http.get(API.ENDPOINTS.LEADERBOARD.ALL);
+        const options: {
+            ratingFieldName: string;
+            cursor: number;
+            limit: number;
+        } = {
+            ratingFieldName: 'string',
+            cursor: 0,
+            limit: 0,
+        };
+
+        return this.http.post(API.ENDPOINTS.LEADERBOARD.ALL, options);
     }
 }
 
