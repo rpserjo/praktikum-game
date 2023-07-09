@@ -283,6 +283,8 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
     const shipToMove = data.currentShip;
     if (shipToMove !== null) {
         const animationTime = 16;
+        shipToMove.isRotated = false;
+
         const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
         const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
 
