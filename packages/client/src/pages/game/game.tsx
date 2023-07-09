@@ -359,17 +359,14 @@ const Game: FC = () => {
                     const shiftLeft = (ship.currentLeft - data.userField.left) % 30;
                     const shiftTop = (ship.currentTop - data.userField.top) % 30;
 
-                    console.log(shiftLeft);
-                    console.log(shiftTop);
-
                     if (shiftLeft > 15) {
-                        ship.currentLeft += shiftLeft;
+                        ship.currentLeft += 30 - shiftLeft;
                     } else {
                         ship.currentLeft -= shiftLeft;
                     }
 
                     if (shiftTop > 15) {
-                        ship.currentTop += shiftTop;
+                        ship.currentTop += 30 - shiftTop;
                     } else {
                         ship.currentTop -= shiftTop;
                     }
