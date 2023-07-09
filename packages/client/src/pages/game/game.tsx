@@ -358,10 +358,18 @@ const Game: FC = () => {
                 const ship = data.currentShip;
 
                 if (ship !== null) {
-                    const shiftLeft = (ship.currentLeft - data.userField.left) % 30;
-                    const shiftTop = (ship.currentTop - data.userField.top) % 30;
+                    let shiftLeft;
+                    let shiftTop;
 
-                    if (shiftLeft > 15) {
+                    if (ship.isRotated) {
+                        shiftLeft = (ship.currentLeft - data.userField.left) % data.squareSize;
+                        shiftTop = (ship.currentTop - data.userField.top) % data.squareSize;
+                    } else {
+                        shiftLeft = (ship.currentLeft - data.userField.left) % data.squareSize;
+                        shiftTop = (ship.currentTop - data.userField.top) % data.squareSize;
+                    }
+
+                    if (shiftLeft > 15 && shiftLeft) {
                         ship.currentLeft += 30 - shiftLeft;
                     } else {
                         ship.currentLeft -= shiftLeft;
