@@ -10,6 +10,7 @@ import { SignInData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
 import OAuthApi from '@/api/OAuthApi';
 import { handleUser } from '@/utils/handleUser';
+import { oauthProviderUri } from '@/api/api';
 
 type FormState = {
     [key in string]: {
@@ -17,8 +18,6 @@ type FormState = {
         isValid: boolean;
     };
 };
-
-const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
 
 const getOAuth: MouseEventHandler<HTMLButtonElement> = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
