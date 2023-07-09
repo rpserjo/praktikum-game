@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import OAuthInPage from '@pages/oauthInPage/oauthInPage';
 import Layout from '@/layout/default/layout';
 import { Loader } from '@/components/ui';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';
@@ -19,6 +20,7 @@ export enum RouteNames {
     LANDING = '/',
     SIGNUP = '/signup',
     SIGNIN = '/signin',
+    OAUTH = '/oauth',
     HOME = '/home',
     GAME = '/game',
     PROFILE = '/profile',
@@ -48,6 +50,7 @@ const Router = () => (
             <Route element={<HomePage />} path={RouteNames.LANDING} />
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path={RouteNames.SIGNIN} />
+            <Route element={<OAuthInPage />} path={RouteNames.OAUTH} />
             <Route element={<SignUpPage />} path={RouteNames.SIGNUP} />
             <Route element={<ProfilePage section="edit" />} path={RouteNames.PROFILE_EDIT} />
             <Route

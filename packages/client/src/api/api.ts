@@ -11,6 +11,10 @@ const API = {
             USER: '/user',
             LOGOUT: '/logout',
         },
+        OAUTH: {
+            ENDPOINT: '/oauth/yandex',
+            SERVICEID: '/service-id',
+        },
         USER: {
             ENDPOINT: '/user',
             PROFILE: '/profile',

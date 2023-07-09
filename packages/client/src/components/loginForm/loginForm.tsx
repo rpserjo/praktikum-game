@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState, MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
@@ -8,13 +8,25 @@ import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
 import { SignInData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
-import { setUser } from '@/store/slices/userSlice';
+import OAuthApi from '@/api/OAuthApi';
+import { handleUser } from '@/utils/handleUser';
 
 type FormState = {
     [key in string]: {
         value: string;
         isValid: boolean;
     };
+};
+
+const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
+
+const getOAuth: MouseEventHandler<HTMLButtonElement> = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const redirectUri = `${window.location.origin}/oauth`;
+    const oAuthApi = new OAuthApi();
+    const serviceId = await oAuthApi.getServiceId(`${redirectUri}`);
+
+    window.location.href = `${oauthProviderUri}&client_id=${serviceId}&redirect_uri=${redirectUri}`;
 };
 
 const LoginForm = () => {
@@ -40,10 +52,6 @@ const LoginForm = () => {
         setForm(newForm);
     };
 
-    const proceedToGame = () => {
-        navigate(RouteNames.GAME);
-    };
-
     const showError = (formError: string) => {
         setError(formError);
     };
@@ -65,12 +73,7 @@ const LoginForm = () => {
     };
 
     const handleLogin = () => {
-        const handleUser = (userData: TProfileProps) => {
-            dispatch(setUser(userData));
-            proceedToGame();
-        };
-
-        authApi.getUser(handleUser);
+        authApi.getUser((userData: TProfileProps) => handleUser(userData, dispatch, navigate));
     };
 
     const handleSubmit = (event: React.MouseEvent) => {
@@ -101,6 +104,11 @@ const LoginForm = () => {
             <Button buttonSize="large" onClick={handleSubmit}>
                 Войти
             </Button>
+
+            <button className={style.oauthButton} onClick={getOAuth}>
+                Войти c Яндекс ID
+            </button>
+
             <Link className={style.form__link} to={RouteNames.SIGNUP}>
                 Зарегистрироваться
             </Link>
