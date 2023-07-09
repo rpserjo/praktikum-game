@@ -6,7 +6,6 @@ export interface UserRepository {
 
 export class UserService {
     // eslint-disable-next-line
-    // eslint-disable-next-line
     constructor(private repo: UserRepository) {}
 
     getUserData() {
