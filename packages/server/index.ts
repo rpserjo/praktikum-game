@@ -5,6 +5,9 @@ import path from 'path';
 import * as fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import cookieParser from 'cookie-parser';
+import { YandexAPIRepository } from './repository/YandexAPIRepository';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -34,7 +37,22 @@ async function startServer() {
 
     app.use(cors());
 
-    app.use('*', async (req, res, next) => {
+    app.use(
+        '/api/v2',
+        createProxyMiddleware({
+            changeOrigin: true,
+            cookieDomainRewrite: {
+                '*': '',
+            },
+            target: 'https://ya-praktikum.tech',
+        })
+    );
+
+    app.get('/api', (_, res) => {
+        res.json('👋 Howdy from the server :)');
+    });
+
+    app.use('*', cookieParser(), async (req, res, next) => {
         const url = req.originalUrl;
         try {
             let template: string;
@@ -45,15 +63,30 @@ async function startServer() {
                 template = await vite!.transformIndexHtml(url, template);
             }
 
-            let render: () => Promise<string>;
-            if (!isDev()) {
-                render = (await import(ssrClientPath)).render;
-            } else {
-                render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render;
+            interface SSRModule {
+                render: (uri: string, repository: any) => Promise<[Record<string, any>, string]>;
             }
 
-            const appHtml = await render();
-            const html = template.replace('<!--ssr-outlet-->', appHtml);
+            let mod: SSRModule;
+
+            if (isDev()) {
+                mod = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))) as SSRModule;
+            } else {
+                mod = await import(ssrClientPath);
+            }
+
+            const { render } = mod;
+            const [initialState, appHtml] = await render(
+                url,
+                new YandexAPIRepository(req.headers.cookie)
+            );
+
+            const initStateSerialized = JSON.stringify(initialState);
+
+            const html = template
+                .replace('<!--ssr-outlet-->', appHtml)
+                .replace('<!--store-data-->', initStateSerialized);
+
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
         } catch (e) {
             if (isDev()) {
