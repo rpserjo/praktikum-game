@@ -51,7 +51,7 @@ type DataType = {
     isMousePressed: boolean;
     placeShipStep: boolean;
     currentShipIndex: null | number;
-    currnetShip: Ship | null;
+    currentShip: Ship | null;
     squareSize: number;
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
@@ -61,7 +61,7 @@ const data: DataType = {
     isMousePressed: false,
     placeShipStep: true,
     currentShipIndex: null,
-    currnetShip: null,
+    currentShip: null,
     squareSize: 30,
     isDragging: false,
     userField: { size: 300, left: 650, top: 70 },
@@ -254,7 +254,7 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
 
 const isDraggedIntoDropField = function (): boolean {
     let res = false;
-    const ship = data.currnetShip;
+    const ship = data.currentShip;
     const x = data.userField.left;
     const xWidth = data.userField.left + data.userField.size;
     const y = data.userField.top;
@@ -279,6 +279,35 @@ const isDraggedIntoDropField = function (): boolean {
     return res;
 };
 
+const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
+    const shipToMove = data.currentShip;
+    if (shipToMove !== null) {
+        // shipToMove.currentLeft = shipToMove.originLeft;
+        // shipToMove.currentTop = shipToMove.originTop;
+        const startTime = performance.now();
+        const animationTime = 2000;
+
+        const animate = function () {
+            if (shipToMove.currentLeft < shipToMove.originLeft) {
+                shipToMove.currentLeft += 1;
+            }
+            if (shipToMove.currentTop < shipToMove.originTop) {
+                shipToMove.currentTop += 1;
+            }
+            const time = performance.now();
+            const shiftTime = time - startTime;
+            const multiply = shiftTime / animationTime;
+
+            drawCanvasItems(ref);
+
+            if (multiply < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+        animate();
+    }
+};
+
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
@@ -286,12 +315,12 @@ const Game: FC = () => {
     const dispatch = useDispatch();
 
     const rotate = useCallback((event: KeyboardEvent) => {
-        if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
-            if (data.currnetShip.isRotated) {
-                data.currnetShip.isRotated = false;
+        if (data.isDragging && event.code === 'KeyR' && data.currentShip !== null) {
+            if (data.currentShip.isRotated) {
+                data.currentShip.isRotated = false;
                 drawCanvasItems(ref);
             } else {
-                data.currnetShip.isRotated = true;
+                data.currentShip.isRotated = true;
                 drawCanvasItems(ref);
             }
         }
@@ -317,7 +346,7 @@ const Game: FC = () => {
         shipsImg.forEach((ship, i) => {
             if (isMouseInShape(canvasX, canvasY, ship)) {
                 data.currentShipIndex = i;
-                data.currnetShip = shipsImg[i];
+                data.currentShip = shipsImg[i];
                 data.isDragging = true;
             }
         });
@@ -331,13 +360,14 @@ const Game: FC = () => {
                 //  запись в дату клеток занятых конкретным кораблем
             } else {
                 console.log('не поставили');
+                returnShip(ref);
                 //  функция возвращения на место
             }
         }
 
         data.isMousePressed = false;
         data.currentShipIndex = null;
-        data.currnetShip = null;
+        data.currentShip = null;
         data.isDragging = false;
     };
 
@@ -353,9 +383,9 @@ const Game: FC = () => {
                 return;
             }
 
-            if (data.isDragging && data.currentShipIndex !== null && data.currnetShip !== null) {
-                data.currnetShip.currentLeft = canvasX - data.currnetShip.width / 2;
-                data.currnetShip.currentTop = canvasY - data.currnetShip.height / 2;
+            if (data.isDragging && data.currentShipIndex !== null && data.currentShip !== null) {
+                data.currentShip.currentLeft = canvasX - data.currentShip.width / 2;
+                data.currentShip.currentTop = canvasY - data.currentShip.height / 2;
 
                 drawCanvasItems(ref);
             }
