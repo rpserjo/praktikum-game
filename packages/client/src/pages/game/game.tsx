@@ -282,8 +282,6 @@ const isDraggedIntoDropField = function (): boolean {
 const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
     const shipToMove = data.currentShip;
     if (shipToMove !== null) {
-        // shipToMove.currentLeft = shipToMove.originLeft;
-        // shipToMove.currentTop = shipToMove.originTop;
         const animationTime = 16;
         const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
         const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
@@ -355,13 +353,31 @@ const Game: FC = () => {
     const mouseUp = () => {
         if (data.isDragging) {
             if (isDraggedIntoDropField()) {
-                console.log('поставили');
-                //  функция смещения корабля под размер клеток
-                //  запись в дату клеток занятых конкретным кораблем
+                const ship = data.currentShip;
+
+                if (ship !== null) {
+                    const shiftLeft = (ship.currentLeft - data.userField.left) % 30;
+                    const shiftTop = (ship.currentTop - data.userField.top) % 30;
+
+                    console.log(shiftLeft);
+                    console.log(shiftTop);
+
+                    if (shiftLeft > 15) {
+                        ship.currentLeft += shiftLeft;
+                    } else {
+                        ship.currentLeft -= shiftLeft;
+                    }
+
+                    if (shiftTop > 15) {
+                        ship.currentTop += shiftTop;
+                    } else {
+                        ship.currentTop -= shiftTop;
+                    }
+
+                    drawCanvasItems(ref);
+                }
             } else {
-                console.log('не поставили');
                 returnShip(ref);
-                //  функция возвращения на место
             }
         }
 
