@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon index.ts",
+        "dev": "vite",
         "build": "tsc && vite build --config vite.config.ts",
         "build:ssr": "tsc && vite build --config ssr.config.ts",
         "build:all": "yarn build && yarn build:ssr",
