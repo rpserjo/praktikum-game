@@ -284,23 +284,23 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
     if (shipToMove !== null) {
         // shipToMove.currentLeft = shipToMove.originLeft;
         // shipToMove.currentTop = shipToMove.originTop;
-        const startTime = performance.now();
-        const animationTime = 2000;
+        const animationTime = 16;
+        const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
+        const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
 
         const animate = function () {
-            if (shipToMove.currentLeft < shipToMove.originLeft) {
-                shipToMove.currentLeft += 1;
+            if (shipToMove.currentLeft !== shipToMove.originLeft) {
+                shipToMove.currentLeft += leftStep;
             }
-            if (shipToMove.currentTop < shipToMove.originTop) {
-                shipToMove.currentTop += 1;
+            if (shipToMove.currentTop !== shipToMove.originTop) {
+                shipToMove.currentTop += topStep;
             }
-            const time = performance.now();
-            const shiftTime = time - startTime;
-            const multiply = shiftTime / animationTime;
 
             drawCanvasItems(ref);
+            const leftIsDone = shipToMove.currentLeft === shipToMove.originLeft;
+            const topIsDone = shipToMove.originTop - shipToMove.currentTop;
 
-            if (multiply < 1) {
+            if (leftIsDone && topIsDone) {
                 requestAnimationFrame(animate);
             }
         };
