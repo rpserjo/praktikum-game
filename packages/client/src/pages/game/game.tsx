@@ -297,10 +297,10 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
             }
 
             drawCanvasItems(ref);
-            const leftIsDone = shipToMove.currentLeft === shipToMove.originLeft;
-            const topIsDone = shipToMove.originTop - shipToMove.currentTop;
+            const leftIsDone = shipToMove.currentLeft < shipToMove.originLeft;
+            const topIsDone = shipToMove.originTop < shipToMove.currentTop;
 
-            if (leftIsDone && topIsDone) {
+            if (leftIsDone || topIsDone) {
                 requestAnimationFrame(animate);
             }
         };
