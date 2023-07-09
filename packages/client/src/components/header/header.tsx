@@ -1,7 +1,7 @@
 import React, { FC, MouseEventHandler, ReactElement } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@/components/ui/button/button';
+import Button from '@/components/ui/button/button';
 import UserBlock from '@/components/userBlock/userBlock';
 import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';

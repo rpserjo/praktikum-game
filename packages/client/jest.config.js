@@ -15,6 +15,9 @@ export default {
     },
     moduleNameMapper: {
         '\\.(css|scss)$': 'identity-obj-proxy',
+        '^@pages/(.*)$': '<rootDir>/src/pages/$1',
+        '^@components/(.*)$': '<rootDir>/src/components/$1',
+        '^@ui/(.*)$': '<rootDir>/src/components/ui/$1',
         '^@/(.*)$': '<rootDir>/src/$1',
     },
 };

@@ -4,11 +4,16 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from './loginForm';
 
+import { Provider } from 'react-redux';
+import { store } from '@/store';
+
 describe('LoginForm tests', () => {
     it('checks that inputs are in the form', () => {
         render(
             <BrowserRouter>
-                <LoginForm />
+                <Provider store={store}>
+                    <LoginForm />
+                </Provider>
             </BrowserRouter>
         );
 
@@ -18,7 +23,9 @@ describe('LoginForm tests', () => {
     it('checks the log in button', () => {
         render(
             <BrowserRouter>
-                <LoginForm />
+                <Provider store={store}>
+                    <LoginForm />
+                </Provider>
             </BrowserRouter>
         );
 
@@ -28,7 +35,9 @@ describe('LoginForm tests', () => {
     it('checks sign in link', () => {
         render(
             <BrowserRouter>
-                <LoginForm />
+                <Provider store={store}>
+                    <LoginForm />
+                </Provider>
             </BrowserRouter>
         );
 
