@@ -1,5 +1,4 @@
-const PORT = 3001;
-const HOST = `http://localhost:${PORT}/api/v2`;
+const HOST = import.meta.env.VITE_YA;
 const API = {
     HOST,
     RESOURCES: `${HOST}/resources`,

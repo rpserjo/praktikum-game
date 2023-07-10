@@ -85,7 +85,10 @@ async function startServer() {
 
             const html = template
                 .replace('<!--ssr-outlet-->', appHtml)
-                .replace('<!--store-data-->', initStateSerialized);
+                .replace(
+                    '<!--store-data-->',
+                    `<script>window.initialState = ${initStateSerialized};</script>`
+                );
 
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
         } catch (e) {
