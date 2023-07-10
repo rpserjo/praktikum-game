@@ -1,10 +1,10 @@
-import { AxiosError } from 'axios';
 import BaseApi from './BaseApi';
 import API from '@/api/api';
 import { TOAuthInData } from '@/models/models';
 
-type ErrorResponse = {
-    reason: string;
+type TServiceIdRequestData = {
+    serviceId: string | null;
+    error: Error | null;
 };
 
 class OAuthApi extends BaseApi {
@@ -12,23 +12,21 @@ class OAuthApi extends BaseApi {
         super(API.ENDPOINTS.OAUTH.ENDPOINT);
     }
 
-    public async getServiceId(redirectUri: string): Promise<string> {
-        const result = this.http.get(
-            `${API.ENDPOINTS.OAUTH.SERVICEID}?redirect_uri=${redirectUri}`
-        );
+    public async getServiceId(redirectUri: string): Promise<TServiceIdRequestData> {
+        try {
+            const result = await this.http.get(
+                `${API.ENDPOINTS.OAUTH.SERVICEID}?redirect_uri=${redirectUri}`
+            );
 
-        return result
-            .then(res => {
-                const {
-                    data: { service_id },
-                } = res;
+            const {
+                data: { service_id },
+            } = result;
 
-                return service_id;
-            })
-            .catch((response: AxiosError) => {
-                const responseData = response.response?.data;
-                console.debug(responseData);
-            });
+            return { serviceId: service_id, error: null };
+        } catch (error: unknown) {
+            console.debug(error);
+            return { serviceId: null, error: error as Error };
+        }
     }
 
     public async oAuthIn(
@@ -36,22 +34,18 @@ class OAuthApi extends BaseApi {
         proceedCallback: () => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        const result = this.http.post('', data);
+        try {
+            await this.http.post('', data);
+            proceedCallback();
+        } catch (error: unknown) {
+            const { message } = error as Error;
 
-        result
-            .then(() => {
+            if (message === 'User already in system') {
                 proceedCallback();
-            })
-            .catch((response: AxiosError) => {
-                const responseData = response.response?.data;
-                const { reason } = responseData as ErrorResponse;
-
-                if (reason === 'User already in system') {
-                    proceedCallback();
-                } else {
-                    errorCallback(reason);
-                }
-            });
+            } else {
+                errorCallback(message);
+            }
+        }
     }
 }
 

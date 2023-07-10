@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState, MouseEvent } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ValidatableInput from '@/components/ui/validatableInput/validatableInput';
@@ -8,24 +8,14 @@ import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
 import { SignInData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
-import OAuthApi from '@/api/OAuthApi';
 import { handleUser } from '@/utils/handleUser';
-import { oauthProviderUri } from '@/api/api';
+import { getOAuth } from '@/utils/getOAuth';
 
 type FormState = {
     [key in string]: {
         value: string;
         isValid: boolean;
     };
-};
-
-const getOAuth: MouseEventHandler<HTMLButtonElement> = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const redirectUri = `${window.location.origin}/oauth`;
-    const oAuthApi = new OAuthApi();
-    const serviceId = await oAuthApi.getServiceId(`${redirectUri}`);
-
-    window.location.href = `${oauthProviderUri}&client_id=${serviceId}&redirect_uri=${redirectUri}`;
 };
 
 const LoginForm = () => {
