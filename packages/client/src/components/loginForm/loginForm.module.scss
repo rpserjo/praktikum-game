@@ -25,3 +25,32 @@
   color: $colorAlert;
   padding: 0 0 1em;
 }
+
+.oauthButton {
+  border: none;
+  border-radius: 5px;
+  background: $colorBgDark;
+  width: 265px;
+  height: 50px;
+  color: #fff;
+  font-size: 20px;
+  margin: 20px 0 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition;
+
+  &:hover {
+    background: #1a1a1a;
+  }
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    background: url('@/assets/images/icons/yandex.png') no-repeat center / contain;
+  }
+}

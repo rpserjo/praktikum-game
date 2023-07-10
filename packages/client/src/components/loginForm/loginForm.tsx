@@ -8,7 +8,8 @@ import AuthApi from '@/api/AuthApi';
 import { RouteNames } from '@/router/router';
 import { SignInData, TProfileProps } from '@/models/models';
 import { RuleNames } from '@/utils/validationModels';
-import { setUser } from '@/store/slices/userSlice';
+import { handleUser } from '@/utils/handleUser';
+import { getOAuth } from '@/utils/getOAuth';
 
 type FormState = {
     [key in string]: {
@@ -40,10 +41,6 @@ const LoginForm = () => {
         setForm(newForm);
     };
 
-    const proceedToGame = () => {
-        navigate(RouteNames.GAME);
-    };
-
     const showError = (formError: string) => {
         setError(formError);
     };
@@ -65,12 +62,7 @@ const LoginForm = () => {
     };
 
     const handleLogin = () => {
-        const handleUser = (userData: TProfileProps) => {
-            dispatch(setUser(userData));
-            proceedToGame();
-        };
-
-        authApi.getUser(handleUser);
+        authApi.getUser((userData: TProfileProps) => handleUser(userData, dispatch, navigate));
     };
 
     const handleSubmit = (event: React.MouseEvent) => {
@@ -101,6 +93,11 @@ const LoginForm = () => {
             <Button buttonSize="large" onClick={handleSubmit}>
                 Войти
             </Button>
+
+            <button className={style.oauthButton} onClick={getOAuth}>
+                Войти c Яндекс ID
+            </button>
+
             <Link className={style.form__link} to={RouteNames.SIGNUP}>
                 Зарегистрироваться
             </Link>
