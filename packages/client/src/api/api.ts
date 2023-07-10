@@ -1,7 +1,6 @@
+const HOST = import.meta.env.VITE_YA;
 export const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
 
-const PORT = 3001;
-const HOST = `http://localhost:${PORT}/api/v2`;
 const API = {
     HOST,
     RESOURCES: `${HOST}/resources`,
