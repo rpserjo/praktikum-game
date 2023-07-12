@@ -1,5 +1,7 @@
+# Dockerfile.client
+
 ARG NODE_VERSION=16
-ARG CLIENT_PORT=3001
+ARG CLIENT_PORT=3000
 
 FROM node:$NODE_VERSION-buster as base
 
@@ -7,12 +9,12 @@ WORKDIR /app
 
 FROM base as builder
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock
 RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn lerna bootstrap
+RUN yarn bootstrap
 RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
 
 
