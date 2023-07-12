@@ -67,15 +67,17 @@ async function startServer() {
                 render: (uri: string, repository: any) => Promise<[Record<string, any>, string]>;
             }
 
-            let mod: SSRModule;
+            let ssrModule: SSRModule;
 
             if (isDev()) {
-                mod = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))) as SSRModule;
+                ssrModule = (await vite!.ssrLoadModule(
+                    path.resolve(srcPath, 'ssr.tsx')
+                )) as SSRModule;
             } else {
-                mod = await import(ssrClientPath);
+                ssrModule = await import(ssrClientPath);
             }
 
-            const { render } = mod;
+            const { render } = ssrModule;
             const [initialState, appHtml] = await render(
                 url,
                 new YandexAPIRepository(req.headers.cookie)
