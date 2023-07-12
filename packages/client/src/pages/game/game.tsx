@@ -51,7 +51,7 @@ type DataType = {
     isMousePressed: boolean;
     placeShipStep: boolean;
     currentShipIndex: null | number;
-    currnetShip: Ship | null;
+    currentShip: Ship | null;
     squareSize: number;
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
@@ -61,7 +61,7 @@ const data: DataType = {
     isMousePressed: false,
     placeShipStep: true,
     currentShipIndex: null,
-    currnetShip: null,
+    currentShip: null,
     squareSize: 30,
     isDragging: false,
     userField: { size: 300, left: 650, top: 70 },
@@ -254,7 +254,7 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
 
 const isDraggedIntoDropField = function (): boolean {
     let res = false;
-    const ship = data.currnetShip;
+    const ship = data.currentShip;
     const x = data.userField.left;
     const xWidth = data.userField.left + data.userField.size;
     const y = data.userField.top;
@@ -279,6 +279,35 @@ const isDraggedIntoDropField = function (): boolean {
     return res;
 };
 
+const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
+    const shipToMove = data.currentShip;
+    if (shipToMove !== null) {
+        const animationTime = 16;
+        shipToMove.isRotated = false;
+
+        const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
+        const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
+
+        const animate = function () {
+            if (shipToMove.currentLeft !== shipToMove.originLeft) {
+                shipToMove.currentLeft += leftStep;
+            }
+            if (shipToMove.currentTop !== shipToMove.originTop) {
+                shipToMove.currentTop += topStep;
+            }
+
+            drawCanvasItems(ref);
+            const leftIsDone = shipToMove.currentLeft < shipToMove.originLeft;
+            const topIsDone = shipToMove.originTop < shipToMove.currentTop;
+
+            if (leftIsDone || topIsDone) {
+                requestAnimationFrame(animate);
+            }
+        };
+        animate();
+    }
+};
+
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
@@ -286,12 +315,12 @@ const Game: FC = () => {
     const dispatch = useDispatch();
 
     const rotate = useCallback((event: KeyboardEvent) => {
-        if (data.isDragging && event.code === 'KeyR' && data.currnetShip !== null) {
-            if (data.currnetShip.isRotated) {
-                data.currnetShip.isRotated = false;
+        if (data.isDragging && event.code === 'KeyR' && data.currentShip !== null) {
+            if (data.currentShip.isRotated) {
+                data.currentShip.isRotated = false;
                 drawCanvasItems(ref);
             } else {
-                data.currnetShip.isRotated = true;
+                data.currentShip.isRotated = true;
                 drawCanvasItems(ref);
             }
         }
@@ -317,7 +346,7 @@ const Game: FC = () => {
         shipsImg.forEach((ship, i) => {
             if (isMouseInShape(canvasX, canvasY, ship)) {
                 data.currentShipIndex = i;
-                data.currnetShip = shipsImg[i];
+                data.currentShip = shipsImg[i];
                 data.isDragging = true;
             }
         });
@@ -326,18 +355,42 @@ const Game: FC = () => {
     const mouseUp = () => {
         if (data.isDragging) {
             if (isDraggedIntoDropField()) {
-                console.log('поставили');
-                //  функция смещения корабля под размер клеток
-                //  запись в дату клеток занятых конкретным кораблем
+                const ship = data.currentShip;
+
+                if (ship !== null) {
+                    let shiftLeft;
+                    let shiftTop;
+
+                    if (ship.isRotated) {
+                        shiftLeft = ((ship.currentLeft - ship.width / 2) % data.squareSize) - 5;
+                        shiftTop = ((ship.currentTop + ship.width / 2) % data.squareSize) + 5;
+                    } else {
+                        shiftLeft = (ship.currentLeft - data.userField.left) % data.squareSize;
+                        shiftTop = (ship.currentTop - data.userField.top) % data.squareSize;
+                    }
+
+                    if (shiftLeft > 15) {
+                        ship.currentLeft += data.squareSize - shiftLeft;
+                    } else {
+                        ship.currentLeft -= shiftLeft;
+                    }
+
+                    if (shiftTop > 15) {
+                        ship.currentTop += data.squareSize - shiftTop;
+                    } else {
+                        ship.currentTop -= shiftTop;
+                    }
+
+                    drawCanvasItems(ref);
+                }
             } else {
-                console.log('не поставили');
-                //  функция возвращения на место
+                returnShip(ref);
             }
         }
 
         data.isMousePressed = false;
         data.currentShipIndex = null;
-        data.currnetShip = null;
+        data.currentShip = null;
         data.isDragging = false;
     };
 
@@ -353,9 +406,9 @@ const Game: FC = () => {
                 return;
             }
 
-            if (data.isDragging && data.currentShipIndex !== null && data.currnetShip !== null) {
-                data.currnetShip.currentLeft = canvasX - data.currnetShip.width / 2;
-                data.currnetShip.currentTop = canvasY - data.currnetShip.height / 2;
+            if (data.isDragging && data.currentShipIndex !== null && data.currentShip !== null) {
+                data.currentShip.currentLeft = canvasX - data.currentShip.width / 2;
+                data.currentShip.currentTop = canvasY - data.currentShip.height / 2;
 
                 drawCanvasItems(ref);
             }
