@@ -363,34 +363,22 @@ const Game: FC = () => {
 
                     if (ship.isRotated) {
                         shiftLeft = ((ship.currentLeft - ship.width / 2) % data.squareSize) - 5;
-                        shiftTop = (ship.currentTop - data.userField.top) % data.squareSize;
-
-                        if (shiftLeft > 15) {
-                            ship.currentLeft += 30 - shiftLeft;
-                        } else {
-                            ship.currentLeft -= shiftLeft;
-                        }
-
-                        if (shiftTop > 15) {
-                            ship.currentTop += shiftTop;
-                        } else {
-                            ship.currentTop -= shiftTop;
-                        }
+                        shiftTop = ((ship.currentTop - ship.height) % data.squareSize) + 5;
                     } else {
                         shiftLeft = (ship.currentLeft - data.userField.left) % data.squareSize;
                         shiftTop = (ship.currentTop - data.userField.top) % data.squareSize;
+                    }
 
-                        if (shiftLeft > 15) {
-                            ship.currentLeft += data.squareSize - shiftLeft;
-                        } else {
-                            ship.currentLeft -= shiftLeft;
-                        }
+                    if (shiftLeft > 15) {
+                        ship.currentLeft += data.squareSize - shiftLeft;
+                    } else {
+                        ship.currentLeft -= shiftLeft;
+                    }
 
-                        if (shiftTop > 15) {
-                            ship.currentTop += data.squareSize - shiftTop;
-                        } else {
-                            ship.currentTop -= shiftTop;
-                        }
+                    if (shiftTop > 15) {
+                        ship.currentTop += data.squareSize - shiftTop;
+                    } else {
+                        ship.currentTop -= shiftTop;
                     }
 
                     drawCanvasItems(ref);
