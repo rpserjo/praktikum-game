@@ -1,0 +1,17 @@
+FROM node:20.0.0-slim
+
+WORKDIR /application
+
+COPY package.json yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+
+COPY . .
+
+RUN yarn lerna bootstrap
+
+RUN yarn dev --scope=client
+
+EXPOSE 3000
+
+EXPOSE 3001
