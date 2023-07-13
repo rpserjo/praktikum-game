@@ -1,4 +1,6 @@
 const HOST = 'https://ya-praktikum.tech/api/v2';
+export const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
+
 const API = {
     HOST,
     RESOURCES: `${HOST}/resources`,
@@ -10,6 +12,10 @@ const API = {
             SIGNIN: '/signin',
             USER: '/user',
             LOGOUT: '/logout',
+        },
+        OAUTH: {
+            ENDPOINT: '/oauth/yandex',
+            SERVICEID: '/service-id',
         },
         USER: {
             ENDPOINT: '/user',
