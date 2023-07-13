@@ -12,11 +12,9 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn bootstrap
-WORKDIR /app/packages/client
-RUN rm -rf /app/packages/client/dist && rm -rf /app/packages/client/ssr-dist && yarn build && yarn link
-WORKDIR /app/packages/server
-RUN rm -rf /app/packages/server/dist && yarn link client && yarn build
+RUN yarn lerna bootstrap
+RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
+RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
 
 FROM node:$NODE_VERSION-alpine as production
 COPY --from=builder /app/packages/client/dist/ /app/client/dist/
