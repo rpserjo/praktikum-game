@@ -18,23 +18,22 @@ type FormFields = {
     topicMsg: HTMLTextAreaElement;
 };
 const ForumContent: FC<ForumContentProps> = ({ serverData, page }) => {
-    const [newTopicModal, setNewTopicModal] = useState(false);
+    const [showNewTopicModal, setShowNewTopicModal] = useState(false);
 
     const handleNewTopic: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        setNewTopicModal(true);
+        setShowNewTopicModal(true);
     };
-    const handleCloseModal: MouseEventHandler<HTMLButtonElement> = event => {
+    const closeModal: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
-        setNewTopicModal(false);
+        setShowNewTopicModal(false);
     };
-
     const handleSubmit: FormEventHandler<HTMLFormElement & FormFields> = event => {
         event.preventDefault();
         const form = event.currentTarget;
         const { topicName, topicMessage } = form;
         console.log('Отправили данные формы', topicName.value, topicMessage.value);
-        setNewTopicModal(false);
+        setShowNewTopicModal(false);
         topicName.value = '';
         topicMessage.value = '';
     };
@@ -81,8 +80,8 @@ const ForumContent: FC<ForumContentProps> = ({ serverData, page }) => {
                 </div>
                 <Pagination currentPage={+page} lastPage={serverData.lastPage} linkPath="/forum/" />
             </div>
-            <Modal isActive={newTopicModal}>
-                <TopicForm handleSubmit={handleSubmit} handleCloseModal={handleCloseModal} />
+            <Modal isActive={showNewTopicModal}>
+                <TopicForm handleSubmit={handleSubmit} handleCloseModal={closeModal} />
             </Modal>
         </>
     );
