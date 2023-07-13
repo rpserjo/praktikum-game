@@ -43,7 +43,7 @@ services:
       - skynet
 
   postgres:
-    container_name: postgres
+    container_name: ${POSTGRES_HOST}
     image: postgres:14
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'

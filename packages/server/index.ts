@@ -5,13 +5,16 @@ import path from 'path';
 import * as fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
+import { createClientAndConnect } from './db';
 
-dotenv.config();
+dotenv.config({ path: '../../.env' });
+
+console.log(process.env.SERVER_PORT);
 const isDev = () => process.env.NODE_ENV === 'development';
 
 async function startServer() {
     const app = express();
-    const port = Number(process.env.SERVER_PORT) || 3001;
+    const port = Number(process.env.SERVER_PORT) || 4001;
     let vite: ViteDevServer | undefined;
     // const distPath = path.dirname(require.resolve('client/dist/index.html'));
     // const srcPath = path.dirname(require.resolve('client'));
@@ -69,6 +72,8 @@ async function startServer() {
     app.listen(port, () => {
         console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
     });
+
+    createClientAndConnect();
 }
 
 startServer();
