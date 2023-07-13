@@ -25,4 +25,9 @@ export type TTopicList = {
     messageQty: number;
 };
 
+export type TTopicServerData = {
+    items: TTopicList[];
+    lastPage: number;
+};
+
 export default TLeaderBoardData;
