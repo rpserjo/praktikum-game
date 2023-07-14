@@ -1,4 +1,4 @@
-import React, { ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 import style from './errorBoundary.module.scss';
 
 type TErrorBoundaryProps = {
@@ -10,10 +10,7 @@ type TErrorBoundaryState = {
     hasError: boolean;
 };
 
-export default class ErrorBoundary extends React.Component<
-    TErrorBoundaryProps,
-    TErrorBoundaryState
-> {
+export default class ErrorBoundary extends Component<TErrorBoundaryProps, TErrorBoundaryState> {
     constructor(props: TErrorBoundaryProps) {
         super(props);
 
