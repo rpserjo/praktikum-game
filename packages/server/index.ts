@@ -9,16 +9,12 @@ import { createClientAndConnect } from './db';
 
 dotenv.config({ path: '../../.env' });
 
-console.log(process.env.SERVER_PORT);
 const isDev = () => process.env.NODE_ENV === 'development';
 
 async function startServer() {
     const app = express();
     const port = Number(process.env.SERVER_PORT) || 4001;
     let vite: ViteDevServer | undefined;
-    // const distPath = path.dirname(require.resolve('client/dist/index.html'));
-    // const srcPath = path.dirname(require.resolve('client'));
-    // const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
     const distPath = path.resolve(__dirname, '../../client/dist');
     const srcPath = path.resolve(__dirname, '../../client');
     const ssrClientPath = path.resolve(__dirname, '../../client/ssr-dist/client.cjs');
