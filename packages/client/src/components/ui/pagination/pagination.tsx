@@ -12,13 +12,13 @@ type PaginationProps = {
 const Pagination: FC<PaginationProps> = ({ currentPage, lastPage, linkPath }) => (
     <div className={style.pagination}>
         {currentPage > 1 && (
-            <Link className={style.link} to={`${linkPath}${currentPage - 1}`}>
+            <Link className={style.pagination__link} to={`${linkPath}${currentPage - 1}`}>
                 Prev
             </Link>
         )}
         <span>{`< ${currentPage} >`}</span>
         {currentPage < lastPage && (
-            <Link className={style.link} to={`${linkPath}${currentPage + 1}`}>
+            <Link className={style.pagination__link} to={`${linkPath}${currentPage + 1}`}>
                 Next
             </Link>
         )}
