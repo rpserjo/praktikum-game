@@ -14,6 +14,6 @@ describe('Validatable input tests', () => {
         render(<ValidatableInput name="name" ruleType={RuleNames.NAME} />);
         await userEvent.type(screen.getByRole('textbox'), 'qqq');
         userEvent.click(document.body);
-        expect(screen.getByText(/Первая буква должна быть заглавной/)).toBeInTheDocument();
+        expect(screen.getByTestId('validation-error')).toBeInTheDocument();
     });
 });

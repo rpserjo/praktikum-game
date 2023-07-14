@@ -41,7 +41,9 @@ const ValidatableInput: FC<ValidatableInputProps> = props => {
                 onFocus={onChange}
                 type={type}
             />
-            <p className={style.error}>{error}</p>
+            <p className={style.error} data-testid="validation-error">
+                {error}
+            </p>
         </div>
     );
 };

@@ -12,14 +12,14 @@ const Forum: FC = () => {
     const server = new MockServer();
     const serverData = server.getTopicList(+page, MAX_ELEMENTS_PER_PAGE);
 
-    if (serverData) {
-        return (
-            <main className={style.main}>
-                <ForumContent serverData={serverData} page={+page} />
-            </main>
-        );
+    if (!serverData) {
+        return <Loader />;
     }
-    return <Loader />;
+    return (
+        <main className={style.main}>
+            <ForumContent serverData={serverData} page={+page} />
+        </main>
+    );
 };
 
 export default Forum;
