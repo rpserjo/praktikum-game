@@ -7,6 +7,9 @@ import { commentModel } from './models/comment';
 import { replyModel } from './models/reply';
 import { reactionModel } from './models/reaction';
 import { authModel } from './models/auth';
+import { userTheme } from './models/userTheme';
+import { siteTheme } from './models/themes';
+import ThemeService from './servises/theme-service';
 
 dotenv.config({ path: '../../.env' });
 
@@ -26,15 +29,20 @@ export const sequelize = new Sequelize(sequelizeOptions);
 
 // Инициализируем модели
 export const User = sequelize.define('User', userModel, {});
+export const UserTheme = sequelize.define('UserTheme', userTheme, {});
 export const Topic = sequelize.define('Topic', topicModel, {});
 export const Comment = sequelize.define('Comment', commentModel, {});
 export const Reply = sequelize.define('Reply', replyModel, {});
 export const Reaction = sequelize.define('Reaction', reactionModel, { updatedAt: false });
 export const Auth = sequelize.define('Auth', authModel, {});
+export const SiteTheme = sequelize.define('SiteTheme', siteTheme, {});
 
 User.hasMany(Topic);
 User.hasMany(Comment);
 User.hasMany(Reply);
+UserTheme.hasOne(User, { foreignKey: { name: 'themeId', allowNull: false } });
+User.hasOne(UserTheme, { foreignKey: { name: 'userId', allowNull: false } });
+UserTheme.belongsTo(SiteTheme, { foreignKey: { name: 'themeId', allowNull: false } });
 Topic.belongsTo(User);
 Comment.belongsTo(User);
 User.hasMany(Auth);
@@ -60,6 +68,13 @@ export async function dbConnect() {
         );
         await sequelize.authenticate(); // Проверка аутентификации в БД
         await sequelize.sync(); // Синхронизация базы данных
+
+        // Создание основных цветовых тем сайта
+        await ThemeService.createManyThemes([
+            { name: 'light', description: 'Light theme for site' },
+            { name: 'dark', description: 'Dark theme for site' },
+        ]);
+
         console.log(' ➜ 🎸 Connection to db has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
