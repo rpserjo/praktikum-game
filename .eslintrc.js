@@ -41,6 +41,12 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'no-param-reassign': 'off',
         'max-classes-per-file': 'off',
-        'camelcase': 'off'
+        'camelcase': 'off',
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "error",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": "error",
+        "class-methods-use-this":"off",
+
     },
 };

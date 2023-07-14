@@ -1,4 +1,4 @@
-const HOST = 'https://ya-praktikum.tech/api/v2';
+const HOST = 'http://localhost:3000/api/v2';
 export const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
 
 const API = {
