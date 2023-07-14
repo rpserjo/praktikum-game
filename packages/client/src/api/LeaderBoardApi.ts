@@ -13,9 +13,9 @@ class LeaderBoardApi extends BaseApi {
             cursor: number;
             limit: number;
         } = {
-            ratingFieldName: 'string',
+            ratingFieldName: 'doorsRating',
             cursor: 0,
-            limit: 0,
+            limit: 10,
         };
 
         return this.http.post(API.ENDPOINTS.LEADERBOARD.ALL, options);
