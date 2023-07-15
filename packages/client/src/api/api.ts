@@ -27,6 +27,7 @@ const API = {
         LEADERBOARD: {
             ENDPOINT: '/leaderboard',
             ALL: '/all',
+            POSTUSER: '',
         },
     },
 };
