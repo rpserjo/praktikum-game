@@ -4,8 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '@components/ui/loader/loader';
 import style from './leaderboard.module.scss';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
-import { setLeaderBoard } from '@/store/slices/leaderBoardSlice';
+import { setLeaderBoard, TLeaderBoard } from '@/store/slices/leaderBoardSlice';
 import { RootState } from '@/store';
+
+type PageDataType = {
+    data: Array<TLeaderBoard> | null;
+    items: Array<TLeaderBoard> | null;
+    isShowPrev: boolean | undefined | null;
+    lastPage: number | null;
+    isShowNext: boolean | undefined | null;
+};
+
+const pageData: PageDataType = {
+    data: null,
+    items: null,
+    isShowPrev: null,
+    lastPage: null,
+    isShowNext: null,
+};
 
 const Leaderboard: FC = () => {
     const dispatch = useDispatch();
@@ -29,20 +45,12 @@ const Leaderboard: FC = () => {
 
     const { page = 1 } = useParams();
 
-    let data = null;
-    let items = null;
-    let isShowPrev = null;
-    let lastPage = null;
-    let isShowNext = null;
-
     if (leaderBoardState.leaderBoard !== null) {
-        data = leaderBoardState.leaderBoard.map(userData => userData.data);
-        items = data.slice((+page! - 1) * 10, +page! * 10);
-
-        isShowPrev = page && +page > 1 ? true : undefined;
-
-        lastPage = Math.ceil(data.length / 10);
-        isShowNext = page && +page < lastPage ? true : undefined;
+        pageData.data = leaderBoardState.leaderBoard.map(userData => userData.data);
+        pageData.items = pageData.data.slice((+page! - 1) * 10, +page! * 10);
+        pageData.isShowPrev = page && +page > 1 ? true : undefined;
+        pageData.lastPage = Math.ceil(pageData.data.length / 10);
+        pageData.isShowNext = page && +page < pageData.lastPage ? true : undefined;
     }
 
     return leaderBoardState.leaderBoard !== null ? (
@@ -60,7 +68,7 @@ const Leaderboard: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {items!.map(item => (
+                        {pageData.items!.map(item => (
                             <tr key={item.login} className={style.tr}>
                                 <td className={style.td}>{item.name}</td>
                                 <td className={style.td}>{item.login}</td>
@@ -72,13 +80,13 @@ const Leaderboard: FC = () => {
                     </tbody>
                 </table>
                 <div className={style['wrapper-links']}>
-                    {isShowPrev && (
+                    {pageData.isShowPrev && (
                         <Link className={style.link} to={`/leaderboard/${Number(page) - 1}`}>
                             Prev
                         </Link>
                     )}
                     <span>{`< ${page} >`}</span>
-                    {isShowNext && (
+                    {pageData.isShowNext && (
                         <Link className={style.link} to={`/leaderboard/${Number(page) + 1}`}>
                             Next
                         </Link>
