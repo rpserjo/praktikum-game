@@ -1,26 +1,33 @@
 import React, { FC, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './leaderboard.module.scss';
 import MockServer from '@/mocks/mock-server';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
+import { setLeaderBoard } from '@/store/slices/leaderBoardSlice';
+import { RootState } from '@/store';
 
 const Leaderboard: FC = () => {
+    const dispatch = useDispatch();
+    const leaderBoardState = useSelector((state: RootState) => state.leaderBoard);
+
     useEffect(() => {
-        const getBoardData = () => {
+        const getBoardData = async () => {
             const leaderBoardApi = new LeaderBoardApi();
             leaderBoardApi
                 .getLeaderboardData()
                 .then(response => {
-                    console.log(response.data);
-                    // dispatch(setUser(response.data));
+                    dispatch(setLeaderBoard(response.data));
                 })
                 .catch(e => {
                     console.log('Error', e);
-                    // dispatch(setUser(null));
+                    dispatch(setLeaderBoard(null));
                 });
         };
         getBoardData();
     }, []);
+
+    console.log(leaderBoardState);
 
     const { page = 1 } = useParams();
 
