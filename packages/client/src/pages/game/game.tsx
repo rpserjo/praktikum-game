@@ -91,6 +91,17 @@ const shipsImg: ShipsType = [
         isLoad: false,
     },
     {
+        decksAmount: 3,
+        width: 90,
+        height: 30,
+        originLeft: 1060,
+        originTop: 220,
+        currentLeft: 1060,
+        currentTop: 220,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
         decksAmount: 2,
         width: 60,
         height: 30,
@@ -98,6 +109,61 @@ const shipsImg: ShipsType = [
         originTop: 280,
         currentLeft: 1090,
         currentTop: 280,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 2,
+        width: 60,
+        height: 30,
+        originLeft: 1090,
+        originTop: 280,
+        currentLeft: 1090,
+        currentTop: 280,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 2,
+        width: 60,
+        height: 30,
+        originLeft: 1090,
+        originTop: 280,
+        currentLeft: 1090,
+        currentTop: 280,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 1,
+        width: 30,
+        height: 30,
+        originLeft: 1120,
+        originTop: 340,
+        currentLeft: 1120,
+        currentTop: 340,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 1,
+        width: 30,
+        height: 30,
+        originLeft: 1120,
+        originTop: 340,
+        currentLeft: 1120,
+        currentTop: 340,
+        isRotated: false,
+        isLoad: false,
+    },
+    {
+        decksAmount: 1,
+        width: 30,
+        height: 30,
+        originLeft: 1120,
+        originTop: 340,
+        currentLeft: 1120,
+        currentTop: 340,
         isRotated: false,
         isLoad: false,
     },
@@ -133,9 +199,9 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
         return;
     }
 
-    shipsPictures.forEach((ship, i) => {
+    shipsPictures.forEach(ship => {
         const image = new Image();
-        image.src = `./sprites/ship_${i}.svg`;
+        image.src = `./sprites/ship_${ship.decksAmount}.svg`;
         if (!ship.isLoad) {
             image.addEventListener('load', () => {
                 ship.isLoad = true;
