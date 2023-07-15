@@ -44,6 +44,7 @@ type Ship = {
     currentTop: number;
     isRotated: boolean;
     isLoad: boolean;
+    isSet: boolean;
 };
 type ShipsType = Array<Ship>;
 
@@ -55,12 +56,6 @@ type DataType = {
     squareSize: number;
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
-    numsOfShipsLeftToPlace: {
-        decks_4: number;
-        decks_3: number;
-        decks_2: number;
-        decks_1: number;
-    };
 };
 
 const data: DataType = {
@@ -71,12 +66,20 @@ const data: DataType = {
     squareSize: 30,
     isDragging: false,
     userField: { size: 300, left: 650, top: 70 },
-    numsOfShipsLeftToPlace: {
-        decks_4: 1,
-        decks_3: 2,
-        decks_2: 3,
-        decks_1: 4,
-    },
+};
+
+type numsOfShipsLeftToPlaceType = {
+    decks_4: number;
+    decks_3: number;
+    decks_2: number;
+    decks_1: number;
+};
+
+const numsOfShipsLeftToPlace: numsOfShipsLeftToPlaceType = {
+    decks_4: 1,
+    decks_3: 2,
+    decks_2: 3,
+    decks_1: 4,
 };
 
 const shipsImg: ShipsType = [
@@ -90,6 +93,7 @@ const shipsImg: ShipsType = [
         currentTop: 160,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 3,
@@ -101,6 +105,7 @@ const shipsImg: ShipsType = [
         currentTop: 220,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 3,
@@ -112,6 +117,7 @@ const shipsImg: ShipsType = [
         currentTop: 220,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 2,
@@ -123,6 +129,7 @@ const shipsImg: ShipsType = [
         currentTop: 280,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 2,
@@ -134,6 +141,7 @@ const shipsImg: ShipsType = [
         currentTop: 280,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 2,
@@ -145,6 +153,7 @@ const shipsImg: ShipsType = [
         currentTop: 280,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 1,
@@ -156,6 +165,7 @@ const shipsImg: ShipsType = [
         currentTop: 340,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 1,
@@ -167,6 +177,7 @@ const shipsImg: ShipsType = [
         currentTop: 340,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 1,
@@ -178,6 +189,7 @@ const shipsImg: ShipsType = [
         currentTop: 340,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
     {
         decksAmount: 1,
@@ -189,6 +201,7 @@ const shipsImg: ShipsType = [
         currentTop: 340,
         isRotated: false,
         isLoad: false,
+        isSet: false,
     },
 ];
 
@@ -299,7 +312,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         const numTop = 188;
         const numHeightAdd = 59;
 
-        Object.values(data.numsOfShipsLeftToPlace).forEach((value, index) => {
+        Object.values(numsOfShipsLeftToPlace).forEach((value, index) => {
             ctx.fillText(String(value), numLeft, numTop + index * numHeightAdd);
         });
 
@@ -432,10 +445,19 @@ const Game: FC = () => {
 
     const mouseUp = () => {
         if (data.isDragging) {
-            if (isDraggedIntoDropField()) {
-                const ship = data.currentShip;
+            const ship = data.currentShip;
 
+            if (isDraggedIntoDropField()) {
                 if (ship !== null) {
+                    if (ship.isSet === false) {
+                        const key = `decks_${ship.decksAmount}` as string;
+                        numsOfShipsLeftToPlace[key as keyof typeof numsOfShipsLeftToPlace] -= 1;
+                    }
+
+                    // DataType.numsOfShipsLeftToPlac
+
+                    ship.isSet = true;
+
                     let shiftLeft;
                     let shiftTop;
 
@@ -463,6 +485,14 @@ const Game: FC = () => {
                 }
             } else {
                 returnShip(ref);
+                if (ship !== null) {
+                    if (ship.isSet === true) {
+                        const key = `decks_${ship.decksAmount}` as string;
+                        numsOfShipsLeftToPlace[key as keyof typeof numsOfShipsLeftToPlace] += 1;
+                    }
+
+                    ship.isSet = false;
+                }
             }
         }
 
