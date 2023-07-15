@@ -20,6 +20,10 @@ class LeaderBoardApi extends BaseApi {
 
         return this.http.post(API.ENDPOINTS.LEADERBOARD.ALL, options);
     }
+
+    public async postLeaderboardData(data: any): Promise<void> {
+        return this.http.post(API.ENDPOINTS.LEADERBOARD.POSTUSER, data);
+    }
 }
 
 export default LeaderBoardApi;
