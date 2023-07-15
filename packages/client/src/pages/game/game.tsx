@@ -131,11 +131,12 @@ function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLIm
 
 function sendToLeaderBoard() {
     const userApi = new LeaderBoardApi();
+    console.log(userData);
 
     const dataToSendOnEnd = {
         data: {
-            name: 'Борис',
-            email: 'barbados@caribes.ru',
+            name: userData.user.firstName,
+            email: userData.user.email,
             login: 'Barbados',
             winsCount: 10,
             lostCount: 7,
