@@ -68,14 +68,14 @@ const data: DataType = {
     userField: { size: 300, left: 650, top: 70 },
 };
 
-type numsOfShipsLeftToPlaceType = {
+type NumsOfShipsLeftToPlaceType = {
     decks_4: number;
     decks_3: number;
     decks_2: number;
     decks_1: number;
 };
 
-const numsOfShipsLeftToPlace: numsOfShipsLeftToPlaceType = {
+const numsOfShipsLeftToPlace: NumsOfShipsLeftToPlaceType = {
     decks_4: 1,
     decks_3: 2,
     decks_2: 3,
@@ -305,16 +305,19 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
             }
         });
         // render ships
-        ctx.font = '32px Arial';
-
         // create ship nums
-        const numLeft = 1175;
-        const numTop = 188;
-        const numHeightAdd = 59;
 
-        Object.values(numsOfShipsLeftToPlace).forEach((value, index) => {
-            ctx.fillText(String(value), numLeft, numTop + index * numHeightAdd);
-        });
+        if (data.placeShipStep) {
+            ctx.font = '32px Arial';
+
+            const numLeft = 1175;
+            const numTop = 188;
+            const numHeightAdd = 59;
+
+            Object.values(numsOfShipsLeftToPlace).forEach((value, index) => {
+                ctx.fillText(String(value), numLeft, numTop + index * numHeightAdd);
+            });
+        }
 
         renderShips(ctx, shipsImg);
     }
@@ -453,10 +456,12 @@ const Game: FC = () => {
                         const key = `decks_${ship.decksAmount}` as string;
                         numsOfShipsLeftToPlace[key as keyof typeof numsOfShipsLeftToPlace] -= 1;
                     }
-
-                    // DataType.numsOfShipsLeftToPlac
-
                     ship.isSet = true;
+
+                    // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
+
+                    // if (areAllShipsPlaced) {
+                    // }
 
                     let shiftLeft;
                     let shiftTop;
@@ -492,6 +497,11 @@ const Game: FC = () => {
                     }
 
                     ship.isSet = false;
+
+                    // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
+
+                    // if (areAllShipsPlaced) {
+                    // }
                 }
             }
         }
@@ -568,6 +578,8 @@ const Game: FC = () => {
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         dispatch(setGame({ ...game, mode: Mode.battle }));
+        data.placeShipStep = false;
+        drawCanvasItems(ref);
     };
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
