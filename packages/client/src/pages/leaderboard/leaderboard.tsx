@@ -36,18 +36,15 @@ const Leaderboard: FC = () => {
     const [responseState, setResponseState] = useState<TLeaderBoards | null>(null);
 
     useEffect(() => {
-        const getBoardData = async () => {
-            const leaderBoardApi = new LeaderBoardApi();
-            leaderBoardApi
-                .getLeaderboardData()
-                .then(res => {
-                    setResponseState(res.data);
-                })
-                .catch(e => {
-                    console.log('Error', e);
-                });
-        };
-        getBoardData();
+        const leaderBoardApi = new LeaderBoardApi();
+        leaderBoardApi
+            .getLeaderboardData()
+            .then(response => {
+                setResponseState(response.data);
+            })
+            .catch(e => {
+                console.log('Error', e);
+            });
     }, []);
 
     const { page = 1 } = useParams();
