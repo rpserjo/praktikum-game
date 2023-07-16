@@ -1,11 +1,20 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import Loader from '@components/ui/loader/loader';
 import style from './leaderboard.module.scss';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
-import { setLeaderBoard, TLeaderBoard } from '@/store/slices/leaderBoardSlice';
-import { RootState } from '@/store';
+
+type TLeaderBoard = {
+    doorsRating: number;
+    email: string;
+    login: string;
+    lostCount: number;
+    name: string;
+    score: number;
+    winsCount: number;
+};
+
+type TLeaderBoards = Array<{ data: TLeaderBoard }>;
 
 type PageDataType = {
     data: Array<TLeaderBoard> | null;
@@ -24,20 +33,18 @@ const pageData: PageDataType = {
 };
 
 const Leaderboard: FC = () => {
-    const dispatch = useDispatch();
-    const leaderBoardState = useSelector((state: RootState) => state.leaderBoard);
+    const [responseState, setResponseState] = useState<TLeaderBoards | null>(null);
 
     useEffect(() => {
         const getBoardData = async () => {
             const leaderBoardApi = new LeaderBoardApi();
             leaderBoardApi
                 .getLeaderboardData()
-                .then(response => {
-                    dispatch(setLeaderBoard(response.data));
+                .then(res => {
+                    setResponseState(res.data);
                 })
                 .catch(e => {
                     console.log('Error', e);
-                    dispatch(setLeaderBoard(null));
                 });
         };
         getBoardData();
@@ -45,15 +52,15 @@ const Leaderboard: FC = () => {
 
     const { page = 1 } = useParams();
 
-    if (leaderBoardState.leaderBoard !== null) {
-        pageData.data = leaderBoardState.leaderBoard.map(userData => userData.data);
+    if (responseState !== null) {
+        pageData.data = responseState.map(userData => userData.data);
         pageData.items = pageData.data.slice((+page! - 1) * 10, +page! * 10);
         pageData.isShowPrev = page && +page > 1 ? true : undefined;
         pageData.lastPage = Math.ceil(pageData.data.length / 10);
         pageData.isShowNext = page && +page < pageData.lastPage ? true : undefined;
     }
 
-    return leaderBoardState.leaderBoard !== null ? (
+    return responseState !== null ? (
         <main className={style.main}>
             <div>
                 <h1 className={style.h1}>Таблица достижений</h1>

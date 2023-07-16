@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer, { TState, TUser } from '@/store/slices/userSlice';
 import gameReducer from '@/store/slices/gameSlice';
-import leaderBoardReducer from '@/store/slices/leaderBoardSlice';
 
 interface IUserService {
     getUserData(): Promise<TUser>;
@@ -14,7 +13,6 @@ export interface StoreState {
 const rootReducer = combineReducers({
     user: userReducer,
     game: gameReducer,
-    leaderBoard: leaderBoardReducer,
 });
 
 function createStore(service: IUserService, initialState?: StoreState) {
