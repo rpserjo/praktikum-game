@@ -4,35 +4,26 @@ import Loader from '@components/ui/loader/loader';
 import style from './leaderboard.module.scss';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
 
-type TLeaderBoard = {
-    doorsRating: number;
-    email: string;
-    login: string;
-    lostCount: number;
-    name: string;
-    score: number;
-    winsCount: number;
-};
-
-type TLeaderBoards = Array<{ data: TLeaderBoard }>;
-
-type PageDataType = {
-    data: Array<TLeaderBoard> | null;
-    items: Array<TLeaderBoard> | null;
-    isShowPrev: boolean | undefined | null;
-    lastPage: number | null;
-    isShowNext: boolean | undefined | null;
-};
-
-const pageData: PageDataType = {
-    data: null,
-    items: null,
-    isShowPrev: null,
-    lastPage: null,
-    isShowNext: null,
-};
-
 const Leaderboard: FC = () => {
+    type TLeaderBoard = {
+        doorsRating: number;
+        email: string;
+        login: string;
+        lostCount: number;
+        name: string;
+        score: number;
+        winsCount: number;
+    };
+
+    type TLeaderBoards = Array<{ data: TLeaderBoard }>;
+
+    type PageDataType = {
+        data: Array<TLeaderBoard> | null;
+        items: Array<TLeaderBoard> | null;
+        isShowPrev: boolean | undefined | null;
+        lastPage: number | null;
+        isShowNext: boolean | undefined | null;
+    };
     const [responseState, setResponseState] = useState<TLeaderBoards | null>(null);
 
     useEffect(() => {
@@ -46,6 +37,14 @@ const Leaderboard: FC = () => {
                 console.log('Error', e);
             });
     }, []);
+
+    const pageData: PageDataType = {
+        data: null,
+        items: null,
+        isShowPrev: null,
+        lastPage: null,
+        isShowNext: null,
+    };
 
     const { page = 1 } = useParams();
 
