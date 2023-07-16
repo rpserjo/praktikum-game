@@ -1,6 +1,19 @@
 import BaseApi from './BaseApi';
 import API from '@/api/api';
-// import { SignInData, SignUpData, TProfileProps } from '@/models/models';
+
+type UserScoreData = {
+    data: {
+        name: string;
+        email: string;
+        login: string;
+        winsCount: number;
+        lostCount: number;
+        score: number;
+        doorsRating: number;
+    };
+    ratingFieldName: string;
+    teamName: string;
+};
 
 class LeaderBoardApi extends BaseApi {
     constructor() {
@@ -21,7 +34,7 @@ class LeaderBoardApi extends BaseApi {
         return this.http.post(API.ENDPOINTS.LEADERBOARD.ALL, options);
     }
 
-    public async postLeaderboardData(data: any): Promise<void> {
+    public async postLeaderboardData(data: UserScoreData): Promise<void> {
         return this.http.post(API.ENDPOINTS.LEADERBOARD.POSTUSER, data);
     }
 }
