@@ -20,6 +20,7 @@ import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
+import LeaderBoardApi from '@/api/LeaderBoardApi';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -125,6 +126,34 @@ function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLIm
     } else {
         ctxPassed.drawImage(image, ship.currentLeft, ship.currentTop, ship.width, ship.height);
     }
+}
+
+function sendToLeaderBoard() {
+    const userApi = new LeaderBoardApi();
+    console.log(userData);
+
+    const dataToSendOnEnd = {
+        data: {
+            name: userData.user.firstName,
+            email: userData.user.email,
+            login: 'Barbados',
+            winsCount: 10,
+            lostCount: 7,
+            score: 87,
+            doorsRating: 120,
+        },
+        ratingFieldName: 'doorsRating',
+        teamName: 'doors',
+    };
+
+    userApi
+        .postLeaderboardData(dataToSendOnEnd)
+        .then((res: any) => {
+            console.log('postLeaderboardData', res.status);
+        })
+        .catch(error => {
+            console.log('postLeaderboardData error', error);
+        });
 }
 
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
@@ -367,6 +396,7 @@ const Game: FC = () => {
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
+
         dispatch(
             setGame({
                 ...game,
@@ -411,11 +441,13 @@ const Game: FC = () => {
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
+        sendToLeaderBoard();
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
+        sendToLeaderBoard();
     };
 
     return (

@@ -24,6 +24,11 @@ const API = {
             PASSWORD: '/password',
             SEARCH: '/search',
         },
+        LEADERBOARD: {
+            ENDPOINT: '/leaderboard',
+            ALL: '/all',
+            POSTUSER: '',
+        },
     },
 };
 
