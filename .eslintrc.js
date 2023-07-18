@@ -32,7 +32,7 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
-        'no-unused-expressions': ['error', { allowTernary: true }],
+        'no-unused-expressions': ['error', { allowTernary: true, allowShortCircuit: true }],
         'operator-linebreak': ['error', 'before'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
@@ -41,6 +41,6 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'no-param-reassign': 'off',
         'max-classes-per-file': 'off',
-        'camelcase': 'off'
+        camelcase: 'off',
     },
 };
