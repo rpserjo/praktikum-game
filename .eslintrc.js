@@ -34,7 +34,7 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
-        'no-unused-expressions': ['error', { allowTernary: true }],
+        'no-unused-expressions': ['error', { allowTernary: true, allowShortCircuit: true }],
         'operator-linebreak': ['warn', 'before'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
