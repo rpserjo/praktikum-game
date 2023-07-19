@@ -1,7 +1,7 @@
 # Dockerfile.client
 
 ARG NODE_VERSION=16
-ARG CLIENT_PORT=3000
+ARG CLIENT_PORT=2999
 
 FROM node:$NODE_VERSION-buster as base
 
