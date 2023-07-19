@@ -1,13 +1,8 @@
 @import '@/assets/variables.scss';
 @import '@/assets/tektur/font-tektur.scss';
 
-@mixin buttonsPosition {
-  position: absolute;
-  left: 30px;
-}
-
 .buttonFullscreen {
-  @include buttonsPosition;
+  @include apiButtonsPosition;
   top: 30px;
 
   .icon {
@@ -27,7 +22,7 @@
 }
 
 .soundButton {
-  @include buttonsPosition;
+  @include apiButtonsPosition;
   top: 100px;
 }
 

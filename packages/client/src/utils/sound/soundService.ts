@@ -1,52 +1,60 @@
 import GameStartSound from '@/assets/sound/game_start.mp3';
-import GameFailedSound from '@/assets/sound/game_failed.mp3';
+import GameLostSound from '@/assets/sound/game_failed.mp3';
 import GameWinSound from '@/assets/sound/game_win.mp3';
 import EnemyHitSound from '@/assets/sound/enemy_hit.mp3';
 import MyShipHitSound from '@/assets/sound/my_ship_hit.mp3';
 import SetShipSound from '@/assets/sound/set_ship.mp3';
 import GameProcessSound from '@/assets/sound/game_process.mp3';
-import TorpedoFliesSound from '@/assets/sound/torpedo.mp3';
+import TorpedoSound from '@/assets/sound/torpedo.mp3';
 
 class SoundService {
-    public static startSound = () => {
-        const mySound = new Audio(GameStartSound);
-        mySound.play();
+    private startSound = new Audio(GameStartSound);
+
+    private lostSound = new Audio(GameLostSound);
+
+    private winnedSound = new Audio(GameWinSound);
+
+    private setShipSound = new Audio(SetShipSound);
+
+    private myShipHitSound = new Audio(MyShipHitSound);
+
+    private enemyShipHitSound = new Audio(EnemyHitSound);
+
+    private gameProcessSound = new Audio(GameProcessSound);
+
+    private torpedoSound = new Audio(TorpedoSound);
+
+    public playStartSound = () => {
+        this.startSound.play();
     };
 
-    public static failedSound = () => {
-        const mySound = new Audio(GameFailedSound);
-        mySound.play();
+    public playLostSound = () => {
+        this.lostSound.play();
     };
 
-    public static winSound = () => {
-        const mySound = new Audio(GameWinSound);
-        mySound.play();
+    public playWinnedSound = () => {
+        this.winnedSound.play();
     };
 
-    public static setShip = () => {
-        const mySound = new Audio(SetShipSound);
-        mySound.play();
+    public playSetShipSound = () => {
+        this.setShipSound.play();
     };
 
-    public static myShipHit = () => {
-        const mySound = new Audio(MyShipHitSound);
-        mySound.play();
+    public playMyShipHitSound = () => {
+        this.myShipHitSound.play();
     };
 
-    public static enemyShipHit = () => {
-        const mySound = new Audio(EnemyHitSound);
-        mySound.play();
+    public playEnemyShipHitSound = () => {
+        this.enemyShipHitSound.play();
     };
 
-    public static gameProcess = () => {
-        const mySound = new Audio(GameProcessSound);
-        mySound.play();
+    public playGameProcessSound = () => {
+        this.gameProcessSound.play();
     };
 
-    public static torpedoFlies = () => {
-        const mySound = new Audio(TorpedoFliesSound);
-        mySound.play();
+    public playTorpedoSound = () => {
+        this.torpedoSound.play();
     };
 }
 
-export default SoundService;
+export default new SoundService();

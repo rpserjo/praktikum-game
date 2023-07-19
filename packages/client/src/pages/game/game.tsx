@@ -324,7 +324,7 @@ const Game: FC = () => {
         if (data.isDragging) {
             if (isDraggedIntoDropField()) {
                 console.log('поставили');
-                isSoundOn && soundService.setShip();
+                isSoundOn && soundService.playSetShipSound();
                 //  функция смещения корабля под размер клеток
                 //  запись в дату клеток занятых конкретным кораблем
             } else {
@@ -394,21 +394,21 @@ const Game: FC = () => {
         event.preventDefault();
         NotificationService.promptNotification();
         NotificationService.gameStart();
-        isSoundOn && soundService.startSound();
+        isSoundOn && soundService.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
     };
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         NotificationService.gameWinned();
-        isSoundOn && soundService.winSound();
+        isSoundOn && soundService.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         NotificationService.gameLost();
-        isSoundOn && soundService.failedSound();
+        isSoundOn && soundService.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
     };
 
