@@ -29,3 +29,8 @@ $colorAvatarText: #ffffff;
   align-items: center;
   justify-content: center;
 }
+
+@mixin apiButtonsPosition {
+  position: absolute;
+  left: 30px;
+}

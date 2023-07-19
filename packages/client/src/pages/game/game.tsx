@@ -1,18 +1,10 @@
-import React, {
-    FC,
-    useRef,
-    useEffect,
-    useState,
-    MouseEventHandler,
-    RefObject,
-    useCallback,
-} from 'react';
+import React, { FC, useRef, useEffect, MouseEventHandler, RefObject, useCallback } from 'react';
 import Ships, { Mode, Position } from '@components/ui/ships/ships';
 
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
-import { Icon, Button } from '@ui';
+import { Button } from '@ui';
 import User, { Type } from '@/components/ui/user/user';
 import GameReserve from '@/pages/game/gameReserve';
 import renderHorizontalText from './game.helper';
@@ -21,6 +13,10 @@ import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
+import soundService from '@/utils/sound/soundService';
+import FullscreenButton from './apiButtons/fullScreenButton';
+import SoundButton from './apiButtons/soundButton';
+import { NotificationService } from '@/utils/notification/notificationService';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -351,10 +347,13 @@ const Game: FC = () => {
         });
     };
 
+    const { mode, move, shipsCount, gameOverReason, isSoundOn } = game;
+
     const mouseUp = () => {
         if (data.isDragging) {
             if (isDraggedIntoDropField()) {
                 console.log('поставили');
+                isSoundOn && soundService.playSetShipSound();
                 //  функция смещения корабля под размер клеток
                 //  запись в дату клеток занятых конкретным кораблем
             } else {
@@ -390,8 +389,6 @@ const Game: FC = () => {
         }
     };
 
-    const { mode, move, shipsCount, gameOverReason } = game;
-
     const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
@@ -423,29 +420,26 @@ const Game: FC = () => {
         [style.active]: !!gameOverReason,
     });
 
-    const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement !== null);
-
-    const handleFullscreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().then(() => setIsFullScreen(true));
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => setIsFullScreen(false));
-        }
-    };
-
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.promptNotification();
+        NotificationService.gameStart();
+        isSoundOn && soundService.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
     };
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameWinned();
+        isSoundOn && soundService.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
         sendToLeaderBoard();
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameLost();
+        isSoundOn && soundService.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
         sendToLeaderBoard();
     };
@@ -459,20 +453,9 @@ const Game: FC = () => {
                     <Button buttonSize="medium">Выйти из игры</Button>
                 </div>
 
-                <div className={style.buttonFullscreen}>
-                    <Button buttonSize="small" buttonStyle="outlined" onClick={handleFullscreen}>
-                        <div
-                            className={style.icon}
-                            title={
-                                isFullScreen
-                                    ? 'Выйти из полноэкранного режима'
-                                    : 'Полноэкранный режим'
-                            }
-                        >
-                            <Icon iconName={isFullScreen ? 'exitFullScreen' : 'enterFullScreen'} />
-                        </div>
-                    </Button>
-                </div>
+                <FullscreenButton />
+
+                <SoundButton />
 
                 <div className={style.content}>
                     <div className={style.leftSide}>
