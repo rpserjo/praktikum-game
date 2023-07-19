@@ -16,27 +16,6 @@
     top: 30px;
   }
 
-  .buttonFullscreen {
-    position: absolute;
-    left: 30px;
-    top: 30px;
-
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      svg {
-        width: 36px;
-        height: 36px;
-
-        path {
-          fill: $colorBorder;
-        }
-      }
-    }
-  }
-
   .endGameModal {
     display: flex;
     flex-direction: column;

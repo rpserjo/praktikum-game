@@ -1,0 +1,42 @@
+@import '@/assets/variables.scss';
+@import '@/assets/tektur/font-tektur.scss';
+
+.buttonFullscreen {
+  @include apiButtonsPosition;
+  top: 30px;
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 36px;
+      height: 36px;
+
+      path {
+        fill: $colorBorder;
+      }
+    }
+  }
+}
+
+.soundButton {
+  @include apiButtonsPosition;
+  top: 100px;
+}
+
+.soundButton__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+
+    path {
+      fill: $colorBorder;
+    }
+  }
+}
