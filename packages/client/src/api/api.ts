@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:3001/api/v2'; // TODO: SET PORT FROM .env
+const HOST = 'http://localhost:3000/api/v2'; // TODO: SET PORT FROM .env
 export const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
 
 const API = {

@@ -8,7 +8,8 @@ import type { ViteDevServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import { YandexAPIRepository } from './repository/YandexAPIRepository';
-import { createClientAndConnect } from './db';
+import { dbConnect } from './db';
+import { apiRouter } from './api_router';
 
 dotenv.config({ path: '../../.env' });
 
@@ -55,12 +56,17 @@ async function startServer() {
                 '*': '',
             },
             target: 'https://ya-praktikum.tech',
+            // onProxyRes: (proxyRes) => {
+            //     console.log('RAW Response from the target', JSON.stringify(proxyRes.headers));
+            //   },
         })
     );
 
-    app.get('/api', (_, res) => {
-        res.json('👋 Howdy from the server :)');
-    });
+    // app.get('/api', (_, res) => {
+    //     res.json('👋 Howdy from the server :)');
+    // });
+    app.use(express.json());
+    app.use('/api', apiRouter);
 
     app.use('*', cookieParser(), async (req, res, next) => {
         const url = req.originalUrl;
@@ -115,7 +121,7 @@ async function startServer() {
         console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
     });
 
-    createClientAndConnect();
+    dbConnect();
 }
 
 startServer();
