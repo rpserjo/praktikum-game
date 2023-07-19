@@ -5,11 +5,17 @@ import style from './buttons.module.scss';
 const FullscreenButton: FC = () => {
     const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement !== null);
 
-    const handleFullscreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().then(() => setIsFullScreen(true));
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => setIsFullScreen(false));
+    const handleFullscreen = async () => {
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+                setIsFullScreen(true);
+            } else if (document.exitFullscreen) {
+                await document.exitFullscreen();
+                setIsFullScreen(false);
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
