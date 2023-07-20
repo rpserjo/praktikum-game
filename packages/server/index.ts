@@ -19,17 +19,10 @@ const distPath = path.dirname(require.resolve('client/dist/index.html'));
 const srcPath = path.dirname(require.resolve('client'));
 const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
 
-console.log('distPath', distPath);
-console.log('srcPath', srcPath);
-console.log('ssrClientPath', ssrClientPath);
-
 async function startServer() {
     const app = express();
     const port = Number(process.env.SERVER_PORT) || 3000;
     let vite: ViteDevServer | undefined;
-    // const distPath = path.resolve(__dirname, '../../client/dist');
-    // const srcPath = path.resolve(__dirname, '../../client');
-    // const ssrClientPath = path.resolve(__dirname, '../../client/ssr-dist/client.cjs');
 
     if (isDev()) {
         vite = await createViteServer({
@@ -62,9 +55,6 @@ async function startServer() {
         })
     );
 
-    // app.get('/api', (_, res) => {
-    //     res.json('👋 Howdy from the server :)');
-    // });
     app.use(express.json());
     app.use('/api', apiRouter);
 

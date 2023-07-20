@@ -36,9 +36,9 @@ export const Reaction = sequelize.define('Reaction', reactionModel, {});
  Comment.belongsTo(User)
 */
 
-Topic.hasMany(Comment);
+Topic.hasMany(Comment, { foreignKey: { allowNull: false } });
 Comment.belongsTo(Topic);
-Comment.hasMany(Reply);
+Comment.hasMany(Reply, { foreignKey: { allowNull: false } });
 Comment.hasMany(Reaction, {
     foreignKey: 'reactableId',
     constraints: false,
@@ -57,17 +57,16 @@ Reply.hasMany(Reaction, {
 Reaction.belongsTo(Comment, { foreignKey: 'reactableId', constraints: false });
 Reaction.belongsTo(Reply, { foreignKey: 'reactableId', constraints: false });
 
-console.log(
-    'try connect db with',
-    POSTGRES_HOST,
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
-    POSTGRES_DB,
-    POSTGRES_PORT
-);
-
 export async function dbConnect() {
     try {
+        console.log(
+            'try connect db with',
+            POSTGRES_HOST,
+            POSTGRES_USER,
+            POSTGRES_PASSWORD,
+            POSTGRES_DB,
+            POSTGRES_PORT
+        );
         await sequelize.authenticate(); // Проверка аутентификации в БД
         await sequelize.sync(); // Синхронизация базы данных
         console.log(' ➜ 🎸 Connection to db has been established successfully.');

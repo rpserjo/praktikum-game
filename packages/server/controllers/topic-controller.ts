@@ -38,5 +38,5 @@ class TopicController {
         }
     }
 }
-
-export const topicController = new TopicController();
+const topicController = new TopicController();
+export default topicController;

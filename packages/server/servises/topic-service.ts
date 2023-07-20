@@ -31,10 +31,13 @@ class TopicService {
 
         return sequelize.query(
             // eslint-disable-next-line  no-multi-str
-            'SELECT t.id, topic, t.message, author, t."createdAt", t."updatedAt", \
-            CASE WHEN (SELECT "updatedAt" FROM public."Comments" WHERE "TopicId" = t.id ORDER BY "updatedAt" DESC LIMIT 1) is NULL THEN t."updatedAt" END LastMessage \
-                FROM public."Topics" as t \
-                Order BY LastMessage DESC \
+            'SELECT t.id, t.topic, t.message, t.author, t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
+            as "commentsCount", \
+            CASE WHEN c."topicId" is NULL THEN t."updatedAt" ELSE c."lastMessage" END as "lastMessageDate" \
+            FROM public."Topics" t \
+            LEFT JOIN (SELECT inc."TopicId" as "topicId", max(inc."updatedAt") as "lastMessage",  count(*) as  "commentsCount" \
+                           FROM public."Comments" inc  GROUP BY inc."TopicId") AS c ON  c."topicId"=t.id \
+            Order BY "lastMessageDate" DESC \
                 OFFSET :offset \
                 LIMIT :limit',
             {

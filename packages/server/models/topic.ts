@@ -22,7 +22,7 @@ export const topicModel: ModelAttributes<Model, TopicCreationAttributes> = {
         allowNull: false,
     },
     message: {
-        type: DataType.STRING,
+        type: DataType.STRING(2000),
     },
     author: {
         type: DataType.STRING,
