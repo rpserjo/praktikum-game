@@ -51,20 +51,25 @@ const ForumTopic: FC = () => {
                 </div>
                 <div className={style['message-list']}>
                     {serverData.items.map(item => (
-                        <div key={item.msgId} className={style['topic-row-wrapper']}>
-                            <img
-                                className={style.sceleton}
-                                src={userSceleton}
-                                alt="user sceleton"
-                            />
-                            <div className={style['message-container']}>
-                                <span className={style['topic-author']}>
-                                    {`Автор: ${item.author} -   ${dateFormat(
-                                        item.createDate,
-                                        FormatType.DATE_TIME
-                                    )}`}
-                                </span>
-                                <span className={style.message}>{item.message}</span>
+                        <div key={item.msgId}>
+                            <div className={style['topic-row-wrapper']}>
+                                <img
+                                    className={style.sceleton}
+                                    src={userSceleton}
+                                    alt="user sceleton"
+                                />
+                                <div className={style['message-container']}>
+                                    <span className={style['topic-author']}>
+                                        {`Автор: ${item.author} -   ${dateFormat(
+                                            item.createDate,
+                                            FormatType.DATE_TIME
+                                        )}`}
+                                    </span>
+                                    <span className={style.message}>{item.message}</span>
+                                </div>
+                            </div>
+                            <div className={style['like-wrap']}>
+                                <div className={style['like-choice']}>React ♡</div>
                             </div>
                         </div>
                     ))}
