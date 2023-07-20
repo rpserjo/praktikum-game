@@ -49,6 +49,7 @@ Example response:
 </br>
 
 ### GET /api/topics/:page/:limit (Get Topic list with page and limits)
+### GET /api/topics/:page/:limit (Get Topic list with page and limits)
 
 Result ordered by lastmessage DESC
 
