@@ -69,13 +69,63 @@ const ForumTopic: FC = () => {
                                 </div>
                             </div>
                             <div className={style['like-wrap']}>
+                                <div className={style['like-display']}>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="like">
+                                            👍
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="hmm">
+                                            🫤
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="heart">
+                                            ❤️
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="ghost">
+                                            👻
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="fire">
+                                            🔥
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                    <div className={style['like-display-item']}>
+                                        <p className={style['like-display-emoji']} id="the_doors">
+                                            🫃
+                                        </p>
+                                        <p className={style['like-display-amount']}>4</p>
+                                    </div>
+                                </div>
                                 <div className={style['like-choice']}>
-                                    <p className={style['like-choice-emoji']}>👍</p>
-                                    <p className={style['like-choice-emoji']}>🫤</p>
-                                    <p className={style['like-choice-emoji']}>❤️</p>
-                                    <p className={style['like-choice-emoji']}>👻</p>
-                                    <p className={style['like-choice-emoji']}>🔥</p>
-                                    <p className={style['like-choice-emoji']}>🫃</p>
+                                    <p className={style['like-choice-emoji']} id="like">
+                                        👍
+                                    </p>
+                                    <p className={style['like-choice-emoji']} id="hmm">
+                                        🫤
+                                    </p>
+                                    <p className={style['like-choice-emoji']} id="heart">
+                                        ❤️
+                                    </p>
+                                    <p className={style['like-choice-emoji']} id="ghost">
+                                        👻
+                                    </p>
+                                    <p className={style['like-choice-emoji']} id="fire">
+                                        🔥
+                                    </p>
+                                    <p className={style['like-choice-emoji']} id="the_doors">
+                                        🫃
+                                    </p>
                                     <p className={style['like-choice-text']}>React ♡</p>
                                 </div>
                             </div>

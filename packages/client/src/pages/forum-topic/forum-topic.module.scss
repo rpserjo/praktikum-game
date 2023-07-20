@@ -77,13 +77,43 @@
                     position: relative;
                     top: -5px;
                     display: flex;
-                    justify-content: flex-end;
+                    justify-content: space-between;
                     align-items: center;
                 }
+
+                &-display{
+                    position: relative;
+                    height: 30px;
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    margin-left: 20px;
+
+                    &-item{
+                        width: 65px;
+                        margin-right: 10px;
+                        border-radius: 20px;
+                        display: flex;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        background-color: rgba(0, 0, 0, 0.3);
+                    }
+
+                    &-amount{
+                        font-size: 17px;
+                        color: white;
+                    }
+
+                    &-emoji{
+                        position: relative;
+                        cursor: pointer;
+                        font-size: 20px;
+                    }
+                }
+
                 &-choice{
                     position: relative;
                     height: 30px;
-
                     overflow: hidden;
                     margin-right: 20px;
                     width: 82px;
