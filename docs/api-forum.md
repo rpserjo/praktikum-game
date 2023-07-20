@@ -93,7 +93,7 @@ Example response:
 </br>
 
 ## COMMENTS
-### POST /api/commets (Create Comment)
+### POST /api/comments (Create Comment)
 
 Example request:
 ```
