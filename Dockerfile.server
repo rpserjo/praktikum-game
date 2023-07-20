@@ -15,7 +15,6 @@ COPY . .
 RUN yarn bootstrap
 WORKDIR /app/packages/client
 RUN rm -rf /app/packages/client/dist && rm -rf /app/packages/client/ssr-dist
-# RUN yarn unlink
 RUN yarn build
 RUN yarn link
 WORKDIR /app/packages/server
@@ -23,16 +22,19 @@ RUN rm -rf /app/packages/server/dist
 RUN yarn link client
 RUN yarn build
 
-# FROM node:$NODE_VERSION-alpine as production
-# WORKDIR /app
+FROM node:$NODE_VERSION-alpine as production
+COPY --from=builder /app/packages/client/dist/ /app/client/dist/
+COPY --from=builder /app/packages/client/ssr-dist/ /app/client/ssr-dist/
+COPY --from=builder /app/packages/client/index.js /app/client/index.js
+COPY --from=builder /app/packages/client/package.json /app/client/package.json
+COPY --from=builder /app/packages/server/dist/ /app/server/dist/
+COPY --from=builder /app/packages/server/package.json /app/server/dist/package.json
 
-# COPY --from=builder /app/packages/server/dist/ /app/server/dist/
-# COPY --from=builder /app/packages/client/dist/ /app/client/dist/
-# COPY --from=builder /app/packages/client/ssr-dist/ /app/client/ssr-dist/
-# COPY --from=builder /app/packages/server/package.json /app/server/dist/package.json
-# WORKDIR /app/server/dist
-# RUN yarn install --production=true
-# WORKDIR /app
+WORKDIR /app/client
+RUN yarn link
+WORKDIR /app/server/dist
+RUN yarn link client
+RUN yarn install --production=true
 
 EXPOSE $SERVER_PORT
-CMD [ "node", "/app/packages/server/dist/index.js" ]
+CMD [ "node", "/app/server/dist/index.js" ]
