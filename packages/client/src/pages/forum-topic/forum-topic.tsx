@@ -69,7 +69,9 @@ const ForumTopic: FC = () => {
                                 </div>
                             </div>
                             <div className={style['like-wrap']}>
-                                <div className={style['like-choice']}>React ♡</div>
+                                <div className={style['like-choice']}>
+                                    <p className={style['like-choice-text']}>React ♡</p>
+                                </div>
                             </div>
                         </div>
                     ))}
