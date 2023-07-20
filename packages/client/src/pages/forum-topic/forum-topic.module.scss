@@ -74,28 +74,43 @@
             .like{
                 &-wrap{
                     width: 100%;
+                    position: relative;
+                    top: -5px;
                     display: flex;
                     justify-content: flex-end;
                     align-items: center;
                 }
                 &-choice{
+                    position: relative;
+                    height: 30px;
+
                     overflow: hidden;
                     margin-right: 20px;
                     width: 82px;
-                    background-color: rgba(0, 0, 0, 0.3);
+                    background-color: rgba(0, 0, 0, 0.2);
                     transition: width 0.3s linear;
                     border-radius: 4px;
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+
+                    &-emoji{
+                        margin-left: 10px;
+                        cursor: pointer;
+                        font-size: 25px;
+                    }
 
                     &-text{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        cursor: pointer;
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         width: 82px;
                         height: 30px;
-                        cursor: pointer;
                         display: flex;
-                        justify-content: center;
-                        align-items: center;
                         border-radius: 4px;
                         margin-left: auto;
                         background-color: rgb(206, 222, 242);
@@ -109,7 +124,7 @@
 
                     &:hover{
                         transition: width 0.3s linear;
-                        width: 200px;
+                        width: 300px;
                     }
                 }
             }

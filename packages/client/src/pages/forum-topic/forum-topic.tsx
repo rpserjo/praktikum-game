@@ -70,6 +70,12 @@ const ForumTopic: FC = () => {
                             </div>
                             <div className={style['like-wrap']}>
                                 <div className={style['like-choice']}>
+                                    <p className={style['like-choice-emoji']}>👍</p>
+                                    <p className={style['like-choice-emoji']}>🫤</p>
+                                    <p className={style['like-choice-emoji']}>❤️</p>
+                                    <p className={style['like-choice-emoji']}>👻</p>
+                                    <p className={style['like-choice-emoji']}>🔥</p>
+                                    <p className={style['like-choice-emoji']}>🫃</p>
                                     <p className={style['like-choice-text']}>React ♡</p>
                                 </div>
                             </div>
