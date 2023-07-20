@@ -3,6 +3,7 @@ import type { ModelAttributes } from 'sequelize/types';
 
 export type Reply = {
     message: string;
+    author: string;
 };
 
 export const replyModel: ModelAttributes<Model, Reply> = {
