@@ -1,5 +1,5 @@
 ARG NODE_VERSION=16
-ARG SERVER_PORT=3001
+ARG SERVER_PORT=3000
 
 FROM node:$NODE_VERSION-buster as base
 
@@ -14,13 +14,9 @@ COPY . .
 
 RUN yarn bootstrap
 WORKDIR /app/packages/client
-RUN rm -rf /app/packages/client/dist && rm -rf /app/packages/client/ssr-dist
-RUN yarn build
-RUN yarn link
+RUN rm -rf /app/packages/client/dist && rm -rf /app/packages/client/ssr-dist && yarn build && yarn link
 WORKDIR /app/packages/server
-RUN rm -rf /app/packages/server/dist
-RUN yarn link client
-RUN yarn build
+RUN rm -rf /app/packages/server/dist && yarn link client && yarn build
 
 FROM node:$NODE_VERSION-alpine as production
 COPY --from=builder /app/packages/client/dist/ /app/client/dist/
@@ -33,8 +29,7 @@ COPY --from=builder /app/packages/server/package.json /app/server/dist/package.j
 WORKDIR /app/client
 RUN yarn link
 WORKDIR /app/server/dist
-RUN yarn link client
-RUN yarn install --production=true
+RUN yarn link client && yarn install --production=true
 
 EXPOSE $SERVER_PORT
 CMD [ "node", "/app/server/dist/index.js" ]

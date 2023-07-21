@@ -1,5 +1,5 @@
 ARG NODE_VERSION=16
-ARG CLIENT_PORT=3000
+ARG CLIENT_PORT=2999
 
 FROM node:$NODE_VERSION-buster as base
 
@@ -12,8 +12,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn bootstrap
-RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
+RUN yarn bootstrap && rm -rf /app/packages/client/dist/ && yarn build --scope=client
 
 
 FROM nginx:latest as production
