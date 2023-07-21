@@ -8,6 +8,7 @@ import type { ViteDevServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import { YandexAPIRepository } from './repository/YandexAPIRepository';
+import { createClientAndConnect } from './db';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -103,6 +104,7 @@ async function startServer() {
 
     app.listen(port, () => {
         console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+        createClientAndConnect();
     });
 }
 
