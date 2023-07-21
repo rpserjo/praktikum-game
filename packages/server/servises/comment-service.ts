@@ -14,7 +14,7 @@ class CommentService {
             FROM public."Comments" as c  \
             WHERE c."TopicId" = :topicId \
         UNION ALL \
-        SELECT NULL , r.id as "replyId", r.message, r.author, rc."createdAt", r."createdAt" \
+        SELECT rc.id , r.id as "replyId", r.message, r.author, rc."createdAt", r."createdAt" \
             FROM public."Replies" as r \
             JOIN public."Comments" as rc ON rc.id = r."CommentId" AND rc."TopicId" = :topicId \
             ORDER BY "commentCreatedAt" DESC, "replyCreatedAt" DESC \

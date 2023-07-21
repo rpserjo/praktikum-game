@@ -3,16 +3,35 @@ import { DataType, Model } from 'sequelize-typescript';
 import type { ModelAttributes } from 'sequelize/types';
 
 export interface IUser {
-    firstName: string;
-    lastName: string;
+    id: number;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    avatar: string;
 }
 
 export const userModel: ModelAttributes<Model, IUser> = {
-    firstName: {
+    id: {
+        type: DataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: false,
+    },
+    first_name: {
         type: DataType.STRING,
         allowNull: false,
     },
-    lastName: {
+    second_name: {
         type: DataType.STRING,
+    },
+    display_name: {
+        type: DataType.STRING,
+    },
+    login: {
+        type: DataType.STRING,
+        allowNull: false,
+    },
+    avatar: {
+        type: DataType.STRING(500),
     },
 };

@@ -5,11 +5,13 @@ import path from 'path';
 import * as fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware, responseInterceptor } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import { YandexAPIRepository } from './repository/YandexAPIRepository';
 import { dbConnect } from './db';
 import { apiRouter } from './api_router';
+import authService from './servises/proxy-auth-service';
+import userService from './servises/user-service';
 
 dotenv.config({ path: '../../.env' });
 
@@ -49,9 +51,23 @@ async function startServer() {
                 '*': '',
             },
             target: 'https://ya-praktikum.tech',
-            // onProxyRes: (proxyRes) => {
-            //     console.log('RAW Response from the target', JSON.stringify(proxyRes.headers));
-            //   },
+            selfHandleResponse: true,
+            onProxyRes: responseInterceptor(async (responseBuffer, proxyRes, req) => {
+                // @ts-ignore
+                if (req.path === '/api/v2/auth/signin' && proxyRes.headers['set-cookie']) {
+                    authService.addCookie(proxyRes.headers['set-cookie']?.toString());
+                    // @ts-ignore
+                } else if (req.path === '/api/v2/auth/user' && req.headers.cookie) {
+                    console.log('User ', responseBuffer.toString(), 'Cook ', req.headers.cookie);
+                    if (responseBuffer.toString()) {
+                        userService.createUserUpdCoockie(
+                            JSON.parse(responseBuffer.toString()),
+                            req.headers.cookie
+                        );
+                    }
+                }
+                return responseBuffer;
+            }),
         })
     );
 

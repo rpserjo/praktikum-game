@@ -5,6 +5,7 @@ import { topicModel } from './models/topic';
 import { commentModel } from './models/comment';
 import { replyModel } from './models/reply';
 import { reactionModel } from './models/reaction';
+import { authModel } from './models/auth';
 
 dotenv.config({ path: '../../.env' });
 
@@ -28,6 +29,7 @@ export const Topic = sequelize.define('Topic', topicModel, {});
 export const Comment = sequelize.define('Comment', commentModel, {});
 export const Reply = sequelize.define('Reply', replyModel, {});
 export const Reaction = sequelize.define('Reaction', reactionModel, {});
+export const Auth = sequelize.define('Auth', authModel, {});
 
 /*: TODO User Auth
  User.hasMany(Topic)
@@ -36,6 +38,8 @@ export const Reaction = sequelize.define('Reaction', reactionModel, {});
  Comment.belongsTo(User)
 */
 
+User.hasMany(Auth);
+Auth.belongsTo(User);
 Topic.hasMany(Comment, { foreignKey: { allowNull: false } });
 Comment.belongsTo(Topic);
 Comment.hasMany(Reply, { foreignKey: { allowNull: false } });
@@ -68,7 +72,7 @@ export async function dbConnect() {
             POSTGRES_PORT
         );
         await sequelize.authenticate(); // Проверка аутентификации в БД
-        await sequelize.sync(); // Синхронизация базы данных
+        await sequelize.sync({ alter: true }); // Синхронизация базы данных
         console.log(' ➜ 🎸 Connection to db has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
