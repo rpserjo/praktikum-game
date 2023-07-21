@@ -69,7 +69,7 @@ const ForumTopic: FC = () => {
                                     <span className={style.message}>{item.message}</span>
                                 </div>
                             </div>
-                            <Emojis />
+                            <Emojis messageId={item.msgId} />
                         </div>
                     ))}
                 </div>
