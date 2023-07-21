@@ -81,10 +81,11 @@
 Перед первым запуском выполните `node init.js`
 
 
-`docker compose up` - запустит три сервиса
+`docker compose up` - запустит четыре сервиса
 1. nginx, раздающий клиентскую статику (client)
 2. node, ваш сервер (server)
 3. postgres, вашу базу данных (postgres)
+4. pgadmin, панель управления базами данных (pgadmin)
 
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up server`
