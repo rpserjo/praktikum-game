@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body, checkExact, param } from 'express-validator';
+import { body, checkExact, param } from 'express-validator';
 import { Reactions } from '../models/reaction';
 
 import topicController from '../controllers/topic-controller';

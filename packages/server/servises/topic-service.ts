@@ -53,13 +53,15 @@ class TopicService {
 
         const resultQuery = await sequelize.query(
             // eslint-disable-next-line  no-multi-str
-            'SELECT t.id, t.topic, t.message, t.author, t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
+            'SELECT t.id, t.topic, t.message, usr.login AS author, t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
             as "commentsCount", \
             CASE WHEN c."topicId" is NULL THEN t."updatedAt" ELSE c."lastMessage" END as "lastMessageDate" \
             FROM public."Topics" t \
-            LEFT JOIN (SELECT inc."TopicId" as "topicId", max(inc."updatedAt") as "lastMessage",  count(*) as  "commentsCount" \
+            LEFT JOIN public."Users" AS usr ON usr.id = t."UserId" \
+            LEFT JOIN (SELECT inc."TopicId" as "topicId", max(inc."updatedAt") as "lastMessage",  count(*) \
+            as "commentsCount" \
                            FROM public."Comments" inc  GROUP BY inc."TopicId") AS c ON  c."topicId"=t.id \
-            Order BY "lastMessageDate" DESC \
+            Order BY "lastMessageDate" DESC  \
                 OFFSET :offset \
                 LIMIT :limit',
             {
@@ -68,6 +70,10 @@ class TopicService {
                 model: Topic,
             }
         );
+
+        const LastPage = Math.ceil((await Topic.count()) / limit);
+
+        return { topics: [...resultQuery], LastPage };
 
         const LastPage = Math.ceil((await Topic.count()) / limit);
 
