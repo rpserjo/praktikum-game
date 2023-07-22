@@ -1,8 +1,10 @@
 import {
+    TCommentData,
     TTopicData,
     TTopicForSave,
     TTopicInfo,
     TTopicListData,
+    TTopicMessage,
     TTopicMessageForSave,
 } from '@/types/data-types';
 import BaseApi from './BaseApi';
@@ -15,10 +17,26 @@ class ForumApi extends BaseApi {
     }
 
     public async saveComment(data: TTopicMessageForSave): Promise<void> {
-        return this.http.post(
-            API.ENDPOINTS.FORUM.COMMENTS,
-            JSON.stringify({ topicId: data.id, message: data.text })
-        );
+        return this.http
+            .post(
+                API.ENDPOINTS.FORUM.COMMENTS,
+                JSON.stringify({ topicId: data.id, message: data.text }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then(response => {
+                const comment = response.data as TTopicMessage;
+                console.log('success save mes');
+                console.log(comment);
+                // todo refresh list + message comment saved
+            })
+            .catch(error => {
+                console.log(error);
+                // show error
+            });
     }
 
     public async saveReply(data: TTopicMessageForSave): Promise<void> {
@@ -53,9 +71,22 @@ class ForumApi extends BaseApi {
             });
     }
 
-    public async getTopic(topicId: number): Promise<TTopicInfo> {
+    public async getTopic(topicId: number, callback: (data: TTopicInfo) => void): Promise<void> {
         // todo TTopicInfo??
-        return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${topicId}`);
+        console.log(`${API.HOST2}${API.ENDPOINTS.FORUM.TOPICS}/${topicId}`);
+        return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${topicId}`).then(response => {
+            console.log(response.data);
+            const { data } = response; // as TTopicData;
+            callback({
+                id: data.id,
+                title: data.topic,
+                message: data.message,
+                author: data.author,
+                commentsCount: 0, // data.commentsCount,
+                createdDate: data.createdAt,
+                lastCommentDate: data.createdAt, // data.lastMessageDate,
+            });
+        });
     }
 
     public async getTopics(
@@ -82,6 +113,28 @@ class ForumApi extends BaseApi {
             })
             .catch(error => {
                 errorCallback(error);
+            });
+    }
+
+    public async getComments(
+        topicId: number,
+        page: number,
+        elementsPerPage: number,
+        callback: (data: TTopicMessage[]) => void
+    ): Promise<void> {
+        return this.http
+            .get(`${API.ENDPOINTS.FORUM.TOPICS}/${topicId}/${page}/${elementsPerPage}`)
+            .then(response => {
+                console.log('comments');
+                console.log(response.data);
+                const data = response.data as TCommentData[];
+                const comments: TTopicMessage[] = data.map((comment: TCommentData) => ({
+                    id: comment.id,
+                    text: comment.message,
+                    author: comment.author,
+                    createdDate: comment.createdAt,
+                }));
+                callback(comments);
             });
     }
 }
