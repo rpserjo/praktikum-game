@@ -56,6 +56,18 @@ class AuthService {
             },
         });
     }
+
+    async checkUserAuth(uuid: UUID, authCookie: string) {
+        return Auth.findOne({
+            where: {
+                [Op.and]: [
+                    { uuid: `${uuid}` },
+                    { authCookie: `${authCookie}` },
+                    { expires: { [Op.gte]: Date.now() } },
+                ],
+            },
+        });
+    }
 }
 const authService = new AuthService();
 export default authService;

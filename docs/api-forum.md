@@ -182,3 +182,38 @@ Example response:
 }
 ```
 <br>
+
+## REACTIONS
+### POST /api/reactions (Create Reaction)
+
+Example request:
+```
+fetch('http://localhost:3000/api/reactions',{
+	method: "POST",
+	body: JSON.stringify({reaction: "fire", commentId:1}),
+	 headers: {
+      "Content-Type": "application/json"
+    }
+})
+```
+Example response:
+
+```
+[
+    {
+        "id": 2,
+        "reaction": "🔥",
+        "createdAt": "2023-07-22T14:49:01.855Z",
+        "CommentId": 1,
+        "UserId": 722
+    },
+    {
+        "id": 3,
+        "reaction": "🔥",
+        "createdAt": "2023-07-22T14:49:34.809Z",
+        "CommentId": 1,
+        "UserId": 897
+    }
+]
+```
+<br>

@@ -1,4 +1,4 @@
-import { Reaction } from '../db';
+import { Reaction, Op } from '../db';
 import { Reactions } from '../models/reaction';
 
 class ReactionService {
@@ -7,7 +7,16 @@ class ReactionService {
         commentId: number,
         UserId: number
     ) {
-        return Reaction.create({ reactions: Reactions[reactionKey], CommentId: commentId, UserId });
+        await Reaction.destroy({
+            where: {
+                [Op.and]: [{ UserId: `${UserId}` }, { CommentId: `${commentId}` }],
+            },
+        });
+        await Reaction.create({ reaction: Reactions[reactionKey], CommentId: commentId, UserId });
+
+        return Reaction.findAll({
+            where: { CommentId: `${commentId}` },
+        });
     }
 }
 const reactionService = new ReactionService();

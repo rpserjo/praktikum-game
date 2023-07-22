@@ -12,6 +12,8 @@ import { dbConnect } from './db';
 import { apiRouter } from './api_router';
 import authService from './servises/proxy-auth-service';
 import userService from './servises/user-service';
+import errorMiddleware from './middlewares/error-middleware.';
+import authMiddleware from './middlewares/auth-middleware';
 
 dotenv.config({ path: '../../.env' });
 
@@ -53,13 +55,17 @@ async function startServer() {
             target: 'https://ya-praktikum.tech',
             selfHandleResponse: true,
             onProxyRes: responseInterceptor(async (responseBuffer, proxyRes, req) => {
-                // @ts-ignore
-                if (req.path === '/api/v2/auth/signin' && proxyRes.headers['set-cookie']) {
+                if (
+                    (req as express.Request).path === '/api/v2/auth/signin' &&
+                    proxyRes.headers['set-cookie']
+                ) {
                     authService.addCookie(
                         decodeURIComponent(proxyRes.headers['set-cookie']?.toString())
                     );
-                    // @ts-ignore
-                } else if (req.path === '/api/v2/auth/user' && req.headers.cookie) {
+                } else if (
+                    (req as express.Request).path === '/api/v2/auth/user' &&
+                    req.headers.cookie
+                ) {
                     if (responseBuffer.toString()) {
                         userService.createUserUpdCoockie(
                             JSON.parse(responseBuffer.toString()),
@@ -73,7 +79,8 @@ async function startServer() {
     );
 
     app.use(express.json());
-    app.use('/api', cookieParser(), apiRouter);
+    app.use('/api', cookieParser(), authMiddleware, apiRouter);
+    app.use('/api', errorMiddleware);
 
     app.use('*', cookieParser(), async (req, res, next) => {
         const url = req.originalUrl;
