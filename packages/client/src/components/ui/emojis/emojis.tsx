@@ -38,15 +38,14 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
             <div className="like-display">
                 {emojisKeys.map(key => {
                     if (currentEmojis[key as keyof TEmojis].amount > 0) {
+                        const likeClass = `like-display-item ${
+                            currentEmojis[key as keyof TEmojis].users.includes(userData.user.email)
+                                ? 'like-display-item-liked'
+                                : ''
+                        }`;
                         return (
                             <div
-                                className={`like-display-item ${
-                                    currentEmojis[key as keyof TEmojis].users.includes(
-                                        userData.user.email
-                                    )
-                                        ? 'like-display-item-liked'
-                                        : ''
-                                }`}
+                                className={likeClass}
                                 key={key}
                                 onClick={() => likeActivate(key)}
                                 role="presentation"
