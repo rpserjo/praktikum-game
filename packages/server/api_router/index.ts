@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body, checkExact } from 'express-validator';
+import { body, checkExact, param } from 'express-validator';
 import { Reactions } from '../models/reaction';
 
 import topicController from '../controllers/topic-controller';
@@ -9,17 +9,48 @@ import reactionController from '../controllers/reaction-controller';
 
 const router = Router();
 
-router.get('/topic/:id', topicController.findTopicById);
+router.post(
+    '/topics',
+    body('topic').notEmpty().escape(),
+    body('message').notEmpty().escape(),
+    checkExact([], { message: 'Only topic and message are allowed' }),
+    topicController.createTopic
+);
 
-router.post('/topics', topicController.createTopic);
+router.get(
+    '/topic/:id',
+    param('id').notEmpty().escape().isInt({ min: 1 }).toInt(),
+    topicController.findTopicById
+);
 
-router.get('/topics/:page/:limit', topicController.getTopicWithLastMessage);
+router.get(
+    '/topics/:page/:limit',
+    param(['page', 'limit']).notEmpty().escape().isInt({ min: 1 }).toInt(),
+    topicController.getTopicWithLastMessage
+);
 
-router.post('/comments', commentController.createComment);
+router.post(
+    '/comments',
+    body('topicId').isInt().notEmpty().escape(),
 
-router.get('/comments/:topicId/:page/:limit', commentController.findCommentsForTopic);
+    body('message').notEmpty().escape(),
+    checkExact([], { message: 'Only topicId and message are allowed' }),
+    commentController.createComment
+);
 
-router.post('/replies', replyController.createReply);
+router.get(
+    '/comments/:topicId/:page/:limit',
+    param(['page', 'limit']).notEmpty().escape().isInt({ min: 1 }).toInt(),
+    commentController.findCommentsForTopic
+);
+
+router.post(
+    '/replies',
+    body('commentId').isInt().notEmpty().escape(),
+    body('message').notEmpty().escape(),
+    checkExact([], { message: 'Only commentId and message are allowed' }),
+    replyController.createReply
+);
 
 router.post(
     '/reactions',

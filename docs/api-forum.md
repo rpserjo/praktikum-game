@@ -17,9 +17,9 @@ Example response:
     "id": 1,
     "topic": "Тест название топика 1",
     "message": "Тест сообщение топика 1",
-    "author": "Some user",
-    "updatedAt": "2023-07-19T18:06:53.412Z",
-    "createdAt": "2023-07-19T18:06:53.412Z"
+    "UserId": 897,
+    "updatedAt": "2023-07-22T16:02:31.210Z",
+    "createdAt": "2023-07-22T16:02:31.210Z"
 }
 ```
 <br>
@@ -37,9 +37,9 @@ Example response:
     "id":1,
     "topic":"Тест название топика 1",
     "message":"Тест сообщение топика 1",
-    "author":"Some user",
     "createdAt":"2023-07-19T18:06:24.366Z",
-    "updatedAt":"2023-07-19T18:06:24.366Z"
+    "updatedAt":"2023-07-19T18:06:24.366Z",
+    "UserId": 897
 }
 
 ```
@@ -51,43 +51,46 @@ Result ordered by lastmessage DESC
 
 Example request:
 ```
-http://localhost:3000/api/topics/2/3
+http://localhost:3000/api/topics/1/3
 ```
 Example response:
 
 ```
-[
-    {
-        "author": "Some user",
-        "commentsCount": "0",
-        "createdAt": "2023-07-20T08:25:30.254Z",
-        "id": 5,
-        "lastMessageDate": "2023-07-20T08:25:30.254Z",
-        "message": "Тест сообщение топика 5",
-        "topic": "Тест название топика 5",
-        "updatedAt": "2023-07-20T08:25:30.254Z"
-    },
-    {
-        "author": "Some user",
-        "commentsCount": "0",
-        "createdAt": "2023-07-20T08:25:09.943Z",
-        "id": 4,
-        "lastMessageDate": "2023-07-20T08:25:09.943Z",
-        "message": "Тест сообщение топика 4",
-        "topic": "Тест название топика 4",
-        "updatedAt": "2023-07-20T08:25:09.943Z"
-    },
-    {
-        "author": "Some user",
-        "commentsCount": "0",
-        "createdAt": "2023-07-20T08:24:44.143Z",
-        "id": 2,
-        "lastMessageDate": "2023-07-20T08:24:44.143Z",
-        "message": "Тест сообщение топика 2",
-        "topic": "Тест название топика 2",
-        "updatedAt": "2023-07-20T08:24:44.143Z"
-    }
-]
+{
+    "LastPage": 1,
+    "topics": [
+        {
+            "author": "TestBest",
+            "commentsCount": "2",
+            "createdAt": "2023-07-22T16:30:41.776Z",
+            "id": 3,
+            "lastMessageDate": "2023-07-22T17:09:58.750Z",
+            "message": "Тест сообщение топика три",
+            "topic": "Тест название топика три",
+            "updatedAt": "2023-07-22T16:30:41.776Z"
+        },
+        {
+            "author": "TestBest",
+            "commentsCount": "1",
+            "createdAt": "2023-07-22T16:02:31.210Z",
+            "id": 1,
+            "lastMessageDate": "2023-07-22T17:08:52.833Z",
+            "message": "Тест сообщение топика 1",
+            "topic": "Тест название топика 1",
+            "updatedAt": "2023-07-22T16:02:31.210Z"
+        },
+        {
+            "author": "MorskoyVolk",
+            "commentsCount": "0",
+            "createdAt": "2023-07-22T16:31:55.341Z",
+            "id": 6,
+            "lastMessageDate": "2023-07-22T16:31:55.341Z",
+            "message": "Тест сообщение топика шесть от Волка",
+            "topic": "Тест название топика шесть от Волка",
+            "updatedAt": "2023-07-22T16:31:55.341Z"
+        }
+    ]
+}
 
 ```
 </br>
@@ -123,37 +126,40 @@ Example response:
 
 Example request:
 ```
-http://localhost:3000/api/comments/3/2/3
+http://localhost:3000/api/comments/3/1/3
 ```
 Example response:
 
 ```
-[
-    {
-        "author": "some user",
-        "commentCreatedAt": "2023-07-20T09:49:57.140Z",
-        "commentId": null,
-        "message": "Тест ответ 3 к комментарию 1 к топику 3",
-        "replyCreatedAt": "2023-07-20T11:48:57.037Z",
-        "replyId": 4
-    },
-    {
-        "author": "some user",
-        "commentCreatedAt": "2023-07-20T09:49:57.140Z",
-        "commentId": null,
-        "message": "Тест ответ 2 к комментарию 1",
-        "replyCreatedAt": "2023-07-20T10:43:55.033Z",
-        "replyId": 2
-    },
-    {
-        "author": "some user",
-        "commentCreatedAt": "2023-07-20T09:49:57.140Z",
-        "commentId": null,
-        "message": "Тест ответ 1 к комментарию 1",
-        "replyCreatedAt": "2023-07-20T10:38:42.387Z",
-        "replyId": 1
-    }
-]
+{
+    "Comments": [
+        {
+            "author": "TestBest",
+            "commentCreatedAt": "2023-07-22T17:09:58.750Z",
+            "commentId": 3,
+            "message": "Тест комментарий  к топику 3 от другого",
+            "replyCreatedAt": null,
+            "replyId": null
+        },
+        {
+            "author": "MorskoyVolk",
+            "commentCreatedAt": "2023-07-22T17:08:27.739Z",
+            "commentId": 1,
+            "message": "Тест комментарий  к топику 3",
+            "replyCreatedAt": null,
+            "replyId": null
+        },
+        {
+            "author": "MorskoyVolk",
+            "commentCreatedAt": "2023-07-22T17:08:27.739Z",
+            "commentId": 1,
+            "message": "Еще ответ к комментарию 1",
+            "replyCreatedAt": "2023-07-22T17:16:28.871Z",
+            "replyId": 3
+        }
+    ],
+    "LastPage": 1
+}
 ```
 <br>
 
@@ -164,7 +170,7 @@ Example request:
 ```
 fetch('http://localhost:3000/api/replies',{
 	method: "POST",
-	body: JSON.stringify({commentId: 1, message: "Тест ответ 1 к комментарию 1"}),
+	body: JSON.stringify({commentId: 1, message: "Тест ответ 2 к комментарию 1"}),
 	 headers: {
       "Content-Type": "application/json"
     }
@@ -177,8 +183,9 @@ Example response:
     "id": 1,
     "message": "Тест ответ 1 к комментарию 1",
     "CommentId": 1,
-    "updatedAt": "2023-07-20T10:38:42.387Z",
-    "createdAt": "2023-07-20T10:38:42.387Z"
+    "UserId": 897,
+    "updatedAt": "2023-07-22T17:14:35.139Z",
+    "createdAt": "2023-07-22T17:14:35.139Z"
 }
 ```
 <br>

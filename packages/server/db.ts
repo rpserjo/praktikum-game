@@ -34,6 +34,7 @@ export const Auth = sequelize.define('Auth', authModel, {});
 
 User.hasMany(Topic);
 User.hasMany(Comment);
+User.hasMany(Reply);
 Topic.belongsTo(User);
 Comment.belongsTo(User);
 User.hasMany(Auth);
@@ -43,6 +44,7 @@ Comment.belongsTo(Topic);
 Comment.hasMany(Reply, { foreignKey: { allowNull: false } });
 Comment.hasMany(Reaction, { foreignKey: { allowNull: false } });
 Reply.belongsTo(Comment);
+Reply.belongsTo(User);
 Reaction.belongsTo(Comment);
 Reaction.belongsTo(User);
 

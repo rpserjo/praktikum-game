@@ -1,5 +1,7 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
 import topicService from '../servises/topic-service';
+import { ApiError } from '../exeptions/api-error';
 
 class TopicController {
     async findTopicById(req: Request, res: Response) {
@@ -24,13 +26,16 @@ class TopicController {
         }
     }
 
-    async createTopic(req: Request, res: Response) {
+    async createTopic(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body);
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Ошибка в данных', errors.array()));
+            }
 
             const { topic, message } = req.body;
 
-            const data = await topicService.createTopic(topic, message);
+            const data = await topicService.createTopic(topic, message, (req as any).UserId);
 
             return res.json(data);
         } catch (error) {

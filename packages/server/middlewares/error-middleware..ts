@@ -1,11 +1,13 @@
-import type { response, request } from 'express';
+import type { response, request, NextFunction } from 'express';
 import { ApiError } from '../exeptions/api-error';
 
 export default function errorMiddleware(
     err: Error,
     // @ts-ignore
     req: typeof request,
-    res: typeof response
+    res: typeof response,
+    // @ts-ignore
+    next: NextFunction // eslint-disable-line @typescript-eslint/no-unused-vars
 ) {
     console.log(err);
     if (err instanceof ApiError) {
