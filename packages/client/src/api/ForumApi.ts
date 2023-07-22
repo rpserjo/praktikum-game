@@ -1,4 +1,5 @@
 import {
+    TTopicData,
     TTopicForSave,
     TTopicInfo,
     TTopicListData,
@@ -6,12 +7,11 @@ import {
 } from '@/types/data-types';
 import BaseApi from './BaseApi';
 import API from './api';
-import MockServer from '@/mocks/mock-server';
 
 // todo right path without v2
 class ForumApi extends BaseApi {
     constructor() {
-        super(API.ENDPOINTS.FORUM.ENDPOINT);
+        super(API.ENDPOINTS.FORUM.ENDPOINT, API.HOST2);
     }
 
     public async saveComment(data: TTopicMessageForSave): Promise<void> {
@@ -30,27 +30,24 @@ class ForumApi extends BaseApi {
 
     public async saveTopic(
         data: TTopicForSave,
-        callback: (topic: TTopicInfo) => void,
+        // callback: (topic: TTopicInfo) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        /* return this.http.post(
-            API.ENDPOINTS.FORUM.TOPICS,
-            JSON.stringify({ topic: data.title, message: data.text })
-        ); */
-        const topic: TTopicInfo = {
-            id: 1,
-            title: 'Тест название топика 1',
-            message: 'Тест сообщение топика 1',
-            author: 'Some user',
-            createdDate: '2023-07-19T18:06:53.412Z',
-            commentsCount: 0, // todo for new topic
-            lastCommentDate: '2023-07-19T18:06:53.412Z', // todo do we need to update model?
-        };
-        const result = new Promise(resolve => {
-            setTimeout(() => resolve(topic), 2000);
-        });
-        result
-            .then(topicInfo => callback(topicInfo as TTopicInfo))
+        return this.http
+            .post(
+                API.ENDPOINTS.FORUM.TOPICS,
+                JSON.stringify({ topic: data.title, message: data.text }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then(response => {
+                console.log('topic saved');
+                console.log(response.data);
+                // callback(topicInfo as TTopicInfo)
+            })
             .catch(error => {
                 errorCallback(error);
             });
@@ -61,19 +58,32 @@ class ForumApi extends BaseApi {
         return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${topicId}`);
     }
 
-    // todo use this method when server will be ready
-
-    /* public async getTopics(page: number, elementsPerPage: number): Promise<TTopicInfo[]> {
-        // todo TTopicInfo??
-        return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`);
-    } */
-
-    public getTopics(page: number, elementsPerPage: number): TTopicListData {
-        const server = new MockServer();
-        const serverData = server.getTopicListNew(+page, elementsPerPage);
-        // save to redux
-        return serverData;
+    public async getTopics(
+        page: number,
+        elementsPerPage: number,
+        callback: (data: TTopicListData) => void,
+        errorCallback: (error: string) => void
+    ): Promise<void> {
+        return this.http
+            .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
+            .then(response => {
+                const data = response.data as TTopicData[];
+                const topics: TTopicInfo[] = data.map(topic => ({
+                    id: topic.id,
+                    title: topic.topic,
+                    message: topic.message,
+                    author: topic.author,
+                    commentsCount: topic.commentsCount,
+                    createdDate: topic.createdAt,
+                    lastCommentDate: topic.lastMessageDate,
+                }));
+                // console.log(response.data);
+                callback({ topics, lastPage: 3 }); // how to get last page?
+            })
+            .catch(error => {
+                errorCallback(error);
+            });
     }
 }
 
-export default ForumApi;
+export default new ForumApi();

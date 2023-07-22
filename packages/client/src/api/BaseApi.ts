@@ -4,9 +4,9 @@ import API from '@/api/api';
 abstract class BaseApi {
     protected http: AxiosInstance;
 
-    protected constructor(endpoint: string) {
+    protected constructor(endpoint: string, host: string = API.HOST) {
         this.http = axios.create({
-            baseURL: API.HOST + endpoint,
+            baseURL: host + endpoint,
             withCredentials: true,
         });
     }

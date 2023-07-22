@@ -1,31 +1,46 @@
-import React, { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import Page from '@/pages/forum/topicList/page/page';
 import { Loader } from '@/components/ui';
 // import { setForumTopics } from '@/store/slices/forumSlice';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { RootState } from '@/store';
 
-import ForumApi from '@/api/ForumApi';
+import forumApi from '@/api/ForumApi';
+import { TTopicListData } from '@/types/data-types';
 
 const Forum: FC = () => {
-    const { page = 1 } = useParams();
-
+    console.log('render data loader');
+    // const { page = 1 } = useParams();
+    const page = 1; // temp for testing number of loads
     const MAX_ELEMENTS_PER_PAGE = 10;
+    const [forumData, setForumData] = useState<TTopicListData>();
+    // const dispatch = useDispatch();
+    // const forumState = useSelector((state: RootState) => state.forum);
+    // const { forum } = forumState;
+    useEffect(() => {
+        forumApi.getTopics(
+            +page,
+            MAX_ELEMENTS_PER_PAGE,
+            (data: TTopicListData) => {
+                console.log('set forum data');
+                setForumData({
+                    topics: data.topics,
+                    lastPage: data.lastPage,
+                });
+                // console.log(forumData);
 
-    const forumApi = new ForumApi();
-    const forumData = forumApi.getTopics(+page, MAX_ELEMENTS_PER_PAGE);
-
-    // todo where should we do this?
-    /* const dispatch = useDispatch();
-    const forumState = useSelector((state: RootState) => state.forum);
-    const { forum } = forumState;
-    dispatch(
-        setForumTopics({
-            ...forum,
-            forumTopics: forumData.topics,
-        })
-    ); */
+                /* dispatch(
+                    setForumTopics({
+                        ...forum,
+                        forumTopics: data.topics,
+                    })
+                ); */
+            },
+            // eslint-disable-next-line
+            () => {}
+        );
+    }, []); // [dispatch]);
 
     if (!forumData) {
         return <Loader />;
