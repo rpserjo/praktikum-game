@@ -1,0 +1,60 @@
+@import '@/assets/variables.scss';
+
+.message {
+  padding: 10px 7px;
+  color: $colorText;
+}
+
+.message__body {
+  padding: 10px 7px;
+  border-top: 1px solid $colorBorder;
+}
+
+.message__info {
+  @include rowDiv;
+  gap: 1em;
+  margin-bottom: 1em;
+  font-size: 14px;
+  opacity: 80%;
+}
+
+.message__author {
+  font-weight: bold;
+}
+
+.message__text {
+  text-align: start;
+  font-weight: 300;
+  color: $colorText;
+  padding-bottom: 7px;
+  overflow-wrap: anywhere;
+}
+
+.message__avatar {
+  max-height: $forumAvatarSize;
+}
+
+.message__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  font-size: 1em;
+  fill: $colorText;
+}
+.message__reply {
+  @include rowDiv;
+  gap: 0.5em;
+}
+
+.message__open {
+  padding: 0;
+  height: 22px;
+}
+
+.message__replyList {
+  margin-left: 10px;
+  margin-top: 5px;
+  border-left: 1px solid $colorBorder;
+  padding-left: 1em;
+}

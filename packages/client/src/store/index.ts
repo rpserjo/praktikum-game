@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer, { TState, TUser } from '@/store/slices/userSlice';
 import gameReducer from '@/store/slices/gameSlice';
+import forumReducer from '@/store/slices/forumSlice';
 
 interface IUserService {
     getUserData(): Promise<TUser>;
@@ -13,6 +14,7 @@ export interface StoreState {
 const rootReducer = combineReducers({
     user: userReducer,
     game: gameReducer,
+    forum: forumReducer,
 });
 
 function createStore(service: IUserService, initialState?: StoreState) {

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
-import TopicForm from './topicForm';
+import ModalForm from './modalForm';
 
 describe('Topic form tests', () => {
     const onSubmit = jest.fn(e => e.preventDefault());
@@ -11,7 +11,15 @@ describe('Topic form tests', () => {
 
     it('checks that form submits', async () => {
         const themeName = 'New theme';
-        render(<TopicForm handleSubmit={onSubmit} handleCloseModal={onClose} />);
+        render(
+            <ModalForm
+                handleSubmit={onSubmit}
+                handleCloseModal={onClose}
+                isTopicForm={true}
+                rows={6}
+                title="Создание новой темы форума"
+            />
+        );
         const inputNode = screen.getByLabelText('Название темы');
         await userEvent.type(inputNode, themeName);
         await userEvent.click(screen.getByText('Создать'));
@@ -19,7 +27,15 @@ describe('Topic form tests', () => {
     });
 
     it('checks that form close modal', async () => {
-        render(<TopicForm handleSubmit={onSubmit} handleCloseModal={onClose} />);
+        render(
+            <ModalForm
+                handleSubmit={onSubmit}
+                handleCloseModal={onClose}
+                isTopicForm={true}
+                rows={6}
+                title="Создание новой темы форума"
+            />
+        );
         await userEvent.click(screen.getByText('Отмена'));
         expect(onClose).toHaveBeenCalledTimes(1);
     });

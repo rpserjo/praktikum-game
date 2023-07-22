@@ -17,6 +17,8 @@ $colorBgThumbnailLite: #e4ebf0;
 $colorAvatarBackground: #e4ebf0;
 $colorAvatarText: #ffffff;
 
+$forumAvatarSize: 40px;
+
 @mixin transition {
   transition: all 0.2s ease-in-out;
 }
@@ -33,4 +35,9 @@ $colorAvatarText: #ffffff;
 @mixin apiButtonsPosition {
   position: absolute;
   left: 30px;
+}
+
+@mixin rowDiv {
+  display: flex;
+  align-items: center;
 }
