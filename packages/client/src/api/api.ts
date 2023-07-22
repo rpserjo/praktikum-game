@@ -29,6 +29,12 @@ const API = {
             ALL: '/all',
             POSTUSER: '',
         },
+        FORUM: {
+            ENDPOINT: '',
+            COMMENTS: '/comments',
+            REPLIES: '/replies',
+            TOPICS: '/topics',
+        },
     },
 };
 

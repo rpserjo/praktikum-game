@@ -1,0 +1,17 @@
+@import '@/assets/variables.scss';
+
+.title {
+  font-size: 24px;
+  color: $colorTextDark;
+  margin: 0 0 40px;
+}
+
+.topicTitle {
+  padding-bottom: 15px;
+}
+
+.button-wrap {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px;
+}
