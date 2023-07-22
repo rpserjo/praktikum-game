@@ -55,14 +55,15 @@ async function startServer() {
             onProxyRes: responseInterceptor(async (responseBuffer, proxyRes, req) => {
                 // @ts-ignore
                 if (req.path === '/api/v2/auth/signin' && proxyRes.headers['set-cookie']) {
-                    authService.addCookie(proxyRes.headers['set-cookie']?.toString());
+                    authService.addCookie(
+                        decodeURIComponent(proxyRes.headers['set-cookie']?.toString())
+                    );
                     // @ts-ignore
                 } else if (req.path === '/api/v2/auth/user' && req.headers.cookie) {
-                    console.log('User ', responseBuffer.toString(), 'Cook ', req.headers.cookie);
                     if (responseBuffer.toString()) {
                         userService.createUserUpdCoockie(
                             JSON.parse(responseBuffer.toString()),
-                            req.headers.cookie
+                            decodeURIComponent(req.headers.cookie)
                         );
                     }
                 }
@@ -72,7 +73,7 @@ async function startServer() {
     );
 
     app.use(express.json());
-    app.use('/api', apiRouter);
+    app.use('/api', cookieParser(), apiRouter);
 
     app.use('*', cookieParser(), async (req, res, next) => {
         const url = req.originalUrl;

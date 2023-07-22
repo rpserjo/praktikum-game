@@ -1,20 +1,14 @@
 import { Reaction } from '../db';
+import { Reactions } from '../models/reaction';
 
 class ReactionService {
-    async createReaction(message: string, CommentId: number, author: string) {
-        return Reaction.create({ message, CommentId, author });
-    }
-
-    async findReactionsForComment(commentId: number, isOrderUpdatedASC = false) {
-        const UpdatedOrder = isOrderUpdatedASC ? 'ASC' : 'DESC';
-
-        return Reaction.findAndCountAll({
-            where: {
-                CommentId: commentId,
-            },
-            order: [['updatedAt', UpdatedOrder]],
-        });
+    async toggleCommentReaction(
+        reactionKey: keyof typeof Reactions,
+        commentId: number,
+        UserId: number
+    ) {
+        return Reaction.create({ reactions: Reactions[reactionKey], CommentId: commentId, UserId });
     }
 }
-const commentService = new ReactionService();
-export default commentService;
+const reactionService = new ReactionService();
+export default reactionService;
