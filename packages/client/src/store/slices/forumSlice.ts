@@ -32,7 +32,7 @@ const initialState: TState = {
 /* export const fetchForumData = createAsyncThunk<TTopicInfo[], undefined>(
     'forum', async(_) => {
         const topicData = await forumApi.getTopics(1, 10, ()=>{}, ()=>{});
-        return new ForumApi().getTopics(1, 10);
+        return forumApi().getTopics(1, 10);
         const service: IForumService = thunkApi.extra as IForumService;
         return service.getForumTopics();
 

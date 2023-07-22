@@ -22,7 +22,7 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     // topics,
     const [isModalActive, setIsModalActive] = useState(false);
     /* const [topicsNew, setForumTopics] = useState<TTopicInfo[]>();
-    const forumApi = new ForumApi();
+    const forumApi = forumApi();
 
     const forumState = useSelector((state: RootState) => state.forum);
     const { forum } = forumState;

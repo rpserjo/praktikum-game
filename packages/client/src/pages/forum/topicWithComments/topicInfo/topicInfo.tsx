@@ -5,7 +5,7 @@ import userSceleton from '@/assets/images/user-sceleton.png';
 import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/data-types';
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
-import ForumApi from '@/api/ForumApi';
+import forumApi from '@/api/ForumApi';
 import { Emoji } from '../../common/emoji/emoji';
 
 type TTopicInfoProps = {
@@ -15,7 +15,6 @@ type TTopicInfoProps = {
 export const TopicInfo: FC<TTopicInfoProps> = props => {
     const { info } = props;
     const [isModalActive, setIsModalActive] = useState(false);
-    const forumApi = new ForumApi();
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
         // todo add type check properly
         const type: TTopicMessageForSave = {

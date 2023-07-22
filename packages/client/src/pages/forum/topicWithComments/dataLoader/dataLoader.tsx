@@ -13,7 +13,7 @@ const ForumTopicData: FC = () => {
     const server = new MockServer();
     const serverData = server.getTopicWithComments(+topicId!, +page, MAX_ELEMENTS_PER_PAGE); // todo check all models
 
-    /* const forumApi = new ForumApi();
+    /* const forumApi = forumApi();
     const topicDataReal = forumApi.getTopic(+topicId!); */
 
     if (!serverData) {
