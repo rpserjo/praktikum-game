@@ -1,3 +1,5 @@
+const { off } = require("process");
+
 module.exports = {
     env: {
         browser: true,
@@ -47,6 +49,7 @@ module.exports = {
         "no-empty-function": "off",
         "@typescript-eslint/no-empty-function": "error",
         "class-methods-use-this":"off",
+        "newline-per-chained-call":"off",
 
     },
 };
