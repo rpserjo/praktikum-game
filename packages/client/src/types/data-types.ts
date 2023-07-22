@@ -20,6 +20,13 @@ export type TTopicData = {
     lastMessageDate: string;
 };
 
+export type TCommentData = {
+    id: number;
+    message: string;
+    author: string;
+    createdAt: string;
+};
+
 /* client types */
 
 export type TTopicInfo = {

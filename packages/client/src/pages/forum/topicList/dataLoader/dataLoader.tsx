@@ -24,6 +24,7 @@ const Forum: FC = () => {
             MAX_ELEMENTS_PER_PAGE,
             (data: TTopicListData) => {
                 console.log('set forum data');
+                console.log(data.topics);
                 setForumData({
                     topics: data.topics,
                     lastPage: data.lastPage,

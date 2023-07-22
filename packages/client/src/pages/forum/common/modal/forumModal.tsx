@@ -42,6 +42,7 @@ export const ForumModal: FC<TForumModalProps> = props => {
                 id,
                 text: text.value,
             });
+            setIsLoaderActive(false); // todo link to result
         }
 
         setIsActive(false); // todo should be in the same place with success and error callback,

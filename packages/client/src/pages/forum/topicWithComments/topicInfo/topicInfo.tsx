@@ -25,16 +25,7 @@ export const TopicInfo: FC<TTopicInfoProps> = props => {
             const commentData = data as TTopicMessageForSave;
             console.log('Save comment with text and topic id', commentData.text, commentData.id);
             // todo spinner while saving!!
-            forumApi
-                .saveComment(commentData)
-                .then(() => {
-                    console.log('success');
-                    // todo refresh list + message comment saved
-                })
-                .catch(error => {
-                    console.log(error);
-                    // show error
-                });
+            forumApi.saveComment(commentData);
         } else {
             console.log('error'); // todo
         }
