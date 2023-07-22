@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import MockServer from '@/mocks/mock-server';
+import userData from '@/mocks/data/user-data.json';
 import { TEmojis } from '@/types/data-types';
 
 import './emojis.scss';
@@ -26,7 +27,7 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
     const [emojisKeys, SetemojisKeys] = useState(dataKeys);
 
     function likeActivate(key: string) {
-        const newData = mockServer.postLike(messageId, key);
+        const newData = mockServer.postLike(messageId, key, userData.user.email);
         SetcurrentEmojis(newData);
         const newKeys = Object.keys(currentEmojis);
         SetemojisKeys(newKeys);
@@ -38,9 +39,15 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                 {emojisKeys.map(
                     key =>
                         // eslint-disable-next-line
-                        currentEmojis[key as keyof TEmojis] > 0 && (
+                        currentEmojis[key as keyof TEmojis].amount > 0 && (
                             <div
-                                className="like-display-item"
+                                className={`like-display-item ${
+                                    currentEmojis[key as keyof TEmojis].users.includes(
+                                        userData.user.email
+                                    )
+                                        ? 'like-display-item-liked'
+                                        : ''
+                                }`}
                                 key={key}
                                 onClick={() => likeActivate(key)}
                                 role="presentation"
@@ -49,29 +56,59 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                                     {emojis[key as keyof TEmojis]}
                                 </p>
                                 <p className="like-display-amount">
-                                    {currentEmojis[key as keyof TEmojis]}
+                                    {currentEmojis[key as keyof TEmojis].amount}
                                 </p>
                             </div>
                         )
                 )}
             </div>
             <div className="like-choice">
-                <p className="like-choice-emoji" id="like">
+                <p
+                    className="like-choice-emoji"
+                    id="like"
+                    onClick={() => likeActivate('like')}
+                    role="presentation"
+                >
                     👍
                 </p>
-                <p className="like-choice-emoji" id="hmm">
+                <p
+                    className="like-choice-emoji"
+                    id="hmm"
+                    onClick={() => likeActivate('hmm')}
+                    role="presentation"
+                >
                     🫤
                 </p>
-                <p className="like-choice-emoji" id="heart">
+                <p
+                    className="like-choice-emoji"
+                    id="heart"
+                    onClick={() => likeActivate('heart')}
+                    role="presentation"
+                >
                     ❤️
                 </p>
-                <p className="like-choice-emoji" id="ghost">
+                <p
+                    className="like-choice-emoji"
+                    id="ghost"
+                    onClick={() => likeActivate('ghost')}
+                    role="presentation"
+                >
                     👻
                 </p>
-                <p className="like-choice-emoji" id="fire">
+                <p
+                    className="like-choice-emoji"
+                    id="fire"
+                    onClick={() => likeActivate('fire')}
+                    role="presentation"
+                >
                     🔥
                 </p>
-                <p className="like-choice-emoji" id="the_rooms">
+                <p
+                    className="like-choice-emoji"
+                    id="the_rooms"
+                    onClick={() => likeActivate('the_rooms')}
+                    role="presentation"
+                >
                     🫃
                 </p>
                 <p className="like-choice-text">React ♡</p>

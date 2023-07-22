@@ -74,9 +74,19 @@ class MockServer {
         return topicData[0].emojis;
     }
 
-    public postLike(messageId: number, key: string) {
+    public postLike(messageId: number, key: string, email: string) {
         const topicData = this.forumData.filter(({ msgId }) => msgId === messageId);
-        topicData[0].emojis[key as keyof TEmojis] += 1;
+        const emojiObj = topicData[0].emojis[key as keyof TEmojis];
+        const isLiked = emojiObj.users.includes(email);
+
+        if (isLiked) {
+            emojiObj.amount -= 1;
+            emojiObj.users = emojiObj.users.filter(e => e !== email);
+        } else {
+            emojiObj.amount += 1;
+            emojiObj.users.push(email);
+        }
+
         return topicData[0].emojis;
     }
 }

@@ -7,12 +7,12 @@ export type TLeaderBoardData = {
 };
 
 export type TEmojis = {
-    like: number;
-    hmm: number;
-    heart: number;
-    ghost: number;
-    fire: number;
-    the_rooms: number;
+    like: { amount: number; users: Array<string> };
+    hmm: { amount: number; users: Array<string> };
+    heart: { amount: number; users: Array<string> };
+    ghost: { amount: number; users: Array<string> };
+    fire: { amount: number; users: Array<string> };
+    the_rooms: { amount: number; users: Array<string> };
 };
 
 export type TForumData = {
