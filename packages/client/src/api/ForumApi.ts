@@ -1,6 +1,12 @@
-import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/data-types';
+import {
+    TTopicForSave,
+    TTopicInfo,
+    TTopicListData,
+    TTopicMessageForSave,
+} from '@/types/data-types';
 import BaseApi from './BaseApi';
 import API from './api';
+import MockServer from '@/mocks/mock-server';
 
 // todo right path without v2
 class ForumApi extends BaseApi {
@@ -55,9 +61,18 @@ class ForumApi extends BaseApi {
         return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${topicId}`);
     }
 
-    public async getTopics(page: number, elementsPerPage: number): Promise<TTopicInfo[]> {
+    // todo use this method when server will be ready
+
+    /* public async getTopics(page: number, elementsPerPage: number): Promise<TTopicInfo[]> {
         // todo TTopicInfo??
         return this.http.get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`);
+    } */
+
+    public getTopics(page: number, elementsPerPage: number): TTopicListData {
+        const server = new MockServer();
+        const serverData = server.getTopicListNew(+page, elementsPerPage);
+        // save to redux
+        return serverData;
     }
 }
 

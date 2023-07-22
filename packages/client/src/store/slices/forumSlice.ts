@@ -28,3 +28,4 @@ const forumSlice = createSlice({
 });
 
 export default forumSlice.reducer;
+export const { setForumTopics } = forumSlice.actions;
