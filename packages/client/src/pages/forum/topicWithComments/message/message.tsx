@@ -6,7 +6,7 @@ import { Button, Icon } from '@/components/ui';
 import { TTopicForSave, TTopicMessage, TTopicMessageForSave } from '@/types/data-types';
 import { MessageList } from '../messageList/messageList';
 import { ForumModal } from '../../common/modal/forumModal';
-import ForumApi from '@/api/ForumApi';
+import forumApi from '@/api/ForumApi';
 import { Emoji } from '../../common/emoji/emoji';
 
 type TMessageProps = {
@@ -22,7 +22,6 @@ export const Message: FC<TMessageProps> = messageData => {
     const [isRepliesOpened, setIsRepliesOpened] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
     const { message, replies, isComment = true } = messageData;
-    const forumApi = new ForumApi();
 
     const toggleReplies = () => {
         setIsRepliesOpened(!isRepliesOpened);
