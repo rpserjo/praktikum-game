@@ -36,6 +36,7 @@ export const ForumModal: FC<TForumModalProps> = props => {
                 text: text.value,
             });
             title.value = '';
+            setIsLoaderActive(false); // todo link to result
         } else {
             submit({
                 id,
@@ -43,7 +44,8 @@ export const ForumModal: FC<TForumModalProps> = props => {
             });
         }
 
-        setIsActive(false); // todo should be in the same place with success and error callback, depends on them
+        setIsActive(false); // todo should be in the same place with success and error callback,
+        // depends on them
         text.value = '';
     };
     const closeModal: MouseEventHandler<HTMLButtonElement> = event => {
