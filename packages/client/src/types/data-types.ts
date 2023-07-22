@@ -13,6 +13,14 @@ export type TForumData = {
     message: string;
     author: string;
     createDate: string;
+    emojis: {
+        like: number;
+        hmm: number;
+        heart: number;
+        ghost: number;
+        fire: number;
+        the_rooms: number;
+    };
 };
 
 export type TTopicList = {

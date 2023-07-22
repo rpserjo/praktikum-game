@@ -73,10 +73,9 @@
           border-radius: 4px;
           margin-left: auto;
           background-color: rgb(206, 222, 242);
-          transition: all 0.3s linear;
 
           &:hover{
-              transition: all 0.3s linear;
+              transition: background-color 0.3s linear;
               background-color: aqua;
           }
       }

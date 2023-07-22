@@ -61,5 +61,11 @@ class MockServer {
 
         return MockServer.sliceDataPerPage<TForumData>(topicData, currentPage, elementsPerPage);
     }
+
+    public getEmojis(messageId: number) {
+        const topicData = this.forumData.filter(({ msgId }) => msgId === messageId);
+
+        return topicData[0].emojis;
+    }
 }
 export default MockServer;
