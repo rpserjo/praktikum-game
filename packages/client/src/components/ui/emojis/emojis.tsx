@@ -23,12 +23,12 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
     const datatEmojis: TEmojis = mockServer.getEmojis(messageId);
     const dataKeys = Object.keys(datatEmojis);
 
-    const [currentEmojis, SetcurrentEmojis] = useState(datatEmojis);
+    const [currentEmojis, setCurrentEmojis] = useState(datatEmojis);
     const [emojisKeys, SetemojisKeys] = useState(dataKeys);
 
     function likeActivate(key: string) {
         const newData = mockServer.postLike(messageId, key, userData.user.email);
-        SetcurrentEmojis(newData);
+        setCurrentEmojis(newData);
         const newKeys = Object.keys(currentEmojis);
         SetemojisKeys(newKeys);
     }
@@ -36,10 +36,9 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
     return (
         <div className="like-wrap">
             <div className="like-display">
-                {emojisKeys.map(
-                    key =>
-                        // eslint-disable-next-line
-                        currentEmojis[key as keyof TEmojis].amount > 0 && (
+                {emojisKeys.map(key => {
+                    if (currentEmojis[key as keyof TEmojis].amount > 0) {
+                        return (
                             <div
                                 className={`like-display-item ${
                                     currentEmojis[key as keyof TEmojis].users.includes(
@@ -59,8 +58,10 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                                     {currentEmojis[key as keyof TEmojis].amount}
                                 </p>
                             </div>
-                        )
-                )}
+                        );
+                    }
+                    return '';
+                })}
             </div>
             <div className="like-choice">
                 <p
