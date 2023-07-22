@@ -52,7 +52,7 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                                 onClick={() => likeActivate(key)}
                                 role="presentation"
                             >
-                                <p className="like-display-emoji" id="hmm">
+                                <p className="like-display-emoji" id={key}>
                                     {emojis[key as keyof TEmojis]}
                                 </p>
                                 <p className="like-display-amount">
