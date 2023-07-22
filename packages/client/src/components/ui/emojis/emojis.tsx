@@ -63,54 +63,18 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                 })}
             </div>
             <div className="like-choice">
-                <p
-                    className="like-choice-emoji"
-                    id="like"
-                    onClick={() => likeActivate('like')}
-                    role="presentation"
-                >
-                    👍
-                </p>
-                <p
-                    className="like-choice-emoji"
-                    id="hmm"
-                    onClick={() => likeActivate('hmm')}
-                    role="presentation"
-                >
-                    🫤
-                </p>
-                <p
-                    className="like-choice-emoji"
-                    id="heart"
-                    onClick={() => likeActivate('heart')}
-                    role="presentation"
-                >
-                    ❤️
-                </p>
-                <p
-                    className="like-choice-emoji"
-                    id="ghost"
-                    onClick={() => likeActivate('ghost')}
-                    role="presentation"
-                >
-                    👻
-                </p>
-                <p
-                    className="like-choice-emoji"
-                    id="fire"
-                    onClick={() => likeActivate('fire')}
-                    role="presentation"
-                >
-                    🔥
-                </p>
-                <p
-                    className="like-choice-emoji"
-                    id="the_rooms"
-                    onClick={() => likeActivate('the_rooms')}
-                    role="presentation"
-                >
-                    🫃
-                </p>
+                {dataKeys.map(key => (
+                    <p
+                        className="like-choice-emoji"
+                        id={key}
+                        key={key}
+                        onClick={() => likeActivate(key)}
+                        role="presentation"
+                    >
+                        {emojis[key as keyof TEmojis]}
+                    </p>
+                ))}
+
                 <p className="like-choice-text">React ♡</p>
             </div>
         </div>
