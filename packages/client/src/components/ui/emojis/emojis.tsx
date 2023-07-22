@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import MockServer from '@/mocks/mock-server';
 import { TEmojis } from '@/types/data-types';
 
@@ -19,9 +19,18 @@ const emojis = {
 
 const Emojis: FC<EmojiProps> = ({ messageId }) => {
     const mockServer = new MockServer();
-    const currentEmojis: TEmojis = mockServer.getEmojis(messageId);
-    const emojisKeys = Object.keys(currentEmojis);
-    // событие по клику добавлять дату эмодзи
+    const datatEmojis: TEmojis = mockServer.getEmojis(messageId);
+    const dataKeys = Object.keys(datatEmojis);
+
+    const [currentEmojis, SetcurrentEmojis] = useState(datatEmojis);
+    const [emojisKeys, SetemojisKeys] = useState(dataKeys);
+
+    function likeActivate(key: string) {
+        const newData = mockServer.postLike(messageId, key);
+        SetcurrentEmojis(newData);
+        const newKeys = Object.keys(currentEmojis);
+        SetemojisKeys(newKeys);
+    }
 
     return (
         <div className="like-wrap">
@@ -30,7 +39,12 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                     key =>
                         // eslint-disable-next-line
                         currentEmojis[key as keyof TEmojis] > 0 && (
-                            <div className="like-display-item" key={key}>
+                            <div
+                                className="like-display-item"
+                                key={key}
+                                onClick={() => likeActivate(key)}
+                                role="presentation"
+                            >
                                 <p className="like-display-emoji" id="hmm">
                                     {emojis[key as keyof TEmojis]}
                                 </p>
