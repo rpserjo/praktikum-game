@@ -65,4 +65,12 @@ router.post('/theme', themesController.changeUserTheme);
 
 router.get('/theme', themesController.getCurrentUserTheme);
 
+router.post(
+    '/reactions',
+    body('reaction').isIn(Object.keys(Reactions)),
+    body('commentId').isInt({ min: 1 }),
+    checkExact([], { message: 'Only reaction and commentId are allowed' }),
+    reactionController.toggleReaction
+);
+
 export const apiRouter = router;

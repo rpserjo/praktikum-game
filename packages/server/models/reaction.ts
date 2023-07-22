@@ -21,11 +21,11 @@ export const Reactions = {
 } as const;
 
 export type Reaction = {
-    reactions: typeof Reactions;
+    reaction: typeof Reactions;
 };
 
 export const reactionModel: ModelAttributes<Model, Reaction> = {
-    reactions: {
+    reaction: {
         type: DataType.ENUM,
         values: [
             Reactions.like,
