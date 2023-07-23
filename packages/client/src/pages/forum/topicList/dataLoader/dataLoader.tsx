@@ -19,6 +19,7 @@ const Forum: FC = () => {
     // const forumState = useSelector((state: RootState) => state.forum);
     // const { forum } = forumState;
     useEffect(() => {
+        console.log('we are in useEffect');
         forumApi.getTopics(
             +page,
             MAX_ELEMENTS_PER_PAGE,
@@ -29,7 +30,7 @@ const Forum: FC = () => {
                     topics: data.topics,
                     lastPage: data.lastPage,
                 });
-                // console.log(forumData);
+                console.log(forumData);
 
                 /* dispatch(
                     setForumTopics({
@@ -39,7 +40,9 @@ const Forum: FC = () => {
                 ); */
             },
             // eslint-disable-next-line
-            () => {}
+            error => {
+                console.log('Something Wrong', error);
+            }
         );
     }, []); // [dispatch]);
 

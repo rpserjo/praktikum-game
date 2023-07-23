@@ -99,17 +99,18 @@ class ForumApi extends BaseApi {
             .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
             .then(response => {
                 const data = response.data as TTopicData[];
-                const topics: TTopicInfo[] = data.map(topic => ({
-                    id: topic.id,
-                    title: topic.topic,
-                    message: topic.message,
-                    author: topic.author,
-                    commentsCount: topic.commentsCount,
-                    createdDate: topic.createdAt,
-                    lastCommentDate: topic.lastMessageDate,
-                }));
-                // console.log(response.data);
-                callback({ topics, lastPage: 3 }); // how to get last page?
+                // const topics: TTopicInfo[] = data.map(topic => ({
+                //     id: topic.id,
+                //     title: topic.topic,
+                //     message: topic.message,
+                //     author: topic.author,
+                //     commentsCount: topic.commentsCount,
+                //     createdDate: topic.createdAt,
+                //     lastCommentDate: topic.lastMessageDate,
+                // }));
+                console.log('res in api', response);
+                // @ts-ignore
+                callback({ topics: data.topics, lastPage: 3 }); // how to get last page?
             })
             .catch(error => {
                 errorCallback(error);
