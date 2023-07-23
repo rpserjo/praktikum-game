@@ -40,7 +40,6 @@ export const SiteTheme = sequelize.define('SiteTheme', siteTheme, {});
 User.hasMany(Topic);
 User.hasMany(Comment);
 User.hasMany(Reply);
-UserTheme.hasOne(User, { foreignKey: { name: 'themeId', allowNull: false } });
 User.hasOne(UserTheme, { foreignKey: { name: 'userId', allowNull: false } });
 UserTheme.belongsTo(SiteTheme, { foreignKey: { name: 'themeId', allowNull: false } });
 Topic.belongsTo(User);

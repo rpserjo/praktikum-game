@@ -1,6 +1,8 @@
 import { randomUUID } from 'crypto';
-import { SiteTheme, UserTheme } from '../db';
+import type { Model } from 'sequelize-typescript';
 import type { ISiteTheme } from '../models/themes';
+import type { IUserTheme } from '../models/userTheme';
+import { SiteTheme, UserTheme } from '../db';
 
 class ThemeService {
     createManyThemes = async (themesData: Omit<ISiteTheme, 'uuid'>[]) => {
@@ -22,9 +24,12 @@ class ThemeService {
         await SiteTheme.bulkCreate(themesObjectsList);
     };
 
-    createTheme = async (theme: Omit<ISiteTheme, 'uuid'>) => {
+    createTheme = async (
+        theme: Omit<ISiteTheme, 'uuid'>
+    ): Promise<[Model<ISiteTheme, ISiteTheme>, boolean]> => {
         const { name, description } = theme;
-        await SiteTheme.findOrCreate({
+
+        return SiteTheme.findOrCreate({
             where: { name },
             defaults: {
                 name,
@@ -34,27 +39,89 @@ class ThemeService {
         });
     };
 
-    getThemes = async () => {
-        const themesList = await SiteTheme.findAll({
+    getThemes = async (): Promise<Model<ISiteTheme, ISiteTheme>[]> => {
+        const data = await SiteTheme.findAll({
             order: [['name', 'ASC']],
         });
 
-        if (themesList.length === 0) {
-            return [];
-        }
-
-        return themesList.map(({ dataValues }) => dataValues);
+        return data;
     };
 
-    getTheme = async ({ uuid, name }: { uuid?: string; name?: string }) => {
+    getTheme = async ({
+        uuid,
+        name,
+    }: {
+        uuid?: string;
+        name?: string;
+    }): Promise<Model<ISiteTheme, ISiteTheme> | null> => {
         const where = uuid ? { uuid } : { name };
-        const { dataValues } = (await SiteTheme.findOne({ where })) ?? {};
-        return dataValues;
+        return SiteTheme.findOne({ where });
     };
 
-    createUserTheme = async ({ themeId, userId }: { themeId: string; userId: string }) => {
-        const { dataValues } = (await UserTheme.create({ themeId, userId })) ?? {};
-        return dataValues;
+    createUserTheme = async ({
+        themeId,
+        userId,
+    }: {
+        themeId: string;
+        userId: number;
+    }): Promise<Model<IUserTheme, IUserTheme> | null> => {
+        const data = await UserTheme.create({
+            themeId,
+            userId,
+            uuid: randomUUID(),
+        });
+
+        return data;
+    };
+
+    changeUserTheme = async ({
+        themeName,
+        userId,
+    }: {
+        themeName: string;
+        userId: string;
+    }): Promise<[number, Model<IUserTheme, IUserTheme>[]]> => {
+        const { dataValues } = (await this.getTheme({ name: themeName })) ?? {};
+
+        return UserTheme.update(
+            {
+                themeId: dataValues?.uuid,
+            },
+            {
+                where: {
+                    userId,
+                },
+                returning: true,
+            }
+        );
+    };
+
+    getUserTheme = async ({
+        uuid,
+    }: {
+        uuid: string;
+    }): Promise<Model<IUserTheme, IUserTheme> | null> => UserTheme.findOne({ where: { uuid } });
+
+    getUserThemes = async (): Promise<Model<IUserTheme, IUserTheme>[]> => UserTheme.findAll();
+
+    getUserThemesByUserId = async (userId: number): Promise<Model<IUserTheme, IUserTheme>[]> => {
+        const options = {
+            where: {
+                userId,
+            },
+        };
+
+        return UserTheme.findAll(options);
+    };
+
+    getCurrentUserTheme = async (userId: number): Promise<Model<IUserTheme, IUserTheme> | null> => {
+        const options = {
+            where: {
+                userId,
+            },
+        };
+
+        return UserTheme.findOne(options);
     };
 }
 

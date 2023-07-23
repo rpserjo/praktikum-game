@@ -14,6 +14,8 @@ import authService from './servises/proxy-auth-service';
 import userService from './servises/user-service';
 import errorMiddleware from './middlewares/error-middleware.';
 import authMiddleware from './middlewares/auth-middleware';
+import type { ISiteTheme } from './models/themes';
+import themesController from './controllers/themes-controller';
 
 dotenv.config({ path: '../../.env' });
 
@@ -67,10 +69,28 @@ async function startServer() {
                     req.headers.cookie
                 ) {
                     if (responseBuffer.toString()) {
-                        userService.createUserUpdCoockie(
+                        const user = await userService.createUserUpdCoockie(
                             JSON.parse(responseBuffer.toString()),
                             decodeURIComponent(req.headers.cookie)
                         );
+
+                        const { getUserThemesByUserId, createUserTheme, getThemes } =
+                            themesController;
+
+                        const userThemes = (await getUserThemesByUserId(user?.id)) ?? [];
+
+                        if (user && userThemes.length === 0) {
+                            const themes = (await getThemes()) ?? [];
+
+                            const [defaultTheme] = themes.filter(
+                                (theme: ISiteTheme) => theme.name === 'light'
+                            );
+
+                            await createUserTheme({
+                                userId: user.id,
+                                themeId: defaultTheme?.uuid,
+                            });
+                        }
                     }
                 }
                 return responseBuffer;

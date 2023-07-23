@@ -32,8 +32,9 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
+        // 'implicit-arrow-linebreak': ['error', 'below'],
         'no-unused-expressions': ['error', { allowTernary: true }],
-        'operator-linebreak': ['error', 'before'],
+        'operator-linebreak': ['error', 'after'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
@@ -48,6 +49,5 @@ module.exports = {
         '@typescript-eslint/no-empty-function': 'error',
         'class-methods-use-this': 'off',
         'newline-per-chained-call': 'off',
-
     },
 };

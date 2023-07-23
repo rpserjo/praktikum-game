@@ -1,8 +1,9 @@
 import type { ModelAttributes } from 'sequelize/types';
 import { DataType, Model } from 'sequelize-typescript';
 
-interface IUserTheme {
+export interface IUserTheme {
     uuid: string;
+    themeId?: string;
 }
 
 export const userTheme: ModelAttributes<Model, IUserTheme> = {
