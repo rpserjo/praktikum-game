@@ -226,7 +226,7 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
 
     shipsPictures.forEach(ship => {
         const image = new Image();
-        image.src = `./sprites/ship_${ship.decksAmount}.svg`;
+        image.src = `./sprites/canvasShip_${ship.decksAmount}.svg`;
         if (!ship.isLoad) {
             image.addEventListener('load', () => {
                 ship.isLoad = true;
