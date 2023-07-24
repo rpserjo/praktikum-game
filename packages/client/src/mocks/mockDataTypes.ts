@@ -1,11 +1,4 @@
-import { TTopicData } from '@/types/data-types';
-
-export type TTopicServerData = {
-    items: TTopicData[];
-    lastPage: number;
-};
-
-export type TForumDataOld = {
+export type TForumData = {
     msgId: number;
     topicId: number;
     topic: string;
@@ -22,4 +15,9 @@ export type TTopicList = {
     createDate: string;
     dateLastMessage: string;
     messageQty: number;
+};
+
+export type TTopicServerData = {
+    items: TTopicList[];
+    lastPage: number;
 };

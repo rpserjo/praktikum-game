@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import style from './page.module.scss';
 import Pagination from '@/components/ui/pagination/pagination';
 import { TopicInfo } from '../topicInfo/topicInfo';
-import { TTopicMessage, TTopicInfo } from '@/types/data-types';
+import { TTopicMessage, TTopicInfo } from '@/types/forumDataTypes';
 import { MessageList } from '../messageList/messageList';
 
 export type TServerData = {

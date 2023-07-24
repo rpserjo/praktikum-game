@@ -25,10 +25,7 @@ const Forum: FC = () => {
             (data: TTopicListData) => {
                 console.log('set forum data');
                 console.log(data.topics);
-                setForumData({
-                    topics: data.topics,
-                    lastPage: data.lastPage,
-                });
+                setForumData(data);
                 // console.log(forumData);
 
                 /* dispatch(

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import style from './topicInfo.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
-import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/data-types';
+import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';

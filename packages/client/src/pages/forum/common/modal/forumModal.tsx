@@ -1,7 +1,7 @@
 import React, { FC, MouseEventHandler, useState } from 'react';
 import Modal from '@/components/ui/modal/modal';
 import ModalForm from '../modalForm/modalForm';
-import { TTopicForSave, TTopicMessageForSave } from '@/types/data-types';
+import { TTopicForSave, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { Loader } from '@/components/ui';
 
 type TForumModalProps = {

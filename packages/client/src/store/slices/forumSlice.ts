@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TTopicInfo } from '@/types/data-types';
+import { TTopicInfo } from '@/types/forumDataTypes';
 // import forumApi from '@/api/ForumApi';
 
 type TForum = {
