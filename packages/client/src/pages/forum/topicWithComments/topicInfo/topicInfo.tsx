@@ -2,28 +2,22 @@ import React, { FC, useState } from 'react';
 import style from './topicInfo.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
-import {
-    TTopicForSave,
-    TTopicInfo,
-    TTopicMessage,
-    TTopicMessageForSave,
-} from '@/types/forumDataTypes';
+import { TTopicForSave, TTopic, TTopicMessageForSave, TTopicComment } from '@/types/forumDataTypes';
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { Emoji } from '../../common/emoji/emoji';
 
-type TTopicInfoProps = {
-    info: TTopicInfo;
+type TTopicProps = {
+    info: TTopic;
 };
 
-export const TopicInfo: FC<TTopicInfoProps> = props => {
+export const TopicInfo: FC<TTopicProps> = props => {
     const { info } = props;
     const [isModalActive, setIsModalActive] = useState(false);
 
-    const handleCommentSaved = (comment: TTopicMessage) => {
+    const handleCommentSaved = (comment: TTopicComment) => {
         console.log('here we need to refresh list');
-        // hide spinner in modal and hide modal
         console.log(comment);
     };
 
@@ -34,12 +28,15 @@ export const TopicInfo: FC<TTopicInfoProps> = props => {
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
         const commentData = data as TTopicMessageForSave;
         if (commentData) {
-            console.log('Save comment with text and topic id', commentData.text, commentData.id);
-            // todo spinner while saving!!
+            console.log(
+                'Save comment with text and topic id',
+                commentData.text,
+                commentData.parentId
+            );
+            // todo spinner while saving!! + refresh list + message comment saved
             forumApi.saveComment(commentData, handleCommentSaved, handleCommentSaveError);
-            // todo refresh list + message comment saved
         } else {
-            console.log('error'); // todo
+            console.log('error');
         }
     };
 
@@ -47,7 +44,11 @@ export const TopicInfo: FC<TTopicInfoProps> = props => {
         <>
             <div className={style.topic}>
                 <div className={style.topic__info}>
-                    <img className={style.topic__avatar} src={userSceleton} alt="user avatar" />
+                    <img
+                        className={style.topic__avatar}
+                        src={info.authorAvatar || userSceleton}
+                        alt="user avatar"
+                    />
                     <p className={style.topic__author}>{info.author}</p>
                     <p>{dateFormat(info.createdDate, FormatType.DATE)}</p>
                 </div>

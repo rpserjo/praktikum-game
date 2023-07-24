@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import style from './topicList.module.scss';
-import { TTopicInfo } from '@/types/forumDataTypes';
+import { TTopic } from '@/types/forumDataTypes';
 import { Topic } from '../topic/topic';
 
 type TTopicListProps = {
-    topics: TTopicInfo[];
+    topics: TTopic[];
 };
 
 export const TopicList: FC<TTopicListProps> = ({ topics }) => (

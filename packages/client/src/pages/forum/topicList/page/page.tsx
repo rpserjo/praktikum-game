@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import style from './page.module.scss';
 import Button from '@/components/ui/button/button';
 import Pagination from '@/components/ui/pagination/pagination';
-import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/forumDataTypes';
+import { TTopicForSave, TTopic, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from '../topicList/topicList';
@@ -14,14 +14,14 @@ import { TopicList } from '../topicList/topicList';
 // imp/ort { RootState } from '@/store';
 
 type ForumContentProps = {
-    topics: TTopicInfo[];
+    topics: TTopic[];
     page: number;
     lastPage: number;
 };
 const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     // topics,
     const [isModalActive, setIsModalActive] = useState(false);
-    /* const [topicsNew, setForumTopics] = useState<TTopicInfo[]>();
+    /* const [topicsNew, setForumTopics] = useState<TTopic[]>();
     const forumApi = forumApi();
 
     const forumState = useSelector((state: RootState) => state.forum);
@@ -29,14 +29,14 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     useEffect(() => {
         console.log('inside useEffect');
         console.log(forum.forumTopics);
-        setForumTopics(forum.forumTopics as TTopicInfo[]);
+        setForumTopics(forum.forumTopics as TTopic[]);
     }, []);
 
-    //const topicsNew = forum.forumTopics as TTopicInfo[];
+    //const topicsNew = forum.forumTopics as TTopic[];
     console.log('topics from store');
     console.log(topicsNew); */
 
-    /**/ const addNewTopicToList = (topic: TTopicInfo) => {
+    /**/ const addNewTopicToList = (topic: TTopic) => {
         console.log('new topic will be added');
         console.log(topic);
     };

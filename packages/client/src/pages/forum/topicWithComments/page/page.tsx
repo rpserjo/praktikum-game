@@ -2,21 +2,21 @@ import React, { FC } from 'react';
 import style from './page.module.scss';
 import Pagination from '@/components/ui/pagination/pagination';
 import { TopicInfo } from '../topicInfo/topicInfo';
-import { TTopicMessage, TTopicInfo } from '@/types/forumDataTypes';
-import { MessageList } from '../messageList/messageList';
+import { TTopic, TTopicComment } from '@/types/forumDataTypes';
+import { MessageList } from '../commentList/commentList';
 
-export type TServerData = {
+type TTopicWithCommentsData = {
     // eslint-disable-next-line
-    topic: TTopicInfo;
+    topic: TTopic;
     // eslint-disable-next-line
-    comments: TTopicMessage[];
+    comments: TTopicComment[];
     // eslint-disable-next-line
     page: number;
     // eslint-disable-next-line
     lastPage: number;
 };
 
-const ForumTopic: FC<TServerData> = data => {
+const ForumTopic: FC<TTopicWithCommentsData> = data => {
     const { topic, comments, lastPage, page } = data;
 
     return (

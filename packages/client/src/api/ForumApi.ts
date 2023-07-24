@@ -1,13 +1,14 @@
 import {
     TCommentListData,
     TCommentListServerData,
+    TTopicComment,
     TTopicData,
     TTopicForSave,
-    TTopicInfo,
+    TTopic,
     TTopicListData,
     TTopicListServerData,
-    TTopicMessage,
     TTopicMessageForSave,
+    TTopicReply,
 } from '@/types/forumDataTypes';
 import BaseApi from './BaseApi';
 import API from './api';
@@ -22,7 +23,7 @@ class ForumApi extends BaseApi {
 
     public async getTopic(
         topicId: number,
-        callback: (data: TTopicInfo) => void,
+        callback: (data: TTopic) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
         return this.http
@@ -55,7 +56,7 @@ class ForumApi extends BaseApi {
 
     public async saveTopic(
         data: TTopicForSave,
-        callback: (topic: TTopicInfo) => void,
+        callback: (topic: TTopic) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
         return this.http
@@ -69,7 +70,7 @@ class ForumApi extends BaseApi {
                 }
             )
             .then(response => {
-                callback(response.data as TTopicInfo);
+                callback(response.data as TTopic);
             })
             .catch(error => {
                 errorCallback(error);
@@ -95,13 +96,13 @@ class ForumApi extends BaseApi {
 
     public async saveComment(
         data: TTopicMessageForSave,
-        callback: (comment: TTopicMessage) => void,
+        callback: (comment: TTopicComment) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
         return this.http
             .post(
                 API.ENDPOINTS.FORUM.COMMENTS,
-                JSON.stringify({ topicId: data.id, message: data.text }),
+                JSON.stringify({ topicId: data.parentId, message: data.text }),
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ class ForumApi extends BaseApi {
                 }
             )
             .then(response => {
-                callback(response.data as TTopicMessage);
+                callback(response.data as TTopicComment);
             })
             .catch(error => errorCallback(error));
     }
@@ -118,13 +119,13 @@ class ForumApi extends BaseApi {
 
     public async saveReply(
         data: TTopicMessageForSave,
-        callback: (reply: TTopicMessage) => void,
+        callback: (reply: TTopicReply) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
         return this.http
             .post(
                 API.ENDPOINTS.FORUM.REPLIES,
-                JSON.stringify({ topicId: data.id, message: data.text }),
+                JSON.stringify({ topicId: data.parentId, message: data.text }),
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -132,7 +133,7 @@ class ForumApi extends BaseApi {
                 }
             )
             .then(response => {
-                callback(response.data as TTopicMessage);
+                callback(response.data as TTopicReply);
             })
             .catch(error => errorCallback(error));
     }

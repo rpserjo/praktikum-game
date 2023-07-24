@@ -39,7 +39,7 @@ export const ForumModal: FC<TForumModalProps> = props => {
             setIsLoaderActive(false); // todo link to result
         } else {
             submit({
-                id,
+                parentId: id,
                 text: text.value,
             });
             setIsLoaderActive(false); // todo link to result

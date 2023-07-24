@@ -1,19 +1,24 @@
 import React, { FC, useState } from 'react';
-import style from './message.module.scss';
+import style from './comment.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
 import { Button, Icon } from '@/components/ui';
-import { TTopicForSave, TTopicMessage, TTopicMessageForSave } from '@/types/forumDataTypes';
-import { MessageList } from '../messageList/messageList';
+import {
+    TTopicComment,
+    TTopicForSave,
+    TTopicMessageForSave,
+    TTopicReply,
+} from '@/types/forumDataTypes';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { Emoji } from '../../common/emoji/emoji';
+import { RepliesList } from '../repliesList/repliesList';
 
 type TMessageProps = {
     // eslint-disable-next-line
-    message: TTopicMessage;
+    message: TTopicComment;
     // eslint-disable-next-line
-    replies: TTopicMessage[];
+    replies: TTopicReply[];
     // eslint-disable-next-line
     isComment?: boolean; // can be comment or reply
 };
@@ -21,13 +26,13 @@ type TMessageProps = {
 export const Message: FC<TMessageProps> = messageData => {
     const [isRepliesOpened, setIsRepliesOpened] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    const { message, replies, isComment = true } = messageData;
+    const { message } = messageData;
 
     const toggleReplies = () => {
         setIsRepliesOpened(!isRepliesOpened);
     };
 
-    const handleReplySaved = (reply: TTopicMessage) => {
+    const handleReplySaved = (reply: TTopicReply) => {
         console.log('saved');
         console.log(reply);
     };
@@ -42,7 +47,7 @@ export const Message: FC<TMessageProps> = messageData => {
             console.log(
                 'Save reply to comment with text and comment id',
                 replyData.text,
-                replyData.id
+                replyData.parentId
             );
             // todo spinner while saving!!
             forumApi.saveReply(replyData, handleReplySaved, handleReplySaveError);
@@ -51,6 +56,17 @@ export const Message: FC<TMessageProps> = messageData => {
             console.log('error type');
         }
     };
+
+    // todo move, this is for testing markup
+    // add getReplies method
+    const replies = new Array<TTopicReply>({
+        id: 1,
+        commentId: 1,
+        author: 'Anna',
+        createdDate: '2023-05-22T12:51:00',
+        text: 'My comment',
+        authorAvatar: null,
+    });
 
     // todo key prop fix
     return (
@@ -70,44 +86,39 @@ export const Message: FC<TMessageProps> = messageData => {
                 </div>
                 <div className={style.message__actions}>
                     <div className={style.message__reply}>
-                        {isComment && (
-                            <Button onClick={() => setIsModalActive(true)} buttonSize="small">
-                                Ответить
-                            </Button>
-                        )}
+                        <Button onClick={() => setIsModalActive(true)} buttonSize="small">
+                            Ответить
+                        </Button>
+
                         <Emoji messageId={message.id} />
                     </div>
-                    {isComment && (
-                        <p className={style.message__reply}>
-                            <Button
-                                buttonSize="small"
-                                buttonStyle="outlined"
-                                customStyle={style.message__open}
-                                onClick={toggleReplies}
-                            >
-                                <Icon iconName="plus" width={20} height={20} />
-                            </Button>
-                            {isRepliesOpened ? 'Свернуть ветку' : 'Раскрыть ветку'}
-                        </p>
-                    )}
+                    <p className={style.message__reply}>
+                        <Button
+                            buttonSize="small"
+                            buttonStyle="outlined"
+                            customStyle={style.message__open}
+                            onClick={toggleReplies}
+                        >
+                            <Icon iconName="plus" width={20} height={20} />
+                        </Button>
+                        {isRepliesOpened ? 'Свернуть ветку' : 'Раскрыть ветку'}
+                    </p>
                 </div>
-                {isComment && isRepliesOpened && (
+                {isRepliesOpened && (
                     <div className={style.message__replyList}>
-                        <MessageList messages={replies} isCommentsList={false} />
+                        <RepliesList replies={replies} />
                     </div>
                 )}
             </div>
-            {isComment && (
-                <ForumModal
-                    id={message.id}
-                    isActive={isModalActive}
-                    setIsActive={setIsModalActive}
-                    submit={submitMessage}
-                    isTopicForm={false}
-                    rows={10}
-                    modalTitle="Новое сообщение в обсуждение"
-                />
-            )}
+            <ForumModal
+                id={message.id}
+                isActive={isModalActive}
+                setIsActive={setIsModalActive}
+                submit={submitMessage}
+                isTopicForm={false}
+                rows={10}
+                modalTitle="Новое сообщение в обсуждение"
+            />
         </>
     );
 };
