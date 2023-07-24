@@ -6,7 +6,7 @@ import { ApiError } from '../exeptions/api-error';
 class TopicController {
     async findTopicById(req: Request, res: Response) {
         try {
-            const data = await topicService.findTopicById(+req.params.id);
+            const data = await topicService.findTopicByIdWithCommentsCount(+req.params.id);
             console.log(req.headers);
             return res.json(data);
         } catch (error) {

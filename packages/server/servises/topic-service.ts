@@ -1,4 +1,5 @@
-import { Topic, sequelize } from '../db';
+import { Topic, sequelize, User } from '../db';
+import commentService from './comment-service';
 
 type updateData = {
     topic?: string;
@@ -6,15 +7,24 @@ type updateData = {
 };
 
 class TopicService {
-    async createTopic(topic: string, message: string, UserId: number) {
+    createTopic(topic: string, message: string, UserId: number) {
         return Topic.create({ topic, message, UserId });
     }
 
-    async findTopicById(id: number) {
+    findTopicById(id: number) {
         return Topic.findByPk(id);
     }
 
-    async findTopicAll(page: number, limit: number, isOrderUpdatedASC = false) {
+    async findTopicByIdWithCommentsCount(id: number) {
+        const queryResultTopic = await Topic.findByPk(id, {
+            include: [{ model: User, attributes: ['login', 'avatar'], required: true }],
+        });
+        const queryResultConuntComment = await commentService.commentsCountForTopic(id);
+
+        return { topicData: queryResultTopic, сommentsCount: queryResultConuntComment };
+    }
+
+    findTopicAll(page: number, limit: number, isOrderUpdatedASC = false) {
         const UpdatedOrder = isOrderUpdatedASC ? 'ASC' : 'DESC';
 
         return Topic.findAndCountAll({

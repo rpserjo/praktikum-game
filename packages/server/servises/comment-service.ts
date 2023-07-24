@@ -5,6 +5,10 @@ class CommentService {
         return Comment.create({ message, TopicId, UserId });
     }
 
+    commentsCountForTopic(topicId: number) {
+        return Comment.count({ where: { TopicId: `${topicId}` } });
+    }
+
     async findCommentsForTopic(topicId: number, page: number, limit: number) {
         const offset = limit * (page - 1);
 

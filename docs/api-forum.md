@@ -34,12 +34,19 @@ Example response:
 
 ```
 {
-    "id":1,
-    "topic":"Тест название топика 1",
-    "message":"Тест сообщение топика 1",
-    "createdAt":"2023-07-19T18:06:24.366Z",
-    "updatedAt":"2023-07-19T18:06:24.366Z",
-    "UserId": 897
+    "topicData": {
+        "createdAt": "2023-07-24T09:34:17.177Z",
+        "id": 1,
+        "message": "Тест сообщение топика 1",
+        "topic": "Тест название топика 1",
+        "updatedAt": "2023-07-24T09:34:17.177Z",
+        "User": {
+            "avatar": null,
+            "login": "MorskoyVolk"
+        },
+        "UserId": 722
+    },
+    "сommentsCount": 2
 }
 
 ```
