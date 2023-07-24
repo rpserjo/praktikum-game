@@ -32,9 +32,31 @@ export const sequelize = new Sequelize(sequelizeOptions);
 export const User = sequelize.define('User', userModel, {});
 export const UserTheme = sequelize.define('UserTheme', userTheme, {});
 export const Topic = sequelize.define('Topic', topicModel, {});
-export const Comment = sequelize.define('Comment', commentModel, {});
-export const Reply = sequelize.define('Reply', replyModel, {});
-export const Reaction = sequelize.define('Reaction', reactionModel, { updatedAt: false });
+export const Comment = sequelize.define('Comment', commentModel, {
+    indexes: [
+        {
+            unique: false,
+            fields: ['TopicId'],
+        },
+    ],
+});
+export const Reply = sequelize.define('Reply', replyModel, {
+    indexes: [
+        {
+            unique: false,
+            fields: ['CommentId'],
+        },
+    ],
+});
+export const Reaction = sequelize.define('Reaction', reactionModel, {
+    updatedAt: false,
+    indexes: [
+        {
+            name: 'comment_by_user',
+            fields: ['CommentId', 'UserId'],
+        },
+    ],
+});
 export const Auth = sequelize.define('Auth', authModel, {});
 export const SiteTheme = sequelize.define('SiteTheme', siteTheme, {});
 
@@ -47,7 +69,7 @@ Topic.belongsTo(User);
 Comment.belongsTo(User);
 User.hasMany(Auth);
 Auth.belongsTo(User);
-Topic.hasMany(Comment, { foreignKey: { allowNull: false } });
+Topic.hasMany(Comment, { foreignKey: 'TopicId' });
 Comment.belongsTo(Topic);
 Comment.hasMany(Reply, { foreignKey: { allowNull: false } });
 Comment.hasMany(Reaction, { foreignKey: { allowNull: false } });

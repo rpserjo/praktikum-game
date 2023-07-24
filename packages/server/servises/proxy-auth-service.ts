@@ -3,7 +3,7 @@ import { Auth, Op } from '../db';
 import { Auth, Op } from '../db';
 
 class AuthService {
-    async addCookie(Cookie: string, login?: string) {
+    addCookie(Cookie: string, login?: string) {
         const parseCookie = Cookie.match(/.*authCookie=([^;]*);.*Expires=(.+GMT);.*uuid=([\w-]*)/);
         if (parseCookie) {
             const UUID = parseCookie[3];
@@ -18,11 +18,11 @@ class AuthService {
         return console.log('not found Cookie');
     }
 
-    async findCookieById(uuid: UUID) {
+    findCookieById(uuid: UUID) {
         return Auth.findByPk(uuid);
     }
 
-    async updateExpires(uuid: UUID, expires: Date) {
+    updateExpires(uuid: UUID, expires: Date) {
         return Auth.update(
             { expires: `${expires}` },
             {
@@ -33,7 +33,7 @@ class AuthService {
         );
     }
 
-    async updateUserId(uuid: UUID, UserId: number) {
+    updateUserId(uuid: UUID, UserId: number) {
         return Auth.update(
             { UserId: `${UserId}` },
             {
@@ -45,12 +45,12 @@ class AuthService {
     }
 
     async findUpdateExpires(uuid: UUID, expires: Date) {
-        if (this.findCookieById(uuid) !== null) {
+        if ((await this.findCookieById(uuid)) !== null) {
             this.updateExpires(uuid, expires);
         }
     }
 
-    async findUserByCookies(uuid: UUID, authCookie: string) {
+    findUserByCookies(uuid: UUID, authCookie: string) {
         return Auth.findOne({
             where: {
                 [Op.and]: [{ uuid: `${uuid}` }, { authCookie: `${authCookie}` }],
@@ -58,7 +58,7 @@ class AuthService {
         });
     }
 
-    async checkUserAuth(uuid: UUID, authCookie: string) {
+    checkUserAuth(uuid: UUID, authCookie: string) {
         return Auth.findOne({
             where: {
                 [Op.and]: [

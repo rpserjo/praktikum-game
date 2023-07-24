@@ -18,16 +18,13 @@ const rootReducer = combineReducers({
 function createStore(service: IUserService, initialState?: StoreState) {
     const store = configureStore({
         reducer: rootReducer,
-        // eslint-disable-next-line
         preloadedState: initialState,
-        // eslint-disable-next-line
-        middleware: getDefaultMiddleware => {
-            return getDefaultMiddleware({
+        middleware: getDefaultMiddleware =>
+            getDefaultMiddleware({
                 thunk: {
                     extraArgument: service,
                 },
-            });
-        },
+            }),
     });
 
     return store;

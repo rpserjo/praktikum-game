@@ -17,7 +17,7 @@ class ReplyController {
 
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 }
