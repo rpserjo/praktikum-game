@@ -129,43 +129,59 @@ Example response:
     "Comments": [
         {
             "author": "MorskoyVolk",
-            "commentCreatedAt": "2023-07-24T10:44:14.714Z",
-            "commentId": 2,
+            "authorAvatar": null,
+            "commentCreatedAt": "2023-07-24T13:40:12.914Z",
+            "id": 2,
             "message": "Тест комментарий 2 к топику 1",
             "replies": [
                 {
                     "author": "MorskoyVolk",
-                    "commentCreatedAt": "2023-07-24T10:44:14.714Z",
-                    "commentId": 2,
-                    "message": "Тест ответ 1 к комментарию 2",
-                    "replyCreatedAt": "2023-07-24T10:54:17.633Z",
+                    "authorAvatar": null,
+                    "commentCreatedAt": "2023-07-24T13:40:08.703Z",
+                    "id": 1,
+                    "message": "Тест ответ 2 к комментарию 1",
+                    "replyCreatedAt": "2023-07-24T14:57:28.565Z",
                     "replyId": 3
+                },
+                {
+                    "author": "MorskoyVolk",
+                    "authorAvatar": null,
+                    "commentCreatedAt": "2023-07-24T13:40:08.703Z",
+                    "id": 1,
+                    "message": "Тест ответ 1 к комментарию 1",
+                    "replyCreatedAt": "2023-07-24T14:57:21.420Z",
+                    "replyId": 2
                 }
-            ]
+            ],
+            "topicId": 1
         },
         {
             "author": "MorskoyVolk",
-            "commentCreatedAt": "2023-07-24T09:53:49.031Z",
-            "commentId": 1,
+            "authorAvatar": null,
+            "commentCreatedAt": "2023-07-24T13:40:08.703Z",
+            "id": 1,
             "message": "Тест комментарий к топику 1",
             "replies": [
                 {
                     "author": "MorskoyVolk",
-                    "commentCreatedAt": "2023-07-24T09:53:49.031Z",
-                    "commentId": 1,
+                    "authorAvatar": null,
+                    "commentCreatedAt": "2023-07-24T13:40:08.703Z",
+                    "id": 1,
                     "message": "Тест ответ 2 к комментарию 1",
-                    "replyCreatedAt": "2023-07-24T10:54:01.957Z",
-                    "replyId": 2
+                    "replyCreatedAt": "2023-07-24T14:57:28.565Z",
+                    "replyId": 3
                 },
                 {
                     "author": "MorskoyVolk",
-                    "commentCreatedAt": "2023-07-24T09:53:49.031Z",
-                    "commentId": 1,
+                    "authorAvatar": null,
+                    "commentCreatedAt": "2023-07-24T13:40:08.703Z",
+                    "id": 1,
                     "message": "Тест ответ 1 к комментарию 1",
-                    "replyCreatedAt": "2023-07-24T10:53:53.584Z",
-                    "replyId": 1
+                    "replyCreatedAt": "2023-07-24T14:57:21.420Z",
+                    "replyId": 2
                 }
-            ]
+            ],
+            "topicId": 1
         }
     ],
     "LastPage": 1
