@@ -1,4 +1,5 @@
-import { Topic, sequelize } from '../db';
+import { Topic, sequelize, User } from '../db';
+import commentService from './comment-service';
 
 type updateData = {
     topic?: string;
@@ -6,6 +7,7 @@ type updateData = {
 };
 
 class TopicService {
+    createTopic(topic: string, message: string, UserId: number) {
     createTopic(topic: string, message: string, UserId: number) {
         return Topic.create({ topic, message, UserId });
     }
