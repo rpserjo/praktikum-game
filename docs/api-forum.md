@@ -131,7 +131,7 @@ Example response:
 
 Example request:
 ```
-http://localhost:3000/api/comments/3/1/3
+http://localhost:3000/api/comments/1/1/10
 ```
 Example response:
 
@@ -139,28 +139,44 @@ Example response:
 {
     "Comments": [
         {
-            "author": "TestBest",
-            "commentCreatedAt": "2023-07-22T17:09:58.750Z",
-            "commentId": 3,
-            "message": "Тест комментарий  к топику 3 от другого",
-            "replyCreatedAt": null,
-            "replyId": null
+            "author": "MorskoyVolk",
+            "commentCreatedAt": "2023-07-24T10:44:14.714Z",
+            "commentId": 2,
+            "message": "Тест комментарий 2 к топику 1",
+            "replies": [
+                {
+                    "author": "MorskoyVolk",
+                    "commentCreatedAt": "2023-07-24T10:44:14.714Z",
+                    "commentId": 2,
+                    "message": "Тест ответ 1 к комментарию 2",
+                    "replyCreatedAt": "2023-07-24T10:54:17.633Z",
+                    "replyId": 3
+                }
+            ]
         },
         {
             "author": "MorskoyVolk",
-            "commentCreatedAt": "2023-07-22T17:08:27.739Z",
+            "commentCreatedAt": "2023-07-24T09:53:49.031Z",
             "commentId": 1,
-            "message": "Тест комментарий  к топику 3",
-            "replyCreatedAt": null,
-            "replyId": null
-        },
-        {
-            "author": "MorskoyVolk",
-            "commentCreatedAt": "2023-07-22T17:08:27.739Z",
-            "commentId": 1,
-            "message": "Еще ответ к комментарию 1",
-            "replyCreatedAt": "2023-07-22T17:16:28.871Z",
-            "replyId": 3
+            "message": "Тест комментарий к топику 1",
+            "replies": [
+                {
+                    "author": "MorskoyVolk",
+                    "commentCreatedAt": "2023-07-24T09:53:49.031Z",
+                    "commentId": 1,
+                    "message": "Тест ответ 2 к комментарию 1",
+                    "replyCreatedAt": "2023-07-24T10:54:01.957Z",
+                    "replyId": 2
+                },
+                {
+                    "author": "MorskoyVolk",
+                    "commentCreatedAt": "2023-07-24T09:53:49.031Z",
+                    "commentId": 1,
+                    "message": "Тест ответ 1 к комментарию 1",
+                    "replyCreatedAt": "2023-07-24T10:53:53.584Z",
+                    "replyId": 1
+                }
+            ]
         }
     ],
     "LastPage": 1
