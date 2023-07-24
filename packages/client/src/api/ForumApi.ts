@@ -127,7 +127,7 @@ class ForumApi extends BaseApi {
         return this.http
             .post(
                 API.ENDPOINTS.FORUM.REPLIES,
-                JSON.stringify({ topicId: data.parentId, message: data.text }),
+                JSON.stringify({ commentId: data.parentId, message: data.text }),
                 {
                     headers: {
                         'Content-Type': 'application/json',

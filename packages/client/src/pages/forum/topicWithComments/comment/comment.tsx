@@ -37,7 +37,7 @@ export const Message: FC<TMessageProps> = messageData => {
         console.log(error);
     };
 
-    const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
+    const submitReply = (data: TTopicMessageForSave | TTopicForSave) => {
         const replyData = data as TTopicMessageForSave;
         if (replyData) {
             console.log(
@@ -109,7 +109,7 @@ export const Message: FC<TMessageProps> = messageData => {
                 id={message.id}
                 isActive={isModalActive}
                 setIsActive={setIsModalActive}
-                submit={submitMessage}
+                submit={submitReply}
                 isTopicForm={false}
                 rows={10}
                 modalTitle="Новое сообщение в обсуждение"
