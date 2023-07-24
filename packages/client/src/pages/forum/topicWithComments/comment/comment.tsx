@@ -87,17 +87,19 @@ export const Message: FC<TMessageProps> = messageData => {
                         </Button>
                         <Emojis messageId={message.id} />
                     </div>
-                    <p className={style.message__reply}>
-                        <Button
-                            buttonSize="small"
-                            buttonStyle="outlined"
-                            customStyle={style.message__open}
-                            onClick={toggleReplies}
-                        >
-                            <Icon iconName="plus" width={20} height={20} />
-                        </Button>
-                        {isRepliesOpened ? 'Свернуть ветку' : 'Раскрыть ветку'}
-                    </p>
+                    {message.replies.length !== 0 && (
+                        <p className={style.message__reply}>
+                            <Button
+                                buttonSize="small"
+                                buttonStyle="outlined"
+                                customStyle={style.message__open}
+                                onClick={toggleReplies}
+                            >
+                                <Icon iconName="plus" width={20} height={20} />
+                            </Button>
+                            {isRepliesOpened ? 'Свернуть ветку' : 'Раскрыть ветку'}
+                        </p>
+                    )}
                 </div>
                 {isRepliesOpened && (
                     <div className={style.message__replyList}>
