@@ -77,7 +77,7 @@ class MockServer {
 
         if (isLiked) {
             emojiObj.amount -= 1;
-            emojiObj.users = emojiObj.users.filter(e => e !== email);
+            emojiObj.users = emojiObj.users.filter((e: any) => e !== email);
         } else {
             emojiObj.amount += 1;
             emojiObj.users.push(email);

@@ -17,6 +17,7 @@ describe('Forum tests', () => {
                 createdDate: '2023-05-22T12:51:00',
                 commentsCount: 2,
                 lastCommentDate: '2023-05-22T12:51:00',
+                authorAvatar: null,
             },
             {
                 id: 2,
@@ -26,6 +27,7 @@ describe('Forum tests', () => {
                 createdDate: '2023-05-22T13:06:00',
                 lastCommentDate: '2023-05-22T12:51:00',
                 commentsCount: 2,
+                authorAvatar: null,
             },
             {
                 id: 3,
@@ -35,6 +37,7 @@ describe('Forum tests', () => {
                 createdDate: '2023-01-15T16:37:00',
                 lastCommentDate: '2023-05-22T12:51:00',
                 commentsCount: 2,
+                authorAvatar: null,
             },
         ],
         lastPage: 1,
