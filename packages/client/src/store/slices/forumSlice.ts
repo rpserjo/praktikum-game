@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TTopicInfo } from '@/types/forumDataTypes';
+import { TTopic } from '@/types/forumDataTypes';
 // import forumApi from '@/api/ForumApi';
 
 type TForum = {
-    forumTopics: TTopicInfo[] | null;
+    forumTopics: TTopic[] | null;
     topicComments: [] | null;
 };
 
@@ -19,17 +19,17 @@ const initialState: TState = {
 };
 
 /* interface IForumService {
-    getForumTopics(): Promise<TTopicInfo[]>;
+    getForumTopics(): Promise<TTopic[]>;
 } */
 
-/* const loadForumTopics = createAsyncThunk<TTopicInfo[]>('root/AuthUser', async (_, thunkApi) => {
+/* const loadForumTopics = createAsyncThunk<TTopic[]>('root/AuthUser', async (_, thunkApi) => {
     const service: IForumService = thunkApi.extra as IForumService;
     return service.getForumTopics();
 
     api -> AppDispatch
 }); */
 
-/* export const fetchForumData = createAsyncThunk<TTopicInfo[], undefined>(
+/* export const fetchForumData = createAsyncThunk<TTopic[], undefined>(
     'forum', async(_) => {
         const topicData = await forumApi.getTopics(1, 10, ()=>{}, ()=>{});
         return forumApi().getTopics(1, 10);
