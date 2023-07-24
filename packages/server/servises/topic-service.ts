@@ -1,5 +1,4 @@
-import { Topic, sequelize, User } from '../db';
-import commentService from './comment-service';
+import { Topic, sequelize } from '../db';
 
 type updateData = {
     topic?: string;
@@ -15,13 +14,28 @@ class TopicService {
         return Topic.findByPk(id);
     }
 
-    async findTopicByIdWithCommentsCount(id: number) {
-        const queryResultTopic = await Topic.findByPk(id, {
-            include: [{ model: User, attributes: ['login', 'avatar'], required: true }],
-        });
-        const queryResultConuntComment = await commentService.commentsCountForTopic(id);
+    async findTopicByIdWithCommentsCount(topicId: number) {
+        const resultQuery = await sequelize.query(
+            // eslint-disable-next-line  no-multi-str
+            'SELECT t.id, t.topic, t.message, usr.login AS author, usr.avatar AS "authorAvatar", t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
+            as "commentsCount", \
+            CASE WHEN c."topicId" is NULL THEN t."updatedAt" ELSE c."lastMessage" END as "lastMessageDate" \
+            FROM public."Topics" t \
+            LEFT JOIN public."Users" AS usr ON usr.id = t."UserId" \
+            LEFT JOIN (SELECT inc."TopicId" as "topicId", max(inc."updatedAt") as "lastMessage",  count(*) \
+            as "commentsCount" \
+                           FROM public."Comments" inc  GROUP BY inc."TopicId") AS c ON  c."topicId"=t.id \
+            WHERE t.id = :topicId \
+            ORDER BY "lastMessageDate" DESC  \
+                LIMIT 1',
+            {
+                replacements: { topicId: `${topicId}` },
+                mapToModel: true,
+                model: Topic,
+            }
+        );
 
-        return { topicData: queryResultTopic, сommentsCount: queryResultConuntComment };
+        return resultQuery[0];
     }
 
     findTopicAll(page: number, limit: number, isOrderUpdatedASC = false) {
@@ -37,11 +51,9 @@ class TopicService {
     async getTopicWithLastMessage(page: number, limit: number) {
         const offset = limit * (page - 1);
 
-        console.log('page: ', page, ' offset: ', offset);
-
         const resultQuery = await sequelize.query(
             // eslint-disable-next-line  no-multi-str
-            'SELECT t.id, t.topic, t.message, usr.login AS author, t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
+            'SELECT t.id, t.topic, t.message, usr.login AS author, usr.avatar AS "authorAvatar", t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
             as "commentsCount", \
             CASE WHEN c."topicId" is NULL THEN t."updatedAt" ELSE c."lastMessage" END as "lastMessageDate" \
             FROM public."Topics" t \

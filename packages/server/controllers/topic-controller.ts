@@ -4,17 +4,17 @@ import topicService from '../servises/topic-service';
 import { ApiError } from '../exeptions/api-error';
 
 class TopicController {
-    async findTopicById(req: Request, res: Response) {
+    async findTopicById(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await topicService.findTopicByIdWithCommentsCount(+req.params.id);
-            console.log(req.headers);
+
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 
-    async getTopicWithLastMessage(req: Request, res: Response) {
+    async getTopicWithLastMessage(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await topicService.getTopicWithLastMessage(
                 +req.params.page,
@@ -22,7 +22,7 @@ class TopicController {
             );
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 
@@ -39,7 +39,7 @@ class TopicController {
 
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 }
