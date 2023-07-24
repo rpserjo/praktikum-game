@@ -26,30 +26,26 @@ export const Message: FC<TMessageProps> = messageData => {
     const toggleReplies = () => {
         setIsRepliesOpened(!isRepliesOpened);
     };
+
+    const handleReplySaved = (reply: TTopicMessage) => {
+        console.log('saved');
+        console.log(reply);
+    };
+
+    const handleReplySaveError = (error: string) => {
+        console.log(error);
+    };
+
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
-        // todo add type check properly
-        const type: TTopicMessageForSave = {
-            id: 0,
-            text: '',
-        };
-        if (typeof data === typeof type) {
-            const replyData = data as TTopicMessageForSave;
+        const replyData = data as TTopicMessageForSave;
+        if (replyData) {
             console.log(
                 'Save reply to comment with text and comment id',
                 replyData.text,
                 replyData.id
             );
             // todo spinner while saving!!
-            forumApi
-                .saveReply(replyData)
-                .then(() => {
-                    console.log('success');
-                    // todo refresh list + message reply saved
-                })
-                .catch(error => {
-                    console.log(error);
-                    // show error
-                });
+            forumApi.saveReply(replyData, handleReplySaved, handleReplySaveError);
         } else {
             // todo error
             console.log('error type');

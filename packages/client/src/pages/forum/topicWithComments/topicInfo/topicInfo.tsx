@@ -32,13 +32,8 @@ export const TopicInfo: FC<TTopicInfoProps> = props => {
     };
 
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
-        // todo add type check properly
-        const type: TTopicMessageForSave = {
-            id: 0,
-            text: '',
-        };
-        if (typeof data === typeof type) {
-            const commentData = data as TTopicMessageForSave;
+        const commentData = data as TTopicMessageForSave;
+        if (commentData) {
             console.log('Save comment with text and topic id', commentData.text, commentData.id);
             // todo spinner while saving!!
             forumApi.saveComment(commentData, handleCommentSaved, handleCommentSaveError);

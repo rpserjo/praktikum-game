@@ -46,17 +46,13 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     };
 
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
-        const type: TTopicForSave = {
-            title: '',
-            text: '',
-        };
-        // todo proper type check
-        if (typeof data === typeof type) {
-            const topicData = data as TTopicForSave;
+        const topicData = data as TTopicForSave;
+        if (topicData) {
             console.log('Отправили данные формы', topicData.title, topicData.text);
             // setIsLoaderActive(true);
             // todo <Loader/> while saving!!
-            forumApi.saveTopic(topicData, addNewTopicToList, showTopicCreationError); // addNewTopicToList,
+            // addNewTopicToList,
+            forumApi.saveTopic(topicData, addNewTopicToList, showTopicCreationError);
         } else {
             console.log('error'); // todo
         }

@@ -116,11 +116,25 @@ class ForumApi extends BaseApi {
 
     /* replies */
 
-    public async saveReply(data: TTopicMessageForSave): Promise<void> {
-        return this.http.post(
-            API.ENDPOINTS.FORUM.REPLIES,
-            JSON.stringify({ topicId: data.id, message: data.text })
-        );
+    public async saveReply(
+        data: TTopicMessageForSave,
+        callback: (reply: TTopicMessage) => void,
+        errorCallback: (error: string) => void
+    ): Promise<void> {
+        return this.http
+            .post(
+                API.ENDPOINTS.FORUM.REPLIES,
+                JSON.stringify({ topicId: data.id, message: data.text }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then(response => {
+                callback(response.data as TTopicMessage);
+            })
+            .catch(error => errorCallback(error));
     }
 }
 
