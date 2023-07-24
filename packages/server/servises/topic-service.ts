@@ -1,5 +1,4 @@
-import { Topic, sequelize, User } from '../db';
-import commentService from './comment-service';
+import { Topic, sequelize } from '../db';
 
 type updateData = {
     topic?: string;
@@ -55,7 +54,7 @@ class TopicService {
 
         const resultQuery = await sequelize.query(
             // eslint-disable-next-line  no-multi-str
-            'SELECT t.id, t.topic, t.message, usr.login AS author, t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
+            'SELECT t.id, t.topic, t.message, usr.login AS author, usr.avatar AS "authorAvatar", t."createdAt", t."updatedAt",COALESCE(c."commentsCount",0) \
             as "commentsCount", \
             CASE WHEN c."topicId" is NULL THEN t."updatedAt" ELSE c."lastMessage" END as "lastMessageDate" \
             FROM public."Topics" t \
