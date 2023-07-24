@@ -81,7 +81,8 @@ class ThemeService {
         themeName: string;
         userId: string;
     }): Promise<[number, Model<IUserTheme, IUserTheme>[]]> => {
-        const { dataValues } = (await this.getTheme({ name: themeName })) ?? {};
+        const response = await this.getTheme({ name: themeName });
+        const { dataValues } = response ?? {};
 
         return UserTheme.update(
             {

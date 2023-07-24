@@ -43,7 +43,8 @@ class ThemesController {
         name?: string;
     }): Promise<ISiteTheme | undefined | void> => {
         try {
-            const { dataValues } = (await themeService.getTheme(data)) ?? {};
+            const response = await themeService.getTheme(data);
+            const { dataValues } = response ?? {};
             return dataValues;
         } catch (e) {
             return console.error(e);
@@ -55,7 +56,8 @@ class ThemesController {
         userId: number;
     }): Promise<IUserTheme | undefined | void> => {
         try {
-            const { dataValues } = (await themeService.createUserTheme(data)) ?? {};
+            const response = await themeService.createUserTheme(data);
+            const { dataValues } = response ?? {};
             return dataValues;
         } catch (e) {
             return console.error(e);
@@ -81,7 +83,8 @@ class ThemesController {
 
     getUserTheme = async (data: { uuid: string }): Promise<IUserTheme | undefined | void> => {
         try {
-            const { dataValues } = (await themeService.getUserTheme(data)) ?? {};
+            const response = await themeService.getUserTheme(data);
+            const { dataValues } = response ?? {};
             return dataValues;
         } catch (e) {
             return console.error(e);
@@ -132,7 +135,8 @@ class ThemesController {
             const { dataValues: user } =
                 (await authService.findUserByCookies(uuid, authCookie)) ?? {};
 
-            const { dataValues } = (await themeService.getCurrentUserTheme(user.UserId)) ?? {};
+            const response = await themeService.getCurrentUserTheme(user.UserId);
+            const { dataValues } = response ?? {};
 
             const { name, description } =
                 ((await this.getTheme({ uuid: dataValues?.themeId })) as ISiteTheme) ?? {};
