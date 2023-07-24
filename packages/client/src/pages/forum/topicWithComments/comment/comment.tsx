@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import Emojis from '@components/ui/emojis/emojis';
 import style from './comment.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
@@ -11,7 +12,6 @@ import {
 } from '@/types/forumDataTypes';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
-import { Emoji } from '../../common/emoji/emoji';
 import { RepliesList } from '../repliesList/repliesList';
 
 type TMessageProps = {
@@ -89,8 +89,7 @@ export const Message: FC<TMessageProps> = messageData => {
                         <Button onClick={() => setIsModalActive(true)} buttonSize="small">
                             Ответить
                         </Button>
-
-                        <Emoji messageId={message.id} />
+                        <Emojis messageId={message.id} />
                     </div>
                     <p className={style.message__reply}>
                         <Button

@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import style from './reply.module.scss';
 import defaultAvatar from '@/assets/images/user-sceleton.png';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
-import { Emoji } from '../../common/emoji/emoji';
 import { TTopicReply } from '@/types/forumDataTypes';
+import Emojis from '@/components/ui/emojis/emojis';
 
 type TMessageProps = {
     // eslint-disable-next-line
@@ -24,9 +24,7 @@ export const Reply: FC<TMessageProps> = ({ message }) => (
             <p className={style.message__text}>{message.text}</p>
         </div>
         <div className={style.message__actions}>
-            <div className={style.message__reply}>
-                <Emoji messageId={message.id} />
-            </div>
+            <Emojis messageId={message.id} />
         </div>
     </div>
 );

@@ -6,7 +6,7 @@ import { TTopicForSave, TTopic, TTopicMessageForSave, TTopicComment } from '@/ty
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
-import { Emoji } from '../../common/emoji/emoji';
+import Emojis from '@/components/ui/emojis/emojis';
 
 type TTopicProps = {
     info: TTopic;
@@ -62,7 +62,7 @@ export const TopicInfo: FC<TTopicProps> = props => {
                     <Button onClick={() => setIsModalActive(true)} buttonSize="small">
                         Добавить комментарий
                     </Button>
-                    <Emoji messageId={info.id} />
+                    <Emojis messageId={info.id} />
                 </div>
             </div>
             <ForumModal
