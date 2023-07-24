@@ -1,6 +1,5 @@
 import type { UUID } from 'crypto';
 import { Auth, Op } from '../db';
-import { Auth, Op } from '../db';
 
 class AuthService {
     addCookie(Cookie: string, login?: string) {

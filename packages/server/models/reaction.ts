@@ -11,15 +11,6 @@ export const Reactions = {
     the_doors: '🫃',
 } as const;
 
-export const Reactions = {
-    like: '👍',
-    hmm: '🫤',
-    heart: '❤️',
-    ghost: '👻',
-    fire: '🔥',
-    the_doors: '🫃',
-} as const;
-
 export type Reaction = {
     reaction: typeof Reactions;
 };

@@ -2,7 +2,6 @@ import { Comment, sequelize } from '../db';
 
 class CommentService {
     createComment(message: string, TopicId: number, UserId: number) {
-    createComment(message: string, TopicId: number, UserId: number) {
         return Comment.create({ message, TopicId, UserId });
     }
 

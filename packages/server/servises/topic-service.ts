@@ -7,7 +7,6 @@ type updateData = {
 
 class TopicService {
     createTopic(topic: string, message: string, UserId: number) {
-    createTopic(topic: string, message: string, UserId: number) {
         return Topic.create({ topic, message, UserId });
     }
 
@@ -72,10 +71,6 @@ class TopicService {
                 model: Topic,
             }
         );
-
-        const LastPage = Math.ceil((await Topic.count()) / limit);
-
-        return { topics: [...resultQuery], LastPage };
 
         const LastPage = Math.ceil((await Topic.count()) / limit);
 

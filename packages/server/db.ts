@@ -1,6 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import { Op } from 'sequelize';
-import { Op } from 'sequelize';
 import dotenv from 'dotenv';
 import { userModel } from './models/user';
 import { topicModel } from './models/topic';
