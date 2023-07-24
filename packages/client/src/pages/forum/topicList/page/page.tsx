@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import style from './page.module.scss';
 import Button from '@/components/ui/button/button';
 import Pagination from '@/components/ui/pagination/pagination';
-import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/data-types';
+import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from '../topicList/topicList';
@@ -36,10 +36,10 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     console.log('topics from store');
     console.log(topicsNew); */
 
-    /* const addNewTopicToList = (topic: TTopicInfo) => {
+    /**/ const addNewTopicToList = (topic: TTopicInfo) => {
         console.log('new topic will be added');
         console.log(topic);
-    }; */
+    };
 
     const showTopicCreationError = (error: string) => {
         console.log(error);
@@ -56,7 +56,7 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
             console.log('Отправили данные формы', topicData.title, topicData.text);
             // setIsLoaderActive(true);
             // todo <Loader/> while saving!!
-            forumApi.saveTopic(topicData, showTopicCreationError); // addNewTopicToList,
+            forumApi.saveTopic(topicData, addNewTopicToList, showTopicCreationError); // addNewTopicToList,
         } else {
             console.log('error'); // todo
         }

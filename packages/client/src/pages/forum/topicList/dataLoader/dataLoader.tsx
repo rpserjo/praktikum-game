@@ -7,7 +7,7 @@ import { Loader } from '@/components/ui';
 // import { RootState } from '@/store';
 
 import forumApi from '@/api/ForumApi';
-import { TTopicListData } from '@/types/data-types';
+import { TTopicListData } from '@/types/forumDataTypes';
 
 const Forum: FC = () => {
     console.log('render data loader');

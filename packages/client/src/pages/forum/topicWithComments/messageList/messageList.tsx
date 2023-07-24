@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import style from './messageList.module.scss';
-import { TTopicMessage } from '@/types/data-types';
+import { TTopicMessage } from '@/types/forumDataTypes';
 import { Message } from '../message/message';
 
 type TMessageList = {
@@ -16,6 +16,7 @@ export const MessageList: FC<TMessageList> = data => {
     // add getReplies method
     const replies = new Array<TTopicMessage>({
         id: 1,
+        topicId: 1,
         author: 'Anna',
         createdDate: '2023-05-22T12:51:00',
         text: 'My comment',

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import style from './topicList.module.scss';
-import { TTopicInfo } from '@/types/data-types';
+import { TTopicInfo } from '@/types/forumDataTypes';
 import { Topic } from '../topic/topic';
 
 type TTopicListProps = {

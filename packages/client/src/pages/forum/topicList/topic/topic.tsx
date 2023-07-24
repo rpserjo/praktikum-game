@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import style from './topic.module.scss';
 import { dateFormat, FormatType } from '@/helpers/dateformat';
-import { TTopicInfo } from '@/types/data-types';
+import { TTopicInfo } from '@/types/forumDataTypes';
 import msgIcon from '@/assets/images/message_icon.png';
 
 type TTopicProps = {

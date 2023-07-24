@@ -3,7 +3,7 @@ import style from './message.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
 import { Button, Icon } from '@/components/ui';
-import { TTopicForSave, TTopicMessage, TTopicMessageForSave } from '@/types/data-types';
+import { TTopicForSave, TTopicMessage, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { MessageList } from '../messageList/messageList';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';

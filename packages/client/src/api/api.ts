@@ -36,6 +36,7 @@ const API = {
             COMMENTS: '/comments',
             REPLIES: '/replies',
             TOPICS: '/topics',
+            TOPIC: '/topic',
         },
     },
 };
