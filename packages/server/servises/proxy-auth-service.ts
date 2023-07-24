@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto';
-import { Auth } from '../db';
+import { Auth, Op } from '../db';
 
 class AuthService {
     async addCookie(Cookie: string, login?: string) {
@@ -47,6 +47,26 @@ class AuthService {
         if (this.findCookieById(uuid) !== null) {
             this.updateExpires(uuid, expires);
         }
+    }
+
+    async findUserByCookies(uuid: UUID, authCookie: string) {
+        return Auth.findOne({
+            where: {
+                [Op.and]: [{ uuid: `${uuid}` }, { authCookie: `${authCookie}` }],
+            },
+        });
+    }
+
+    async checkUserAuth(uuid: UUID, authCookie: string) {
+        return Auth.findOne({
+            where: {
+                [Op.and]: [
+                    { uuid: `${uuid}` },
+                    { authCookie: `${authCookie}` },
+                    { expires: { [Op.gte]: Date.now() } },
+                ],
+            },
+        });
     }
 }
 const authService = new AuthService();

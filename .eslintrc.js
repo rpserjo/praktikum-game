@@ -1,3 +1,5 @@
+const { off } = require('process');
+
 module.exports = {
     env: {
         browser: true,
@@ -33,7 +35,7 @@ module.exports = {
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
         'no-unused-expressions': ['error', { allowTernary: true, allowShortCircuit: true }],
-        'operator-linebreak': ['error', 'before'],
+        'operator-linebreak': ['warn', 'before'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
@@ -47,5 +49,6 @@ module.exports = {
         'no-empty-function': 'off',
         '@typescript-eslint/no-empty-function': 'error',
         'class-methods-use-this': 'off',
+        'newline-per-chained-call': 'off',
     },
 };

@@ -1,8 +1,8 @@
 import { Reply } from '../db';
 
 class ReplyService {
-    async createReply(message: string, CommentId: number, author: string) {
-        return Reply.create({ message, CommentId, author });
+    async createReply(message: string, CommentId: number, UserId: number) {
+        return Reply.create({ message, CommentId, UserId });
     }
 }
 const replyService = new ReplyService();

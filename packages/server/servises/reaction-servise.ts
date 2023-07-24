@@ -1,20 +1,23 @@
-import { Reaction } from '../db';
+import { Reaction, Op } from '../db';
+import { Reactions } from '../models/reaction';
 
 class ReactionService {
-    async createReaction(message: string, CommentId: number, author: string) {
-        return Reaction.create({ message, CommentId, author });
-    }
-
-    async findReactionsForComment(commentId: number, isOrderUpdatedASC = false) {
-        const UpdatedOrder = isOrderUpdatedASC ? 'ASC' : 'DESC';
-
-        return Reaction.findAndCountAll({
+    async toggleCommentReaction(
+        reactionKey: keyof typeof Reactions,
+        commentId: number,
+        UserId: number
+    ) {
+        await Reaction.destroy({
             where: {
-                CommentId: commentId,
+                [Op.and]: [{ UserId: `${UserId}` }, { CommentId: `${commentId}` }],
             },
-            order: [['updatedAt', UpdatedOrder]],
+        });
+        await Reaction.create({ reaction: Reactions[reactionKey], CommentId: commentId, UserId });
+
+        return Reaction.findAll({
+            where: { CommentId: `${commentId}` },
         });
     }
 }
-const commentService = new ReactionService();
-export default commentService;
+const reactionService = new ReactionService();
+export default reactionService;
