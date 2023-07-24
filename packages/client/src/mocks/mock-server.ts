@@ -1,12 +1,8 @@
 import leaderBoardData from './data/mock-leaderbord-data.json';
 import forumData from './data/mock-forum-data.json';
-import {
-    TLeaderBoardData,
-    TForumData,
-    TTopicList,
-    TTopicServerData,
-    TEmojis,
-} from '@/types/data-types';
+import { TLeaderBoardData, TEmojis } from '@/types/data-types';
+
+import { TForumData, TTopicList, TTopicServerData } from './mockDataTypes';
 
 class MockServer {
     protected leaderBoardData: TLeaderBoardData[];
