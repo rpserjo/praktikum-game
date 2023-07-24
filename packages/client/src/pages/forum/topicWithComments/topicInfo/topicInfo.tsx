@@ -2,7 +2,12 @@ import React, { FC, useState } from 'react';
 import style from './topicInfo.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import userSceleton from '@/assets/images/user-sceleton.png';
-import { TTopicForSave, TTopicInfo, TTopicMessageForSave } from '@/types/forumDataTypes';
+import {
+    TTopicForSave,
+    TTopicInfo,
+    TTopicMessage,
+    TTopicMessageForSave,
+} from '@/types/forumDataTypes';
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
@@ -15,6 +20,17 @@ type TTopicInfoProps = {
 export const TopicInfo: FC<TTopicInfoProps> = props => {
     const { info } = props;
     const [isModalActive, setIsModalActive] = useState(false);
+
+    const handleCommentSaved = (comment: TTopicMessage) => {
+        console.log('here we need to refresh list');
+        // hide spinner in modal and hide modal
+        console.log(comment);
+    };
+
+    const handleCommentSaveError = (error: string) => {
+        console.log(error);
+    };
+
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
         // todo add type check properly
         const type: TTopicMessageForSave = {
@@ -25,7 +41,8 @@ export const TopicInfo: FC<TTopicInfoProps> = props => {
             const commentData = data as TTopicMessageForSave;
             console.log('Save comment with text and topic id', commentData.text, commentData.id);
             // todo spinner while saving!!
-            forumApi.saveComment(commentData);
+            forumApi.saveComment(commentData, handleCommentSaved, handleCommentSaveError);
+            // todo refresh list + message comment saved
         } else {
             console.log('error'); // todo
         }

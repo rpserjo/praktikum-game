@@ -18,6 +18,16 @@ export type TCommentData = {
     createdAt: string;
 };
 
+export type TTopicListServerData = {
+    topics: TTopicData[];
+    lastPage: number;
+};
+
+export type TCommentListServerData = {
+    Comments: TCommentData[];
+    LastPage: number;
+};
+
 /* client types */
 
 export type TTopicInfo = {
