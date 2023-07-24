@@ -20,7 +20,7 @@ class DataMapper {
             topicId: data.topicId,
             text: data.message,
             author: data.author,
-            createdDate: data.createdAt,
+            createdDate: data.commentCreatedAt,
             authorAvatar: data.authorAvatar,
             replies: data.replies,
         };

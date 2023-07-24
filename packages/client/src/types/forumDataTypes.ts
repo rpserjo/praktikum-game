@@ -26,8 +26,8 @@ export type TCommentData = {
     message: string;
     author: string;
     authorAvatar: string | null;
-    createdAt: string;
-    replies: TTopicReply[] | null;
+    commentCreatedAt: string;
+    replies: TTopicReply[];
 };
 
 export type TTopicListServerData = {
@@ -60,7 +60,7 @@ export type TTopicComment = {
     authorAvatar: string | null;
     createdDate: string;
     text: string;
-    replies: TTopicReply[] | null;
+    replies: TTopicReply[];
 };
 
 // for saving both comments and replies

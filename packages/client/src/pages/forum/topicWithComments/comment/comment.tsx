@@ -17,10 +17,6 @@ import { RepliesList } from '../repliesList/repliesList';
 type TMessageProps = {
     // eslint-disable-next-line
     message: TTopicComment;
-    // eslint-disable-next-line
-    replies: TTopicReply[];
-    // eslint-disable-next-line
-    isComment?: boolean; // can be comment or reply
 };
 
 export const Message: FC<TMessageProps> = messageData => {
@@ -59,14 +55,14 @@ export const Message: FC<TMessageProps> = messageData => {
 
     // todo move, this is for testing markup
     // add getReplies method
-    const replies = new Array<TTopicReply>({
+    /* const replies = new Array<TTopicReply>({
         id: 1,
         commentId: 1,
         author: 'Anna',
         createdDate: '2023-05-22T12:51:00',
         text: 'My comment',
         authorAvatar: null,
-    });
+    }); */
 
     // todo key prop fix
     return (
@@ -105,7 +101,7 @@ export const Message: FC<TMessageProps> = messageData => {
                 </div>
                 {isRepliesOpened && (
                     <div className={style.message__replyList}>
-                        <RepliesList replies={replies} />
+                        <RepliesList replies={message.replies} />
                     </div>
                 )}
             </div>

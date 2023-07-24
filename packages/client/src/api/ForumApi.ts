@@ -89,6 +89,8 @@ class ForumApi extends BaseApi {
             .get(`${API.ENDPOINTS.FORUM.COMMENTS}/${topicId}/${page}/${elementsPerPage}`)
             .then(response => {
                 const data = response.data as TCommentListServerData;
+                console.log('in get comments');
+                console.log(response.data);
                 const comments = data.Comments.map(comment => mapper.mapServerCommentData(comment));
                 callback({ comments, lastPage: data.LastPage });
             });
