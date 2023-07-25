@@ -12,12 +12,12 @@ export type TTopicData = {
 };
 
 export type TTopicReply = {
+    replyId: number;
     id: number;
-    commentId: number;
     author: string;
     authorAvatar: string | null;
-    createdDate: string;
-    text: string;
+    replyCreatedAt: string;
+    message: string;
 };
 
 export type TCommentData = {
