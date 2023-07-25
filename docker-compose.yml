@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   client:
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./tmp/pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
       interval: 5s
       timeout: 10s
       retries: 5
@@ -74,8 +74,6 @@ services:
     environment:
       PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 0
     volumes:
-    # to fix permission bugs:
-    # sudo chown -R 5050:5050 ./tmp/pgadmin
       - ./tmp/pgadmin:/var/lib/pgadmin
     depends_on:
       - postgres

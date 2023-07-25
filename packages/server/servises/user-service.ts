@@ -4,26 +4,33 @@ import type { IUser } from '../models/user';
 import authService from './proxy-auth-service';
 
 class UserService {
-    async createUserUpdCoockie(userObj: IUser, cookie: string) {
+    async createUserUpdCoockie(userObj: IUser, cookie: string): Promise<IUser | undefined> {
         const { id, first_name, second_name, display_name, login, avatar } = userObj;
+
         if (id) {
-            await User.findOrCreate({
-                where: { id: `${id}` },
-                defaults: {
-                    first_name,
-                    second_name,
-                    display_name,
-                    login,
-                    avatar,
-                },
-            });
+            const [{ dataValues: user }] =
+                (await User.findOrCreate({
+                    where: { id },
+                    defaults: {
+                        first_name,
+                        second_name,
+                        display_name,
+                        login,
+                        avatar,
+                    },
+                })) ?? {};
 
             const cookieParse = cookie.match(/uuid=([\w-]*)/);
+
             if (cookieParse) {
                 const uuid = cookieParse[1] as UUID;
                 authService.updateUserId(uuid, id);
             }
+
+            return user;
         }
+
+        return undefined;
     }
 
     async findUserById(id: number) {

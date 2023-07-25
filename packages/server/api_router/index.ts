@@ -6,6 +6,7 @@ import topicController from '../controllers/topic-controller';
 import commentController from '../controllers/comment-controller';
 import replyController from '../controllers/reply-controller';
 import reactionController from '../controllers/reaction-controller';
+import themesController from '../controllers/themes-controller';
 
 const router = Router();
 
@@ -59,5 +60,9 @@ router.post(
     checkExact([], { message: 'Only reaction and commentId are allowed' }),
     reactionController.toggleReaction
 );
+
+router.post('/theme', themesController.changeUserTheme);
+
+router.get('/theme', themesController.getCurrentUserTheme);
 
 export const apiRouter = router;

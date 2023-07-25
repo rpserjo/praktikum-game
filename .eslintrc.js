@@ -35,7 +35,7 @@ module.exports = {
         'linebreak-style': 'off',
         'arrow-parens': ['error', 'as-needed'],
         'no-unused-expressions': ['error', { allowTernary: true, allowShortCircuit: true }],
-        'operator-linebreak': ['warn', 'before'],
+        'operator-linebreak': ['error', 'after'],
         'prefer-template': 'off',
         'no-nested-ternary': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
