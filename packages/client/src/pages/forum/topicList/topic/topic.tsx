@@ -9,7 +9,7 @@ type TTopicProps = {
     topic: TTopic;
 };
 
-// todo key issue!
+// todo fix key issue!
 export const Topic: FC<TTopicProps> = ({ topic }) => (
     <div key={topic.id} className={style.topic}>
         <div className={style.topic__shortInfo}>

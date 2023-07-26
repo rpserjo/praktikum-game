@@ -7,6 +7,7 @@ import { TTopicForSave, TTopic, TTopicMessageForSave } from '@/types/forumDataTy
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from '../topicList/topicList';
+// todo add redux to update page data
 // import { useSelector } from 'react-redux';
 // import { RootState } from '@/store';
 // import { Loader } from '@/components/ui';
@@ -21,6 +22,8 @@ type ForumContentProps = {
 const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     // topics,
     const [isModalActive, setIsModalActive] = useState(false);
+    // todo add redux to update page data
+
     /* const [topicsNew, setForumTopics] = useState<TTopic[]>();
     const forumApi = forumApi();
 
@@ -30,13 +33,9 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
         console.log('inside useEffect');
         console.log(forum.forumTopics);
         setForumTopics(forum.forumTopics as TTopic[]);
-    }, []);
+    }, []); */
 
-    //const topicsNew = forum.forumTopics as TTopic[];
-    console.log('topics from store');
-    console.log(topicsNew); */
-
-    /**/ const addNewTopicToList = (topic: TTopic) => {
+    const addNewTopicToList = (topic: TTopic) => {
         console.log('new topic will be added');
         console.log(topic);
     };
