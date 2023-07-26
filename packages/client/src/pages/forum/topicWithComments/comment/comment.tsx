@@ -15,14 +15,12 @@ import { RepliesList } from '../repliesList/repliesList';
 import { calcAvatarUrl } from '@/helpers/avatarHelper';
 
 type TMessageProps = {
-    // eslint-disable-next-line
     message: TTopicComment;
 };
 
-export const Message: FC<TMessageProps> = messageData => {
+export const Message: FC<TMessageProps> = ({ message }) => {
     const [isRepliesOpened, setIsRepliesOpened] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    const { message } = messageData;
 
     const toggleReplies = () => {
         setIsRepliesOpened(!isRepliesOpened);

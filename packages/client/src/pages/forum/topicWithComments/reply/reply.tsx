@@ -6,7 +6,6 @@ import Emojis from '@/components/ui/emojis/emojis';
 import { calcAvatarUrl } from '@/helpers/avatarHelper';
 
 type TMessageProps = {
-    // eslint-disable-next-line
     message: TTopicReply;
 };
 
