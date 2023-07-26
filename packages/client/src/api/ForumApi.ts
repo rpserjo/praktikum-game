@@ -2,7 +2,7 @@ import {
     TCommentListData,
     TCommentListServerData,
     TTopicComment,
-    TTopicData,
+    TTopicServerData,
     TTopicForSave,
     TTopic,
     TTopicListData,
@@ -29,7 +29,7 @@ class ForumApi extends BaseApi {
         return this.http
             .get(`${API.ENDPOINTS.FORUM.TOPIC}/${topicId}`)
             .then(response => {
-                callback(mapper.mapServerTopicData(response.data as TTopicData));
+                callback(mapper.mapServerTopicData(response.data as TTopicServerData));
             })
             .catch(error => {
                 errorCallback(error);

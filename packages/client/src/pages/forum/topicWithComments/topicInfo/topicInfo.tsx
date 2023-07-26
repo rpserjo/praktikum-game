@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
 import style from './topicInfo.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
-import userSceleton from '@/assets/images/user-sceleton.png';
 import { TTopicForSave, TTopic, TTopicMessageForSave, TTopicComment } from '@/types/forumDataTypes';
 import { Button, Icon } from '@/components/ui';
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import Emojis from '@/components/ui/emojis/emojis';
+import { calcAvatarUrl } from '@/helpers/avatarHelper';
 
 type TTopicProps = {
     info: TTopic;
@@ -46,7 +46,7 @@ export const TopicInfo: FC<TTopicProps> = props => {
                 <div className={style.topic__info}>
                     <img
                         className={style.topic__avatar}
-                        src={info.authorAvatar || userSceleton}
+                        src={calcAvatarUrl(info.authorAvatar)}
                         alt="user avatar"
                     />
                     <p className={style.topic__author}>{info.author}</p>

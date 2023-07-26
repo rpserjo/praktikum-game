@@ -28,7 +28,7 @@ export const ForumModal: FC<TForumModalProps> = props => {
         const { text } = form;
         // todo draw loader
         setIsLoaderActive(true);
-        // todo escape chars?
+        // todo escape input?
         if (isTopicForm) {
             const { title } = form;
             submit({
@@ -45,8 +45,9 @@ export const ForumModal: FC<TForumModalProps> = props => {
             setIsLoaderActive(false); // todo link to result
         }
 
-        setIsActive(false); // todo should be in the same place with success and error callback,
+        // todo should be in the same place with success and error callback,
         // depends on them
+        setIsActive(false);
         text.value = '';
     };
     const closeModal: MouseEventHandler<HTMLButtonElement> = event => {

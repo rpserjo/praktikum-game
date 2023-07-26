@@ -1,6 +1,6 @@
 /* server types */
 
-export type TTopicData = {
+export type TTopicServerData = {
     id: number;
     topic: string;
     message: string;
@@ -11,6 +11,7 @@ export type TTopicData = {
     lastMessageDate: string;
 };
 
+// for both server and client reply object models
 export type TTopicReply = {
     replyId: number;
     id: number;
@@ -20,7 +21,7 @@ export type TTopicReply = {
     message: string;
 };
 
-export type TCommentData = {
+export type TCommentServerData = {
     id: number;
     topicId: number;
     message: string;
@@ -31,12 +32,12 @@ export type TCommentData = {
 };
 
 export type TTopicListServerData = {
-    topics: TTopicData[];
+    topics: TTopicServerData[];
     lastPage: number;
 };
 
 export type TCommentListServerData = {
-    Comments: TCommentData[];
+    Comments: TCommentServerData[];
     LastPage: number;
 };
 
@@ -72,12 +73,6 @@ export type TTopicMessageForSave = {
 export type TTopicForSave = {
     title: string;
     text: string;
-};
-
-export type TTopicWithCommentsData = {
-    topic: TTopic;
-    comments: TTopicComment[];
-    lastPage: number;
 };
 
 export type TTopicListData = {

@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Page from '@/pages/forum/topicList/page/page';
 import { Loader } from '@/components/ui';
+// todo add redux to update page data
 // import { setForumTopics } from '@/store/slices/forumSlice';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { RootState } from '@/store';
@@ -11,10 +12,12 @@ import { TTopicListData } from '@/types/forumDataTypes';
 
 const Forum: FC = () => {
     console.log('render data loader');
-    // const { page = 1 } = useParams();
-    const page = 1; // temp for testing number of loads
+    const { page = 1 } = useParams();
+    // const page = 1; // temp for testing number of loads
     const MAX_ELEMENTS_PER_PAGE = 10;
     const [forumData, setForumData] = useState<TTopicListData>();
+
+    // todo add redux to update page data
     // const dispatch = useDispatch();
     // const forumState = useSelector((state: RootState) => state.forum);
     // const { forum } = forumState;
@@ -26,8 +29,7 @@ const Forum: FC = () => {
                 console.log('set forum data');
                 console.log(data.topics);
                 setForumData(data);
-                // console.log(forumData);
-
+                // todo add redux to update page data
                 /* dispatch(
                     setForumTopics({
                         ...forum,
@@ -35,8 +37,9 @@ const Forum: FC = () => {
                     })
                 ); */
             },
-            // eslint-disable-next-line
-            () => {}
+            (error: string) => {
+                console.log(error);
+            }
         );
     }, []); // [dispatch]);
 
