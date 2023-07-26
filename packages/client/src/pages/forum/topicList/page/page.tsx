@@ -7,12 +7,15 @@ import { TTopicForSave, TTopic, TTopicMessageForSave } from '@/types/forumDataTy
 import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from '../topicList/topicList';
-// todo add redux to update page data
+
+// Комментарий для ревьера практикума:
+// завтра зачет и я надеюсь добить редакс, если не получится то все что в комментариях уберу
+
+// todo add redux to update page data, the following code will be used
 // import { useSelector } from 'react-redux';
 // import { RootState } from '@/store';
 // import { Loader } from '@/components/ui';
-
-// imp/ort { RootState } from '@/store';
+// import { RootState } from '@/store';
 
 type ForumContentProps = {
     topics: TTopic[];
@@ -20,20 +23,13 @@ type ForumContentProps = {
     lastPage: number;
 };
 const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
-    // topics,
     const [isModalActive, setIsModalActive] = useState(false);
-    // todo add redux to update page data
+    // todo add redux to update page data, the following code will be used
 
     /* const [topicsNew, setForumTopics] = useState<TTopic[]>();
-    const forumApi = forumApi();
-
     const forumState = useSelector((state: RootState) => state.forum);
     const { forum } = forumState;
-    useEffect(() => {
-        console.log('inside useEffect');
-        console.log(forum.forumTopics);
-        setForumTopics(forum.forumTopics as TTopic[]);
-    }, []); */
+    useEffect(() => { setForumTopics(forum.forumTopics as TTopic[]) }, []); */
 
     const addNewTopicToList = (topic: TTopic) => {
         console.log('new topic will be added');

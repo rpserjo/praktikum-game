@@ -80,8 +80,7 @@ export const Message: FC<TMessageProps> = messageData => {
                         <p className={style.message__reply}>
                             <Button
                                 buttonSize="small"
-                                buttonStyle="outlined"
-                                customStyle={style.message__open}
+                                buttonStyle="outlinedSmall"
                                 onClick={toggleReplies}
                             >
                                 <Icon iconName="plus" width={20} height={20} />

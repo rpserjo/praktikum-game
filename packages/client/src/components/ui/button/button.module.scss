@@ -1,6 +1,20 @@
 @import '@/assets/variables.scss';
 
-.normal, .outlined{
+@mixin buttonOutlined {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid $colorBorder;
+  color: $colorText;
+  transition: color 0.3s ease;
+}
+
+@mixin buttonOutlinedHover {
+  border-color: darken($colorBorder, 10%);
+  color: darken($colorBorder, 10%);
+}
+
+.normal,
+.outlined {
   cursor: pointer;
 }
 
@@ -10,38 +24,44 @@
   border-radius: 5px;
   font-size: 20px;
   cursor: pointer;
-  transition: background-color .3s ease;
+  transition: background-color 0.3s ease;
 
-  &:hover{
+  &:hover {
     background-color: lighten($colorBgButton, 10%);
   }
 }
 
 .outlined {
-  background-color: transparent;
-  border-radius: 5px;
-  border: 1px solid $colorBorder;
- color: $colorText;
-  transition: color .3s ease;
+  @include buttonOutlined;
 
-  &:hover{
-    border-color: darken($colorBorder, 10%);
-    color: darken($colorBorder, 10%);
+  &:hover {
+    @include buttonOutlinedHover;
   }
 }
 
-.small{
+.outlinedSmall {
+  @include buttonOutlined;
+
+  padding: 0;
+  height: 22px;
+
+  &:hover {
+    @include buttonOutlinedHover;
+  }
+}
+
+.small {
   font-size: 14px !important;
   padding: 4px 12px;
 }
 
-.medium{
+.medium {
   font-size: 20px !important;
   padding: 8px 38px;
   font-weight: 500;
 }
 
-.large{
+.large {
   font-size: 30px !important;
   padding: 12px 86px;
   font-weight: 600;
