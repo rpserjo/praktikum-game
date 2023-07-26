@@ -20,6 +20,9 @@ Example response:
     "UserId": 897,
     "updatedAt": "2023-07-22T16:02:31.210Z",
     "createdAt": "2023-07-22T16:02:31.210Z"
+    "UserId": 897,
+    "updatedAt": "2023-07-22T16:02:31.210Z",
+    "createdAt": "2023-07-22T16:02:31.210Z"
 }
 ```
 <br>
@@ -49,11 +52,13 @@ Example response:
 </br>
 
 ### GET /api/topics/:page/:limit (Get Topic list with page and limits)
+### GET /api/topics/:page/:limit (Get Topic list with page and limits)
 
 Result ordered by lastmessage DESC
 
 Example request:
 ```
+http://localhost:3000/api/topics/1/3
 http://localhost:3000/api/topics/1/3
 ```
 Example response:
