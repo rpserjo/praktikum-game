@@ -8,15 +8,13 @@ class UserService {
         const { id, first_name, second_name, display_name, login, avatar } = userObj;
         if (id) {
             const [{ dataValues: user }] =
-                (await User.findOrCreate({
-                    where: { id },
-                    defaults: {
-                        first_name,
-                        second_name,
-                        display_name,
-                        login,
-                        avatar,
-                    },
+                (await User.upsert({
+                    id,
+                    first_name,
+                    second_name,
+                    display_name,
+                    login,
+                    avatar,
                 })) ?? {};
 
             const cookieParse = cookie.match(/uuid=([\w-]*)/);

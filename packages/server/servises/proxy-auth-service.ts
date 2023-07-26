@@ -3,14 +3,15 @@ import { Auth, Op } from '../db';
 
 class AuthService {
     addCookie(Cookie: string, login?: string) {
-        const parseCookie = Cookie.match(/.*authCookie=([^;]*);.*Expires=(.+GMT);.*uuid=([\w-]*)/);
-        if (parseCookie) {
-            const UUID = parseCookie[3];
-            const expires = Date.parse(parseCookie[2]);
-            const authCookie = parseCookie[1];
+        const parseAuthCookie = Cookie.match(/.*authCookie=([^;]*);.*?Expires=(.+?GMT);/);
+        const parseUUIDs = Cookie.match(/.*uuid=([\w-]*)/);
+
+        if (parseAuthCookie && parseUUIDs) {
+            const expires = Date.parse(parseAuthCookie[2]);
+            const authCookie = parseAuthCookie[1];
 
             return Auth.findOrCreate({
-                where: { uuid: `${UUID}` },
+                where: { uuid: `${parseUUIDs[1]}` },
                 defaults: { authCookie, login, expires },
             });
         }
