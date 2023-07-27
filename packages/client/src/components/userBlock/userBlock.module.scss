@@ -1,13 +1,25 @@
 @import '@/assets/variables.scss';
 
-.user{
+body[data-theme='dark'] {
+  .user {
+    &-name {
+      color: $colorText__dark;
+    }
+
+    &-email {
+      color: $colorText__dark;
+    }
+  }
+}
+
+.user {
   height: 73px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 
-  &-avatar{
+  &-avatar {
     width: 60px;
     height: 60px;
     border-radius: 30px;
@@ -18,7 +30,7 @@
     align-items: center;
     display: flex;
 
-    .no-avatar{
+    .no-avatar {
       font-size: 24px;
       font-weight: 600;
       display: flex;
@@ -26,23 +38,27 @@
       align-items: center;
     }
 
-    img{
+    img {
       width: 100%;
       height: 100%;
     }
   }
 
-  &-info{
+  &-info {
     color: $colorAvatarText;
   }
 
-  &-name{
+  &-name {
     font-size: 20px;
     font-weight: 600;
+    color: $colorText;
+    @include transition;
   }
 
-  &-email{
+  &-email {
     font-size: 16px;
     font-weight: 400;
+    color: $colorText;
+    @include transition;
   }
 }

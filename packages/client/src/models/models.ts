@@ -13,6 +13,8 @@ export type TOAuthInData = {
     redirect_uri: string;
 };
 
+export type TThemeData = { name: string; description: string };
+
 export class SignInData {
     public login: string;
 

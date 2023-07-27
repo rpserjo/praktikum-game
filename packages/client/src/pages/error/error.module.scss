@@ -1,4 +1,15 @@
-@import '@/assets/variables';
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .error {
+    .code {
+      color: $colorText__dark;
+    }
+    .message {
+      color: $colorText__dark;
+    }
+  }
+}
 
 .error {
   display: flex;
@@ -10,7 +21,7 @@
   padding: 15px;
 
   .code {
-   color: $colorText;
+    color: $colorText;
     font-size: 128px;
     font-weight: 800;
     line-height: 100%;

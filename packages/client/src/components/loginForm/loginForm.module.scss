@@ -1,8 +1,24 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .form {
+    background-color: $backgroundColorSecondary__dark;
+    color: $colorTextDark__dark;
+    border-color: $colorBorder__dark;
+  }
+
+  .form__link {
+    color: $colorText__dark;
+  }
+
+  .oauthButton {
+    color: $colorText__dark;
+  }
+}
+
 .form {
   @include roundBordedWindow;
-  border: 1px solid white;
+  border: 1px solid $colorBorder;
   width: 500px;
   padding: 2em 3em;
   color: $colorTextDark;

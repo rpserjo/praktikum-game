@@ -1,92 +1,108 @@
 @import '@/assets/variables.scss';
 
-.like{
-  &-wrap{
-      width: 100%;
-      position: relative;
-      top: -5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
+body[data-theme='dark'] {
+  .like {
+    &-choice {
+      &-text {
+        background-color: $colorBgButton__dark;
+        color: $colorTextDark__dark;
 
-  &-display{
-      position: relative;
-      height: 30px;
-      display: flex;
-      justify-content: start;
-      align-items: center;
-      margin-left: 20px;
-
-      &-item{
-        width: 65px;
-        margin-right: 10px;
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.3);
-
-        &-liked{
-            background-color: rgba(0, 4, 254, 0.3);
+        &:hover {
+          background-color: lighten($colorBgButton__dark, 10%);
         }
       }
+    }
+  }
+}
 
-      &-amount{
-          font-size: 17px;
-          color: white;
-      }
-
-      &-emoji{
-          position: relative;
-          font-size: 20px;
-      }
+.like {
+  &-wrap {
+    width: 100%;
+    position: relative;
+    top: -5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  &-choice{
-      position: relative;
-      height: 30px;
-      overflow: hidden;
-      margin-right: 20px;
-      width: 82px;
-      background-color: rgba(0, 0, 0, 0.2);
-      transition: width 0.3s linear;
-      border-radius: 4px;
+  &-display {
+    position: relative;
+    height: 30px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 20px;
+
+    &-item {
+      width: 65px;
+      margin-right: 10px;
+      border-radius: 20px;
       display: flex;
-      justify-content: start;
+      justify-content: space-evenly;
       align-items: center;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.3);
 
-      &-emoji{
-          margin-left: 10px;
-          cursor: pointer;
-          font-size: 25px;
+      &-liked {
+        background-color: rgba(0, 4, 254, 0.3);
       }
+    }
 
-      &-text{
-          position: absolute;
-          top: 0;
-          right: 0;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 82px;
-          height: 30px;
-          display: flex;
-          border-radius: 4px;
-          margin-left: auto;
-          background-color: rgb(206, 222, 242);
+    &-amount {
+      font-size: 17px;
+      color: white;
+    }
 
-          &:hover{
-              transition: background-color 0.3s linear;
-              background-color: aqua;
-          }
+    &-emoji {
+      position: relative;
+      font-size: 20px;
+    }
+  }
+
+  &-choice {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    margin-right: 20px;
+    width: 82px;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: width 0.3s linear;
+    border-radius: 4px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    &-emoji {
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 25px;
+    }
+
+    &-text {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 82px;
+      height: 30px;
+      display: flex;
+      border-radius: 4px;
+      margin-left: auto;
+      color: $colorTextDark;
+      background-color: $colorBgButton;
+      @include transition;
+
+      &:hover {
+        background-color: lighten($colorBgButton, 10%);
       }
+    }
 
-      &:hover{
-          transition: width 0.3s linear;
-          width: 300px;
-      }
+    &:hover {
+      transition: width 0.3s linear;
+      width: 300px;
+    }
   }
 }

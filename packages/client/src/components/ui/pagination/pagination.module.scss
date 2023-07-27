@@ -1,5 +1,14 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .pagination {
+    color: $colorMain__dark;
+  }
+  .pagination__link {
+    color: $colorMain__dark;
+  }
+}
+
 .pagination {
   text-align: right;
   color: $colorMain;

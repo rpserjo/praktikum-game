@@ -1,6 +1,28 @@
 @import '@/assets/variables.scss';
 
-.normal, .outlined{
+body[data-theme='dark'] {
+  .normal {
+    background-color: $colorBgButton__dark;
+    color: $colorTextDark__dark;
+
+    &:hover {
+      background-color: lighten($colorBgButton__dark, 10%);
+    }
+  }
+
+  .outlined {
+    border-color: $colorBorder__dark;
+    color: $colorText__dark;
+
+    &:hover {
+      border-color: darken($colorBorder__dark, 10%);
+      color: darken($colorBorder__dark, 10%);
+    }
+  }
+}
+
+.normal,
+.outlined {
   cursor: pointer;
 }
 
@@ -10,9 +32,10 @@
   border-radius: 5px;
   font-size: 20px;
   cursor: pointer;
-  transition: background-color .3s ease;
+  transition: background-color 0.3s ease;
+  color: $colorTextDark;
 
-  &:hover{
+  &:hover {
     background-color: lighten($colorBgButton, 10%);
   }
 }
@@ -21,27 +44,27 @@
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid $colorBorder;
- color: $colorText;
-  transition: color .3s ease;
+  color: $colorText;
+  transition: color 0.3s ease;
 
-  &:hover{
+  &:hover {
     border-color: darken($colorBorder, 10%);
     color: darken($colorBorder, 10%);
   }
 }
 
-.small{
+.small {
   font-size: 14px !important;
   padding: 4px 12px;
 }
 
-.medium{
+.medium {
   font-size: 20px !important;
   padding: 8px 38px;
   font-weight: 500;
 }
 
-.large{
+.large {
   font-size: 30px !important;
   padding: 12px 86px;
   font-weight: 600;
