@@ -77,8 +77,8 @@ export const Message: FC<TMessageProps> = ({ message }) => {
                     {message.replies.length !== 0 && (
                         <p className={style.message__reply}>
                             <Button
-                                buttonSize="small"
                                 buttonStyle="outlinedSmall"
+                                buttonSize="no"
                                 onClick={toggleReplies}
                             >
                                 <Icon iconName="plus" width={20} height={20} />

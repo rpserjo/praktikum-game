@@ -3,7 +3,7 @@ import style from './button.module.scss';
 
 type ButtonProps = {
     children: ReactNode;
-    buttonSize?: 'small' | 'medium' | 'large';
+    buttonSize?: 'small' | 'medium' | 'large' | 'no';
     buttonStyle?: 'normal' | 'outlined' | 'outlinedSmall';
     onClick?: MouseEventHandler;
     type?: 'button' | 'submit' | 'reset';
