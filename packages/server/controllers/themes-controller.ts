@@ -73,7 +73,7 @@ class ThemesController {
             }
 
             const data = req.body;
-            const [, updated] = await themeService.changeUserTheme(data);
+            const updated = await themeService.changeUserTheme(data);
 
             return res.json(updated);
         } catch (e) {

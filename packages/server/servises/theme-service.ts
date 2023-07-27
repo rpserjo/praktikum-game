@@ -80,21 +80,33 @@ class ThemeService {
     }: {
         themeName: string;
         userId: string;
-    }): Promise<[number, Model<IUserTheme, IUserTheme>[]]> => {
+    }): Promise<{ name: string; description: string } | undefined> => {
         const response = await this.getTheme({ name: themeName });
         const { dataValues } = response ?? {};
 
-        return UserTheme.update(
-            {
-                themeId: dataValues?.uuid,
-            },
-            {
-                where: {
-                    userId,
+        if (dataValues) {
+            const { name, description } = dataValues;
+
+            const result = await UserTheme.update(
+                {
+                    themeId: dataValues?.uuid,
                 },
-                returning: true,
+                {
+                    where: {
+                        userId,
+                    },
+                    returning: true,
+                }
+            );
+
+            if (result) {
+                return { name, description };
             }
-        );
+
+            return undefined;
+        }
+
+        return undefined;
     };
 
     getUserTheme = async ({

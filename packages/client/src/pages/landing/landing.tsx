@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import ChangeThemeButton from '@components/ui/changeThemeButton/changeThemeButton';
 import Button from '@components/ui/button/button';
 import { useNavigate } from 'react-router-dom';
 import style from './landing.module.scss';
@@ -8,6 +9,10 @@ const Landing: FC = () => {
 
     return (
         <main className={style.main}>
+            <div className={style.themeButtonContainer}>
+                <ChangeThemeButton />
+            </div>
+
             <div className={style.content}>
                 <h1 className={style.title}>Морской бой</h1>
                 <h2 className={style.subtitle}>Легендарная игра теперь в твоем браузере!</h2>

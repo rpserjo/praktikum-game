@@ -3,4 +3,11 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  position: relative;
+}
+
+.themeButtonContainer {
+  position: absolute;
+  top: 50px;
+  right: 50px;
 }

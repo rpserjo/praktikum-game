@@ -1,5 +1,15 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .modalContent {
+    background: $backgroundColorSecondary__dark;
+
+    .modalTitle {
+      color: $colorTextDark__dark;
+    }
+  }
+}
+
 .newTopicModal {
   display: flex;
   flex-direction: column;

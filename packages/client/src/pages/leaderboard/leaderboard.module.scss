@@ -1,40 +1,64 @@
-@import '@/assets/variables';
+@import '@/assets/variables.scss';
 
-.main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-
+body[data-theme='dark'] {
+  .main {
     .h1 {
-        margin: 100px auto 70px;
-        text-align: center;
-       color: $colorText;
-        font-weight: 500;
-        font-size: 64px;
+      color: $colorText__dark;
     }
 
     .wrapper-links {
-        text-align: right;
-       color: $colorText;
+      color: $colorText__dark;
 
-        .link {
-           color: $colorText;
-            margin: 0 5px;
-        }
+      .link {
+        color: $colorText__dark;
+      }
     }
 
     .table-board {
-        margin: 10px auto;
-        border-collapse: collapse;
-       color: $colorText;
-        text-align: center;
+      color: $colorText__dark;
 
-        .td {
-            padding: 10px;
-        }
-
-        .tr {
-            border-bottom: 1px solid $colorBorder;
-        }
+      .tr {
+        border-bottom-color: $colorBorder__dark;
+      }
     }
+  }
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+
+  .h1 {
+    margin: 100px auto 70px;
+    text-align: center;
+    color: $colorText;
+    font-weight: 500;
+    font-size: 64px;
+  }
+
+  .wrapper-links {
+    text-align: right;
+    color: $colorText;
+
+    .link {
+      color: $colorText;
+      margin: 0 5px;
+    }
+  }
+
+  .table-board {
+    margin: 10px auto;
+    border-collapse: collapse;
+    color: $colorText;
+    text-align: center;
+
+    .td {
+      padding: 10px;
+    }
+
+    .tr {
+      border-bottom: 1px solid $colorBorder;
+    }
+  }
 }
