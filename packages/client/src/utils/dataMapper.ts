@@ -3,6 +3,10 @@ import {
     TTopicServerData,
     TTopic,
     TTopicComment,
+    TTopicListServerData,
+    TTopicListData,
+    TCommentListData,
+    TCommentListServerData,
 } from '@/types/forumDataTypes';
 
 class DataMapper {
@@ -29,6 +33,19 @@ class DataMapper {
             authorAvatar: data.authorAvatar,
             replies: data.replies,
         };
+    }
+
+    public mapServerTopicListData(data: TTopicListServerData): TTopicListData {
+        const topics = data.topics.map(topic => this.mapServerTopicData(topic));
+        return {
+            topics,
+            lastPage: data.LastPage,
+        };
+    }
+
+    public mapServerComentListData(data: TCommentListServerData): TCommentListData {
+        const comments = data.Comments.map(comment => this.mapServerCommentData(comment));
+        return { comments, lastPage: data.LastPage };
     }
 }
 

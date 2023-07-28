@@ -33,7 +33,7 @@ export type TCommentServerData = {
 
 export type TTopicListServerData = {
     topics: TTopicServerData[];
-    lastPage: number;
+    LastPage: number;
 };
 
 export type TCommentListServerData = {

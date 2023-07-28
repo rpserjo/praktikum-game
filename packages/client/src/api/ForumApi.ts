@@ -45,9 +45,7 @@ class ForumApi extends BaseApi {
         return this.http
             .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
             .then(response => {
-                const data = response.data as TTopicListServerData;
-                const topics = data.topics.map(topic => mapper.mapServerTopicData(topic));
-                callback({ topics, lastPage: data.lastPage });
+                callback(mapper.mapServerTopicListData(response.data as TTopicListServerData));
             })
             .catch(error => {
                 errorCallback(error);
@@ -70,7 +68,7 @@ class ForumApi extends BaseApi {
                 }
             )
             .then(response => {
-                callback(response.data as TTopic);
+                callback(mapper.mapServerTopicData(response.data as TTopicServerData));
             })
             .catch(error => {
                 errorCallback(error);
@@ -88,9 +86,7 @@ class ForumApi extends BaseApi {
         return this.http
             .get(`${API.ENDPOINTS.FORUM.COMMENTS}/${topicId}/${page}/${elementsPerPage}`)
             .then(response => {
-                const data = response.data as TCommentListServerData;
-                const comments = data.Comments.map(comment => mapper.mapServerCommentData(comment));
-                callback({ comments, lastPage: data.LastPage });
+                callback(mapper.mapServerComentListData(response.data as TCommentListServerData));
             });
     }
 

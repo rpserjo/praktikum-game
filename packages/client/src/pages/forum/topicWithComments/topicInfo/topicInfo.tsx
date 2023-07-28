@@ -7,6 +7,7 @@ import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import Emojis from '@/components/ui/emojis/emojis';
 import { calcAvatarUrl } from '@/helpers/avatarHelper';
+// import { useDispatch } from 'react-redux';
 
 type TTopicProps = {
     info: TTopic;
@@ -15,10 +16,13 @@ type TTopicProps = {
 export const TopicInfo: FC<TTopicProps> = props => {
     const { info } = props;
     const [isModalActive, setIsModalActive] = useState(false);
+    // const dispatch = useDispatch();
 
     const handleCommentSaved = (comment: TTopicComment) => {
         console.log('here we need to refresh list');
         console.log(comment);
+        // const cloneTopic = { ...info };
+        // dispatch(setTopic(cloneTopic));
     };
 
     const handleCommentSaveError = (error: string) => {

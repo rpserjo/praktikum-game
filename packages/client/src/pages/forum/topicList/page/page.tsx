@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setTopicList } from '@/store/slices/forumSlice';
 import style from './page.module.scss';
 import Button from '@/components/ui/button/button';
 import Pagination from '@/components/ui/pagination/pagination';
@@ -8,15 +9,6 @@ import { ForumModal } from '../../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from '../topicList/topicList';
 
-// Комментарий для ревьера практикума:
-// завтра зачет и я надеюсь добить редакс, если не получится то все что в комментариях уберу
-
-// todo add redux to update page data, the following code will be used
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@/store';
-// import { Loader } from '@/components/ui';
-// import { RootState } from '@/store';
-
 type ForumContentProps = {
     topics: TTopic[];
     page: number;
@@ -24,16 +16,15 @@ type ForumContentProps = {
 };
 const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     const [isModalActive, setIsModalActive] = useState(false);
-    // todo add redux to update page data, the following code will be used
+    const dispatch = useDispatch();
 
-    /* const [topicsNew, setForumTopics] = useState<TTopic[]>();
-    const forumState = useSelector((state: RootState) => state.forum);
-    const { forum } = forumState;
-    useEffect(() => { setForumTopics(forum.forumTopics as TTopic[]) }, []); */
+    console.log('inside page render, topics: ');
 
     const addNewTopicToList = (topic: TTopic) => {
-        console.log('new topic will be added');
-        console.log(topic);
+        // console.log('new topic will be added');
+        const cloneTopics = [...topics];
+        cloneTopics.push(topic);
+        dispatch(setTopicList({ topics: cloneTopics, lastPage }));
     };
 
     const showTopicCreationError = (error: string) => {
@@ -43,20 +34,13 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
         const topicData = data as TTopicForSave;
         if (topicData) {
-            console.log('Отправили данные формы', topicData.title, topicData.text);
             // setIsLoaderActive(true);
             // todo <Loader/> while saving!!
-            // addNewTopicToList,
             forumApi.saveTopic(topicData, addNewTopicToList, showTopicCreationError);
         } else {
             console.log('error'); // todo
         }
     };
-
-    /* if (!topics) {
-        return <Loader />;
-    } */
-
     return (
         <main className={style.main}>
             <div className={style.content}>

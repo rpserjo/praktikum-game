@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TTopic } from '@/types/forumDataTypes';
+import { TCommentListData, TTopic, TTopicListData } from '@/types/forumDataTypes';
 // import forumApi from '@/api/ForumApi';
 
 type TForum = {
-    forumTopics: TTopic[] | null;
-    topicComments: [] | null;
+    topicList: TTopicListData | null;
+    topic: TTopic | null;
+    topicComments: TCommentListData | null;
 };
 
-export type TState = {
+export type TForumState = {
     forum: TForum;
 };
 
-const initialState: TState = {
+const initialState: TForumState = {
     forum: {
-        forumTopics: null,
+        topicList: null,
+        topic: null,
         topicComments: null,
     },
 };
@@ -47,8 +49,18 @@ const forumSlice = createSlice({
     name: 'forum',
     initialState,
     reducers: {
-        setForumTopics(state, action) {
-            state.forum.forumTopics = action.payload;
+        setTopic(state, action) {
+            state.forum.topic = action.payload;
+        },
+        setTopicComments(state, action) {
+            state.forum.topicComments = action.payload;
+        },
+        setTopicList(state, action) {
+            state.forum.topicList = action.payload;
+        },
+        fetchTopicList(state, action) {
+            // todo fetch from server
+            console.log(state, action);
         },
     },
     /* extraReducers: builder => {
@@ -69,4 +81,4 @@ const forumSlice = createSlice({
 });
 
 export default forumSlice.reducer;
-export const { setForumTopics } = forumSlice.actions;
+export const { setTopic, setTopicComments, setTopicList } = forumSlice.actions;
