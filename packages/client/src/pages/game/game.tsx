@@ -45,6 +45,7 @@ type Ship = {
     isRotated: boolean;
     isLoad: boolean;
     isSet: boolean;
+    lives: number;
 };
 type ShipsType = Array<Ship>;
 
@@ -57,6 +58,30 @@ type DataType = {
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
 };
+
+// type scuaresData = {
+//     a: {squareNums: Array<number>},
+//     b: {squareNums: Array<number>},
+//     c: {squareNums: Array<number>},
+//     d: {squareNums: Array<number>},
+//     e: {squareNums: Array<number>},
+//     f: {squareNums: Array<number>},
+//     g: {squareNums: Array<number>},
+//     h: {squareNums: Array<number>},
+//     j: {squareNums: Array<number>}
+// }
+
+// const scuaresWithUtherShips: scuaresData = {
+//     a: {squareNums: []},
+//     b: {squareNums: []},
+//     c: {squareNums: []},
+//     d: {squareNums: []},
+//     e: {squareNums: []},
+//     f: {squareNums: []},
+//     g: {squareNums: []},
+//     h: {squareNums: []},
+//     j: {squareNums: []}
+// };
 
 const data: DataType = {
     isMousePressed: false,
@@ -94,6 +119,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 4,
     },
     {
         decksAmount: 3,
@@ -106,6 +132,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 3,
     },
     {
         decksAmount: 3,
@@ -118,6 +145,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 3,
     },
     {
         decksAmount: 2,
@@ -130,6 +158,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 2,
     },
     {
         decksAmount: 2,
@@ -142,6 +171,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 2,
     },
     {
         decksAmount: 2,
@@ -154,6 +184,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 2,
     },
     {
         decksAmount: 1,
@@ -166,6 +197,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 1,
     },
     {
         decksAmount: 1,
@@ -178,6 +210,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 1,
     },
     {
         decksAmount: 1,
@@ -190,6 +223,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 1,
     },
     {
         decksAmount: 1,
@@ -202,6 +236,7 @@ const shipsImg: ShipsType = [
         isRotated: false,
         isLoad: false,
         isSet: false,
+        lives: 1,
     },
 ];
 
@@ -457,7 +492,7 @@ const Game: FC = () => {
                         numsOfShipsLeftToPlace[key as keyof typeof numsOfShipsLeftToPlace] -= 1;
                     }
                     ship.isSet = true;
-
+                    console.log('поставили');
                     // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
 
                     // if (areAllShipsPlaced) {
@@ -485,6 +520,23 @@ const Game: FC = () => {
                     } else {
                         ship.currentTop -= shiftTop;
                     }
+
+                    // scuaresWithUtherShips.a.squareNums.push(22)
+                    // console.log(scuaresWithUtherShips.a)
+
+                    // начало игры
+                    // слушатель мышки такой же как и у драга кораблей
+                    // если клик по кораблю, то проверям this.ship, если жизней > 1 ('попал!'); this.ship.lives --
+                    // если мимо, то рассчет положения точки + ('мимо!');
+                    // рассчет позиции огонька
+                    // если клик по кораблю, то проверям this.ship, если жизней === 1 ('убил!');
+
+                    // затем переходы хода
+                    // нужны ли scuaresWithUtherShips ?
+                    // затем выстрел компа по твоему полю
+                    // финальные кнопки 'победа' или 'поражение'
+
+                    console.log(ship.lives);
 
                     drawCanvasItems(ref);
                 }
