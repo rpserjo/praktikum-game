@@ -572,8 +572,9 @@ const Game: FC = () => {
         // if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
         if (clickedEnemyFieald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
-
-            console.log('y', yNum, enemyShips);
+            const xNum = Math.floor(Math.floor(canvasX - data.enemyField.left) / 30);
+            const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+            console.log(letters[xNum], ':', yNum, enemyShips);
         }
     };
 
