@@ -47,7 +47,15 @@ type Ship = {
     isSet: boolean;
     lives: number;
 };
+type EnemyShip = {
+    decksAmount: number;
+    position: Array<string>;
+    width: number;
+    height: number;
+    lives: number;
+};
 type ShipsType = Array<Ship>;
+type EnemyShipsType = Array<EnemyShip>;
 
 type DataType = {
     isMousePressed: boolean;
@@ -60,30 +68,6 @@ type DataType = {
     userField: { size: number; left: number; top: number };
     enemyField: { size: number; left: number; top: number };
 };
-
-// type scuaresData = {
-//     a: {squareNums: Array<number>},
-//     b: {squareNums: Array<number>},
-//     c: {squareNums: Array<number>},
-//     d: {squareNums: Array<number>},
-//     e: {squareNums: Array<number>},
-//     f: {squareNums: Array<number>},
-//     g: {squareNums: Array<number>},
-//     h: {squareNums: Array<number>},
-//     j: {squareNums: Array<number>}
-// }
-
-// const scuaresWithUtherShips: scuaresData = {
-//     a: {squareNums: []},
-//     b: {squareNums: []},
-//     c: {squareNums: []},
-//     d: {squareNums: []},
-//     e: {squareNums: []},
-//     f: {squareNums: []},
-//     g: {squareNums: []},
-//     h: {squareNums: []},
-//     j: {squareNums: []}
-// };
 
 const data: DataType = {
     isMousePressed: false,
@@ -244,73 +228,73 @@ const shipsImg: ShipsType = [
     },
 ];
 
-const enemyShips = [
+const enemyShips: EnemyShipsType = [
     {
         decksAmount: 4,
-        position: { a: [1], b: [1], c: [1], d: [1] },
+        position: ['a1', 'b1', 'c1', 'd1'],
         width: 120,
         height: 30,
         lives: 4,
     },
     {
         decksAmount: 3,
-        position: { a: [4, 5, 6] },
+        position: ['a4', 'a5', 'a6', 'a7'],
         width: 90,
         height: 30,
         lives: 3,
     },
     {
         decksAmount: 3,
-        position: { a: [8, 9, 10] },
+        position: ['a8', 'a9', 'a10'],
         width: 90,
         height: 30,
         lives: 3,
     },
     {
         decksAmount: 2,
-        position: { g: [1, 2] },
+        position: ['g1', 'g2'],
         width: 60,
         height: 30,
         lives: 2,
     },
     {
         decksAmount: 2,
-        position: { g: [4, 5] },
+        position: ['g4', 'g5'],
         width: 60,
         height: 30,
         lives: 2,
     },
     {
         decksAmount: 2,
-        position: { g: [7, 8] },
+        position: ['g7', 'g8'],
         width: 60,
         height: 30,
         lives: 2,
     },
     {
         decksAmount: 1,
-        position: { j: [1] },
+        position: ['j1'],
         width: 30,
         height: 30,
         lives: 1,
     },
     {
         decksAmount: 1,
-        position: { j: [3] },
+        position: ['j3'],
         width: 30,
         height: 30,
         lives: 1,
     },
     {
         decksAmount: 1,
-        position: { j: [5] },
+        position: ['j4'],
         width: 30,
         height: 30,
         lives: 1,
     },
     {
         decksAmount: 1,
-        position: { j: [7] },
+        position: ['j7'],
         width: 30,
         height: 30,
         lives: 1,
@@ -569,12 +553,42 @@ const Game: FC = () => {
             });
         }
 
+        // добавить data.shootStep проверку на релизе, чтобы не слушать клике во время расстановки кораблей
         // if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
         if (clickedEnemyFieald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
             const xNum = Math.floor(Math.floor(canvasX - data.enemyField.left) / 30);
             const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-            console.log(letters[xNum], ':', yNum, enemyShips);
+            const targetSquare = letters[xNum] + yNum;
+
+            let shipHit: EnemyShip | null = null;
+            enemyShips.forEach(ship => {
+                if (ship.position.includes(targetSquare)) {
+                    // eslint-disable-next-line
+                    ship.position = ship.position.filter(function (item) {
+                        return item !== targetSquare;
+                    });
+                    shipHit = ship;
+                }
+            });
+
+            if (shipHit === null) {
+                console.log('мимо');
+            } else {
+                console.log(shipHit);
+                // eslint-disable-next-line
+                shipHit['lives']--;
+                // eslint-disable-next-line
+                if (shipHit['lives'] === 0) {
+                    console.log('убил');
+                } else {
+                    console.log('попал');
+                }
+
+                // добавляем рассчет точек при промахе
+                // рассчет огоньков при попадании
+                // вызываем перерендер
+            }
         }
     };
 
@@ -589,7 +603,8 @@ const Game: FC = () => {
                         numsOfShipsLeftToPlace[key as keyof typeof numsOfShipsLeftToPlace] -= 1;
                     }
                     ship.isSet = true;
-                    console.log('поставили');
+
+                    // если все корабли установили, то включаем кнопку 'готов к бою'
                     // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
 
                     // if (areAllShipsPlaced) {
@@ -646,11 +661,6 @@ const Game: FC = () => {
                     }
 
                     ship.isSet = false;
-
-                    // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
-
-                    // if (areAllShipsPlaced) {
-                    // }
                 }
             }
         }
