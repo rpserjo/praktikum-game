@@ -52,11 +52,13 @@ type ShipsType = Array<Ship>;
 type DataType = {
     isMousePressed: boolean;
     placeShipStep: boolean;
+    shootStep: boolean;
     currentShipIndex: null | number;
     currentShip: Ship | null;
     squareSize: number;
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
+    enemyField: { size: number; left: number; top: number };
 };
 
 // type scuaresData = {
@@ -86,11 +88,13 @@ type DataType = {
 const data: DataType = {
     isMousePressed: false,
     placeShipStep: true,
+    shootStep: false,
     currentShipIndex: null,
     currentShip: null,
     squareSize: 30,
     isDragging: false,
     userField: { size: 300, left: 650, top: 70 },
+    enemyField: { size: 300, left: 250, top: 70 },
 };
 
 type NumsOfShipsLeftToPlaceType = {
@@ -240,6 +244,79 @@ const shipsImg: ShipsType = [
     },
 ];
 
+const enemyShips = [
+    {
+        decksAmount: 4,
+        position: { a: [1], b: [1], c: [1], d: [1] },
+        width: 120,
+        height: 30,
+        lives: 4,
+    },
+    {
+        decksAmount: 3,
+        position: { a: [4, 5, 6] },
+        width: 90,
+        height: 30,
+        lives: 3,
+    },
+    {
+        decksAmount: 3,
+        position: { a: [8, 9, 10] },
+        width: 90,
+        height: 30,
+        lives: 3,
+    },
+    {
+        decksAmount: 2,
+        position: { g: [1, 2] },
+        width: 60,
+        height: 30,
+        lives: 2,
+    },
+    {
+        decksAmount: 2,
+        position: { g: [4, 5] },
+        width: 60,
+        height: 30,
+        lives: 2,
+    },
+    {
+        decksAmount: 2,
+        position: { g: [7, 8] },
+        width: 60,
+        height: 30,
+        lives: 2,
+    },
+    {
+        decksAmount: 1,
+        position: { j: [1] },
+        width: 30,
+        height: 30,
+        lives: 1,
+    },
+    {
+        decksAmount: 1,
+        position: { j: [3] },
+        width: 30,
+        height: 30,
+        lives: 1,
+    },
+    {
+        decksAmount: 1,
+        position: { j: [5] },
+        width: 30,
+        height: 30,
+        lives: 1,
+    },
+    {
+        decksAmount: 1,
+        position: { j: [7] },
+        width: 30,
+        height: 30,
+        lives: 1,
+    },
+];
+
 function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLImageElement) {
     if (ship.isRotated) {
         ctxPassed.save();
@@ -381,6 +458,16 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     return res;
 };
 
+const clickedEnemyFieald = function (canvasX: number, canvasY: number): boolean {
+    const x = data.enemyField.left;
+    const xWidth = data.enemyField.left + data.enemyField.size;
+    const y = data.enemyField.top;
+    const yWidth = data.enemyField.top + data.enemyField.size;
+    const res = canvasX >= x && canvasX <= xWidth && canvasY >= y && canvasY <= yWidth;
+
+    return res;
+};
+
 const isDraggedIntoDropField = function (): boolean {
     let res = false;
     const ship = data.currentShip;
@@ -472,17 +559,23 @@ const Game: FC = () => {
             canvasY = event.clientY - rect.top;
         }
 
-        shipsImg.forEach((ship, i) => {
-            if (isMouseInShape(canvasX, canvasY, ship)) {
-                data.currentShipIndex = i;
-                data.currentShip = shipsImg[i];
-                data.isDragging = true;
-            }
-        });
+        if (data.placeShipStep) {
+            shipsImg.forEach((ship, i) => {
+                if (isMouseInShape(canvasX, canvasY, ship)) {
+                    data.currentShipIndex = i;
+                    data.currentShip = shipsImg[i];
+                    data.isDragging = true;
+                }
+            });
+        }
+
+        if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
+            console.log('клик по врагу', enemyShips);
+        }
     };
 
     const mouseUp = () => {
-        if (data.isDragging) {
+        if (data.isDragging && data.placeShipStep) {
             const ship = data.currentShip;
 
             if (isDraggedIntoDropField()) {
@@ -631,6 +724,7 @@ const Game: FC = () => {
         event.preventDefault();
         dispatch(setGame({ ...game, mode: Mode.battle }));
         data.placeShipStep = false;
+        data.shootStep = true;
         drawCanvasItems(ref);
     };
 
