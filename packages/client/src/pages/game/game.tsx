@@ -569,8 +569,11 @@ const Game: FC = () => {
             });
         }
 
-        if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
-            console.log('клик по врагу', enemyShips);
+        // if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
+        if (clickedEnemyFieald(canvasX, canvasY)) {
+            const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
+
+            console.log('y', yNum, enemyShips);
         }
     };
 
