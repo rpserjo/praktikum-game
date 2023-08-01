@@ -26,7 +26,7 @@ class ForumApi extends BaseApi {
         callback: (data: TTopic) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .get(`${API.ENDPOINTS.FORUM.TOPIC}/${topicId}`)
             .then(response => {
                 callback(mapper.mapServerTopicData(response.data as TTopicServerData));
@@ -42,7 +42,7 @@ class ForumApi extends BaseApi {
         callback: (data: TTopicListData) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
             .then(response => {
                 callback(mapper.mapServerTopicListData(response.data as TTopicListServerData));
@@ -57,7 +57,7 @@ class ForumApi extends BaseApi {
         callback: (topic: TTopic) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .post(
                 API.ENDPOINTS.FORUM.TOPICS,
                 JSON.stringify({ topic: data.title, message: data.text }),
@@ -83,7 +83,7 @@ class ForumApi extends BaseApi {
         elementsPerPage: number,
         callback: (data: TCommentListData) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .get(`${API.ENDPOINTS.FORUM.COMMENTS}/${topicId}/${page}/${elementsPerPage}`)
             .then(response => {
                 callback(mapper.mapServerComentListData(response.data as TCommentListServerData));
@@ -95,7 +95,7 @@ class ForumApi extends BaseApi {
         callback: (comment: TTopicComment) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .post(
                 API.ENDPOINTS.FORUM.COMMENTS,
                 JSON.stringify({ topicId: data.parentId, message: data.text }),
@@ -118,7 +118,7 @@ class ForumApi extends BaseApi {
         callback: (reply: TTopicReply) => void,
         errorCallback: (error: string) => void
     ): Promise<void> {
-        return this.http
+        this.http
             .post(
                 API.ENDPOINTS.FORUM.REPLIES,
                 JSON.stringify({ commentId: data.parentId, message: data.text }),

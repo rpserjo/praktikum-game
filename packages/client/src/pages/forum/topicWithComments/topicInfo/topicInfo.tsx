@@ -40,7 +40,7 @@ export const TopicInfo: FC<TTopicProps> = props => {
             // todo spinner while saving!! + refresh list + message comment saved
             forumApi.saveComment(commentData, handleCommentSaved, handleCommentSaveError);
         } else {
-            console.log('error');
+            console.log('No comment data provided for saving');
         }
     };
 

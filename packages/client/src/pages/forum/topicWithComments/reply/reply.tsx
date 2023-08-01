@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import style from './reply.module.scss';
+import style from '../common.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import { TTopicReply } from '@/types/forumDataTypes';
 import Emojis from '@/components/ui/emojis/emojis';
@@ -9,7 +9,6 @@ type TMessageProps = {
     message: TTopicReply;
 };
 
-// todo move common styles to separate file
 // todo key prop fix
 
 export const Reply: FC<TMessageProps> = ({ message }) => (

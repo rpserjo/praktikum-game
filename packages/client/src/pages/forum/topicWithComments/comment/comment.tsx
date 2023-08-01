@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import Emojis from '@components/ui/emojis/emojis';
-import style from './comment.module.scss';
+import style from '../common.module.scss';
+import commentStyle from './comment.module.scss';
 import { FormatType, dateFormat } from '@/helpers/dateformat';
 import { Button, Icon } from '@/components/ui';
 import {
@@ -50,8 +51,7 @@ export const Message: FC<TMessageProps> = ({ message }) => {
             // todo spinner while saving!!
             forumApi.saveReply(replyData, handleReplySaved, handleReplySaveError);
         } else {
-            // todo error
-            console.log('error type');
+            console.log('Error: Type of the object is not a reply.');
         }
     };
 
@@ -72,14 +72,14 @@ export const Message: FC<TMessageProps> = ({ message }) => {
                     <p className={style.message__text}>{message.text}</p>
                 </div>
                 <div className={style.message__actions}>
-                    <div className={style.message__reply}>
+                    <div className={commentStyle.message__reply}>
                         <Button onClick={() => setIsModalActive(true)} buttonSize="small">
                             Ответить
                         </Button>
                         <Emojis messageId={message.id} />
                     </div>
                     {message.replies.length !== 0 && (
-                        <p className={style.message__reply}>
+                        <p className={commentStyle.message__reply}>
                             <Button
                                 buttonStyle="outlinedSmall"
                                 buttonSize="no"
@@ -92,7 +92,7 @@ export const Message: FC<TMessageProps> = ({ message }) => {
                     )}
                 </div>
                 {isRepliesOpened && (
-                    <div className={style.message__replyList}>
+                    <div className={commentStyle.message__replyList}>
                         <RepliesList replies={message.replies} />
                     </div>
                 )}

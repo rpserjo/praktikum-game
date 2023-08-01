@@ -17,6 +17,13 @@ $colorBgThumbnailLite: #e4ebf0;
 $colorAvatarBackground: #e4ebf0;
 $colorAvatarText: #ffffff;
 
+$emojiLikeBackground: rgba(0, 0, 0, 0.3);
+$emojiLikeBackgroundSecondary: rgba(0, 4, 254, 0.3);
+$emojiCountText: #fff;
+$emojiChooseBackground: rgba(0, 0, 0, 0.2);
+$emojiButtonBackground: #cedef2;
+$emojiButtonBackgroundHover: aqua;
+
 $forumAvatarSize: 40px;
 
 @mixin transition {

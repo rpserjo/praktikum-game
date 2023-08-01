@@ -9,6 +9,29 @@ type EmojiProps = {
     messageId: number;
 };
 
+enum Emoji {
+    Like = 'like',
+    Hmm = 'hmm',
+    Heart = 'heart',
+    Ghost = 'ghost',
+    Fire = 'fire',
+    Rooms = 'the_rooms',
+}
+
+type EmojiValue = {
+    amount: number;
+    users: Array<string>;
+};
+
+export type TEmojisType = {
+    [Emoji.Like]: EmojiValue;
+    [Emoji.Hmm]: EmojiValue;
+    [Emoji.Heart]: EmojiValue;
+    [Emoji.Ghost]: EmojiValue;
+    [Emoji.Fire]: EmojiValue;
+    [Emoji.Rooms]: EmojiValue;
+};
+
 const emojis = {
     like: '👍',
     hmm: '🫤',
@@ -24,25 +47,31 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
     const dataKeys = Object.keys(datatEmojis);
 
     const [currentEmojis, setCurrentEmojis] = useState(datatEmojis);
-    const [emojisKeys, SetemojisKeys] = useState(dataKeys);
+    const [emojisKeys, setEmojisKeys] = useState(dataKeys);
 
     function likeActivate(key: string) {
         const newData = mockServer.postLike(messageId, key, userData.user.email);
         setCurrentEmojis(newData);
         const newKeys = Object.keys(currentEmojis);
-        SetemojisKeys(newKeys);
+        setEmojisKeys(newKeys);
     }
+
+    const isUserLikeClass = (emoji: EmojiValue, email: string) => {
+        const isUserEmoji = emoji.users.includes(email);
+        return isUserEmoji ? 'like-display-item-liked' : '';
+    };
 
     return (
         <div className="like-wrap">
             <div className="like-display">
                 {emojisKeys.map(key => {
-                    if (currentEmojis[key as keyof TEmojis].amount > 0) {
-                        const likeClass = `like-display-item ${
-                            currentEmojis[key as keyof TEmojis].users.includes(userData.user.email)
-                                ? 'like-display-item-liked'
-                                : ''
-                        }`;
+                    const currentEmoji = currentEmojis[key as keyof TEmojis];
+
+                    if (currentEmoji.amount > 0) {
+                        const likeClass = `like-display-item ${isUserLikeClass(
+                            currentEmoji,
+                            userData.user.email
+                        )}`;
                         return (
                             <div
                                 className={likeClass}
@@ -53,9 +82,7 @@ const Emojis: FC<EmojiProps> = ({ messageId }) => {
                                 <p className="like-display-emoji" id={key}>
                                     {emojis[key as keyof TEmojis]}
                                 </p>
-                                <p className="like-display-amount">
-                                    {currentEmojis[key as keyof TEmojis].amount}
-                                </p>
+                                <p className="like-display-amount">{currentEmoji.amount}</p>
                             </div>
                         );
                     }
