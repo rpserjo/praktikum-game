@@ -3,7 +3,7 @@ import { Button, Icon } from '@/components/ui';
 import style from './buttons.module.scss';
 
 const FullscreenButton: FC = () => {
-    const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement !== null);
+    const [isFullScreen, setIsFullScreen] = useState(false);
 
     const handleFullscreen = async () => {
         try {

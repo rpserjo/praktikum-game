@@ -1,4 +1,12 @@
-import React, { FC, useRef, useEffect, MouseEventHandler, RefObject, useCallback } from 'react';
+import React, {
+    FC,
+    useRef,
+    useEffect,
+    MouseEventHandler,
+    RefObject,
+    useCallback,
+    useState,
+} from 'react';
 import Ships, { Mode, Position } from '@components/ui/ships/ships';
 
 import ErrorBoundary from '@components/errorBoundary/errorBoundary';
@@ -13,7 +21,7 @@ import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
-import soundService from '@/utils/sound/soundService';
+import SoundService from '@/utils/sound/soundService';
 import FullscreenButton from './apiButtons/fullScreenButton';
 import SoundButton from './apiButtons/soundButton';
 import { NotificationService } from '@/utils/notification/notificationService';
@@ -306,6 +314,7 @@ const isDraggedIntoDropField = function (): boolean {
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
+    const [soundService, setSoundService] = useState<SoundService | null>(null);
     const { game } = gameState;
     const dispatch = useDispatch();
 
@@ -324,7 +333,7 @@ const Game: FC = () => {
     useEffect(() => {
         drawCanvasItems(ref);
         window.addEventListener('keydown', rotate);
-
+        setSoundService(new SoundService());
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
@@ -353,7 +362,7 @@ const Game: FC = () => {
         if (data.isDragging) {
             if (isDraggedIntoDropField()) {
                 console.log('поставили');
-                isSoundOn && soundService.playSetShipSound();
+                isSoundOn && soundService?.playSetShipSound();
                 //  функция смещения корабля под размер клеток
                 //  запись в дату клеток занятых конкретным кораблем
             } else {
@@ -424,14 +433,14 @@ const Game: FC = () => {
         event.preventDefault();
         NotificationService.promptNotification();
         NotificationService.gameStart();
-        isSoundOn && soundService.playStartSound();
+        isSoundOn && soundService?.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
     };
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         NotificationService.gameWinned();
-        isSoundOn && soundService.playWinnedSound();
+        isSoundOn && soundService?.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
         sendToLeaderBoard();
     };
@@ -439,7 +448,7 @@ const Game: FC = () => {
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         NotificationService.gameLost();
-        isSoundOn && soundService.playLostSound();
+        isSoundOn && soundService?.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
         sendToLeaderBoard();
     };
