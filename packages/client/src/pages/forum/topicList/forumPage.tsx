@@ -1,44 +1,44 @@
-import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setTopicList } from '@/store/slices/forumSlice';
-import style from './page.module.scss';
+import React, { FC, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchForumTopics } from '@/store/slices/forumSlice';
+import style from './forumPage.module.scss';
 import Button from '@/components/ui/button/button';
-import Pagination from '@/components/ui/pagination/pagination';
-import { TTopicForSave, TTopic, TTopicMessageForSave } from '@/types/forumDataTypes';
-import { ForumModal } from '../../common/modal/forumModal';
+import { TTopicForSave, TTopicMessageForSave } from '@/types/forumDataTypes';
+import { ForumModal } from '../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
-import { TopicList } from '../topicList/topicList';
+import { TopicList } from './topicList/topicList';
+import { RootState, useAppDispatch } from '@/store';
+import { TFetchStatus } from '@/types/data-types';
 
-type ForumContentProps = {
-    topics: TTopic[];
-    page: number;
-    lastPage: number;
-};
-const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
+const ForumPage: FC = () => {
+    const { page = 1 } = useParams();
     const [isModalActive, setIsModalActive] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsStatus);
 
-    console.log('inside page render, topics: ');
+    useEffect(() => {
+        if (topicsLoadStatus === TFetchStatus.IDLE) {
+            dispatch(fetchForumTopics());
+        }
+    }, [dispatch, topicsLoadStatus]);
 
-    const addNewTopicToList = (topic: TTopic) => {
-        // console.log('new topic will be added');
-        const cloneTopics = [...topics];
-        cloneTopics.push(topic);
-        dispatch(setTopicList({ topics: cloneTopics, lastPage }));
+    const addNewTopicToList = () => {
+        dispatch(fetchForumTopics());
     };
 
     const showTopicCreationError = (error: string) => {
+        // todo move error to forum slice
         console.log(error);
     };
 
     const submitMessage = (data: TTopicMessageForSave | TTopicForSave) => {
         const topicData = data as TTopicForSave;
         if (topicData) {
-            // setIsLoaderActive(true);
-            // todo <Loader/> while saving!!
+            // todo show loader while saving
             forumApi.saveTopic(topicData, addNewTopicToList, showTopicCreationError);
         } else {
-            console.log('error'); // todo
+            console.log('Save topic: invalid data for saving');
         }
     };
     return (
@@ -50,8 +50,7 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
                         Новая тема
                     </Button>
                 </div>
-                <TopicList topics={topics} />
-                <Pagination currentPage={+page} lastPage={lastPage} linkPath="/forum/" />
+                <TopicList page={+page} />
             </div>
             <ForumModal
                 isActive={isModalActive}
@@ -64,4 +63,4 @@ const Page: FC<ForumContentProps> = ({ topics, page, lastPage }) => {
         </main>
     );
 };
-export default Page;
+export default ForumPage;

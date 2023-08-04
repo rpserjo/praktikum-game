@@ -29,4 +29,11 @@ export type TEmojisType = {
     [Emoji.Rooms]: EmojiValue;
 };
 
+export enum TFetchStatus {
+    IDLE = 'idle',
+    LOADING = 'loading',
+    SUCCEEDED = 'succeeded',
+    FAILED = 'failed',
+}
+
 export default TLeaderBoardData;

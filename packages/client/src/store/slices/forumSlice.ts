@@ -1,11 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TCommentListData, TTopic, TTopicListData } from '@/types/forumDataTypes';
-// import forumApi from '@/api/ForumApi';
+import forumApi from '@/api/ForumApi';
+import { TFetchStatus } from '@/types/data-types';
 
 type TForum = {
     topicList: TTopicListData | null;
     topic: TTopic | null;
     topicComments: TCommentListData | null;
+    topicsStatus: TFetchStatus;
+    topicsError?: string; // todo move to 2 sections in state
 };
 
 export type TForumState = {
@@ -17,33 +20,15 @@ const initialState: TForumState = {
         topicList: null,
         topic: null,
         topicComments: null,
+        topicsStatus: TFetchStatus.IDLE,
     },
 };
 
-// Комментарий для ревьюера практикума:
-// Планирую сегодня либо добить редакс для форума либо комментарии
-// уберу перед зачетом и залью в dev как есть (зачет завтра)
-
-/* interface IForumService {
-    getForumTopics(): Promise<TTopic[]>;
-} */
-
-/* const loadForumTopics = createAsyncThunk<TTopic[]>('root/AuthUser', async (_, thunkApi) => {
-    const service: IForumService = thunkApi.extra as IForumService;
-    return service.getForumTopics();
-
-    api -> AppDispatch
-}); */
-
-/* export const fetchForumData = createAsyncThunk<TTopic[], undefined>(
-    'forum', async(_) => {
-        const topicData = await forumApi.getTopics(1, 10, ()=>{}, ()=>{});
-        return forumApi().getTopics(1, 10);
-        const service: IForumService = thunkApi.extra as IForumService;
-        return service.getForumTopics();
-
-    }
-); */
+const fetchForumTopics = createAsyncThunk<TTopicListData>('forum/fetchTopics', async () => {
+    // todo implement pagination
+    const response = await forumApi.getTopicsNew(1, 10);
+    return response;
+});
 
 const forumSlice = createSlice({
     name: 'forum',
@@ -58,27 +43,24 @@ const forumSlice = createSlice({
         setTopicList(state, action) {
             state.forum.topicList = action.payload;
         },
-        fetchTopicList(state, action) {
-            // todo fetch from server
-            console.log(state, action);
-        },
     },
-    /* extraReducers: builder => {
-        /* builder.addCase(loadUser.pending, state => {
-            state.isLoaded = false;
-            state.isLoading = true;
-        });
-        builder.addCase(loadUser.rejected, state => {
-            state.isLoaded = true;
-            state.user = null;
-            state.isLoading = false;
-        }); */
-    /* builder.addCase(loadForumTopics.fulfilled, (state, action) => {
-            const { payload } = action;
-            state.forum.forumTopics = payload;
-        });
-    }, */
+    extraReducers(builder) {
+        builder
+            .addCase(fetchForumTopics.pending, state => {
+                state.forum.topicsStatus = TFetchStatus.LOADING;
+            })
+            .addCase(fetchForumTopics.fulfilled, (state, action) => {
+                state.forum.topicsStatus = TFetchStatus.SUCCEEDED;
+                // todo do we need like this or add as in the example
+                state.forum.topicList = action.payload;
+            })
+            .addCase(fetchForumTopics.rejected, (state, action) => {
+                state.forum.topicsStatus = TFetchStatus.FAILED;
+                state.forum.topicsError = action.error.message;
+            });
+    },
 });
 
 export default forumSlice.reducer;
 export const { setTopic, setTopicComments, setTopicList } = forumSlice.actions;
+export { fetchForumTopics };

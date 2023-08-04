@@ -52,6 +52,14 @@ class ForumApi extends BaseApi {
             });
     }
 
+    // todo remove old method
+    public async getTopicsNew(page: number, elementsPerPage: number): Promise<TTopicListData> {
+        return this.http
+            .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
+            .then(response => mapper.mapServerTopicListData(response.data as TTopicListServerData))
+            .catch(error => error);
+    }
+
     public async saveTopic(
         data: TTopicForSave,
         callback: (topic: TTopic) => void,
