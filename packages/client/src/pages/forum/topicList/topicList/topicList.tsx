@@ -36,5 +36,5 @@ export const TopicList: FC<TTopicListProps> = ({ page }) => {
     } else if (topicsLoadStatus === TFetchStatus.FAILED) {
         content = <div>{error}</div>;
     }
-    return { content };
+    return <div>{content}</div>;
 };
