@@ -9,9 +9,8 @@ type TTopicProps = {
     topic: TTopic;
 };
 
-// todo fix key issue!
 export const Topic: FC<TTopicProps> = ({ topic }) => (
-    <div key={topic.id} className={style.topic}>
+    <div className={style.topic}>
         <div className={style.topic__shortInfo}>
             <Link to={`/forum-topic/${topic.id}/1`} className={style.topic__title}>
                 {topic.title}

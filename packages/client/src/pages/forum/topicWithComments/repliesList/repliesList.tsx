@@ -9,7 +9,7 @@ type TRepliesList = {
 export const RepliesList: FC<TRepliesList> = ({ replies }) => (
     <>
         {replies.map(item => (
-            <Reply message={item} />
+            <Reply key={item.id} message={item} />
         ))}
     </>
 );

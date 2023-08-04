@@ -9,10 +9,8 @@ type TMessageProps = {
     message: TTopicReply;
 };
 
-// todo key prop fix
-
 export const Reply: FC<TMessageProps> = ({ message }) => (
-    <div key={message.id} className={style.message}>
+    <div className={style.message}>
         <div className={style.message__body}>
             <div className={style.message__info}>
                 <img

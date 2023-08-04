@@ -5,12 +5,28 @@ export type TLeaderBoardData = {
     lostCount: number;
     score: number;
 };
-export type TEmojis = {
-    like: { amount: number; users: Array<string> };
-    hmm: { amount: number; users: Array<string> };
-    heart: { amount: number; users: Array<string> };
-    ghost: { amount: number; users: Array<string> };
-    fire: { amount: number; users: Array<string> };
-    the_rooms: { amount: number; users: Array<string> };
+
+enum Emoji {
+    Like = 'like',
+    Hmm = 'hmm',
+    Heart = 'heart',
+    Ghost = 'ghost',
+    Fire = 'fire',
+    Rooms = 'the_rooms',
+}
+
+export type EmojiValue = {
+    amount: number;
+    users: Array<string>;
 };
+
+export type TEmojisType = {
+    [Emoji.Like]: EmojiValue;
+    [Emoji.Hmm]: EmojiValue;
+    [Emoji.Heart]: EmojiValue;
+    [Emoji.Ghost]: EmojiValue;
+    [Emoji.Fire]: EmojiValue;
+    [Emoji.Rooms]: EmojiValue;
+};
+
 export default TLeaderBoardData;

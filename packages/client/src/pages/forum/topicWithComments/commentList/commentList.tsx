@@ -10,7 +10,7 @@ type TCommentListProps = {
 export const MessageList: FC<TCommentListProps> = ({ messages }) => (
     <div className={style.comments}>
         {messages.map(item => (
-            <Message message={item} />
+            <Message key={item.id} message={item} />
         ))}
     </div>
 );

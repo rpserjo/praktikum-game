@@ -55,10 +55,9 @@ export const Message: FC<TMessageProps> = ({ message }) => {
         }
     };
 
-    // todo key prop fix
     return (
         <>
-            <div key={message.id} className={style.message}>
+            <div className={style.message}>
                 <div className={style.message__body}>
                     <div className={style.message__info}>
                         <img

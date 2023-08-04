@@ -10,7 +10,7 @@ type TTopicListProps = {
 export const TopicList: FC<TTopicListProps> = ({ topics }) => (
     <div className={style.topicList}>
         {topics.map(topic => (
-            <Topic topic={topic} />
+            <Topic key={topic.id} topic={topic} />
         ))}
     </div>
 );

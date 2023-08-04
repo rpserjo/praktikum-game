@@ -1,4 +1,4 @@
-import { TEmojis } from '@/types/data-types';
+import { TEmojisType } from '@/types/data-types';
 
 export type TForumData = {
     msgId: number;
@@ -7,7 +7,7 @@ export type TForumData = {
     message: string;
     author: string;
     createDate: string;
-    emojis: TEmojis;
+    emojis: TEmojisType;
 };
 
 export type TTopicList = {
