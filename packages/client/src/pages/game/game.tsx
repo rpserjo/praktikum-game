@@ -315,6 +315,29 @@ function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLIm
     }
 }
 
+function drawPoint(
+    context: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    color: string,
+    size: number
+) {
+    const pointX = Math.round(x);
+    const pointY = Math.round(y);
+
+    context.beginPath();
+    context.fillStyle = color;
+    context.arc(pointX, pointY, size, 0 * Math.PI, 2 * Math.PI);
+    context.fill();
+}
+
+function renderMissedShots(ctx: CanvasRenderingContext2D) {
+    // missedShots.forEach(shot => {
+    drawPoint(ctx, 330, 80, 'white', 3);
+
+    // });
+}
+
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     if (ctx === null || ctx === undefined) {
         return;
@@ -416,6 +439,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
         }
 
         renderShips(ctx, shipsImg);
+        renderMissedShots(ctx);
     }
 };
 
@@ -574,6 +598,8 @@ const Game: FC = () => {
 
             if (shipHit === null) {
                 console.log('мимо');
+
+                // drawCanvasItems(ref)
             } else {
                 console.log(shipHit);
                 // eslint-disable-next-line
@@ -581,8 +607,10 @@ const Game: FC = () => {
                 // eslint-disable-next-line
                 if (shipHit['lives'] === 0) {
                     console.log('убил');
+                    // drawCanvasItems(ref)
                 } else {
                     console.log('попал');
+                    // drawCanvasItems(ref)
                 }
 
                 // добавляем рассчет точек при промахе
