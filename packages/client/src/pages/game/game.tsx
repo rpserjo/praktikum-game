@@ -228,6 +228,16 @@ const shipsImg: ShipsType = [
     },
 ];
 
+type MissedShot = {
+    x: number;
+    y: number;
+    place: string;
+};
+
+type MissedShotsType = Array<MissedShot>;
+
+const missedShots: MissedShotsType = [];
+
 const enemyShips: EnemyShipsType = [
     {
         decksAmount: 4,
@@ -332,10 +342,10 @@ function drawPoint(
 }
 
 function renderMissedShots(ctx: CanvasRenderingContext2D) {
-    // missedShots.forEach(shot => {
-    drawPoint(ctx, 330, 80, 'white', 3);
-
-    // });
+    missedShots.forEach(shot => {
+        drawPoint(ctx, shot.x, shot.y, 'white', 3);
+        // drawPoint(ctx, 330, 80, 'white', 3);
+    });
 }
 
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
@@ -345,6 +355,7 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
 
     shipsPictures.forEach(ship => {
         const image = new Image();
+
         image.src = `./sprites/canvasShip_${ship.decksAmount}.svg`;
         if (!ship.isLoad) {
             image.addEventListener('load', () => {
@@ -597,9 +608,11 @@ const Game: FC = () => {
             });
 
             if (shipHit === null) {
-                console.log('мимо');
+                const xShift = data.enemyField.left + xNum * 30 + 15;
+                const yShift = data.enemyField.top + yNum * 30 - 15;
 
-                // drawCanvasItems(ref)
+                missedShots.push({ x: xShift, y: yShift, place: targetSquare });
+                drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
                 // eslint-disable-next-line
