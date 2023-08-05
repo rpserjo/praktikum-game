@@ -29,6 +29,11 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
+// 1 доавить рандомайзер выстрела компу через getRandomInt.
+//   Два рандомных числа от 0 до 10, одно для цир, другое для букв. + проверка
+//        не стрелял ли уже раньше туда
+// 2 финальные кнопки 'победа' или 'поражение'
+
 export enum GameOver {
     win = 'win',
     defeat = 'defeat',
@@ -714,10 +719,6 @@ const Game: FC = () => {
                     } else {
                         ship.currentTop -= shiftTop;
                     }
-
-                    // затем переходы хода
-                    // затем выстрел компа по твоему полю
-                    // финальные кнопки 'победа' или 'поражение'
 
                     drawCanvasItems(ref);
                 }
