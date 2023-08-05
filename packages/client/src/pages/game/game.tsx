@@ -256,7 +256,7 @@ const enemyShips: EnemyShipsType = [
     },
     {
         decksAmount: 3,
-        position: ['a4', 'a5', 'a6', 'a7'],
+        position: ['a3', 'a4', 'a5'],
         width: 90,
         height: 30,
         lives: 3,
@@ -305,7 +305,7 @@ const enemyShips: EnemyShipsType = [
     },
     {
         decksAmount: 1,
-        position: ['j4'],
+        position: ['j5'],
         width: 30,
         height: 30,
         lives: 1,
@@ -349,9 +349,21 @@ function drawPoint(
     context.fill();
 }
 
+function drawHit(context: CanvasRenderingContext2D, x: number, y: number, color: string) {
+    context.font = '30px Arial';
+    context.fillStyle = color;
+    context.fillText('X', x, y);
+}
+
 function renderMissedShots(ctx: CanvasRenderingContext2D) {
     missedShots.forEach(shot => {
         drawPoint(ctx, shot.x, shot.y, 'white', 3);
+    });
+}
+
+function renderSuccesShots(ctx: CanvasRenderingContext2D) {
+    succesShots.forEach(shot => {
+        drawHit(ctx, shot.x, shot.y, 'red');
     });
 }
 
@@ -458,6 +470,7 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
 
         renderShips(ctx, shipsImg);
         renderMissedShots(ctx);
+        renderSuccesShots(ctx);
     }
 };
 
@@ -633,9 +646,8 @@ const Game: FC = () => {
                 }
 
                 const xShift = data.enemyField.left + xNum * 30 + 5;
-                const yShift = data.enemyField.top + yNum * 30 - 5;
+                const yShift = data.enemyField.top + yNum * 30 - 4;
                 succesShots.push({ x: xShift, y: yShift, place: targetSquare });
-                // сделать рендеринг succesShots в drawCanvasItems
 
                 drawCanvasItems(ref);
             }
