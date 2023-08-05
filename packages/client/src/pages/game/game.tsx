@@ -371,6 +371,22 @@ function renderSuccesShots(ctx: CanvasRenderingContext2D) {
     });
 }
 
+async function fakeEnemyShoot() {
+    // eslint-disable-next-line
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // const x = data.userField.left + xNum * 30 + 5;
+    // const y = data.userField.top + yNum * 30 - 4;
+
+    const targetSquare = 'a5';
+    const x = data.userField.left + 3 * 30 + 5;
+    const y = data.userField.top + 4 * 30 - 4;
+
+    succesShots.push({ x, y, place: targetSquare });
+
+    console.log('комп выстрел');
+}
+
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     if (ctx === null || ctx === undefined) {
         return;
@@ -422,7 +438,7 @@ const renderBattlefield = function (ctx: CanvasRenderingContext2D, x: number, y:
     }
 };
 
-const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
+const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
 
@@ -613,7 +629,6 @@ const Game: FC = () => {
             });
         }
 
-        // добавить data.shootStep проверку на релизе, чтобы не слушать клике во время расстановки кораблей
         if (data.shootStep && userTurn && clickedEnemyFieald(canvasX, canvasY)) {
             // if (clickedEnemyFieald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
@@ -795,6 +810,16 @@ const Game: FC = () => {
         drawCanvasItems(ref);
         setUserTurn(getRandomInt(3) === 1);
     };
+
+    async function firstShoot() {
+        await fakeEnemyShoot();
+        drawCanvasItems(ref);
+        setUserTurn(true);
+    }
+
+    if (!userTurn) {
+        firstShoot();
+    }
 
     // const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
     //     event.preventDefault();
