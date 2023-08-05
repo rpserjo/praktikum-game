@@ -24,10 +24,10 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
-enum Move {
-    user = 'user',
-    enemy = 'enemy',
-}
+// enum Move {
+//     user = 'user',
+//     enemy = 'enemy',
+// }
 
 export enum GameOver {
     win = 'win',
@@ -333,6 +333,10 @@ function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLIm
     }
 }
 
+function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+}
+
 function drawPoint(
     context: CanvasRenderingContext2D,
     x: number,
@@ -453,8 +457,6 @@ const drawCanvasItems = function (ref: RefObject<HTMLCanvasElement>) {
                 ctx.fillText(String(index + 1), left, top + data.squareSize * index);
             }
         });
-        // render ships
-        // create ship nums
 
         if (data.placeShipStep) {
             ctx.font = '32px Arial';
@@ -569,6 +571,9 @@ const Game: FC = () => {
     const { game } = gameState;
     const dispatch = useDispatch();
 
+    const [areAllShipsPlaced, setAreAllShipsPlaced] = useState(false);
+    const [userTurn, setUserTurn] = useState(true);
+
     const rotate = useCallback((event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currentShip !== null) {
             if (data.currentShip.isRotated) {
@@ -609,8 +614,8 @@ const Game: FC = () => {
         }
 
         // добавить data.shootStep проверку на релизе, чтобы не слушать клике во время расстановки кораблей
-        // if (data.shootStep && clickedEnemyFieald(canvasX, canvasY)) {
-        if (clickedEnemyFieald(canvasX, canvasY)) {
+        if (data.shootStep && userTurn && clickedEnemyFieald(canvasX, canvasY)) {
+            // if (clickedEnemyFieald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
             const xNum = Math.floor(Math.floor(canvasX - data.enemyField.left) / 30);
             const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -667,10 +672,7 @@ const Game: FC = () => {
                     ship.isSet = true;
 
                     // если все корабли установили, то включаем кнопку 'готов к бою'
-                    // const areAllShipsPlaced = shipsImg.every(shipInImg => shipInImg.isSet);
-
-                    // if (areAllShipsPlaced) {
-                    // }
+                    setAreAllShipsPlaced(shipsImg.every(shipInImg => shipInImg.isSet));
 
                     let shiftLeft;
                     let shiftTop;
@@ -695,22 +697,9 @@ const Game: FC = () => {
                         ship.currentTop -= shiftTop;
                     }
 
-                    // scuaresWithUtherShips.a.squareNums.push(22)
-                    // console.log(scuaresWithUtherShips.a)
-
-                    // начало игры
-                    // слушатель мышки такой же как и у драга кораблей
-                    // если клик по кораблю, то проверям this.ship, если жизней > 1 ('попал!'); this.ship.lives --
-                    // если мимо, то рассчет положения точки + ('мимо!');
-                    // рассчет позиции огонька
-                    // если клик по кораблю, то проверям this.ship, если жизней === 1 ('убил!');
-
                     // затем переходы хода
-                    // нужны ли scuaresWithUtherShips ?
                     // затем выстрел компа по твоему полю
                     // финальные кнопки 'победа' или 'поражение'
-
-                    console.log(ship.lives);
 
                     drawCanvasItems(ref);
                 }
@@ -723,6 +712,8 @@ const Game: FC = () => {
                     }
 
                     ship.isSet = false;
+
+                    setAreAllShipsPlaced(shipsImg.every(shipInImg => shipInImg.isSet));
                 }
             }
         }
@@ -754,7 +745,7 @@ const Game: FC = () => {
         }
     };
 
-    const { mode, move, shipsCount, gameOverReason } = game;
+    const { mode, gameOverReason } = game;
 
     const handleWinButtonClick: MouseEventHandler<HTMLButtonElement> = (
         event: React.MouseEvent<HTMLButtonElement>
@@ -802,17 +793,18 @@ const Game: FC = () => {
         data.placeShipStep = false;
         data.shootStep = true;
         drawCanvasItems(ref);
+        setUserTurn(getRandomInt(3) === 1);
     };
 
-    const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
-        event.preventDefault();
-        dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
-    };
+    // const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+    //     event.preventDefault();
+    //     dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
+    // };
 
-    const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
-        event.preventDefault();
-        dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
-    };
+    // const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+    //     event.preventDefault();
+    //     dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
+    // };
 
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
@@ -861,19 +853,19 @@ const Game: FC = () => {
                         </div>
 
                         <div className={style.userInfoBlock}>
-                            {mode === Mode.battle && move === Move.user ? (
+                            {userTurn && data.shootStep ? (
                                 <span className={style.gameMessage}>Ваш ход!</span>
                             ) : null}
 
-                            {mode === Mode.battle && move === Move.enemy ? (
+                            {!userTurn && data.shootStep ? (
                                 <span className={style.gameMessage}>Ход противника</span>
                             ) : null}
 
-                            {mode === Mode.placement && shipsCount ? (
+                            {data.placeShipStep ? (
                                 <span className={style.gameMessage}>Расставьте корабли</span>
                             ) : null}
 
-                            {mode === Mode.placement && !shipsCount ? (
+                            {areAllShipsPlaced && !data.shootStep ? (
                                 <Button buttonSize="medium" onClick={gameStartHandle}>
                                     Готов к бою!
                                 </Button>
@@ -881,7 +873,7 @@ const Game: FC = () => {
 
                             {/* todo: кнопки нужны для имитации окончания игры */}
 
-                            {mode === Mode.battle ? (
+                            {/* {mode === Mode.battle ? (
                                 <>
                                     <div className={style.temporaryWrapperForButton}>
                                         <Button buttonSize="medium" onClick={gameDefeatWinHandle}>
@@ -893,7 +885,7 @@ const Game: FC = () => {
                                         Победа
                                     </Button>
                                 </>
-                            ) : null}
+                            ) : null} */}
                         </div>
                     </div>
 
