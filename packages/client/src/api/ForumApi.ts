@@ -21,39 +21,15 @@ class ForumApi extends BaseApi {
 
     /* topics */
 
-    public async getTopic(
-        topicId: number,
-        callback: (data: TTopic) => void,
-        errorCallback: (error: string) => void
-    ): Promise<void> {
-        this.http
+    public async getTopic(topicId: number): Promise<TTopic> {
+        return this.http
             .get(`${API.ENDPOINTS.FORUM.TOPIC}/${topicId}`)
-            .then(response => {
-                callback(mapper.mapServerTopicData(response.data as TTopicServerData));
-            })
-            .catch(error => {
-                errorCallback(error);
-            });
-    }
-
-    public async getTopics(
-        page: number,
-        elementsPerPage: number,
-        callback: (data: TTopicListData) => void,
-        errorCallback: (error: string) => void
-    ): Promise<void> {
-        this.http
-            .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
-            .then(response => {
-                callback(mapper.mapServerTopicListData(response.data as TTopicListServerData));
-            })
-            .catch(error => {
-                errorCallback(error);
-            });
+            .then(response => mapper.mapServerTopicData(response.data as TTopicServerData))
+            .catch(error => error);
     }
 
     // todo remove old method
-    public async getTopicsNew(page: number, elementsPerPage: number): Promise<TTopicListData> {
+    public async getTopics(page: number, elementsPerPage: number): Promise<TTopicListData> {
         return this.http
             .get(`${API.ENDPOINTS.FORUM.TOPICS}/${page}/${elementsPerPage}`)
             .then(response => mapper.mapServerTopicListData(response.data as TTopicListServerData))
@@ -88,14 +64,12 @@ class ForumApi extends BaseApi {
     public async getComments(
         topicId: number,
         page: number,
-        elementsPerPage: number,
-        callback: (data: TCommentListData) => void
-    ): Promise<void> {
-        this.http
+        elementsPerPage: number
+    ): Promise<TCommentListData> {
+        return this.http
             .get(`${API.ENDPOINTS.FORUM.COMMENTS}/${topicId}/${page}/${elementsPerPage}`)
-            .then(response => {
-                callback(mapper.mapServerComentListData(response.data as TCommentListServerData));
-            });
+            .then(response => mapper.mapComentListData(response.data as TCommentListServerData))
+            .catch(error => error);
     }
 
     public async saveComment(

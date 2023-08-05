@@ -14,8 +14,8 @@ type TTopicListProps = {
 export const TopicList: FC<TTopicListProps> = ({ page }) => {
     const forumState = useSelector((state: RootState) => state.forum);
 
-    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsStatus);
-    const error = useSelector((state: RootState) => state.forum.forum.topicsError);
+    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsLoadStatus);
+    const error = useSelector((state: RootState) => state.forum.forum.topicsLoadError);
 
     const { topicList } = forumState.forum;
 

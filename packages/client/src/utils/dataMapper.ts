@@ -43,7 +43,7 @@ class DataMapper {
         };
     }
 
-    public mapServerComentListData(data: TCommentListServerData): TCommentListData {
+    public mapComentListData(data: TCommentListServerData): TCommentListData {
         const comments = data.Comments.map(comment => this.mapServerCommentData(comment));
         return { comments, lastPage: data.LastPage };
     }

@@ -15,7 +15,7 @@ import { UserService } from '@/api/UserService';
 import { YandexAPIRepository } from '@/repository/YandexAPIRepository';
 
 const initialState: StoreState = {
-    forum: { topicList: null, topic: null, topicComments: null, topicsStatus: TFetchStatus.IDLE },
+    forum: { topicList: null, topic: null, topicComments: null, topicsLoadStatus: TFetchStatus.IDLE },
 };
 
 describe('Forum tests', () => {

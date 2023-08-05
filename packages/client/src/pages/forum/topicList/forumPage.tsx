@@ -15,16 +15,16 @@ const ForumPage: FC = () => {
     const { page = 1 } = useParams();
     const [isModalActive, setIsModalActive] = useState(false);
     const dispatch = useAppDispatch();
-    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsStatus);
+    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsLoadStatus);
 
     useEffect(() => {
         if (topicsLoadStatus === TFetchStatus.IDLE) {
-            dispatch(fetchForumTopics());
+            dispatch(fetchForumTopics(+page));
         }
     }, [dispatch, topicsLoadStatus]);
 
     const addNewTopicToList = () => {
-        dispatch(fetchForumTopics());
+        dispatch(fetchForumTopics(+page));
     };
 
     const showTopicCreationError = (error: string) => {
