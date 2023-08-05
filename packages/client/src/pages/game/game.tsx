@@ -234,9 +234,17 @@ type MissedShot = {
     place: string;
 };
 
+type succesShot = {
+    x: number;
+    y: number;
+    place: string;
+};
+
 type MissedShotsType = Array<MissedShot>;
+type SuccesShotsType = Array<succesShot>;
 
 const missedShots: MissedShotsType = [];
+const succesShots: SuccesShotsType = [];
 
 const enemyShips: EnemyShipsType = [
     {
@@ -344,7 +352,6 @@ function drawPoint(
 function renderMissedShots(ctx: CanvasRenderingContext2D) {
     missedShots.forEach(shot => {
         drawPoint(ctx, shot.x, shot.y, 'white', 3);
-        // drawPoint(ctx, 330, 80, 'white', 3);
     });
 }
 
@@ -610,8 +617,9 @@ const Game: FC = () => {
             if (shipHit === null) {
                 const xShift = data.enemyField.left + xNum * 30 + 15;
                 const yShift = data.enemyField.top + yNum * 30 - 15;
-
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
+
+                console.log('мимо');
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -620,15 +628,16 @@ const Game: FC = () => {
                 // eslint-disable-next-line
                 if (shipHit['lives'] === 0) {
                     console.log('убил');
-                    // drawCanvasItems(ref)
                 } else {
                     console.log('попал');
-                    // drawCanvasItems(ref)
                 }
 
-                // добавляем рассчет точек при промахе
-                // рассчет огоньков при попадании
-                // вызываем перерендер
+                const xShift = data.enemyField.left + xNum * 30 + 5;
+                const yShift = data.enemyField.top + yNum * 30 - 5;
+                succesShots.push({ x: xShift, y: yShift, place: targetSquare });
+                // сделать рендеринг succesShots в drawCanvasItems
+
+                drawCanvasItems(ref);
             }
         }
     };
