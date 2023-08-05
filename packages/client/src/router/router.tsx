@@ -1,20 +1,19 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import OAuthInPage from '@pages/oauthInPage/oauthInPage';
-import Layout from '@/layout/default/layout';
+import ForumTopicPage from '@pages/forum-topic/forum-topic';
+import HomePage from '@pages/index/index';
+import GamePage from '@pages/game/game';
+import LeaderboardPage from '@pages/leaderboard/leaderboard';
+import ProfilePage from '@pages/profile/profile';
+import SignInPage from '@pages/signin/signin';
+import SignUpPage from '@pages/signup/signup';
+import ErrorPage from '@pages/error/error';
+import LandingPage from '@pages/landing/landing';
+import ForumPage from '@pages/forum/dataLoader/dataLoader';
 import { Loader } from '@/components/ui';
+import Layout from '@/layout/default/layout';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';
-
-const HomePage = lazy(() => import('@pages/index/index'));
-const GamePage = lazy(() => import('@pages/game/game'));
-const LeaderboardPage = lazy(() => import('@pages/leaderboard/leaderboard'));
-const ProfilePage = lazy(() => import('@pages/profile/profile'));
-const SignInPage = lazy(() => import('@pages/signin/signin'));
-const SignUpPage = lazy(() => import('@pages/signup/signup'));
-const ErrorPage = lazy(() => import('@pages/error/error'));
-const LandingPage = lazy(() => import('@pages/landing/landing'));
-const ForumPage = lazy(() => import('@pages/forum/dataLoader/dataLoader'));
-const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
 
 export enum RouteNames {
     LANDING = '/',
