@@ -609,7 +609,7 @@ const Game: FC = () => {
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
-    const mouseDown = (event: React.MouseEvent) => {
+    const mouseDown = async (event: React.MouseEvent) => {
         data.isMousePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -652,7 +652,10 @@ const Game: FC = () => {
                 const yShift = data.enemyField.top + yNum * 30 - 15;
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
 
+                setUserTurn(false);
                 console.log('мимо');
+                drawCanvasItems(ref);
+                await fakeEnemyShoot();
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
