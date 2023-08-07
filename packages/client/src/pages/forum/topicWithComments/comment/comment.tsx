@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import Emojis from '@components/ui/emojis/emojis';
 import style from '../common.module.scss';
 import commentStyle from './comment.module.scss';
@@ -23,7 +22,6 @@ type TMessageProps = {
 export const Message: FC<TMessageProps> = ({ message }) => {
     const [isRepliesOpened, setIsRepliesOpened] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    // const dispatch = useDispatch();
 
     const toggleReplies = () => {
         setIsRepliesOpened(!isRepliesOpened);
@@ -32,8 +30,7 @@ export const Message: FC<TMessageProps> = ({ message }) => {
     const handleReplySaved = (reply: TTopicReply) => {
         console.log('saved');
         console.log(reply);
-        // const clone = {...message};
-        // dispatch(setTopicComments(cloneTopic));
+        // todo refresh replies list
     };
 
     const handleReplySaveError = (error: string) => {

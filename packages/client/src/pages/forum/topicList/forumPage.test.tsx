@@ -1,5 +1,4 @@
-/* 
-todo fix tests
+// todo fix tests
 
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,13 +8,21 @@ import userEvent from '@testing-library/user-event';
 import ForumPage from './forumPage';
 import { Provider } from 'react-redux';
 import { StoreState, createStore } from '@/store';
-import { TForumState } from '@/store/slices/forumSlice';
-import { TFetchStatus } from '@/types/data-types';
+// import { TForumState } from '@/store/slices/forumSlice';
+// import { TFetchStatus } from '@/types/data-types';
 import { UserService } from '@/api/UserService';
 import { YandexAPIRepository } from '@/repository/YandexAPIRepository';
 
 const initialState: StoreState = {
-    forum: { topicList: null, topic: null, topicComments: null, topicsLoadStatus: TFetchStatus.IDLE },
+    user: { user: null, isLoaded: false, isLoading: true },
+    /* game: null,
+    theme: null,
+    forum: {
+        topicList: null,
+        topic: null,
+        topicComments: null,
+        topicsLoadStatus: TFetchStatus.IDLE,
+    }, */
 };
 
 describe('Forum tests', () => {
@@ -70,24 +77,33 @@ describe('Forum tests', () => {
         expect(screen.getByText('Форум')).toBeInTheDocument();
     });
 
+    /* todo fix tests
+
     it('checks that new topic button exists', () => {
         render(
             <BrowserRouter>
-                <ForumPage />
+                <Provider
+                    store={createStore(new UserService(new YandexAPIRepository()), initialState)}
+                >
+                    <ForumPage />
+                </Provider>
             </BrowserRouter>
         );
 
         expect(screen.getByText('Новая тема')).toBeInTheDocument();
     });
-
+    
     it('checks that new topic button opens modal', () => {
         render(
             <BrowserRouter>
-                <ForumPage />
+                <Provider
+                    store={createStore(new UserService(new YandexAPIRepository()), initialState)}
+                >
+                    <ForumPage />
+                </Provider>
             </BrowserRouter>
         );
         userEvent.click(screen.getByText('Новая тема'));
         expect(screen.getByText('Создание новой темы форума')).toBeInTheDocument();
-    });
+    }); */
 });
-*/

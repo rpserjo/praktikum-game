@@ -17,11 +17,9 @@ export const TopicList: FC = () => {
     );
 
     useEffect(() => {
-        console.log('in topic list use effect');
-        console.log(page);
         // todo do we need (topicsLoadStatus === TFetchStatus.IDLE)
         dispatch(fetchForumTopics(+page));
-    }, [page]); // todo dependency on dispatch, page]
+    }, [page]); // todo do we need dependency on dispatch, page
 
     let content;
     if (topicsLoadStatus === TFetchStatus.LOADING) {
