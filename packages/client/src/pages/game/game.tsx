@@ -389,7 +389,7 @@ async function fakeEnemyShoot() {
     // eslint-disable-next-line
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    const yNum = getRandomInt(10);
+    const yNum = getRandomInt(10) + 1;
     const xNum = getRandomInt(10);
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const targetSquare = letters[xNum] + yNum;
@@ -397,15 +397,26 @@ async function fakeEnemyShoot() {
     const x = data.userField.left + xNum * 30 + 5;
     const y = data.userField.top + yNum * 30 - 4;
 
-    const isHit = targetSquare;
+    let isHit: Ship | null = null;
+
+    shipsImg.forEach(ship => {
+        if (ship.positionSquare.includes(targetSquare)) {
+            // eslint-disable-next-line
+            ship.positionSquare = ship.positionSquare.filter(function (item) {
+                return item !== targetSquare;
+            });
+            isHit = ship;
+        }
+    });
+    console.log(targetSquare);
 
     if (isHit) {
         succesShots.push({ x, y, place: targetSquare });
+        console.log('комп попал');
     } else {
         missedShots.push({ x, y, place: targetSquare });
+        console.log('комп мимо');
     }
-
-    console.log('комп выстрел');
 }
 
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
@@ -658,6 +669,7 @@ const Game: FC = () => {
             const targetSquare = letters[xNum] + yNum;
 
             let shipHit: EnemyShip | null = null;
+
             enemyShips.forEach(ship => {
                 if (ship.position.includes(targetSquare)) {
                     // eslint-disable-next-line
@@ -674,7 +686,7 @@ const Game: FC = () => {
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
 
                 setUserTurn(false);
-                console.log('мимо');
+                console.log('юзер мимо');
                 drawCanvasItems(ref);
                 await fakeEnemyShoot();
                 drawCanvasItems(ref);
@@ -685,9 +697,9 @@ const Game: FC = () => {
                 shipHit['lives']--;
                 // eslint-disable-next-line
                 if (shipHit['lives'] === 0) {
-                    console.log('убил');
+                    console.log('юзер убил');
                 } else {
-                    console.log('попал');
+                    console.log('юзер попал');
                 }
 
                 const xShift = data.enemyField.left + xNum * 30 + 5;
@@ -752,7 +764,6 @@ const Game: FC = () => {
                         for (let i = 0; i < ship.decksAmount; i += 1) {
                             const targetSquare = letters[xNum] + (yNum + i);
                             ship.positionSquare.push(targetSquare);
-                            console.log(targetSquare);
                         }
                     } else {
                         const yNum = Math.ceil(
@@ -766,10 +777,8 @@ const Game: FC = () => {
                         for (let i = 0; i < ship.decksAmount; i += 1) {
                             const targetSquare = letters[xNum + i] + yNum;
                             ship.positionSquare.push(targetSquare);
-                            console.log(targetSquare);
                         }
                     }
-
                     drawCanvasItems(ref);
                 }
             } else {
@@ -781,7 +790,6 @@ const Game: FC = () => {
                     }
 
                     ship.isSet = false;
-
                     setAreAllShipsPlaced(shipsImg.every(shipInImg => shipInImg.isSet));
                 }
             }
