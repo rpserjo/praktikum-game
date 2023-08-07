@@ -1,4 +1,13 @@
-@import '@/assets/variables';
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .avatar-uploader {
+    .upload-icon {
+      background-color: $backgroundColorSecondary__dark;
+      border-color: $backgroundColorMain__dark;
+    }
+  }
+}
 
 .avatar-uploader {
   width: 116px;
@@ -13,7 +22,7 @@
     border-radius: 58px;
     overflow: hidden;
 
-    img{
+    img {
       width: 100%;
       height: 100%;
     }

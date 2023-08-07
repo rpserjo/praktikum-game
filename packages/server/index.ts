@@ -58,7 +58,9 @@ async function startServer() {
             selfHandleResponse: true,
             onProxyRes: responseInterceptor(async (responseBuffer, proxyRes, req) => {
                 if (
-                    (req as express.Request).path === '/api/v2/auth/signin' &&
+                    /\/api\/v2\/o?auth((\/sign(in|up))|(\/yandex))/.test(
+                        (req as express.Request).path
+                    ) &&
                     proxyRes.headers['set-cookie']
                 ) {
                     authService.addCookie(
@@ -132,6 +134,10 @@ async function startServer() {
                 url,
                 new YandexAPIRepository(req.headers.cookie)
             );
+
+            if (initialState.user.user && req.headers.cookie) {
+                userService.createUserUpdCoockie(initialState.user.user, req.headers.cookie);
+            }
 
             const initStateSerialized = JSON.stringify(initialState);
 

@@ -1,5 +1,15 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .userIcon {
+    .content {
+      .caption {
+        color: $colorText__dark;
+      }
+    }
+  }
+}
+
 .userIcon {
   .content {
     margin: 0;
@@ -38,7 +48,8 @@
     }
 
     .caption {
-     color: $colorText;
+      color: $colorText;
+      @include transition;
 
       .name {
         font-size: 20px;

@@ -1,6 +1,12 @@
 @import '@/assets/variables.scss';
 @import '@/assets/tektur/font-tektur.scss';
 
+body[data-theme='dark'] {
+  .title {
+    color: $colorText__dark;
+  }
+}
+
 .gamePage {
   display: flex;
   width: 100%;
@@ -98,9 +104,10 @@
   position: relative;
   font-weight: 600;
   font-size: 64px;
-  color: white;
+  color: $colorText;
   text-align: center;
   margin: 0 0 60px;
+  @include transition;
 }
 
 .gameReserve {

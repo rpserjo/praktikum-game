@@ -1,5 +1,20 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .like {
+    &-choice {
+      &-text {
+        background-color: $colorBgButton__dark;
+        color: $colorTextDark__dark;
+
+        &:hover {
+          background-color: lighten($colorBgButton__dark, 10%);
+        }
+      }
+    }
+  }
+}
+
 .like {
   &-wrap {
     width: 100%;
@@ -76,11 +91,12 @@
       display: flex;
       border-radius: 4px;
       margin-left: auto;
-      background-color: $emojiButtonBackground;
+      color: $colorTextDark;
+      background-color: $colorBgButton;
+      @include transition;
 
       &:hover {
-        transition: background-color 0.3s linear;
-        background-color: $emojiButtonBackgroundHover;
+        background-color: lighten($colorBgButton, 10%);
       }
     }
 

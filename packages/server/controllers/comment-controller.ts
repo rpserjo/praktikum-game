@@ -4,13 +4,13 @@ import commentService from '../servises/comment-service';
 import { ApiError } from '../exeptions/api-error';
 
 class CommentController {
-    async findCommentsForTopic(req: Request, res: Response) {
+    async findCommentsForTopic(req: Request, res: Response, next: NextFunction) {
         try {
             const { topicId, page, limit } = req.params;
             const data = await commentService.findCommentsForTopic(+topicId, +page, +limit);
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 
@@ -27,7 +27,7 @@ class CommentController {
 
             return res.json(data);
         } catch (error) {
-            return console.log(error);
+            return next(error);
         }
     }
 }

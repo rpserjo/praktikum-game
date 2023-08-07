@@ -1,5 +1,22 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .input-block {
+    .label {
+      display: block;
+      padding: 0 0 2px 2px;
+      font-size: 16px;
+      font-weight: 500;
+      color: $colorTextDark__dark;
+    }
+
+    .input {
+      background-color: $colorMain__dark;
+      color: $colorTextDark__dark;
+    }
+  }
+}
+
 .input-block {
   width: 100%;
 

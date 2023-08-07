@@ -7,12 +7,34 @@ class ReactionService {
         commentId: number,
         UserId: number
     ) {
-        await Reaction.destroy({
+        const findResult = (await Reaction.findOne({
             where: {
                 [Op.and]: [{ UserId: `${UserId}` }, { CommentId: `${commentId}` }],
             },
-        });
-        await Reaction.create({ reaction: Reactions[reactionKey], CommentId: commentId, UserId });
+        })) as any;
+
+        if (!findResult) {
+            await Reaction.create({
+                reaction: Reactions[reactionKey],
+                CommentId: commentId,
+                UserId,
+            });
+        } else if (findResult.dataValues.reaction === Reactions[reactionKey]) {
+            await Reaction.destroy({
+                where: {
+                    id: `${findResult.dataValues.id}`,
+                },
+            });
+        } else {
+            await Reaction.update(
+                { reaction: Reactions[reactionKey], CommentId: commentId, UserId },
+                {
+                    where: {
+                        id: `${findResult.dataValues.id}`,
+                    },
+                }
+            );
+        }
 
         return Reaction.findAll({
             where: { CommentId: `${commentId}` },

@@ -6,22 +6,18 @@ import authService from './proxy-auth-service';
 class UserService {
     async createUserUpdCoockie(userObj: IUser, cookie: string): Promise<IUser | undefined> {
         const { id, first_name, second_name, display_name, login, avatar } = userObj;
-
         if (id) {
             const [{ dataValues: user }] =
-                (await User.findOrCreate({
-                    where: { id },
-                    defaults: {
-                        first_name,
-                        second_name,
-                        display_name,
-                        login,
-                        avatar,
-                    },
+                (await User.upsert({
+                    id,
+                    first_name,
+                    second_name,
+                    display_name,
+                    login,
+                    avatar,
                 })) ?? {};
 
             const cookieParse = cookie.match(/uuid=([\w-]*)/);
-
             if (cookieParse) {
                 const uuid = cookieParse[1] as UUID;
                 authService.updateUserId(uuid, id);

@@ -74,6 +74,8 @@ services:
     environment:
       PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 0
     volumes:
+    # to fix permission bugs:
+    # sudo chown -R 5050:5050 ./tmp/pgadmin
       - ./tmp/pgadmin:/var/lib/pgadmin
     depends_on:
       - postgres

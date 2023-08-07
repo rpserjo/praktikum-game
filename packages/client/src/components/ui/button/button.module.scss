@@ -13,6 +13,28 @@
   color: darken($colorBorder, 10%);
 }
 
+body[data-theme='dark'] {
+  .normal {
+    background-color: $colorBgButton__dark;
+    color: $colorTextDark__dark;
+
+    &:hover {
+      background-color: lighten($colorBgButton__dark, 10%);
+    }
+  }
+
+  .outlined,
+  .outlinedSmall {
+    border-color: $colorBorder__dark;
+    color: $colorText__dark;
+
+    &:hover {
+      border-color: darken($colorBorder__dark, 10%);
+      color: darken($colorBorder__dark, 10%);
+    }
+  }
+}
+
 .normal,
 .outlined {
   cursor: pointer;
@@ -25,6 +47,7 @@
   font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color: $colorTextDark;
 
   &:hover {
     background-color: lighten($colorBgButton, 10%);
@@ -41,7 +64,6 @@
 
 .outlinedSmall {
   @include buttonOutlined;
-
   padding: 0;
   height: 22px;
 

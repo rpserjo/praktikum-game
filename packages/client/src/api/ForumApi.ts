@@ -10,13 +10,13 @@ import {
     TTopicMessageForSave,
     TTopicReply,
 } from '@/types/forumDataTypes';
-import BaseApi from './BaseApi';
+import BaseApi, { HostOptions } from './BaseApi';
 import API from './api';
 import mapper from '@/utils/dataMapper';
 
 class ForumApi extends BaseApi {
     constructor() {
-        super(API.ENDPOINTS.FORUM.ENDPOINT, API.HOST2);
+        super(API.ENDPOINTS.FORUM.ENDPOINT, HostOptions.APP_HOST);
     }
 
     /* topics */

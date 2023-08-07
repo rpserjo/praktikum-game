@@ -57,4 +57,4 @@ class SoundService {
     };
 }
 
-export default new SoundService();
+export default SoundService;

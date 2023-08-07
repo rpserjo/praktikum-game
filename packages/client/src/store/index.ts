@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer, { TState, TUser } from '@/store/slices/userSlice';
 import gameReducer from '@/store/slices/gameSlice';
+import themeReducer from '@/store/slices/themeSlice';
 import forumReducer from '@/store/slices/forumSlice';
 
 interface IUserService {
@@ -14,22 +15,20 @@ export interface StoreState {
 const rootReducer = combineReducers({
     user: userReducer,
     game: gameReducer,
+    theme: themeReducer,
     forum: forumReducer,
 });
 
 function createStore(service: IUserService, initialState?: StoreState) {
     const store = configureStore({
         reducer: rootReducer,
-        // eslint-disable-next-line
         preloadedState: initialState,
-        // eslint-disable-next-line
-        middleware: getDefaultMiddleware => {
-            return getDefaultMiddleware({
+        middleware: getDefaultMiddleware =>
+            getDefaultMiddleware({
                 thunk: {
                     extraArgument: service,
                 },
-            });
-        },
+            }),
     });
 
     return store;

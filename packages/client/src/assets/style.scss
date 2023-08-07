@@ -10,6 +10,13 @@
 
 body {
   background-color: $backgroundColorMain;
+
+  @include transition;
+
+  &[data-theme='dark'] {
+    background-color: $backgroundColorMain__dark;
+    color: $colorText__dark;
+  }
 }
 
 #root {
