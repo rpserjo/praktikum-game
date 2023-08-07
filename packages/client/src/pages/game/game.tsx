@@ -29,9 +29,7 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
-// 1 доавить рандомайзер выстрела компу через getRandomInt.
-//   Два рандомных числа от 0 до 10, одно для цир, другое для букв. + проверка
-//        не стрелял ли уже раньше туда
+// 1проверка не стрелял ли уже раньше туда
 // 2 финальные кнопки 'победа' или 'поражение'
 
 export enum GameOver {
@@ -51,6 +49,7 @@ type Ship = {
     isLoad: boolean;
     isSet: boolean;
     lives: number;
+    positionSquare: Array<string>;
 };
 type EnemyShip = {
     decksAmount: number;
@@ -113,6 +112,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 4,
+        positionSquare: [],
     },
     {
         decksAmount: 3,
@@ -126,6 +126,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 3,
+        positionSquare: [],
     },
     {
         decksAmount: 3,
@@ -139,6 +140,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 3,
+        positionSquare: [],
     },
     {
         decksAmount: 2,
@@ -152,6 +154,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 2,
+        positionSquare: [],
     },
     {
         decksAmount: 2,
@@ -165,6 +168,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 2,
+        positionSquare: [],
     },
     {
         decksAmount: 2,
@@ -178,6 +182,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 2,
+        positionSquare: [],
     },
     {
         decksAmount: 1,
@@ -191,6 +196,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 1,
+        positionSquare: [],
     },
     {
         decksAmount: 1,
@@ -204,6 +210,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 1,
+        positionSquare: [],
     },
     {
         decksAmount: 1,
@@ -217,6 +224,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 1,
+        positionSquare: [],
     },
     {
         decksAmount: 1,
@@ -230,6 +238,7 @@ const shipsImg: ShipsType = [
         isLoad: false,
         isSet: false,
         lives: 1,
+        positionSquare: [],
     },
 ];
 
@@ -380,14 +389,21 @@ async function fakeEnemyShoot() {
     // eslint-disable-next-line
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // const x = data.userField.left + xNum * 30 + 5;
-    // const y = data.userField.top + yNum * 30 - 4;
+    const yNum = getRandomInt(10);
+    const xNum = getRandomInt(10);
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    const targetSquare = letters[xNum] + yNum;
 
-    const targetSquare = 'a5';
-    const x = data.userField.left + 3 * 30 + 5;
-    const y = data.userField.top + 4 * 30 - 4;
+    const x = data.userField.left + xNum * 30 + 5;
+    const y = data.userField.top + yNum * 30 - 4;
 
-    succesShots.push({ x, y, place: targetSquare });
+    const isHit = targetSquare;
+
+    if (isHit) {
+        succesShots.push({ x, y, place: targetSquare });
+    } else {
+        missedShots.push({ x, y, place: targetSquare });
+    }
 
     console.log('комп выстрел');
 }
@@ -662,6 +678,7 @@ const Game: FC = () => {
                 drawCanvasItems(ref);
                 await fakeEnemyShoot();
                 drawCanvasItems(ref);
+                setUserTurn(true);
             } else {
                 console.log(shipHit);
                 // eslint-disable-next-line
@@ -718,6 +735,39 @@ const Game: FC = () => {
                         ship.currentTop += data.squareSize - shiftTop;
                     } else {
                         ship.currentTop -= shiftTop;
+                    }
+
+                    // записываем в дату корабля где его установили
+                    ship.positionSquare = [];
+
+                    if (ship.isRotated) {
+                        const yNum = Math.floor(
+                            Math.floor(ship.currentTop - data.userField.top) / 30
+                        );
+                        const xNum = Math.floor(
+                            Math.floor(ship.currentLeft - data.userField.left + ship.width / 2) / 30
+                        );
+                        const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+                        for (let i = 0; i < ship.decksAmount; i += 1) {
+                            const targetSquare = letters[xNum] + (yNum + i);
+                            ship.positionSquare.push(targetSquare);
+                            console.log(targetSquare);
+                        }
+                    } else {
+                        const yNum = Math.ceil(
+                            Math.floor(ship.currentTop - data.userField.top + ship.height) / 30
+                        );
+                        const xNum = Math.floor(
+                            Math.floor(ship.currentLeft - data.userField.left) / 30
+                        );
+                        const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+                        for (let i = 0; i < ship.decksAmount; i += 1) {
+                            const targetSquare = letters[xNum + i] + yNum;
+                            ship.positionSquare.push(targetSquare);
+                            console.log(targetSquare);
+                        }
                     }
 
                     drawCanvasItems(ref);
@@ -811,19 +861,20 @@ const Game: FC = () => {
         dispatch(setGame({ ...game, mode: Mode.battle }));
         data.placeShipStep = false;
         data.shootStep = true;
+
         drawCanvasItems(ref);
-        setUserTurn(getRandomInt(3) === 1);
+
+        async function firstShoot() {
+            await fakeEnemyShoot();
+            drawCanvasItems(ref);
+        }
+
+        const isEnemyFirstShoot = getRandomInt(2) === 1;
+        setUserTurn(isEnemyFirstShoot);
+        if (!isEnemyFirstShoot) {
+            firstShoot();
+        }
     };
-
-    async function firstShoot() {
-        await fakeEnemyShoot();
-        drawCanvasItems(ref);
-        setUserTurn(true);
-    }
-
-    if (!userTurn) {
-        firstShoot();
-    }
 
     // const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
     //     event.preventDefault();
