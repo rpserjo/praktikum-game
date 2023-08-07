@@ -10,23 +10,17 @@ import { TFetchStatus } from '@/types/data-types';
 import { fetchTopicComments } from '@/store/slices/forumSlice';
 
 export const CommentList: FC = () => {
-    const { page = 1, topicId } = useParams(); // todo topic id?
-
-    const forumState = useSelector((state: RootState) => state.forum);
-
-    const error = useSelector((state: RootState) => state.forum.forum.topicsLoadError);
-
+    const { page = 1, topicId } = useParams();
     const dispatch = useAppDispatch();
-    const commentsLoadStatus = useSelector(
-        (state: RootState) => state.forum.topicInfo.commentsLoadStatus
+    const { commentsData, commentsLoadStatus, commentsLoadError } = useSelector(
+        (state: RootState) => state.forum.topicInfo
     );
     useEffect(() => {
-        if (commentsLoadStatus === TFetchStatus.IDLE && topicId) {
+        if (topicId) {
             dispatch(fetchTopicComments({ topicId: +topicId, page: +page }));
         }
-    }, [dispatch, commentsLoadStatus]);
+    }, [topicId, page]);
 
-    const { commentsData } = forumState.topicInfo;
     let content;
     if (commentsLoadStatus === TFetchStatus.LOADING) {
         content = <Loader />;
@@ -48,7 +42,7 @@ export const CommentList: FC = () => {
             </>
         );
     } else if (commentsLoadStatus === TFetchStatus.FAILED) {
-        content = <div>{error}</div>;
+        content = <div>{commentsLoadError}</div>;
     }
     return <div>{content}</div>;
 };

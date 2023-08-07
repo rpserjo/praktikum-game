@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchForumTopics } from '@/store/slices/forumSlice';
 import style from './forumPage.module.scss';
@@ -8,20 +7,12 @@ import { TTopicForSave, TTopicMessageForSave } from '@/types/forumDataTypes';
 import { ForumModal } from '../common/modal/forumModal';
 import forumApi from '@/api/ForumApi';
 import { TopicList } from './topicList/topicList';
-import { RootState, useAppDispatch } from '@/store';
-import { TFetchStatus } from '@/types/data-types';
+import { useAppDispatch } from '@/store';
 
 const ForumPage: FC = () => {
     const { page = 1 } = useParams();
     const [isModalActive, setIsModalActive] = useState(false);
     const dispatch = useAppDispatch();
-    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsLoadStatus);
-
-    useEffect(() => {
-        if (topicsLoadStatus === TFetchStatus.IDLE) {
-            dispatch(fetchForumTopics(+page));
-        }
-    }, [dispatch, topicsLoadStatus]);
 
     const addNewTopicToList = () => {
         dispatch(fetchForumTopics(+page));
@@ -50,7 +41,7 @@ const ForumPage: FC = () => {
                         Новая тема
                     </Button>
                 </div>
-                <TopicList page={+page} />
+                <TopicList />
             </div>
             <ForumModal
                 isActive={isModalActive}

@@ -10,26 +10,27 @@ import forumApi from '@/api/ForumApi';
 import Emojis from '@/components/ui/emojis/emojis';
 import { calcAvatarUrl } from '@/helpers/avatarHelper';
 import { RootState, useAppDispatch } from '@/store';
-import { TFetchStatus } from '@/types/data-types';
 import { fetchTopicComments, fetchTopicInfo } from '@/store/slices/forumSlice';
 
 export const TopicInfo: FC = () => {
-    const { page = 1, topicId } = useParams(); // todo topic id?
+    const { page = 1, topicId } = useParams();
     const [isModalActive, setIsModalActive] = useState(false);
     const dispatch = useAppDispatch();
 
-    const { topicLoadStatus, topic } = useSelector((state: RootState) => state.forum.topicInfo);
+    const { topic } = useSelector((state: RootState) => state.forum.topicInfo);
 
     useEffect(() => {
-        if (topicLoadStatus === TFetchStatus.IDLE && topicId) {
+        // if (topicLoadStatus === TFetchStatus.IDLE && topicId) {
+        if (topicId) {
             dispatch(fetchTopicInfo(+topicId));
         }
-    }, [dispatch, topicLoadStatus]);
+    }, [topicId]);
 
     const handleCommentSaved = () => {
         if (topicId) {
             dispatch(fetchTopicComments({ topicId: +topicId, page: +page }));
         }
+        // todo concat comments for loading lots of data
     };
 
     const handleCommentSaveError = (error: string) => {
@@ -45,7 +46,7 @@ export const TopicInfo: FC = () => {
             console.log('No comment data provided for saving');
         }
     };
-
+    // todo increment commnets count!
     if (topic) {
         return (
             <>

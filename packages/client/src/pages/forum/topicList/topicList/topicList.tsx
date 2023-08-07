@@ -1,23 +1,27 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import style from './topicList.module.scss';
 import { Topic } from '../topic/topic';
 import Pagination from '@/components/ui/pagination/pagination';
-import { RootState } from '@/store';
+import { RootState, useAppDispatch } from '@/store';
 import { TFetchStatus } from '@/types/data-types';
 import { Loader } from '@/components/ui';
+import { fetchForumTopics } from '@/store/slices/forumSlice';
 
-type TTopicListProps = {
-    page: number;
-};
+export const TopicList: FC = () => {
+    const { page = 1 } = useParams();
+    const dispatch = useAppDispatch();
+    const { topicList, topicsLoadStatus, topicsLoadError } = useSelector(
+        (state: RootState) => state.forum.forum
+    );
 
-export const TopicList: FC<TTopicListProps> = ({ page }) => {
-    const forumState = useSelector((state: RootState) => state.forum);
-
-    const topicsLoadStatus = useSelector((state: RootState) => state.forum.forum.topicsLoadStatus);
-    const error = useSelector((state: RootState) => state.forum.forum.topicsLoadError);
-
-    const { topicList } = forumState.forum;
+    useEffect(() => {
+        console.log('in topic list use effect');
+        console.log(page);
+        // todo do we need (topicsLoadStatus === TFetchStatus.IDLE)
+        dispatch(fetchForumTopics(+page));
+    }, [page]); // todo dependency on dispatch, page]
 
     let content;
     if (topicsLoadStatus === TFetchStatus.LOADING) {
@@ -34,7 +38,7 @@ export const TopicList: FC<TTopicListProps> = ({ page }) => {
             </>
         );
     } else if (topicsLoadStatus === TFetchStatus.FAILED) {
-        content = <div>{error}</div>;
+        content = <div>{topicsLoadError}</div>;
     }
     return <div>{content}</div>;
 };

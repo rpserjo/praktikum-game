@@ -39,6 +39,11 @@ const initialState: TForumState = {
 
 const ELEMENTS_PER_PAGE = 10;
 
+export type CommentParams = {
+    page: number;
+    topicId: number;
+};
+
 const fetchForumTopics = createAsyncThunk<TTopicListData, number>(
     'forum/fetchTopics',
     async (page: number) => {
@@ -46,11 +51,6 @@ const fetchForumTopics = createAsyncThunk<TTopicListData, number>(
         return response;
     }
 );
-
-export type CommentParams = {
-    page: number;
-    topicId: number;
-};
 
 const fetchTopicComments = createAsyncThunk<TCommentListData, CommentParams>(
     'forum/fetchComments',
@@ -90,7 +90,6 @@ const forumSlice = createSlice({
             })
             .addCase(fetchForumTopics.fulfilled, (state, action) => {
                 state.forum.topicsLoadStatus = TFetchStatus.SUCCEEDED;
-                // todo do we need like this or add as in the example
                 state.forum.topicList = action.payload;
             })
             .addCase(fetchForumTopics.rejected, (state, action) => {
@@ -113,6 +112,7 @@ const forumSlice = createSlice({
             })
             .addCase(fetchTopicComments.fulfilled, (state, action) => {
                 state.topicInfo.commentsLoadStatus = TFetchStatus.SUCCEEDED;
+                // todo we can concat comments to have all seen pages of comments at the same time
                 state.topicInfo.commentsData = action.payload;
             })
             .addCase(fetchTopicComments.rejected, (state, action) => {
