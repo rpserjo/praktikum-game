@@ -409,14 +409,17 @@ async function fakeEnemyShoot() {
         }
     });
     console.log(targetSquare);
-
+    let res = null;
     if (isHit) {
         succesShots.push({ x, y, place: targetSquare });
         console.log('комп попал');
+        res = 'hit';
     } else {
-        missedShots.push({ x, y, place: targetSquare });
+        missedShots.push({ x: x + 5, y: y - 10, place: targetSquare });
         console.log('комп мимо');
+        res = 'miss';
     }
+    return res;
 }
 
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
@@ -685,12 +688,14 @@ const Game: FC = () => {
                 const yShift = data.enemyField.top + yNum * 30 - 15;
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
 
-                setUserTurn(false);
                 console.log('юзер мимо');
                 drawCanvasItems(ref);
+                setUserTurn(false);
+
                 await fakeEnemyShoot();
-                drawCanvasItems(ref);
                 setUserTurn(true);
+
+                drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
                 // eslint-disable-next-line
@@ -754,7 +759,15 @@ const Game: FC = () => {
 
                     if (ship.isRotated) {
                         const yNum = Math.floor(
-                            Math.floor(ship.currentTop - data.userField.top) / 30
+                            Math.ceil(
+                                // eslint-disable-next-line
+                                ship.currentTop -
+                                    // eslint-disable-next-line
+                                    data.userField.top +
+                                    // eslint-disable-next-line
+                                    ship.height * 2 -
+                                    ship.width / 2
+                            ) / 30
                         );
                         const xNum = Math.floor(
                             Math.floor(ship.currentLeft - data.userField.left + ship.width / 2) / 30
@@ -764,6 +777,7 @@ const Game: FC = () => {
                         for (let i = 0; i < ship.decksAmount; i += 1) {
                             const targetSquare = letters[xNum] + (yNum + i);
                             ship.positionSquare.push(targetSquare);
+                            console.log(targetSquare);
                         }
                     } else {
                         const yNum = Math.ceil(
@@ -777,6 +791,7 @@ const Game: FC = () => {
                         for (let i = 0; i < ship.decksAmount; i += 1) {
                             const targetSquare = letters[xNum + i] + yNum;
                             ship.positionSquare.push(targetSquare);
+                            console.log(targetSquare);
                         }
                     }
                     drawCanvasItems(ref);
@@ -878,9 +893,9 @@ const Game: FC = () => {
         }
 
         const isEnemyFirstShoot = getRandomInt(2) === 1;
-        setUserTurn(isEnemyFirstShoot);
         if (!isEnemyFirstShoot) {
             firstShoot();
+            setUserTurn(true);
         }
     };
 
