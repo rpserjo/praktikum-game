@@ -3,8 +3,8 @@ import style from './button.module.scss';
 
 type ButtonProps = {
     children: ReactNode;
-    buttonSize?: 'small' | 'medium' | 'large';
-    buttonStyle?: 'normal' | 'outlined';
+    buttonSize?: 'small' | 'medium' | 'large' | 'no';
+    buttonStyle?: 'normal' | 'outlined' | 'outlinedSmall';
     onClick?: MouseEventHandler;
     type?: 'button' | 'submit' | 'reset';
 };

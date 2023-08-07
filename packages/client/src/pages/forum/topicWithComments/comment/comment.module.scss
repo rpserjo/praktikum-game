@@ -1,0 +1,14 @@
+@import '@/assets/variables.scss';
+
+.message__reply {
+  @include rowDiv;
+  gap: 0.5em;
+  width: 100%;
+}
+
+.message__replyList {
+  margin-left: 10px;
+  margin-top: 5px;
+  border-left: 1px solid $colorBorder;
+  padding-left: 1em;
+}

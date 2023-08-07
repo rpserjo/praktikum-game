@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer, { TState, TUser } from '@/store/slices/userSlice';
 import gameReducer from '@/store/slices/gameSlice';
 import themeReducer from '@/store/slices/themeSlice';
+import forumReducer from '@/store/slices/forumSlice';
 
 interface IUserService {
     getUserData(): Promise<TUser>;
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     game: gameReducer,
     theme: themeReducer,
+    forum: forumReducer,
 });
 
 function createStore(service: IUserService, initialState?: StoreState) {

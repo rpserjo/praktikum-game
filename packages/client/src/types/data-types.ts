@@ -6,38 +6,34 @@ export type TLeaderBoardData = {
     score: number;
 };
 
-export type TEmojis = {
-    like: { amount: number; users: Array<string> };
-    hmm: { amount: number; users: Array<string> };
-    heart: { amount: number; users: Array<string> };
-    ghost: { amount: number; users: Array<string> };
-    fire: { amount: number; users: Array<string> };
-    the_rooms: { amount: number; users: Array<string> };
+enum Emoji {
+    Like = 'like',
+    Hmm = 'hmm',
+    Heart = 'heart',
+    Ghost = 'ghost',
+    Fire = 'fire',
+    Rooms = 'the_rooms',
+}
+
+export type EmojiValue = {
+    amount: number;
+    users: Array<string>;
 };
 
-export type TForumData = {
-    msgId: number;
-    topicId: number;
-    topic: string;
-    message: string;
-    author: string;
-    createDate: string;
-    emojis: TEmojis;
+export type TEmojisType = {
+    [Emoji.Like]: EmojiValue;
+    [Emoji.Hmm]: EmojiValue;
+    [Emoji.Heart]: EmojiValue;
+    [Emoji.Ghost]: EmojiValue;
+    [Emoji.Fire]: EmojiValue;
+    [Emoji.Rooms]: EmojiValue;
 };
 
-export type TTopicList = {
-    topicId: number;
-    topic: string;
-    message: string;
-    author: string;
-    createDate: string;
-    dateLastMessage: string;
-    messageQty: number;
-};
-
-export type TTopicServerData = {
-    items: TTopicList[];
-    lastPage: number;
-};
+export enum TFetchStatus {
+    IDLE = 'idle',
+    LOADING = 'loading',
+    SUCCEEDED = 'succeeded',
+    FAILED = 'failed',
+}
 
 export default TLeaderBoardData;

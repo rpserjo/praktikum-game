@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import OAuthInPage from '@pages/oauthInPage/oauthInPage';
-import ForumTopicPage from '@pages/forum-topic/forum-topic';
 import HomePage from '@pages/index/index';
 import GamePage from '@pages/game/game';
 import LeaderboardPage from '@pages/leaderboard/leaderboard';
@@ -10,7 +9,8 @@ import SignInPage from '@pages/signin/signin';
 import SignUpPage from '@pages/signup/signup';
 import ErrorPage from '@pages/error/error';
 import LandingPage from '@pages/landing/landing';
-import ForumPage from '@pages/forum/dataLoader/dataLoader';
+import ForumPage from '@/pages/forum/topicList/forumPage';
+import ForumTopicPage from '@/pages/forum/topicWithComments/topicPage';
 import { Loader } from '@/components/ui';
 import Layout from '@/layout/default/layout';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';

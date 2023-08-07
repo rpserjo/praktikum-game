@@ -1,4 +1,4 @@
-import BaseApi from './BaseApi';
+import BaseApi, { HostOptions } from './BaseApi';
 import API from '@/api/api';
 import { TThemeData } from '@/models/models';
 
@@ -14,7 +14,7 @@ type TChangeThemeRequestData = {
 
 class ThemeApi extends BaseApi {
     constructor() {
-        super(API.ENDPOINTS.THEME.ENDPOINT, 'appHost');
+        super(API.ENDPOINTS.THEME.ENDPOINT, HostOptions.APP_HOST);
     }
 
     public async getCurrentUserTheme(): Promise<TThemeRequestData> {

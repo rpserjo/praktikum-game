@@ -41,16 +41,16 @@ body[data-theme='dark'] {
       justify-content: space-evenly;
       align-items: center;
       cursor: pointer;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: $emojiLikeBackground;
 
       &-liked {
-        background-color: rgba(0, 4, 254, 0.3);
+        background-color: $emojiLikeBackgroundSecondary;
       }
     }
 
     &-amount {
       font-size: 17px;
-      color: white;
+      color: $emojiCountText;
     }
 
     &-emoji {
@@ -65,7 +65,7 @@ body[data-theme='dark'] {
     overflow: hidden;
     margin-right: 20px;
     width: 82px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: $emojiChooseBackground;
     transition: width 0.3s linear;
     border-radius: 4px;
     display: flex;

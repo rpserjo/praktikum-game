@@ -1,5 +1,18 @@
 @import '@/assets/variables.scss';
 
+@mixin buttonOutlined {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid $colorBorder;
+  color: $colorText;
+  transition: color 0.3s ease;
+}
+
+@mixin buttonOutlinedHover {
+  border-color: darken($colorBorder, 10%);
+  color: darken($colorBorder, 10%);
+}
+
 body[data-theme='dark'] {
   .normal {
     background-color: $colorBgButton__dark;
@@ -10,7 +23,8 @@ body[data-theme='dark'] {
     }
   }
 
-  .outlined {
+  .outlined,
+  .outlinedSmall {
     border-color: $colorBorder__dark;
     color: $colorText__dark;
 
@@ -41,15 +55,20 @@ body[data-theme='dark'] {
 }
 
 .outlined {
-  background-color: transparent;
-  border-radius: 5px;
-  border: 1px solid $colorBorder;
-  color: $colorText;
-  transition: color 0.3s ease;
+  @include buttonOutlined;
 
   &:hover {
-    border-color: darken($colorBorder, 10%);
-    color: darken($colorBorder, 10%);
+    @include buttonOutlinedHover;
+  }
+}
+
+.outlinedSmall {
+  @include buttonOutlined;
+  padding: 0;
+  height: 22px;
+
+  &:hover {
+    @include buttonOutlinedHover;
   }
 }
 

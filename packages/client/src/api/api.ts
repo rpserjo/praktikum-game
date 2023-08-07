@@ -34,6 +34,13 @@ const API = {
         THEME: {
             ENDPOINT: '/theme',
         },
+        FORUM: {
+            ENDPOINT: '',
+            COMMENTS: '/comments',
+            REPLIES: '/replies',
+            TOPICS: '/topics',
+            TOPIC: '/topic',
+        },
     },
 };
 

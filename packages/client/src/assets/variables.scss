@@ -34,14 +34,14 @@ $colorBgThumbnailLite__dark: #e4ebf0;
 $colorAvatarBackground__dark: #e4ebf0;
 $colorAvatarText__dark: #ffffff;
 
-$one: #3e92b3;
-$two: #7ecbd5;
-$three: #265b8f;
-$four: #f0efea;
-$five: #f8cd6b;
-$six: #3f4151;
-$seven: #e4ebf0;
-$eight: #ffffff;
+$emojiLikeBackground: rgba(0, 0, 0, 0.3);
+$emojiLikeBackgroundSecondary: rgba(0, 4, 254, 0.3);
+$emojiCountText: #fff;
+$emojiChooseBackground: rgba(0, 0, 0, 0.2);
+$emojiButtonBackground: #cedef2;
+$emojiButtonBackgroundHover: aqua;
+
+$forumAvatarSize: 40px;
 
 @mixin transition {
   transition: all 0.2s ease-in-out;
@@ -59,4 +59,9 @@ $eight: #ffffff;
 @mixin apiButtonsPosition {
   position: absolute;
   left: 30px;
+}
+
+@mixin rowDiv {
+  display: flex;
+  align-items: center;
 }
