@@ -7,6 +7,8 @@ import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
 import { createProxyMiddleware, responseInterceptor } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
+import * as http from 'http';
+import * as https from 'https';
 import { YandexAPIRepository } from './repository/YandexAPIRepository';
 import { dbConnect } from './db';
 import { apiRouter } from './api_router';
@@ -157,8 +159,23 @@ async function startServer() {
         }
     });
 
-    app.listen(port, () => {
-        console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+    const httpServer = http.createServer(app);
+    const httpsServer = https.createServer(
+        {
+            key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
+            cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem')),
+        },
+        app
+    );
+
+    // app.listen(port, () => {
+    //     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+    // });
+
+    const server = isDev() ? httpServer : httpsServer;
+
+    server.listen(port, () => {
+        console.log(`  ➜ 🎸 Server is listening on port: ${port} [${isDev() ? 'HTTP' : 'HTTPS'}]`);
     });
 
     dbConnect();
