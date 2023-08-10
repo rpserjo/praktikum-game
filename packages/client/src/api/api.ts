@@ -1,5 +1,5 @@
-const HOST = 'http://localhost:3000/api/v2'; // TODO: SET PORT FROM .env
-const APP_HOST = 'http://localhost:3000/api';
+const APP_HOST = '/api';
+const HOST = `${APP_HOST}/v2`;
 export const oauthProviderUri = 'https://oauth.yandex.ru/authorize?response_type=code';
 
 const API = {
