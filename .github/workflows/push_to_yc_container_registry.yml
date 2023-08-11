@@ -1,10 +1,6 @@
-# Определяем название процесса (просто отображается на странице Actions в GitHub)
 name: Push To Yandex Cloud CR
 
-# Определяем условия запуска процесса
-# Подробнее см. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
 on:
-  workflow_dispatch:
   push:
     branches:
       - feature/ROOMS-79_github-action
