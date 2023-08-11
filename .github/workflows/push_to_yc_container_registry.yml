@@ -36,7 +36,7 @@ jobs:
           PGADMIN_DEFAULT_PASSWORD: admin
 
         run: |
-          docker compose build
+          docker compose build server client
           docker tag practicum-client:latest cr.yandex/$CR_REGISTRY/practicum-client:latest
           docker push cr.yandex/$CR_REGISTRY/practicum-client:latest
           docker tag practicum-server:latest cr.yandex/$CR_REGISTRY/practicum-server:latest
