@@ -1,32 +1,7 @@
 @import '@/assets/variables.scss';
 @import '@/assets/tektur/font-tektur.scss';
 
-.buttonFullscreen {
-  @include apiButtonsPosition;
-  top: 30px;
-
-  .icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    svg {
-      width: 36px;
-      height: 36px;
-
-      path {
-        fill: $colorBorder;
-      }
-    }
-  }
-}
-
-.soundButton {
-  @include apiButtonsPosition;
-  top: 100px;
-}
-
-.soundButton__icon {
+@mixin apiButtonIconStyle {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,4 +14,31 @@
       fill: $colorBorder;
     }
   }
+}
+
+.buttonFullscreen {
+  @include apiButtonsPosition;
+  top: 30px;
+
+  .icon {
+    @include apiButtonIconStyle;
+  }
+}
+
+.soundButton {
+  @include apiButtonsPosition;
+  top: 100px;
+}
+
+.soundButton__icon {
+  @include apiButtonIconStyle;
+}
+
+.locationButton {
+  @include apiButtonsPosition;
+  top: 170px;
+}
+
+.locationButton__icon {
+  @include apiButtonIconStyle;
 }

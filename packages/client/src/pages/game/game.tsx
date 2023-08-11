@@ -25,6 +25,7 @@ import SoundService from '@/utils/sound/soundService';
 import FullscreenButton from './apiButtons/fullScreenButton';
 import SoundButton from './apiButtons/soundButton';
 import { NotificationService } from '@/utils/notification/notificationService';
+import GeolocationButton from './apiButtons/geolocationButton';
 
 // todo: использование пропсов - временное решение.
 //  Необходимо заменить на использование глобального состояния, когда начнем его использовать.
@@ -465,6 +466,8 @@ const Game: FC = () => {
                 <FullscreenButton />
 
                 <SoundButton />
+
+                <GeolocationButton />
 
                 <div className={style.content}>
                     <div className={style.leftSide}>
