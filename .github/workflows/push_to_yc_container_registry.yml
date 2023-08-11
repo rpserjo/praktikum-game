@@ -4,6 +4,7 @@ name: Push To Yandex Cloud CR
 # Определяем условия запуска процесса
 # Подробнее см. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/ROOMS-79_github-action
@@ -35,7 +36,6 @@ jobs:
           PGADMIN_DEFAULT_PASSWORD: admin
 
         run: |
-          ln -s $GITHUB_WORKSPACE /home/runner/work/praktikum-game
           docker compose build 
           docker tag praktikum-client:latest cr.yandex/$CR_REGISTRY/praktikum-client:latest
           docker push cr.yandex/$CR_REGISTRY/praktikum-client:latest
