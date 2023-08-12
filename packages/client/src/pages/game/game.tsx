@@ -548,13 +548,13 @@ async function fakeEnemyShoot(
         console.log('комп попал');
         // eslint-disable-next-line
         isHit['lives']--;
+        drawCanvasItems(ref);
         if (checkComputerWin()) {
             console.log('Победа машин 🤖!!');
             data.shootStep = false;
             setEnemeWon(true);
         }
         setUserTurn(false);
-        drawCanvasItems(ref);
         fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
     } else {
         missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
@@ -939,7 +939,6 @@ const Game: FC = () => {
         const isEnemyFirstShoot = getRandomInt(2) === 1;
         if (isEnemyFirstShoot) {
             firstShoot();
-            setUserTurn(false);
         }
     };
 
