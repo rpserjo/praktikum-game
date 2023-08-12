@@ -29,7 +29,6 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
-// 2 финальные кнопки 'победа' или 'поражение'
 // 3 проверка отпускания кораблей  вобласть вокруг
 // 4 рандомная генерация кораблей врага
 
@@ -550,6 +549,7 @@ async function fakeEnemyShoot(
         isHit['lives']--;
         drawCanvasItems(ref);
         if (checkComputerWin()) {
+            drawCanvasItems(ref);
             console.log('Победа машин 🤖!!');
             data.shootStep = false;
             setEnemeWon(true);
@@ -587,12 +587,69 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     return res;
 };
 
-const clickedEnemyFieald = function (canvasX: number, canvasY: number): boolean {
+const clickedEnemyFeald = function (canvasX: number, canvasY: number): boolean {
     const x = data.enemyField.left;
     const xWidth = data.enemyField.left + data.enemyField.size;
     const y = data.enemyField.top;
     const yWidth = data.enemyField.top + data.enemyField.size;
     const res = canvasX >= x && canvasX <= xWidth && canvasY >= y && canvasY <= yWidth;
+
+    return res;
+};
+
+const notOnOtherShip = function (): boolean {
+    let res = true;
+
+    const ship = data.currentShip;
+    if (ship !== null) {
+        if (ship.isRotated) {
+            const yNum = Math.floor(
+                Math.ceil(
+                    // eslint-disable-next-line
+                    ship.currentTop -
+                        // eslint-disable-next-line
+                        data.userField.top +
+                        // eslint-disable-next-line
+                        ship.height * 2 -
+                        ship.width / 2
+                ) / 30
+            );
+            const xNum = Math.floor(
+                Math.floor(ship.currentLeft - data.userField.left + ship.width / 2) / 30
+            );
+            const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+            for (let i = 0; i < ship.decksAmount; i += 1) {
+                const targetSquare = letters[xNum] + (yNum + i);
+                // eslint-disable-next-line
+                shipsImg.forEach(shipTocheck => {
+                    shipTocheck.positionSquare.forEach(el => {
+                        if (el === targetSquare) {
+                            res = false;
+                        }
+                    });
+                });
+            }
+        } else {
+            const yNum = Math.ceil(
+                Math.floor(ship.currentTop - data.userField.top + ship.height) / 30
+            );
+            const xNum = Math.floor(Math.floor(ship.currentLeft - data.userField.left) / 30);
+            const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+            for (let i = 0; i < ship.decksAmount; i += 1) {
+                const targetSquare = letters[xNum + i] + yNum;
+                // eslint-disable-next-line
+                shipsImg.forEach(shipTocheck => {
+                    shipTocheck.positionSquare.forEach(el => {
+                        if (el === targetSquare) {
+                            res = false;
+                        }
+                    });
+                });
+            }
+        }
+    }
 
     return res;
 };
@@ -703,7 +760,7 @@ const Game: FC = () => {
             });
         }
 
-        if (data.shootStep && userTurn && clickedEnemyFieald(canvasX, canvasY)) {
+        if (data.shootStep && userTurn && clickedEnemyFeald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
             const xNum = Math.floor(Math.floor(canvasX - data.enemyField.left) / 30);
             const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -762,7 +819,7 @@ const Game: FC = () => {
         if (data.isDragging && data.placeShipStep) {
             const ship = data.currentShip;
 
-            if (isDraggedIntoDropField()) {
+            if (isDraggedIntoDropField() && notOnOtherShip()) {
                 if (ship !== null) {
                     if (ship.isSet === false) {
                         const key = `decks_${ship.decksAmount}` as string;
