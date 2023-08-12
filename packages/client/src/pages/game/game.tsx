@@ -892,6 +892,8 @@ const Game: FC = () => {
                 mode: Mode.placement,
             })
         );
+        // eslint-disable-next-line
+        location.reload();
     };
 
     const handleDefeatButtonClick: MouseEventHandler<HTMLButtonElement> = (
