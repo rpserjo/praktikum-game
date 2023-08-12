@@ -29,8 +29,10 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
-// 1проверка не стрелял ли уже раньше туда
+// 1 проверка не стрелял ли уже раньше туда
 // 2 финальные кнопки 'победа' или 'поражение'
+// 3 проверка отпускания кораблей  вобласть вокруг
+// 4 рандомная генерация кораблей врага
 
 export enum GameOver {
     win = 'win',
@@ -385,43 +387,6 @@ function renderSuccesShots(ctx: CanvasRenderingContext2D) {
     });
 }
 
-async function fakeEnemyShoot() {
-    // eslint-disable-next-line
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    const yNum = getRandomInt(10) + 1;
-    const xNum = getRandomInt(10);
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-    const targetSquare = letters[xNum] + yNum;
-
-    const x = data.userField.left + xNum * 30 + 5;
-    const y = data.userField.top + yNum * 30 - 4;
-
-    let isHit: Ship | null = null;
-
-    shipsImg.forEach(ship => {
-        if (ship.positionSquare.includes(targetSquare)) {
-            // eslint-disable-next-line
-            ship.positionSquare = ship.positionSquare.filter(function (item) {
-                return item !== targetSquare;
-            });
-            isHit = ship;
-        }
-    });
-    console.log(targetSquare);
-    let res = null;
-    if (isHit) {
-        succesShots.push({ x, y, place: targetSquare });
-        console.log('комп попал');
-        res = 'hit';
-    } else {
-        missedShots.push({ x: x + 5, y: y - 10, place: targetSquare });
-        console.log('комп мимо');
-        res = 'miss';
-    }
-    return res;
-}
-
 function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     if (ctx === null || ctx === undefined) {
         return;
@@ -526,6 +491,51 @@ const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
         renderSuccesShots(ctx);
     }
 };
+
+async function fakeEnemyShoot(
+    ref: RefObject<HTMLCanvasElement>,
+    setUserTurn: React.Dispatch<React.SetStateAction<boolean>>
+) {
+    // eslint-disable-next-line
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    const yNum = getRandomInt(10) + 1;
+    const xNum = getRandomInt(10);
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    const targetSquare = letters[xNum] + yNum;
+
+    const x = data.userField.left + xNum * 30 + 5;
+    const y = data.userField.top + yNum * 30 - 4;
+
+    let isHit: Ship | null = null;
+
+    shipsImg.forEach(ship => {
+        if (ship.positionSquare.includes(targetSquare)) {
+            // eslint-disable-next-line
+            ship.positionSquare = ship.positionSquare.filter(function (item) {
+                return item !== targetSquare;
+            });
+            isHit = ship;
+        }
+    });
+    console.log(targetSquare);
+    let res = null;
+    if (isHit) {
+        succesShots.push({ x, y, place: targetSquare });
+        console.log('комп попал');
+        res = 'hit';
+        setUserTurn(false);
+        drawCanvasItems(ref);
+        fakeEnemyShoot(ref, setUserTurn);
+    } else {
+        missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
+        console.log('комп мимо');
+        res = 'miss';
+        setUserTurn(true);
+        drawCanvasItems(ref);
+    }
+    return res;
+}
 
 const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     let shipLeft;
@@ -692,9 +702,7 @@ const Game: FC = () => {
                 drawCanvasItems(ref);
                 setUserTurn(false);
 
-                await fakeEnemyShoot();
-                setUserTurn(true);
-
+                await fakeEnemyShoot(ref, setUserTurn);
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -888,14 +896,14 @@ const Game: FC = () => {
         drawCanvasItems(ref);
 
         async function firstShoot() {
-            await fakeEnemyShoot();
+            await fakeEnemyShoot(ref, setUserTurn);
             drawCanvasItems(ref);
         }
 
         const isEnemyFirstShoot = getRandomInt(2) === 1;
-        if (!isEnemyFirstShoot) {
+        if (isEnemyFirstShoot) {
             firstShoot();
-            setUserTurn(true);
+            setUserTurn(false);
         }
     };
 
