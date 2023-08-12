@@ -29,9 +29,6 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
-// 3 проверка отпускания кораблей  вобласть вокруг
-// 4 рандомная генерация кораблей врага
-
 export enum GameOver {
     win = 'win',
     defeat = 'defeat',
@@ -511,7 +508,7 @@ async function fakeEnemyShoot(
     setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>
 ) {
     // eslint-disable-next-line
-    // await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, getRandomInt(5000)));
 
     let yNum = getRandomInt(10) + 1;
     let xNum = getRandomInt(10);
