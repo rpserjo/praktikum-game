@@ -29,7 +29,6 @@ import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 //     enemy = 'enemy',
 // }
 
-// 1 проверка не стрелял ли уже раньше туда
 // 2 финальные кнопки 'победа' или 'поражение'
 // 3 проверка отпускания кораблей  вобласть вокруг
 // 4 рандомная генерация кораблей врага
@@ -74,6 +73,7 @@ type DataType = {
     userField: { size: number; left: number; top: number };
     enemyField: { size: number; left: number; top: number };
     enemyShots: Array<string>;
+    isFinished: boolean;
 };
 
 const data: DataType = {
@@ -87,6 +87,7 @@ const data: DataType = {
     userField: { size: 300, left: 650, top: 70 },
     enemyField: { size: 300, left: 250, top: 70 },
     enemyShots: [],
+    isFinished: false,
 };
 
 type NumsOfShipsLeftToPlaceType = {
@@ -494,12 +495,24 @@ const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
     }
 };
 
+function checkUserWin(): boolean {
+    const res = enemyShips.every(ship => ship.lives === 0);
+    return res;
+}
+
+function checkComputerWin(): boolean {
+    const res = shipsImg.every(ship => ship.lives === 0);
+
+    return res;
+}
+
 async function fakeEnemyShoot(
     ref: RefObject<HTMLCanvasElement>,
-    setUserTurn: React.Dispatch<React.SetStateAction<boolean>>
+    setUserTurn: React.Dispatch<React.SetStateAction<boolean>>,
+    setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>
 ) {
     // eslint-disable-next-line
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // await new Promise(resolve => setTimeout(resolve, 1500));
 
     let yNum = getRandomInt(10) + 1;
     let xNum = getRandomInt(10);
@@ -529,22 +542,26 @@ async function fakeEnemyShoot(
         }
     });
     console.log(targetSquare);
-    let res = null;
+
     if (isHit) {
         succesShots.push({ x, y, place: targetSquare });
         console.log('комп попал');
-        res = 'hit';
+        // eslint-disable-next-line
+        isHit['lives']--;
+        if (checkComputerWin()) {
+            console.log('Победа машин 🤖!!');
+            data.shootStep = false;
+            setEnemeWon(true);
+        }
         setUserTurn(false);
         drawCanvasItems(ref);
-        fakeEnemyShoot(ref, setUserTurn);
+        fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
     } else {
         missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
         console.log('комп мимо');
-        res = 'miss';
         setUserTurn(true);
         drawCanvasItems(ref);
     }
-    return res;
 }
 
 const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
@@ -644,6 +661,8 @@ const Game: FC = () => {
 
     const [areAllShipsPlaced, setAreAllShipsPlaced] = useState(false);
     const [userTurn, setUserTurn] = useState(true);
+    const [userWon, setUserWon] = useState(false);
+    const [enemeWon, setEnemeWon] = useState(false);
 
     const rotate = useCallback((event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currentShip !== null) {
@@ -685,7 +704,6 @@ const Game: FC = () => {
         }
 
         if (data.shootStep && userTurn && clickedEnemyFieald(canvasX, canvasY)) {
-            // if (clickedEnemyFieald(canvasX, canvasY)) {
             const yNum = Math.ceil(Math.floor(canvasY - data.enemyField.top) / 30);
             const xNum = Math.floor(Math.floor(canvasX - data.enemyField.left) / 30);
             const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -712,7 +730,7 @@ const Game: FC = () => {
                 drawCanvasItems(ref);
                 setUserTurn(false);
 
-                await fakeEnemyShoot(ref, setUserTurn);
+                await fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -730,6 +748,12 @@ const Game: FC = () => {
                 succesShots.push({ x: xShift, y: yShift, place: targetSquare });
 
                 drawCanvasItems(ref);
+
+                if (checkUserWin()) {
+                    console.log('Игрок победил!!!');
+                    data.shootStep = false;
+                    setUserWon(true);
+                }
             }
         }
     };
@@ -881,6 +905,8 @@ const Game: FC = () => {
                 mode: Mode.placement,
             })
         );
+        // eslint-disable-next-line
+        location.reload();
     };
 
     const endGameModalClasses = cn(style.endGameModal, {
@@ -906,7 +932,7 @@ const Game: FC = () => {
         drawCanvasItems(ref);
 
         async function firstShoot() {
-            await fakeEnemyShoot(ref, setUserTurn);
+            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
             drawCanvasItems(ref);
         }
 
@@ -917,15 +943,15 @@ const Game: FC = () => {
         }
     };
 
-    // const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
-    //     event.preventDefault();
-    //     dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
-    // };
+    const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+        event.preventDefault();
+        dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
+    };
 
-    // const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
-    //     event.preventDefault();
-    //     dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
-    // };
+    const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
+        event.preventDefault();
+        dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
+    };
 
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
@@ -986,7 +1012,7 @@ const Game: FC = () => {
                                 <span className={style.gameMessage}>Расставьте корабли</span>
                             ) : null}
 
-                            {areAllShipsPlaced && !data.shootStep ? (
+                            {areAllShipsPlaced && !data.shootStep && !enemeWon && !userWon ? (
                                 <Button buttonSize="medium" onClick={gameStartHandle}>
                                     Готов к бою!
                                 </Button>
@@ -994,19 +1020,26 @@ const Game: FC = () => {
 
                             {/* todo: кнопки нужны для имитации окончания игры */}
 
-                            {/* {mode === Mode.battle ? (
+                            {userWon || enemeWon ? (
                                 <>
-                                    <div className={style.temporaryWrapperForButton}>
-                                        <Button buttonSize="medium" onClick={gameDefeatWinHandle}>
-                                            Поражение
-                                        </Button>
-                                    </div>
+                                    {enemeWon ? (
+                                        <div className={style.temporaryWrapperForButton}>
+                                            <Button
+                                                buttonSize="medium"
+                                                onClick={gameDefeatWinHandle}
+                                            >
+                                                Поражение
+                                            </Button>
+                                        </div>
+                                    ) : null}
 
-                                    <Button buttonSize="medium" onClick={gameOverWinHandle}>
-                                        Победа
-                                    </Button>
+                                    {userWon ? (
+                                        <Button buttonSize="medium" onClick={gameOverWinHandle}>
+                                            Победа
+                                        </Button>
+                                    ) : null}
                                 </>
-                            ) : null} */}
+                            ) : null}
                         </div>
                     </div>
 
