@@ -73,6 +73,7 @@ type DataType = {
     isDragging: boolean;
     userField: { size: number; left: number; top: number };
     enemyField: { size: number; left: number; top: number };
+    enemyShots: Array<string>;
 };
 
 const data: DataType = {
@@ -85,6 +86,7 @@ const data: DataType = {
     isDragging: false,
     userField: { size: 300, left: 650, top: 70 },
     enemyField: { size: 300, left: 250, top: 70 },
+    enemyShots: [],
 };
 
 type NumsOfShipsLeftToPlaceType = {
@@ -499,10 +501,18 @@ async function fakeEnemyShoot(
     // eslint-disable-next-line
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    const yNum = getRandomInt(10) + 1;
-    const xNum = getRandomInt(10);
+    let yNum = getRandomInt(10) + 1;
+    let xNum = getRandomInt(10);
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-    const targetSquare = letters[xNum] + yNum;
+    let targetSquare = letters[xNum] + yNum;
+
+    while (data.enemyShots.includes(targetSquare)) {
+        yNum = getRandomInt(10) + 1;
+        xNum = getRandomInt(10);
+        targetSquare = letters[xNum] + yNum;
+    }
+
+    data.enemyShots.push(targetSquare);
 
     const x = data.userField.left + xNum * 30 + 5;
     const y = data.userField.top + yNum * 30 - 4;
