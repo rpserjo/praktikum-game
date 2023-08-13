@@ -22,7 +22,7 @@ jobs:
           CR_REGISTRY: crpmr3649o1i55g4rqh6
           CR_REPOSITORY: game.practicum.yandex.ru
           IMAGE_TAG: ${{ github.sha }}
-          CLIENT_PORT: 2999
+          CLIENT_PORT: 80
           SERVER_PORT: 3000
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
