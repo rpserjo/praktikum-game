@@ -16,7 +16,7 @@ import Button from '@components/ui/button/button';
 import { Icon } from '@ui';
 import User, { Type } from '@components/ui/user/user';
 import GameReserve from '@/pages/game/gameReserve';
-import renderHorizontalText from './game.helper';
+import renderHorizontalText, { roundRect, renderBattlefield } from './game.helper';
 import {
     data,
     numsOfShipsLeftToPlace,
@@ -109,37 +109,6 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
         }
     });
 }
-
-const roundRect = function (
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    radius: number
-): void {
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.arcTo(x + width, y, x + width, y + height, radius);
-    ctx.arcTo(x + width, y + height, x, y + height, radius);
-    ctx.arcTo(x, y + height, x, y, radius);
-    ctx.arcTo(x, y, x + width, y, radius);
-    ctx.closePath();
-    ctx.fillStyle = '#265B8F';
-    ctx.fill();
-};
-
-const renderBattlefield = function (ctx: CanvasRenderingContext2D, x: number, y: number): void {
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 1;
-    const fieldSize = 30;
-    const screenSize = 300;
-
-    for (let index = 0; index < 10; index += 1) {
-        ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
-        ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
-    }
-};
 
 const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
     if (ref.current) {

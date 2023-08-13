@@ -50,3 +50,34 @@ export default function renderHorizontalText(
 
     context.textAlign = align;
 }
+
+export function roundRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    radius: number
+): void {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + width, y, x + width, y + height, radius);
+    ctx.arcTo(x + width, y + height, x, y + height, radius);
+    ctx.arcTo(x, y + height, x, y, radius);
+    ctx.arcTo(x, y, x + width, y, radius);
+    ctx.closePath();
+    ctx.fillStyle = '#265B8F';
+    ctx.fill();
+}
+
+export function renderBattlefield(ctx: CanvasRenderingContext2D, x: number, y: number): void {
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
+    const fieldSize = 30;
+    const screenSize = 300;
+
+    for (let index = 0; index < 10; index += 1) {
+        ctx.strokeRect(x + fieldSize * index, y, fieldSize, screenSize);
+        ctx.strokeRect(x, y + fieldSize * index, screenSize, fieldSize);
+    }
+}
