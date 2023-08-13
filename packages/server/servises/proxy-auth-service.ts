@@ -6,7 +6,7 @@ class AuthService {
         const parseAuthCookie = Cookie.match(/.*authCookie=([^;]*);.*?Expires=(.+?GMT);/);
         const parseUUIDs = Cookie.match(/.*uuid=([\w-]*)/);
 
-        if (parseAuthCookie && parseUUIDs) {
+        if (parseAuthCookie && parseUUIDs && parseUUIDs[1]) {
             const expires = Date.parse(parseAuthCookie[2]);
             const authCookie = parseAuthCookie[1];
 
