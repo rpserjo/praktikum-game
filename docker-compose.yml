@@ -82,6 +82,18 @@ services:
     networks:
       - skynet
 
+  nginx:
+      container_name: nginx
+      image: nginx:1.25
+      ports:
+        - '80:80'
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+        - /var/ssl/cert.pem:/var/ssl/cert.pem
+        - /var/ssl/privkey.pem:/var/ssl/privkey.pem
+      networks:
+      - skynet
+
 networks:
   skynet:
     driver: bridge
