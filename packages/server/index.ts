@@ -160,15 +160,21 @@ async function startServer() {
     });
 
     const httpServer = http.createServer(app);
-    const httpsServer = https.createServer(
-        {
-            key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
-            cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem')),
-        },
-        app
-    );
 
-    const server = isDev() ? httpServer : httpsServer;
+    let server = httpServer;
+
+    if (!isDev()) {
+        const httpsServer = https.createServer(
+            {
+                key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
+                cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem')),
+            },
+            app
+        );
+        server = httpsServer;
+    }
+
+    // const server = isDev() ? httpServer : httpsServer;
 
     server.listen(port, () => {
         console.log(`  ➜ 🎸 Server is listening on port: ${port} [${isDev() ? 'HTTP' : 'HTTPS'}]`);
