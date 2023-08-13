@@ -523,7 +523,7 @@ const Game: FC = () => {
                         ship.currentTop -= shiftTop;
                     }
 
-                    // записываем в дату корабля где его установили
+                    // save in ship's data it's square position
                     ship.positionSquare = [];
 
                     if (ship.isRotated) {
