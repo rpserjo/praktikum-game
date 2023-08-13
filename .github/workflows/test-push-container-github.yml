@@ -3,7 +3,7 @@ name: Push to GitHub Container Registry
 on:
   push:
     branches:
-      - feature/ROOMS-79_github-action
+      - main
 
 jobs:
   build-and-push:
