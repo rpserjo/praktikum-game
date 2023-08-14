@@ -497,7 +497,7 @@ const Game: FC = () => {
                     }
                     ship.isSet = true;
 
-                    // если все корабли установили, то включаем кнопку 'готов к бою'
+                    // if all ships are places we activate "ready for the battle" button
                     setAreAllShipsPlaced(shipsImg.every(shipInImg => shipInImg.isSet));
 
                     let shiftLeft;
