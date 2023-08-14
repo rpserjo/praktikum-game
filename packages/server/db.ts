@@ -9,7 +9,7 @@ import { reactionModel } from './models/reaction';
 import { authModel } from './models/auth';
 import { userTheme } from './models/userTheme';
 import { siteTheme } from './models/themes';
-import ThemeService from './servises/theme-service';
+import ThemeService from './services/theme-service';
 
 dotenv.config({ path: '../../.env' });
 

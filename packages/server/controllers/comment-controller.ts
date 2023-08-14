@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import commentService from '../servises/comment-service';
+import commentService from '../services/comment-service';
 import { ApiError } from '../exeptions/api-error';
 
 class CommentController {

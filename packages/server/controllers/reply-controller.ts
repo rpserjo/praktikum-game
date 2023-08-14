@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import replyService from '../servises/reply-service';
+import replyService from '../services/reply-service';
 import { ApiError } from '../exeptions/api-error';
 
 class ReplyController {

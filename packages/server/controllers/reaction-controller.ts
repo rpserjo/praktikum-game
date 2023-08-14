@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import reactionService from '../servises/reaction-servise';
+import reactionService from '../services/reaction-servise';
 import { Reactions } from '../models/reaction';
 import { ApiError } from '../exeptions/api-error';
 
