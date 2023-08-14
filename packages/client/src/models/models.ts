@@ -8,6 +8,13 @@ export type TProfileProps = {
     avatar?: string;
 };
 
+export type TOAuthInData = {
+    code: string;
+    redirect_uri: string;
+};
+
+export type TThemeData = { name: string; description: string };
+
 export class SignInData {
     public login: string;
 

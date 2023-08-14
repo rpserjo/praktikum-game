@@ -1,8 +1,10 @@
 import leaderBoardData from './data/mock-leaderbord-data.json';
 import forumData from './data/mock-forum-data.json';
-import { TLeaderBoardData, TForumData, TTopicList } from '@/types/data-types';
+import { TLeaderBoardData, TEmojisType } from '@/types/data-types';
 
-export default class MockServer {
+import { TForumData, TTopicList, TTopicServerData } from './mockDataTypes';
+
+class MockServer {
     protected leaderBoardData: TLeaderBoardData[];
 
     protected forumData: TForumData[];
@@ -16,7 +18,7 @@ export default class MockServer {
         return this.leaderBoardData;
     }
 
-    public getTopicList(currentPage: number, elementsPerPage: number) {
+    public getTopicList(currentPage: number, elementsPerPage: number): TTopicServerData {
         const topicList = [
             ...this.forumData
                 .reduce((groupMap, object) => {
@@ -61,4 +63,27 @@ export default class MockServer {
 
         return MockServer.sliceDataPerPage<TForumData>(topicData, currentPage, elementsPerPage);
     }
+
+    public getEmojis(messageId: number) {
+        const topicData = this.forumData.filter(({ msgId }) => msgId === messageId);
+
+        return topicData[0]?.emojis;
+    }
+
+    public postLike(messageId: number, key: string, email: string) {
+        const topicData = this.forumData.filter(({ msgId }) => msgId === messageId);
+        const emojiObj = topicData[0].emojis[key as keyof TEmojisType];
+        const isLiked = emojiObj.users.includes(email);
+
+        if (isLiked) {
+            emojiObj.amount -= 1;
+            emojiObj.users = emojiObj.users.filter((e: any) => e !== email);
+        } else {
+            emojiObj.amount += 1;
+            emojiObj.users.push(email);
+        }
+
+        return topicData[0].emojis;
+    }
 }
+export default MockServer;

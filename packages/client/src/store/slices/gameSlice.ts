@@ -21,6 +21,7 @@ export type TGame = {
     gameOverReason: GameOverReason | null;
     mode: Mode;
     move: Move;
+    isSoundOn: boolean;
 };
 
 type TGameState = {
@@ -38,6 +39,7 @@ const initialState: TGameState = {
         gameOverReason: null,
         mode: Mode.placement,
         move: Move.user,
+        isSoundOn: true,
     },
 };
 
@@ -48,8 +50,11 @@ const gameSlice = createSlice({
         setGame(state, action) {
             state.game = action.payload;
         },
+        toggleSound: state => {
+            state.game.isSoundOn = !state.game.isSoundOn;
+        },
     },
 });
 
 export default gameSlice.reducer;
-export const { setGame } = gameSlice.actions;
+export const { setGame, toggleSound } = gameSlice.actions;

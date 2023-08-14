@@ -1,44 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Loader } from '@ui';
-import AuthApi from '@/api/AuthApi';
-import Router from '@/router/router';
-import { setUser } from '@/store/slices/userSlice';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.scss';
+import Router from '@/router/router';
+import { RootState } from '@/store';
+import { setDefaultTheme } from '@/utils/setDefaultTheme';
 
 function App() {
-    const [fetchingUserData, setFetchingUserData] = useState(true);
+    const state = useSelector((rootState: RootState) => {
+        const { user, theme } = rootState;
+        return { user, theme };
+    });
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const checkUser = () => {
-            const authApi = new AuthApi();
-            authApi
-                .getUserData()
-                .then(response => {
-                    dispatch(setUser(response.data));
-                })
-                .catch(e => {
-                    console.log('Error', e);
-                    dispatch(setUser(null));
-                })
-                .finally(() => {
-                    setFetchingUserData(false);
-                });
-        };
-        checkUser();
+        (async () => {
+            await setDefaultTheme(state, dispatch);
+        })();
     }, []);
 
-    return !fetchingUserData ? (
-        <BrowserRouter>
-            <React.Suspense fallback={<Loader />}>
-                <Router />
-            </React.Suspense>
-        </BrowserRouter>
-    ) : (
-        <Loader />
-    );
+    return <Router />;
 }
 
 export default App;

@@ -20,7 +20,7 @@ export default defineConfig({
         },
     },
     define: {
-        __SERVER_PORT__: process.env.SERVER_PORT,
+        __SERVER_PORT__: process.env.SERVER_PORT || 3001,
     },
     plugins: [
         react(),
@@ -31,7 +31,7 @@ export default defineConfig({
             injectRegister: false,
             manifest: false,
             injectManifest: {
-                globPatterns: ['**/*.{ts,js,css,tsx,scss,woff2,png,svg,jpg,js}'],
+                globPatterns: ['**/*.{html,ts,js,css,tsx,scss,woff2,png,svg,jpg,js}'],
             },
         }),
     ],

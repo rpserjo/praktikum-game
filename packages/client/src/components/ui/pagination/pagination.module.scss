@@ -1,11 +1,20 @@
 @import '@/assets/variables.scss';
 
-.pagination {
-    text-align: right;
-    color: $colorMain;
+body[data-theme='dark'] {
+  .pagination {
+    color: $colorMain__dark;
+  }
+  .pagination__link {
+    color: $colorMain__dark;
+  }
+}
 
-    .link {
-        color: $colorMain;
-        margin: 0 5px;
-    }
+.pagination {
+  text-align: right;
+  color: $colorMain;
+}
+
+.pagination__link {
+  color: $colorMain;
+  margin: 0 5px;
 }

@@ -1,24 +1,25 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Layout from '@/layout/default/layout';
+import OAuthInPage from '@pages/oauthInPage/oauthInPage';
+import HomePage from '@pages/index/index';
+import GamePage from '@pages/game/game';
+import LeaderboardPage from '@pages/leaderboard/leaderboard';
+import ProfilePage from '@pages/profile/profile';
+import SignInPage from '@pages/signin/signin';
+import SignUpPage from '@pages/signup/signup';
+import ErrorPage from '@pages/error/error';
+import LandingPage from '@pages/landing/landing';
+import ForumPage from '@/pages/forum/topicList/forumPage';
+import ForumTopicPage from '@/pages/forum/topicWithComments/topicPage';
 import { Loader } from '@/components/ui';
+import Layout from '@/layout/default/layout';
 import PrivateRoutes from '@/components/privateRoute/privateRoute';
-
-const HomePage = lazy(() => import('@pages/index/index'));
-const GamePage = lazy(() => import('@pages/game/game'));
-const LeaderboardPage = lazy(() => import('@pages/leaderboard/leaderboard'));
-const ProfilePage = lazy(() => import('@pages/profile/profile'));
-const SignInPage = lazy(() => import('@pages/signin/signin'));
-const SignUpPage = lazy(() => import('@pages/signup/signup'));
-const ErrorPage = lazy(() => import('@pages/error/error'));
-const LandingPage = lazy(() => import('@pages/landing/landing'));
-const ForumPage = lazy(() => import('@pages/forum/forum'));
-const ForumTopicPage = lazy(() => import('@pages/forum-topic/forum-topic'));
 
 export enum RouteNames {
     LANDING = '/',
     SIGNUP = '/signup',
     SIGNIN = '/signin',
+    OAUTH = '/oauth',
     HOME = '/home',
     GAME = '/game',
     PROFILE = '/profile',
@@ -48,6 +49,7 @@ const Router = () => (
             <Route element={<HomePage />} path={RouteNames.LANDING} />
             <Route element={<Loader />} path="/loader" />
             <Route element={<SignInPage />} path={RouteNames.SIGNIN} />
+            <Route element={<OAuthInPage />} path={RouteNames.OAUTH} />
             <Route element={<SignUpPage />} path={RouteNames.SIGNUP} />
             <Route element={<ProfilePage section="edit" />} path={RouteNames.PROFILE_EDIT} />
             <Route

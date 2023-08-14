@@ -1,42 +1,67 @@
 @import '@/assets/variables.scss';
 
-.header{
+body[data-theme='dark'] {
+  .header {
+    background-color: $backgroundColorThird__dark;
+
+    .navigation {
+      .links {
+        a,
+        a:visited {
+          color: $colorText__dark;
+        }
+
+        a.active,
+        a:hover,
+        a:active {
+          color: $colorTextSecondary__dark;
+        }
+      }
+    }
+  }
+}
+
+.header {
   display: flex;
-  background-color: #265B8F;
+  background-color: $backgroundColorThird;
   width: 100%;
   height: 100px;
   align-items: center;
   padding: 0 15px;
+  @include transition;
 
-  .logo{
+  .logo {
     display: flex;
-   color: $colorText;
+    color: $colorText;
 
-    img{
+    img {
       height: 73px;
     }
   }
 
-  .navigation{
+  .navigation {
     display: flex;
     flex-grow: 1;
     justify-content: end;
     align-items: center;
 
-
-    .links{
+    .links {
       display: flex;
       gap: 25px;
 
-      a, a:visited{
+      a,
+      a:visited {
         display: flex;
-       color: $colorText;
+        color: $colorText;
         font-size: 20px;
         font-weight: 600;
+        @include transition;
       }
 
-      a.active, a:hover, a:active{
-       color: $colorTextSecondary;
+      a.active,
+      a:hover,
+      a:active {
+        color: $colorTextSecondary;
         text-decoration: underline;
       }
     }
@@ -44,5 +69,9 @@
     .user {
       margin: 0px 50px 0 36px;
     }
+  }
+
+  .themeButtonContainer {
+    margin: 0 50px 0 0;
   }
 }

@@ -2,3 +2,5 @@
 **/*.config.ts
 **/*.d.ts
 src/**/*.test.tsx
+src/**/*.test.ts
+dist/*

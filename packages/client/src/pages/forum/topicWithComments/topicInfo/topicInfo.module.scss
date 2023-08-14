@@ -1,0 +1,43 @@
+@import '@/assets/variables.scss';
+
+.topic {
+  margin: 0 auto;
+  border: 1px solid $colorBorder;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.topic__info {
+  @include rowDiv;
+  margin-bottom: 1em;
+  color: $colorText;
+  fill: $colorText;
+  gap: 1em;
+}
+
+.topic__avatar {
+  width: $forumAvatarSize;
+  height: $forumAvatarSize;
+}
+
+.topic__author {
+  font-weight: bold;
+}
+
+.topic__title {
+  text-align: left;
+  color: $colorText;
+  font-weight: 500;
+  padding: 0 0 10px;
+}
+
+.topic__message {
+  color: $colorText;
+  margin-bottom: 2em;
+}
+
+.topic__comments {
+  @include rowDiv;
+}

@@ -1,13 +1,20 @@
 @import '@/assets/variables.scss';
 
+body[data-theme='dark'] {
+  .ships {
+    color: $colorText__dark;
+  }
+}
+
 .ships {
- color: $colorText;
+  color: $colorText;
   margin: 27px 0 0;
 
   .title {
     font-size: 20px;
     line-height: 23px;
     margin: 0 0 20px;
+    @include transition;
   }
 
   .shipsContainer {
@@ -63,6 +70,7 @@
         font-size: 28px;
         line-height: 32px;
         width: 20px;
+        @include transition;
       }
     }
   }
