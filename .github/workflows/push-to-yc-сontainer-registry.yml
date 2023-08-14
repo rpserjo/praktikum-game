@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/ROOMS-74_add_nginx_config_with_http2_and_ssl
   workflow_dispatch:
 
 jobs:
