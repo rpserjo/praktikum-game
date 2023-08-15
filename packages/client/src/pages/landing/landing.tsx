@@ -14,6 +14,12 @@ const Landing: FC = () => {
             </div>
 
             <div className={style.content}>
+                <img
+                    width="300"
+                    height="300"
+                    src="https://damion.club/uploads/posts/2022-09/1663817150_10-damion-club-p-aragorn-akter-instagram-11.jpg"
+                    alt=""
+                />
                 <h1 className={style.title}>Морской бой</h1>
                 <h2 className={style.subtitle}>Легендарная игра теперь в твоем браузере!</h2>
                 <div className={style['figures-parent']}>
