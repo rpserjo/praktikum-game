@@ -13,8 +13,10 @@ import ErrorBoundary from '@components/errorBoundary/errorBoundary';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import Button from '@components/ui/button/button';
-import { Icon } from '@ui';
 import User, { Type } from '@components/ui/user/user';
+import FullscreenButton from '@pages/game/apiButtons/fullScreenButton';
+import SoundButton from '@pages/game/apiButtons/soundButton';
+import GeolocationButton from '@pages/game/apiButtons/geolocationButton';
 import GameReserve from '@/pages/game/gameReserve';
 import renderHorizontalText, { roundRect, renderBattlefield } from './game.helper';
 import {
@@ -178,10 +180,11 @@ function checkComputerWin(): boolean {
 async function fakeEnemyShoot(
     ref: RefObject<HTMLCanvasElement>,
     setUserTurn: React.Dispatch<React.SetStateAction<boolean>>,
-    setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>
+    setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>,
+    isDemo = false
 ) {
     // eslint-disable-next-line
-    await new Promise(resolve => setTimeout(resolve, getRandomInt(5000)));
+    await new Promise(resolve => setTimeout(resolve, getRandomInt(isDemo ? 500 : 5000)));
 
     let yNum = getRandomInt(10) + 1;
     let xNum = getRandomInt(10);
@@ -390,6 +393,7 @@ const Game: FC = () => {
     const [userTurn, setUserTurn] = useState(true);
     const [userWon, setUserWon] = useState(false);
     const [enemeWon, setEnemeWon] = useState(false);
+    const [isDemo, setIsDemo] = useState(false);
 
     const rotate = useCallback((event: KeyboardEvent) => {
         if (data.isDragging && event.code === 'KeyR' && data.currentShip !== null) {
@@ -457,7 +461,7 @@ const Game: FC = () => {
                 drawCanvasItems(ref);
                 setUserTurn(false);
 
-                await fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
+                await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isDemo);
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -642,16 +646,6 @@ const Game: FC = () => {
         [style.active]: !!gameOverReason,
     });
 
-    const [isFullScreen, setIsFullScreen] = useState(document.fullscreenElement !== null);
-
-    const handleFullscreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().then(() => setIsFullScreen(true));
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => setIsFullScreen(false));
-        }
-    };
-
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         dispatch(setGame({ ...game, mode: Mode.battle }));
@@ -661,7 +655,7 @@ const Game: FC = () => {
         drawCanvasItems(ref);
 
         async function firstShoot() {
-            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
+            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isDemo);
             drawCanvasItems(ref);
         }
 
@@ -690,19 +684,11 @@ const Game: FC = () => {
                     <Button buttonSize="medium">Выйти из игры</Button>
                 </div>
 
-                <div className={style.buttonFullscreen}>
-                    <Button buttonSize="small" buttonStyle="outlined" onClick={handleFullscreen}>
-                        <div
-                            className={style.icon}
-                            title={
-                                isFullScreen
-                                    ? 'Выйти из полноэкранного режима'
-                                    : 'Полноэкранный режим'
-                            }
-                        >
-                            <Icon iconName={isFullScreen ? 'exitFullScreen' : 'enterFullScreen'} />
-                        </div>
-                    </Button>
+                <FullscreenButton />
+                <SoundButton />
+                <GeolocationButton />
+                <div style={{ position: 'absolute', left: '30px', top: '220px' }}>
+                    <input type="checkbox" onChange={() => setIsDemo(!isDemo)} checked={isDemo} />
                 </div>
 
                 <div className={style.content}>
@@ -726,7 +712,6 @@ const Game: FC = () => {
                                 height={400}
                             />
                         </div>
-
                         <div className={style.userInfoBlock}>
                             {userTurn && data.shootStep ? (
                                 <span className={style.gameMessage}>Ваш ход!</span>
