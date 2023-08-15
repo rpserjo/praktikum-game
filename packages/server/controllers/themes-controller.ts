@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import type { ISiteTheme } from '../models/themes';
-import themeService from '../servises/theme-service';
+import themeService from '../services/theme-service';
 import type { IUserTheme } from '../models/userTheme';
 import { ApiError } from '../exeptions/api-error';
-import authService from '../servises/proxy-auth-service';
+import authService from '../services/proxy-auth-service';
 
 class ThemesController {
     createThemes = async (themesData: Omit<ISiteTheme, 'uuid'>[]) => {

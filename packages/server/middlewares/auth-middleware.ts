@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { ApiError } from '../exeptions/api-error';
-import authService from '../servises/proxy-auth-service';
+import authService from '../services/proxy-auth-service';
 
 // @ts-ignore
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction) {

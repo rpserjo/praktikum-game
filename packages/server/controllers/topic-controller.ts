@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import topicService from '../servises/topic-service';
+import topicService from '../services/topic-service';
 import { ApiError } from '../exeptions/api-error';
 
 class TopicController {

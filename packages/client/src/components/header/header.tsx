@@ -43,6 +43,13 @@ const Header: FC<HeaderProps> = (): ReactElement => {
             <div className={style.navigation}>
                 <div className={style.links}>
                     <NavLink
+                        to={RouteNames.GAME}
+                        className={({ isActive }) => (isActive ? style.active : '')}
+                    >
+                        Играть
+                    </NavLink>
+
+                    <NavLink
                         to={RouteNames.FORUM}
                         className={({ isActive }) => (isActive ? style.active : '')}
                     >
