@@ -51,34 +51,6 @@ export enum GameOver {
     defeat = 'defeat',
 }
 
-// function sendToLeaderBoard() {
-//     const userApi = new LeaderBoardApi();
-//     console.log(userData);
-//
-//     const dataToSendOnEnd = {
-//         data: {
-//             name: userData.user.first_name,
-//             email: userData.user.email,
-//             login: 'Barbados',
-//             winsCount: 10,
-//             lostCount: 7,
-//             score: 87,
-//             doorsRating: 120,
-//         },
-//         ratingFieldName: 'doorsRating',
-//         teamName: 'doors',
-//     };
-//
-//     userApi
-//         .postLeaderboardData(dataToSendOnEnd)
-//         .then((res: any) => {
-//             console.log('postLeaderboardData', res.status);
-//         })
-//         .catch(error => {
-//             console.log('postLeaderboardData error', error);
-//         });
-// }
-
 function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLImageElement) {
     if (ship.isRotated) {
         ctxPassed.save();
@@ -552,13 +524,6 @@ const Game: FC = () => {
                     setUserWon(true);
                 }
             }
-
-            console.log(
-                'shoots',
-                game.shoots,
-                'Eff',
-                Math.round((game.shoots.hits / game.shoots.total) * 100)
-            );
         }
     };
 
@@ -785,18 +750,18 @@ const Game: FC = () => {
     };
 
     // eslint-disable-next-line no-restricted-globals
-    const reloadGame: MouseEventHandler<HTMLButtonElement> = () => location.reload();
+    // const reloadGame: MouseEventHandler<HTMLButtonElement> = () => location.reload();
 
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
             <div className={style.gamePage}>
                 <h1 className={style.title}>Одиночная игра</h1>
 
-                <div className={style.buttonContainer}>
-                    <Button onClick={reloadGame} buttonSize="medium">
-                        Выйти из игры
-                    </Button>
-                </div>
+                {/* <div className={style.buttonContainer}> */}
+                {/*    <Button onClick={reloadGame} buttonSize="medium"> */}
+                {/*        Выйти из игры */}
+                {/*    </Button> */}
+                {/* </div> */}
 
                 <FullscreenButton />
                 <SoundButton />

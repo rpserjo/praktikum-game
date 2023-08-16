@@ -57,7 +57,7 @@ const Landing: FC = () => {
                         />
                         <figcaption>4 вида кораблей </figcaption>
                     </figure>
-                    <figure className={style['figures-item']}>
+                    <figure className={`${style['figures-item']} ${style.opacity_25}`}>
                         <img
                             className={style['figures-item-img']}
                             src="./sprites/landing-robot-human.svg"
@@ -80,12 +80,14 @@ const Landing: FC = () => {
                     <p className={style['steps-title']}>Для того чтобы начать игру:</p>
                     <ol>
                         <li className={style['steps-subtitle']}>
-                            Выбери режим одиночной игры или онлайн
+                            Нажми кнопку &laquo;Играть&raquo;
                         </li>
                         <li className={style['steps-subtitle']}>
                             Расставь корабли на игровом поле
                         </li>
-                        <li className={style['steps-subtitle']}>Нажми кнопку “Готов к бою!”</li>
+                        <li className={style['steps-subtitle']}>
+                            Нажми кнопку &laquo;Готов к бою!&raquo;
+                        </li>
                         <li className={style['steps-subtitle']}>
                             Кликай по клеткам на поле противника, чтобы сделать выстрел
                         </li>
@@ -96,10 +98,7 @@ const Landing: FC = () => {
 
                 <div className={style['button-wrap']}>
                     <Button buttonSize="large" onClick={() => navigate('/game')}>
-                        Играть одному
-                    </Button>
-                    <Button buttonSize="large" onClick={() => navigate('/game')}>
-                        Играть онлайн
+                        Играть
                     </Button>
                 </div>
             </div>
