@@ -5,7 +5,7 @@ import EnemyHitSound from '@/assets/sound/enemy_hit.mp3';
 import MyShipHitSound from '@/assets/sound/my_ship_hit.mp3';
 import SetShipSound from '@/assets/sound/set_ship.mp3';
 import GameProcessSound from '@/assets/sound/game_process.mp3';
-import TorpedoSound from '@/assets/sound/torpedo.mp3';
+import Missed from '@/assets/sound/missed.mp3';
 
 class SoundService {
     private startSound = new Audio(GameStartSound);
@@ -22,7 +22,7 @@ class SoundService {
 
     private gameProcessSound = new Audio(GameProcessSound);
 
-    private torpedoSound = new Audio(TorpedoSound);
+    private missedSound = new Audio(Missed);
 
     public playStartSound = () => {
         this.startSound.play();
@@ -52,8 +52,8 @@ class SoundService {
         this.gameProcessSound.play();
     };
 
-    public playTorpedoSound = () => {
-        this.torpedoSound.play();
+    public playMissed = () => {
+        this.missedSound.play();
     };
 }
 

@@ -34,10 +34,41 @@ import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
+import LeaderBoardApi from '@/api/LeaderBoardApi';
+import SoundService from '@/utils/sound/soundService';
+import { NotificationService } from '@/utils/notification/notificationService';
 
 export enum GameOver {
     win = 'win',
     defeat = 'defeat',
+}
+
+function sendToLeaderBoard() {
+    const userApi = new LeaderBoardApi();
+    console.log(userData);
+
+    const dataToSendOnEnd = {
+        data: {
+            name: userData.user.firstName,
+            email: userData.user.email,
+            login: 'Barbados',
+            winsCount: 10,
+            lostCount: 7,
+            score: 87,
+            doorsRating: 120,
+        },
+        ratingFieldName: 'doorsRating',
+        teamName: 'doors',
+    };
+
+    userApi
+        .postLeaderboardData(dataToSendOnEnd)
+        .then((res: any) => {
+            console.log('postLeaderboardData', res.status);
+        })
+        .catch(error => {
+            console.log('postLeaderboardData error', error);
+        });
 }
 
 function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLImageElement) {
@@ -181,6 +212,8 @@ async function fakeEnemyShoot(
     ref: RefObject<HTMLCanvasElement>,
     setUserTurn: React.Dispatch<React.SetStateAction<boolean>>,
     setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>,
+    isSoundOn: boolean,
+    soundService: SoundService | null,
     isDemo = false
 ) {
     // eslint-disable-next-line
@@ -218,6 +251,7 @@ async function fakeEnemyShoot(
     if (isHit) {
         succesShots.push({ x, y, place: targetSquare });
         console.log('комп попал');
+        isSoundOn && soundService?.playMyShipHitSound();
         // eslint-disable-next-line
         isHit['lives']--;
         drawCanvasItems(ref);
@@ -228,10 +262,11 @@ async function fakeEnemyShoot(
             setEnemeWon(true);
         }
         setUserTurn(false);
-        fakeEnemyShoot(ref, setUserTurn, setEnemeWon);
+        fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isSoundOn, soundService, isDemo);
     } else {
         missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
         console.log('комп мимо');
+        isSoundOn && soundService?.playMissed();
         setUserTurn(true);
         drawCanvasItems(ref);
     }
@@ -386,6 +421,7 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
+    const [soundService, setSoundService] = useState<SoundService | null>(null);
     const { game } = gameState;
     const dispatch = useDispatch();
 
@@ -410,11 +446,11 @@ const Game: FC = () => {
     useEffect(() => {
         drawCanvasItems(ref);
         window.addEventListener('keydown', rotate);
-
+        setSoundService(new SoundService());
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
-    const mouseDown = async (event: React.MouseEvent) => {
+    const mouseDown = async (event: React.MouseEvent, isSoundOn: boolean) => {
         data.isMousePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -458,10 +494,18 @@ const Game: FC = () => {
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
 
                 console.log('юзер мимо');
+                isSoundOn && soundService?.playMissed();
                 drawCanvasItems(ref);
                 setUserTurn(false);
 
-                await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isDemo);
+                await fakeEnemyShoot(
+                    ref,
+                    setUserTurn,
+                    setEnemeWon,
+                    isSoundOn,
+                    soundService,
+                    isDemo
+                );
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -470,8 +514,10 @@ const Game: FC = () => {
                 // eslint-disable-next-line
                 if (shipHit['lives'] === 0) {
                     console.log('юзер убил');
+                    isSoundOn && soundService?.playEnemyShipHitSound();
                 } else {
                     console.log('юзер попал');
+                    isSoundOn && soundService?.playEnemyShipHitSound();
                 }
 
                 const xShift = data.enemyField.left + xNum * 30 + 5;
@@ -489,11 +535,15 @@ const Game: FC = () => {
         }
     };
 
+    const { isSoundOn } = game;
+
     const mouseUp = () => {
         if (data.isDragging && data.placeShipStep) {
             const ship = data.currentShip;
 
             if (isDraggedIntoDropField() && notOnOtherShip()) {
+                isSoundOn && soundService?.playSetShipSound();
+
                 if (ship !== null) {
                     if (ship.isSet === false) {
                         const key = `decks_${ship.decksAmount}` as string;
@@ -648,6 +698,9 @@ const Game: FC = () => {
 
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.promptNotification();
+        NotificationService.gameStart();
+        isSoundOn && soundService?.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
         data.placeShipStep = false;
         data.shootStep = true;
@@ -655,7 +708,7 @@ const Game: FC = () => {
         drawCanvasItems(ref);
 
         async function firstShoot() {
-            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isDemo);
+            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isSoundOn, soundService, isDemo);
             drawCanvasItems(ref);
         }
 
@@ -667,12 +720,18 @@ const Game: FC = () => {
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameWinned();
+        isSoundOn && soundService?.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
+        sendToLeaderBoard();
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameLost();
+        isSoundOn && soundService?.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
+        sendToLeaderBoard();
     };
 
     return (
@@ -704,7 +763,9 @@ const Game: FC = () => {
                     <div className={style.middle}>
                         <div className={style.canvasWindow}>
                             <canvas
-                                onMouseDown={mouseDown}
+                                onMouseDown={e => {
+                                    mouseDown(e, isSoundOn);
+                                }}
                                 onMouseUp={mouseUp}
                                 onMouseMove={mouseMove}
                                 ref={ref}
