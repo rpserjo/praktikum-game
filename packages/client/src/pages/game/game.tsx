@@ -33,7 +33,8 @@ import {
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
-import { GameOverReason, setGame } from '@/store/slices/gameSlice';
+import { GameOverReason, setGame, setUserShips, setEnemyShips } from '@/store/slices/gameSlice';
+import { TUser } from '@/store/slices/userSlice';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
 import SoundService from '@/utils/sound/soundService';
 import { NotificationService } from '@/utils/notification/notificationService';
@@ -49,7 +50,7 @@ function sendToLeaderBoard() {
 
     const dataToSendOnEnd = {
         data: {
-            name: userData.user.firstName,
+            name: userData.user.first_name,
             email: userData.user.email,
             login: 'Barbados',
             winsCount: 10,
@@ -101,7 +102,7 @@ function drawPoint(
 
     context.beginPath();
     context.fillStyle = color;
-    context.arc(pointX, pointY, size, 0 * Math.PI, 2 * Math.PI);
+    context.arc(pointX, pointY, size, 0, 2 * Math.PI);
     context.fill();
 }
 
@@ -143,7 +144,7 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     });
 }
 
-const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
+const drawCanvasItems = async (ref: RefObject<HTMLCanvasElement>) => {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
 
@@ -198,81 +199,14 @@ const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
 };
 
 function checkUserWin(): boolean {
-    const res = enemyShips.every(ship => ship.lives === 0);
-    return res;
+    return enemyShips.every(ship => ship.lives === 0);
 }
 
 function checkComputerWin(): boolean {
-    const res = shipsImg.every(ship => ship.lives === 0);
-
-    return res;
+    return shipsImg.every(ship => ship.lives === 0);
 }
 
-async function fakeEnemyShoot(
-    ref: RefObject<HTMLCanvasElement>,
-    setUserTurn: React.Dispatch<React.SetStateAction<boolean>>,
-    setEnemeWon: React.Dispatch<React.SetStateAction<boolean>>,
-    isSoundOn: boolean,
-    soundService: SoundService | null,
-    isDemo = false
-) {
-    // eslint-disable-next-line
-    await new Promise(resolve => setTimeout(resolve, getRandomInt(isDemo ? 500 : 5000)));
-
-    let yNum = getRandomInt(10) + 1;
-    let xNum = getRandomInt(10);
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-    let targetSquare = letters[xNum] + yNum;
-
-    while (data.enemyShots.includes(targetSquare)) {
-        yNum = getRandomInt(10) + 1;
-        xNum = getRandomInt(10);
-        targetSquare = letters[xNum] + yNum;
-    }
-
-    data.enemyShots.push(targetSquare);
-
-    const x = data.userField.left + xNum * 30 + 5;
-    const y = data.userField.top + yNum * 30 - 4;
-
-    let isHit: Ship | null = null;
-
-    shipsImg.forEach(ship => {
-        if (ship.positionSquare.includes(targetSquare)) {
-            // eslint-disable-next-line
-            ship.positionSquare = ship.positionSquare.filter(function (item) {
-                return item !== targetSquare;
-            });
-            isHit = ship;
-        }
-    });
-    console.log(targetSquare);
-
-    if (isHit) {
-        succesShots.push({ x, y, place: targetSquare });
-        console.log('комп попал');
-        isSoundOn && soundService?.playMyShipHitSound();
-        // eslint-disable-next-line
-        isHit['lives']--;
-        drawCanvasItems(ref);
-        if (checkComputerWin()) {
-            drawCanvasItems(ref);
-            console.log('Победа машин 🤖!!');
-            data.shootStep = false;
-            setEnemeWon(true);
-        }
-        setUserTurn(false);
-        fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isSoundOn, soundService, isDemo);
-    } else {
-        missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
-        console.log('комп мимо');
-        isSoundOn && soundService?.playMissed();
-        setUserTurn(true);
-        drawCanvasItems(ref);
-    }
-}
-
-const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
+const isMouseInShape = (x: number, y: number, ship: Ship): boolean => {
     let shipLeft;
     let shipRight;
     let shipTop;
@@ -295,7 +229,7 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     return res;
 };
 
-const clickedEnemyFeald = function (canvasX: number, canvasY: number): boolean {
+const clickedEnemyFeald = (canvasX: number, canvasY: number): boolean => {
     const x = data.enemyField.left;
     const xWidth = data.enemyField.left + data.enemyField.size;
     const y = data.enemyField.top;
@@ -305,7 +239,7 @@ const clickedEnemyFeald = function (canvasX: number, canvasY: number): boolean {
     return res;
 };
 
-const notOnOtherShip = function (): boolean {
+const notOnOtherShip = (): boolean => {
     let res = true;
 
     const ship = data.currentShip;
@@ -362,7 +296,7 @@ const notOnOtherShip = function (): boolean {
     return res;
 };
 
-const isDraggedIntoDropField = function (): boolean {
+const isDraggedIntoDropField = (): boolean => {
     let res = false;
     const ship = data.currentShip;
     const x = data.userField.left;
@@ -389,7 +323,7 @@ const isDraggedIntoDropField = function (): boolean {
     return res;
 };
 
-const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
+const returnShip = (ref: RefObject<HTMLCanvasElement>): void => {
     const shipToMove = data.currentShip;
     if (shipToMove !== null) {
         const animationTime = 16;
@@ -398,7 +332,7 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
         const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
         const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
 
-        const animate = function () {
+        const animate = () => {
             if (shipToMove.currentLeft !== shipToMove.originLeft) {
                 shipToMove.currentLeft += leftStep;
             }
@@ -420,15 +354,20 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-    const gameState = useSelector((state: RootState) => state.game);
     const [soundService, setSoundService] = useState<SoundService | null>(null);
+    const { gameState, userState } = useSelector((state: RootState) => ({
+        gameState: state.game,
+        userState: state.user,
+    }));
+
     const { game } = gameState;
+    const { isSoundOn } = game;
     const dispatch = useDispatch();
 
     const [areAllShipsPlaced, setAreAllShipsPlaced] = useState(false);
     const [userTurn, setUserTurn] = useState(true);
     const [userWon, setUserWon] = useState(false);
-    const [enemeWon, setEnemeWon] = useState(false);
+    const [enemyWon, setEnemyWon] = useState(false);
     const [isDemo, setIsDemo] = useState(false);
 
     const rotate = useCallback((event: KeyboardEvent) => {
@@ -450,7 +389,78 @@ const Game: FC = () => {
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
-    const mouseDown = async (event: React.MouseEvent, isSoundOn: boolean) => {
+    const fakeEnemyShoot = async () => {
+        // eslint-disable-next-line
+        await new Promise(resolve => setTimeout(resolve, getRandomInt(isDemo ? 500 : 5000)));
+
+        let yNum = getRandomInt(10) + 1;
+        let xNum = getRandomInt(10);
+        const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+        let targetSquare = letters[xNum] + yNum;
+
+        while (data.enemyShots.includes(targetSquare)) {
+            yNum = getRandomInt(10) + 1;
+            xNum = getRandomInt(10);
+            targetSquare = letters[xNum] + yNum;
+        }
+
+        data.enemyShots.push(targetSquare);
+
+        const x = data.userField.left + xNum * 30 + 5;
+        const y = data.userField.top + yNum * 30 - 4;
+
+        let isHit: Ship | null = null;
+
+        shipsImg.forEach(ship => {
+            if (ship.positionSquare.includes(targetSquare)) {
+                // eslint-disable-next-line
+                ship.positionSquare = ship.positionSquare.filter(function (item) {
+                    return item !== targetSquare;
+                });
+                isHit = ship;
+            }
+        });
+        console.log(targetSquare);
+
+        if (isHit) {
+            succesShots.push({ x, y, place: targetSquare });
+            console.log('комп попал');
+            isSoundOn && soundService?.playMyShipHitSound();
+            // eslint-disable-next-line
+            isHit['lives']--;
+
+            if ((isHit as Ship)?.lives === 0) {
+                const newCount = game.userShips[`decks_${(isHit as Ship).decksAmount}`] - 1;
+
+                dispatch(
+                    setUserShips({
+                        ...game.userShips,
+                        [`decks_${(isHit as Ship).decksAmount}`]: newCount,
+                    })
+                );
+            }
+
+            drawCanvasItems(ref);
+
+            if (checkComputerWin()) {
+                drawCanvasItems(ref);
+                console.log('Победа машин 🤖!!');
+                data.shootStep = false;
+                setEnemyWon(true);
+            }
+
+            setUserTurn(false);
+            fakeEnemyShoot();
+        } else {
+            missedShots.push({ x: x + 10, y: y - 10, place: targetSquare });
+            console.log('комп мимо');
+            isSoundOn && soundService?.playMissed();
+            setUserTurn(true);
+            drawCanvasItems(ref);
+        }
+    };
+
+    const mouseDown = async (event: React.MouseEvent) => {
         data.isMousePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -498,14 +508,7 @@ const Game: FC = () => {
                 drawCanvasItems(ref);
                 setUserTurn(false);
 
-                await fakeEnemyShoot(
-                    ref,
-                    setUserTurn,
-                    setEnemeWon,
-                    isSoundOn,
-                    soundService,
-                    isDemo
-                );
+                await fakeEnemyShoot();
                 drawCanvasItems(ref);
             } else {
                 console.log(shipHit);
@@ -515,6 +518,14 @@ const Game: FC = () => {
                 if (shipHit['lives'] === 0) {
                     console.log('юзер убил');
                     isSoundOn && soundService?.playEnemyShipHitSound();
+                    const newCount =
+                        game.enemyShips[`decks_${(shipHit as EnemyShip).decksAmount}`] - 1;
+                    dispatch(
+                        setEnemyShips({
+                            ...game.enemyShips,
+                            [`decks_${(shipHit as EnemyShip).decksAmount}`]: newCount,
+                        })
+                    );
                 } else {
                     console.log('юзер попал');
                     isSoundOn && soundService?.playEnemyShipHitSound();
@@ -534,8 +545,6 @@ const Game: FC = () => {
             }
         }
     };
-
-    const { isSoundOn } = game;
 
     const mouseUp = () => {
         if (data.isDragging && data.placeShipStep) {
@@ -673,7 +682,8 @@ const Game: FC = () => {
                 mode: Mode.placement,
             })
         );
-        // eslint-disable-next-line
+
+        // eslint-disable-next-line no-restricted-globals
         location.reload();
     };
 
@@ -688,7 +698,8 @@ const Game: FC = () => {
                 mode: Mode.placement,
             })
         );
-        // eslint-disable-next-line
+
+        // eslint-disable-next-line no-restricted-globals
         location.reload();
     };
 
@@ -708,7 +719,7 @@ const Game: FC = () => {
         drawCanvasItems(ref);
 
         async function firstShoot() {
-            await fakeEnemyShoot(ref, setUserTurn, setEnemeWon, isSoundOn, soundService, isDemo);
+            await fakeEnemyShoot();
             drawCanvasItems(ref);
         }
 
@@ -734,14 +745,19 @@ const Game: FC = () => {
         sendToLeaderBoard();
     };
 
+    // eslint-disable-next-line no-restricted-globals
+    // const reloadGame: MouseEventHandler<HTMLButtonElement> = () => location.reload();
+
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
             <div className={style.gamePage}>
                 <h1 className={style.title}>Одиночная игра</h1>
 
-                <div className={style.buttonContainer}>
-                    <Button buttonSize="medium">Выйти из игры</Button>
-                </div>
+                {/* <div className={style.buttonContainer}> */}
+                {/*    <Button onClick={reloadGame} buttonSize="medium"> */}
+                {/*        Выйти из игры */}
+                {/*    </Button> */}
+                {/* </div> */}
 
                 <FullscreenButton />
                 <SoundButton />
@@ -754,8 +770,12 @@ const Game: FC = () => {
                     <div className={style.leftSide}>
                         {mode === Mode.battle ? (
                             <>
-                                <User type={Type.game} userData={userData.ai} />
-                                <Ships mode={mode} position={Position.left} />
+                                <User type={Type.game} userData={userData.ai as TUser} />
+                                <Ships
+                                    mode={mode}
+                                    position={Position.left}
+                                    ships={game.enemyShips}
+                                />
                             </>
                         ) : null}
                     </div>
@@ -764,7 +784,7 @@ const Game: FC = () => {
                         <div className={style.canvasWindow}>
                             <canvas
                                 onMouseDown={e => {
-                                    mouseDown(e, isSoundOn);
+                                    mouseDown(e);
                                 }}
                                 onMouseUp={mouseUp}
                                 onMouseMove={mouseMove}
@@ -773,6 +793,7 @@ const Game: FC = () => {
                                 height={400}
                             />
                         </div>
+
                         <div className={style.userInfoBlock}>
                             {userTurn && data.shootStep ? (
                                 <span className={style.gameMessage}>Ваш ход!</span>
@@ -786,7 +807,7 @@ const Game: FC = () => {
                                 <span className={style.gameMessage}>Расставьте корабли</span>
                             ) : null}
 
-                            {areAllShipsPlaced && !data.shootStep && !enemeWon && !userWon ? (
+                            {areAllShipsPlaced && !data.shootStep && !enemyWon && !userWon ? (
                                 <Button buttonSize="medium" onClick={gameStartHandle}>
                                     Готов к бою!
                                 </Button>
@@ -794,9 +815,9 @@ const Game: FC = () => {
 
                             {/* todo: кнопки нужны для имитации окончания игры */}
 
-                            {userWon || enemeWon ? (
+                            {userWon || enemyWon ? (
                                 <>
-                                    {enemeWon ? (
+                                    {enemyWon ? (
                                         <div className={style.temporaryWrapperForButton}>
                                             <Button
                                                 buttonSize="medium"
@@ -818,8 +839,12 @@ const Game: FC = () => {
                     </div>
 
                     <div className={style.rightSide}>
-                        <User type={Type.game} userData={userData.user} />
-                        <Ships mode={mode} isUserShips={true} />
+                        {mode === Mode.battle ? (
+                            <>
+                                <User type={Type.game} userData={userState.user as TUser} />
+                                <Ships mode={mode} isUserShips={true} ships={game.userShips} />
+                            </>
+                        ) : null}
                     </div>
                 </div>
 

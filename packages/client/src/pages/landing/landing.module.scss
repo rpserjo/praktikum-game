@@ -106,6 +106,10 @@ body[data-theme='dark'] {
       font-size: 24px;
       margin-bottom: 30px;
 
+      &.opacity_25 {
+        opacity: 0.25;
+      }
+
       svg {
         image {
           height: 105px;

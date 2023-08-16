@@ -1,6 +1,7 @@
-import React, { FC, MouseEventHandler, useState } from 'react';
+import React, { FC } from 'react';
 import cn from 'classnames';
 import style from './ships.module.scss';
+import { TGame } from '@/store/slices/gameSlice';
 
 export enum Position {
     left = 'left',
@@ -16,35 +17,14 @@ type TShips = {
     position?: Position;
     mode?: Mode;
     isUserShips?: boolean;
-};
-
-type TShipsMapping = {
-    [key: string]: {
-        [key: string]: number;
-    };
-};
-
-const shipsMapping: TShipsMapping = {
-    rank1: {
-        count: 1,
-    },
-    rank2: {
-        count: 2,
-    },
-    rank3: {
-        count: 3,
-    },
-    rank4: {
-        count: 4,
-    },
+    ships: TGame['userShips'];
 };
 
 // todo: вернуть начальное количество кораблей, когда игра уже будет работать
 export const defaultShipsCount = 0;
 
 const Ships: FC<TShips> = props => {
-    const [fleet, setFleet] = useState<TShipsMapping>({ ...shipsMapping });
-    const { position = Position.right, mode = Mode.placement, isUserShips = false } = props;
+    const { position = Position.right, mode = Mode.placement, isUserShips = false, ships } = props;
 
     const shipsClasses = cn(style.ships, {
         [style.left]: position === Position.left,
@@ -55,21 +35,6 @@ const Ships: FC<TShips> = props => {
         [style.interActive]: isUserShips && mode === Mode.placement,
     });
 
-    const onClickShip: MouseEventHandler<HTMLButtonElement> = event => {
-        const element = event.target as HTMLButtonElement;
-        const key: string = element.getAttribute('data-rank') || '';
-        const shipsCount = Number(fleet[key].count);
-
-        const newFleet: TShipsMapping = {
-            ...fleet,
-            [key]: { count: shipsCount - 1 },
-        };
-
-        if (shipsCount) {
-            setFleet({ ...newFleet });
-        }
-    };
-
     return (
         <div className={shipsClasses}>
             <div className={style.title}>
@@ -77,16 +42,10 @@ const Ships: FC<TShips> = props => {
             </div>
 
             <div className={style.shipsContainer}>
-                {Object.keys(fleet).map(shipItemKey => (
+                {Object.keys(ships).map(shipItemKey => (
                     <div className={shipItemRowClasses} key={shipItemKey}>
-                        <button
-                            aria-label={shipItemKey}
-                            disabled={!isUserShips || mode === Mode.battle}
-                            className={`${style.ship} ${style[shipItemKey]}`}
-                            data-rank={shipItemKey}
-                            onClick={onClickShip}
-                        />
-                        <div className={style.count}>{fleet[shipItemKey].count}</div>
+                        <div className={`${style.ship} ${style[shipItemKey]}`} />
+                        <div className={style.count}>{ships[shipItemKey]}</div>
                     </div>
                 ))}
             </div>

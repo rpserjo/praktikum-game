@@ -41,22 +41,22 @@ body[data-theme='dark'] {
         margin: 0 25px 0 0;
         border: none;
 
-        &.rank1 {
+        &.decks_4 {
           width: 115px;
           background-image: url('@/assets/images/icons/ship_4.png');
         }
 
-        &.rank2 {
+        &.decks_3 {
           width: 84px;
           background-image: url('@/assets/images/icons/ship_3.png');
         }
 
-        &.rank3 {
+        &.decks_2 {
           width: 62px;
           background-image: url('@/assets/images/icons/ship_2.png');
         }
 
-        &.rank4 {
+        &.decks_1 {
           width: 37px;
           background-image: url('@/assets/images/icons/ship_1.png');
         }

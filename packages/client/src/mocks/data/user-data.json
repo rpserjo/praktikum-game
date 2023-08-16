@@ -1,11 +1,11 @@
 {
     "user": {
-        "firstName": "Петр",
-        "secondName": "Таранов",
+        "first_name": "Петр",
+        "second_name": "Таранов",
         "email": "petr_taranov@mail.ru"
     },
     "ai": {
-        "firstName": "Иск.",
-        "secondName": "Интеллект"
+        "first_name": "Иск.",
+        "second_name": "Интеллект"
     }
 }
