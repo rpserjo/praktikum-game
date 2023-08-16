@@ -50,7 +50,7 @@ function sendToLeaderBoard() {
 
     const dataToSendOnEnd = {
         data: {
-            name: userData.user.firstName,
+            name: userData.user.first_name,
             email: userData.user.email,
             login: 'Barbados',
             winsCount: 10,
@@ -463,7 +463,7 @@ const Game: FC = () => {
         }
     };
 
-    const mouseDown = async (event: React.MouseEvent, isSoundOn: boolean) => {
+    const mouseDown = async (event: React.MouseEvent) => {
         data.isMousePressed = true;
         let canvasX = 0;
         let canvasY = 0;
@@ -787,7 +787,7 @@ const Game: FC = () => {
                         <div className={style.canvasWindow}>
                             <canvas
                                 onMouseDown={e => {
-                                    mouseDown(e, isSoundOn);
+                                    mouseDown(e);
                                 }}
                                 onMouseUp={mouseUp}
                                 onMouseMove={mouseMove}
