@@ -5,14 +5,20 @@ import style from './leaderboard.module.scss';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
 
 const Leaderboard: FC = () => {
+    // type TLeaderBoard = {
+    //     roomsRating: number;
+    //     //email: string;
+    //     login: string;
+    //     //lostCount: number;
+    //     name: string;
+    //     //score: number;
+    //     //winsCount: number;
+    // };
+
     type TLeaderBoard = {
-        doorsRating: number;
-        email: string;
+        roomsRating: number;
         login: string;
-        lostCount: number;
         name: string;
-        score: number;
-        winsCount: number;
     };
 
     type TLeaderBoards = Array<{ data: TLeaderBoard }>;
@@ -65,8 +71,8 @@ const Leaderboard: FC = () => {
                         <tr className={style.tr}>
                             <th className={style.td}>Имя</th>
                             <th className={style.td}>Логин</th>
-                            <th className={style.td}>Побед</th>
-                            <th className={style.td}>Поражений</th>
+                            {/* <th className={style.td}>Побед</th> */}
+                            {/* <th className={style.td}>Поражений</th> */}
                             <th className={style.td}>Эффективность стрельбы</th>
                         </tr>
                     </thead>
@@ -75,9 +81,9 @@ const Leaderboard: FC = () => {
                             <tr key={item.login} className={style.tr}>
                                 <td className={style.td}>{item.name}</td>
                                 <td className={style.td}>{item.login}</td>
-                                <td className={style.td}>{item.winsCount}</td>
-                                <td className={style.td}>{item.lostCount}</td>
-                                <td className={style.td}>{`${item.score} %`}</td>
+                                {/* <td className={style.td}>{item.winsCount}</td> */}
+                                {/* <td className={style.td}>{item.lostCount}</td> */}
+                                <td className={style.td}>{`${item.roomsRating} %`}</td>
                             </tr>
                         ))}
                     </tbody>
