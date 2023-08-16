@@ -36,6 +36,7 @@ import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
 import SoundService from '@/utils/sound/soundService';
+import { NotificationService } from '@/utils/notification/notificationService';
 
 export enum GameOver {
     win = 'win',
@@ -683,6 +684,8 @@ const Game: FC = () => {
 
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.promptNotification();
+        NotificationService.gameStart();
         isSoundOn && soundService?.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
         data.placeShipStep = false;
@@ -703,6 +706,7 @@ const Game: FC = () => {
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameWinned();
         isSoundOn && soundService?.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
         sendToLeaderBoard();
@@ -710,6 +714,7 @@ const Game: FC = () => {
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        NotificationService.gameLost();
         isSoundOn && soundService?.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
         sendToLeaderBoard();
