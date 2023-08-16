@@ -33,7 +33,14 @@ import {
 import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
-import { GameOverReason, setGame, setUserShips, setEnemyShips } from '@/store/slices/gameSlice';
+import {
+    GameOverReason,
+    setGame,
+    setUserShips,
+    setEnemyShips,
+    addUserShoot,
+    addUserHit,
+} from '@/store/slices/gameSlice';
 import { TUser } from '@/store/slices/userSlice';
 import LeaderBoardApi from '@/api/LeaderBoardApi';
 import SoundService from '@/utils/sound/soundService';
@@ -44,33 +51,33 @@ export enum GameOver {
     defeat = 'defeat',
 }
 
-function sendToLeaderBoard() {
-    const userApi = new LeaderBoardApi();
-    console.log(userData);
-
-    const dataToSendOnEnd = {
-        data: {
-            name: userData.user.first_name,
-            email: userData.user.email,
-            login: 'Barbados',
-            winsCount: 10,
-            lostCount: 7,
-            score: 87,
-            doorsRating: 120,
-        },
-        ratingFieldName: 'doorsRating',
-        teamName: 'doors',
-    };
-
-    userApi
-        .postLeaderboardData(dataToSendOnEnd)
-        .then((res: any) => {
-            console.log('postLeaderboardData', res.status);
-        })
-        .catch(error => {
-            console.log('postLeaderboardData error', error);
-        });
-}
+// function sendToLeaderBoard() {
+//     const userApi = new LeaderBoardApi();
+//     console.log(userData);
+//
+//     const dataToSendOnEnd = {
+//         data: {
+//             name: userData.user.first_name,
+//             email: userData.user.email,
+//             login: 'Barbados',
+//             winsCount: 10,
+//             lostCount: 7,
+//             score: 87,
+//             doorsRating: 120,
+//         },
+//         ratingFieldName: 'doorsRating',
+//         teamName: 'doors',
+//     };
+//
+//     userApi
+//         .postLeaderboardData(dataToSendOnEnd)
+//         .then((res: any) => {
+//             console.log('postLeaderboardData', res.status);
+//         })
+//         .catch(error => {
+//             console.log('postLeaderboardData error', error);
+//         });
+// }
 
 function drawShip(ctxPassed: CanvasRenderingContext2D, ship: Ship, image: HTMLImageElement) {
     if (ship.isRotated) {
@@ -502,7 +509,7 @@ const Game: FC = () => {
                 const xShift = data.enemyField.left + xNum * 30 + 15;
                 const yShift = data.enemyField.top + yNum * 30 - 15;
                 missedShots.push({ x: xShift, y: yShift, place: targetSquare });
-
+                dispatch(addUserShoot());
                 console.log('юзер мимо');
                 isSoundOn && soundService?.playMissed();
                 drawCanvasItems(ref);
@@ -531,6 +538,8 @@ const Game: FC = () => {
                     isSoundOn && soundService?.playEnemyShipHitSound();
                 }
 
+                dispatch(addUserHit());
+
                 const xShift = data.enemyField.left + xNum * 30 + 5;
                 const yShift = data.enemyField.top + yNum * 30 - 4;
                 succesShots.push({ x: xShift, y: yShift, place: targetSquare });
@@ -543,6 +552,13 @@ const Game: FC = () => {
                     setUserWon(true);
                 }
             }
+
+            console.log(
+                'shoots',
+                game.shoots,
+                'Eff',
+                Math.round((game.shoots.hits / game.shoots.total) * 100)
+            );
         }
     };
 
@@ -729,12 +745,35 @@ const Game: FC = () => {
         }
     };
 
+    const sendResultToLeaderBoard = () => {
+        const userApi = new LeaderBoardApi();
+
+        const dataToSendOnEnd = {
+            data: {
+                name: userState!.user!.first_name,
+                login: userState!.user!.login,
+                roomsRating: Math.round((game.shoots.hits / game.shoots.total) * 100),
+            },
+            ratingFieldName: 'roomsRating',
+            teamName: 'rooms',
+        };
+
+        userApi
+            .postLeaderboardData(dataToSendOnEnd)
+            .then((res: any) => {
+                console.log('postLeaderboardData', res.status);
+            })
+            .catch(error => {
+                console.log('postLeaderboardData error', error);
+            });
+    };
+
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
         NotificationService.gameWinned();
         isSoundOn && soundService?.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
-        sendToLeaderBoard();
+        sendResultToLeaderBoard();
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
@@ -742,7 +781,7 @@ const Game: FC = () => {
         NotificationService.gameLost();
         isSoundOn && soundService?.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
-        sendToLeaderBoard();
+        // sendResultToLeaderBoard();
     };
 
     // eslint-disable-next-line no-restricted-globals

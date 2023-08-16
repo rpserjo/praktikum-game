@@ -28,6 +28,9 @@ export type TGame = {
     enemyShips: {
         [key: string]: number;
     };
+    shoots: {
+        [key: string]: number;
+    };
 };
 
 type TGameState = {
@@ -58,6 +61,10 @@ const initialState: TGameState = {
             decks_2: 3,
             decks_1: 4,
         },
+        shoots: {
+            total: 0,
+            hits: 0,
+        },
     },
 };
 
@@ -77,8 +84,16 @@ const gameSlice = createSlice({
         setEnemyShips: (state, action) => {
             state.game.enemyShips = action.payload;
         },
+        addUserShoot: state => {
+            state.game.shoots.total += 1;
+        },
+        addUserHit: state => {
+            state.game.shoots.total += 1;
+            state.game.shoots.hits += 1;
+        },
     },
 });
 
 export default gameSlice.reducer;
-export const { setGame, toggleSound, setUserShips, setEnemyShips } = gameSlice.actions;
+export const { setGame, toggleSound, setUserShips, setEnemyShips, addUserShoot, addUserHit } =
+    gameSlice.actions;
