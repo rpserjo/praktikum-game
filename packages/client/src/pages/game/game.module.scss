@@ -77,12 +77,12 @@ body[data-theme='dark'] {
       flex-direction: column;
       align-items: center;
       margin: 30px 15px 0 auto;
-      width: 350px;
 
       .gameMessage {
         font-size: 32px;
         line-height: 35px;
         color: $colorTextSecondary;
+        margin: 0 0 30px;
       }
     }
   }
