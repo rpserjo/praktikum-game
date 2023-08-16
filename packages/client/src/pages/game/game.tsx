@@ -102,7 +102,7 @@ function drawPoint(
 
     context.beginPath();
     context.fillStyle = color;
-    context.arc(pointX, pointY, size, 0 * Math.PI, 2 * Math.PI);
+    context.arc(pointX, pointY, size, 0, 2 * Math.PI);
     context.fill();
 }
 
@@ -144,7 +144,7 @@ function renderShips(ctx: CanvasRenderingContext2D, shipsPictures: ShipsType) {
     });
 }
 
-const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
+const drawCanvasItems = async (ref: RefObject<HTMLCanvasElement>) => {
     if (ref.current) {
         const ctx = ref.current.getContext('2d');
 
@@ -199,17 +199,14 @@ const drawCanvasItems = async function (ref: RefObject<HTMLCanvasElement>) {
 };
 
 function checkUserWin(): boolean {
-    const res = enemyShips.every(ship => ship.lives === 0);
-    return res;
+    return enemyShips.every(ship => ship.lives === 0);
 }
 
 function checkComputerWin(): boolean {
-    const res = shipsImg.every(ship => ship.lives === 0);
-
-    return res;
+    return shipsImg.every(ship => ship.lives === 0);
 }
 
-const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
+const isMouseInShape = (x: number, y: number, ship: Ship): boolean => {
     let shipLeft;
     let shipRight;
     let shipTop;
@@ -232,7 +229,7 @@ const isMouseInShape = function (x: number, y: number, ship: Ship): boolean {
     return res;
 };
 
-const clickedEnemyFeald = function (canvasX: number, canvasY: number): boolean {
+const clickedEnemyFeald = (canvasX: number, canvasY: number): boolean => {
     const x = data.enemyField.left;
     const xWidth = data.enemyField.left + data.enemyField.size;
     const y = data.enemyField.top;
@@ -242,7 +239,7 @@ const clickedEnemyFeald = function (canvasX: number, canvasY: number): boolean {
     return res;
 };
 
-const notOnOtherShip = function (): boolean {
+const notOnOtherShip = (): boolean => {
     let res = true;
 
     const ship = data.currentShip;
@@ -299,7 +296,7 @@ const notOnOtherShip = function (): boolean {
     return res;
 };
 
-const isDraggedIntoDropField = function (): boolean {
+const isDraggedIntoDropField = (): boolean => {
     let res = false;
     const ship = data.currentShip;
     const x = data.userField.left;
@@ -326,7 +323,7 @@ const isDraggedIntoDropField = function (): boolean {
     return res;
 };
 
-const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
+const returnShip = (ref: RefObject<HTMLCanvasElement>): void => {
     const shipToMove = data.currentShip;
     if (shipToMove !== null) {
         const animationTime = 16;
@@ -335,7 +332,7 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
         const leftStep = (shipToMove.originLeft - shipToMove.currentLeft) / animationTime;
         const topStep = (shipToMove.originTop - shipToMove.currentTop) / animationTime;
 
-        const animate = function () {
+        const animate = () => {
             if (shipToMove.currentLeft !== shipToMove.originLeft) {
                 shipToMove.currentLeft += leftStep;
             }
