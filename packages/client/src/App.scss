@@ -1,0 +1,13 @@
+@import '@/assets/tektur/font-tektur.scss';
+@import '@/assets/variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $fontFamily;
+}
+
+body {
+  background-color: $backgroundColorMain;
+}

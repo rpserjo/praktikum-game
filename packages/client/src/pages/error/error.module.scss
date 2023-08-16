@@ -1,0 +1,36 @@
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .error {
+    .code {
+      color: $colorText__dark;
+    }
+    .message {
+      color: $colorText__dark;
+    }
+  }
+}
+
+.error {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 35px;
+  padding: 15px;
+
+  .code {
+    color: $colorText;
+    font-size: 128px;
+    font-weight: 800;
+    line-height: 100%;
+  }
+
+  .message {
+    color: $colorTextDark;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: center;
+  }
+}

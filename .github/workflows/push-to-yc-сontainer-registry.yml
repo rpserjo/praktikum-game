@@ -1,0 +1,42 @@
+name: Push To Yandex Cloud Container Registry
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+   build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Yandex Cloud CR "Login" Action for GitHub Actions
+        uses: yc-actions/yc-cr-login@v0.1-alpha
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+      - name: Build, tag, and push image to Yandex Cloud Container Registry
+        env:
+          CR_REGISTRY: crpmr3649o1i55g4rqh6
+          CR_REPOSITORY: game.practicum.yandex.ru
+          IMAGE_TAG: ${{ github.sha }}
+          CLIENT_PORT: 80
+          SERVER_PORT: 3000
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          PGADMIN_PORT: 8080
+          PGADMIN_DEFAULT_EMAIL: admin@mail.com
+          PGADMIN_DEFAULT_PASSWORD: admin
+
+        run: |
+          touch .env
+          docker compose build client server
+          docker tag praktikum-client:latest cr.yandex/$CR_REGISTRY/praktikum-client:latest
+          docker push cr.yandex/$CR_REGISTRY/praktikum-client:latest
+          docker tag praktikum-server:latest cr.yandex/$CR_REGISTRY/praktikum-server:latest
+          docker push cr.yandex/$CR_REGISTRY/praktikum-server:latest

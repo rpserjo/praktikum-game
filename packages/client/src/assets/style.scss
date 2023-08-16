@@ -1,0 +1,32 @@
+@import '@/assets/tektur/font-tektur.scss';
+@import '@/assets/variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $fontFamily;
+}
+
+body {
+  background-color: $backgroundColorMain;
+
+  @include transition;
+
+  &[data-theme='dark'] {
+    background-color: $backgroundColorMain__dark;
+    color: $colorText__dark;
+  }
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}

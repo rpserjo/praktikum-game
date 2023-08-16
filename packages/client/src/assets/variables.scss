@@ -1,0 +1,67 @@
+$fontFamily: Tektur;
+$backgroundColorMain: #3e92b3;
+$backgroundColorSecondary: #7ecbd5;
+$backgroundColorThird: #265b8f;
+$colorBgModal: rgba(26, 26, 26, 0.6);
+$colorMain: #f0efea;
+$colorBorder: #f0efea;
+$colorText: #f0efea;
+$colorTextSecondary: #f8cd6b;
+$colorTextDark: #3f4151;
+$colorBgDark: #3f4151;
+$colorBgButton: #f8cd6b;
+$colorAccent: #f8cd6b;
+$colorAlert: #c1564b;
+$colorBgThumbnail: #3f4151;
+$colorBgThumbnailLite: #e4ebf0;
+$colorAvatarBackground: #e4ebf0;
+$colorAvatarText: #ffffff;
+
+$backgroundColorMain__dark: #142e39;
+$backgroundColorSecondary__dark: #2c7c87;
+$backgroundColorThird__dark: #1b4065;
+$colorMain__dark: #bbb7a0;
+$colorBorder__dark: #bbb7a0;
+$colorText__dark: #bbb7a0;
+$colorTextSecondary__dark: #aa7a08;
+$colorTextDark__dark: #262731;
+$colorBgDark__dark: #262731;
+$colorBgButton__dark: #aa7a08;
+$colorAccent__dark: #aa7a08;
+$colorAlert__dark: #860d00;
+$colorBgThumbnail__dark: #262731;
+$colorBgThumbnailLite__dark: #e4ebf0;
+$colorAvatarBackground__dark: #e4ebf0;
+$colorAvatarText__dark: #ffffff;
+
+$emojiLikeBackground: rgba(0, 0, 0, 0.3);
+$emojiLikeBackgroundSecondary: rgba(0, 4, 254, 0.3);
+$emojiCountText: #fff;
+$emojiChooseBackground: rgba(0, 0, 0, 0.2);
+$emojiButtonBackground: #cedef2;
+$emojiButtonBackgroundHover: aqua;
+
+$forumAvatarSize: 40px;
+
+@mixin transition {
+  transition: all 0.2s ease-in-out;
+}
+
+@mixin roundBordedWindow {
+  background: $backgroundColorSecondary;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin apiButtonsPosition {
+  position: absolute;
+  left: 30px;
+}
+
+@mixin rowDiv {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,147 @@
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .main {
+    .title {
+      color: $colorText__dark;
+    }
+
+    .subtitle {
+      color: $colorText__dark;
+    }
+
+    .subtitle-fight {
+      color: $colorText__dark;
+    }
+
+    .figures {
+      &-item {
+        color: $colorText__dark;
+      }
+    }
+
+    .steps {
+      &-title {
+        color: $colorText__dark;
+      }
+
+      &-subtitle {
+        color: $colorText__dark;
+      }
+    }
+  }
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 60px 15px 15px;
+  position: relative;
+
+  .themeButtonContainer {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    width: 100%;
+  }
+
+  .title {
+    text-align: center;
+    color: $colorText;
+    font-weight: 500;
+    font-size: 64px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: $colorText;
+    font-weight: 500;
+    font-size: 40px;
+    margin-top: 20px;
+
+    &-fight {
+      font-size: 48px;
+    }
+  }
+
+  .subtitle-fight {
+    text-align: center;
+    color: $colorText;
+    font-weight: 500;
+    margin-top: 40px;
+    font-size: 48px;
+  }
+
+  .button-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding-top: 30px;
+  }
+
+  .figures {
+    &-parent {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 40px auto 0;
+      align-items: flex-start;
+      justify-content: space-between;
+      width: 800px;
+    }
+    &-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      color: $colorText;
+      font-size: 24px;
+      margin-bottom: 30px;
+
+      &.opacity_25 {
+        opacity: 0.25;
+      }
+
+      svg {
+        image {
+          height: 105px;
+          margin-bottom: 20px;
+        }
+      }
+
+      &-img {
+        height: 105px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .steps {
+    &-parent {
+      display: block;
+      margin: 30px auto 0;
+    }
+
+    &-title {
+      color: $colorText;
+      font-size: 30px;
+      text-decoration: none;
+      margin-left: -1em;
+      line-height: 200%;
+    }
+
+    &-subtitle {
+      color: $colorText;
+      font-size: 30px;
+      line-height: 200%;
+    }
+  }
+}
