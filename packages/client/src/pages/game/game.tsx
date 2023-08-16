@@ -34,6 +34,7 @@ import style from './game.module.scss';
 import userData from '@/mocks/data/user-data.json';
 import { RootState } from '@/store';
 import { GameOverReason, setGame } from '@/store/slices/gameSlice';
+import SoundService from '@/utils/sound/soundService';
 
 export enum GameOver {
     win = 'win',
@@ -386,6 +387,7 @@ const returnShip = function (ref: RefObject<HTMLCanvasElement>): void {
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const gameState = useSelector((state: RootState) => state.game);
+    const [soundService, setSoundService] = useState<SoundService | null>(null);
     const { game } = gameState;
     const dispatch = useDispatch();
 
@@ -410,7 +412,7 @@ const Game: FC = () => {
     useEffect(() => {
         drawCanvasItems(ref);
         window.addEventListener('keydown', rotate);
-
+        setSoundService(new SoundService());
         return () => window.removeEventListener('keydown', rotate);
     }, []);
 
@@ -489,11 +491,15 @@ const Game: FC = () => {
         }
     };
 
+    const { isSoundOn } = game;
+
     const mouseUp = () => {
         if (data.isDragging && data.placeShipStep) {
             const ship = data.currentShip;
 
             if (isDraggedIntoDropField() && notOnOtherShip()) {
+                isSoundOn && soundService?.playSetShipSound();
+
                 if (ship !== null) {
                     if (ship.isSet === false) {
                         const key = `decks_${ship.decksAmount}` as string;
@@ -648,6 +654,7 @@ const Game: FC = () => {
 
     const gameStartHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        isSoundOn && soundService?.playStartSound();
         dispatch(setGame({ ...game, mode: Mode.battle }));
         data.placeShipStep = false;
         data.shootStep = true;
@@ -667,11 +674,13 @@ const Game: FC = () => {
 
     const gameOverWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        isSoundOn && soundService?.playWinnedSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.win }));
     };
 
     const gameDefeatWinHandle: MouseEventHandler<HTMLButtonElement> = event => {
         event.preventDefault();
+        isSoundOn && soundService?.playLostSound();
         dispatch(setGame({ ...game, gameOverReason: GameOverReason.defeat }));
     };
 
