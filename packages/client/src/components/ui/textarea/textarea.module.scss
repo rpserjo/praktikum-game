@@ -1,0 +1,33 @@
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .textarea-wrapper {
+    .label {
+      color: $colorTextDark__dark;
+    }
+
+    .textarea {
+      background-color: $colorMain__dark;
+      color: $colorTextDark__dark;
+    }
+  }
+}
+
+.textarea-wrapper {
+  .label {
+    display: block;
+    padding: 0 0 2px 2px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .textarea {
+    all: unset;
+    box-sizing: border-box;
+    background-color: $colorMain;
+    display: block;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: 16px;
+  }
+}

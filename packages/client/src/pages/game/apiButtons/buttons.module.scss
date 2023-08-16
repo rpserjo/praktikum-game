@@ -1,0 +1,44 @@
+@import '@/assets/variables.scss';
+@import '@/assets/tektur/font-tektur.scss';
+
+@mixin apiButtonIconStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+
+    path {
+      fill: $colorBorder;
+    }
+  }
+}
+
+.buttonFullscreen {
+  @include apiButtonsPosition;
+  top: 30px;
+
+  .icon {
+    @include apiButtonIconStyle;
+  }
+}
+
+.soundButton {
+  @include apiButtonsPosition;
+  top: 85px;
+}
+
+.soundButton__icon {
+  @include apiButtonIconStyle;
+}
+
+.locationButton {
+  @include apiButtonsPosition;
+  top: 140px;
+}
+
+.locationButton__icon {
+  @include apiButtonIconStyle;
+}

@@ -1,0 +1,72 @@
+@import '@/assets/variables.scss';
+
+body[data-theme='dark'] {
+  .form {
+    background-color: $backgroundColorSecondary__dark;
+    color: $colorTextDark__dark;
+    border-color: $colorBorder__dark;
+  }
+
+  .form__link {
+    color: $colorText__dark;
+  }
+
+  .oauthButton {
+    color: $colorText__dark;
+  }
+}
+
+.form {
+  @include roundBordedWindow;
+  border: 1px solid $colorBorder;
+  width: 500px;
+  padding: 2em 3em;
+  color: $colorTextDark;
+}
+
+.form__header {
+  margin-bottom: 1em;
+}
+
+.form__link {
+  margin-top: 1em;
+}
+
+.form__input_wrapper {
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.form__error {
+  color: $colorAlert;
+  padding: 0 0 1em;
+}
+
+.oauthButton {
+  border: none;
+  border-radius: 5px;
+  background: $colorBgDark;
+  width: 265px;
+  height: 50px;
+  color: #fff;
+  font-size: 20px;
+  margin: 20px 0 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition;
+
+  &:hover {
+    background: #1a1a1a;
+  }
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    background: url('@/assets/images/icons/yandex.png') no-repeat center / contain;
+  }
+}

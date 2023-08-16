@@ -1,0 +1,90 @@
+@import '@/assets/variables.scss';
+
+@mixin buttonOutlined {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid $colorBorder;
+  color: $colorText;
+  transition: color 0.3s ease;
+}
+
+@mixin buttonOutlinedHover {
+  border-color: darken($colorBorder, 10%);
+  color: darken($colorBorder, 10%);
+}
+
+body[data-theme='dark'] {
+  .normal {
+    background-color: $colorBgButton__dark;
+    color: $colorTextDark__dark;
+
+    &:hover {
+      background-color: lighten($colorBgButton__dark, 10%);
+    }
+  }
+
+  .outlined,
+  .outlinedSmall {
+    border-color: $colorBorder__dark;
+    color: $colorText__dark;
+
+    &:hover {
+      border-color: darken($colorBorder__dark, 10%);
+      color: darken($colorBorder__dark, 10%);
+    }
+  }
+}
+
+.normal,
+.outlined {
+  cursor: pointer;
+}
+
+.normal {
+  border: none;
+  background-color: $colorBgButton;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: $colorTextDark;
+
+  &:hover {
+    background-color: lighten($colorBgButton, 10%);
+  }
+}
+
+.outlined {
+  @include buttonOutlined;
+
+  &:hover {
+    @include buttonOutlinedHover;
+  }
+}
+
+.outlinedSmall {
+  @include buttonOutlined;
+  padding: 0;
+  height: 22px;
+
+  &:hover {
+    @include buttonOutlinedHover;
+  }
+}
+
+.small {
+  font-size: 14px !important;
+  padding: 4px 12px;
+}
+
+.medium {
+  font-size: 20px !important;
+  padding: 8px 38px;
+  font-weight: 500;
+}
+
+.large {
+  font-size: 30px !important;
+  padding: 12px 86px;
+  font-weight: 600;
+}
