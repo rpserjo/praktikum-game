@@ -746,18 +746,18 @@ const Game: FC = () => {
     };
 
     // eslint-disable-next-line no-restricted-globals
-    const reloadGame: MouseEventHandler<HTMLButtonElement> = () => location.reload();
+    // const reloadGame: MouseEventHandler<HTMLButtonElement> = () => location.reload();
 
     return (
         <ErrorBoundary reserveUI={<GameReserve />}>
             <div className={style.gamePage}>
                 <h1 className={style.title}>Одиночная игра</h1>
 
-                <div className={style.buttonContainer}>
-                    <Button onClick={reloadGame} buttonSize="medium">
-                        Выйти из игры
-                    </Button>
-                </div>
+                {/* <div className={style.buttonContainer}> */}
+                {/*    <Button onClick={reloadGame} buttonSize="medium"> */}
+                {/*        Выйти из игры */}
+                {/*    </Button> */}
+                {/* </div> */}
 
                 <FullscreenButton />
                 <SoundButton />
