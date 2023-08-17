@@ -1,7 +1,7 @@
 ARG NODE_VERSION=16
 ARG SERVER_PORT=3000
 
-FROM node:$NODE_VERSION-buster as base
+FROM arm32v7/node as base
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ RUN yarn install --frozen-lockfile
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
 
-FROM node:$NODE_VERSION-alpine as production
+FROM arm32v7/node as production
 COPY --from=builder /app/packages/client/dist/ /app/client/dist/
 COPY --from=builder /app/packages/client/ssr-dist/ /app/client/ssr-dist/
 COPY --from=builder /app/packages/client/index.js /app/client/index.js
