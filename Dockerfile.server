@@ -1,7 +1,7 @@
 ARG NODE_VERSION=16
 ARG SERVER_PORT=3000
 
-FROM arm32v7/node as base
+FROM node:$NODE_VERSION-buster as base
 
 WORKDIR /app
 
@@ -23,6 +23,12 @@ COPY --from=builder /app/packages/client/index.js /app/client/index.js
 COPY --from=builder /app/packages/client/package.json /app/client/package.json
 COPY --from=builder /app/packages/server/dist/ /app/server/dist/
 COPY --from=builder /app/packages/server/package.json /app/server/dist/package.json
+
+CMD ["curl", "-sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -"]
+CMD ["echo", "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list"]
+CMD ["sudo", "apt update"]
+CMD ["sudo", "apt install -y yarn"]
+CMD ["node", "--version"]
 
 WORKDIR /app/client
 RUN yarn link
